@@ -2,9 +2,9 @@ import Head from 'next/head';
 import styled from 'styled-components';
 export default function Home() {
 	return (
-		<div>
-			<Main>Test</Main>
-		</div>
+		<di className='bg-red-300'>
+			<Main className=' w-2 bg-red-400'>Test</Main>
+		</di>
 	);
 }
 
