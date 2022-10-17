@@ -1,3 +1,30 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+	--primary-color: #df1b1b;
+	--secondary-color: #000;
+}
+
+@layer components {
+	.icon {
+		@apply h-9 w-6 cursor-pointer rounded-sm  lg:w-9 lg:p-1 lg:hover:bg-gray-100;
+	}
+	.login-button {
+		@apply rounded bg-amber-300 py-2 px-4 shadow outline-none hover:bg-amber-400 active:bg-red-100;
+	}
+	.button {
+		@apply transform cursor-pointer rounded-full border px-4 py-2 transition duration-100 ease-out hover:shadow-lg active:scale-95 active:bg-gray-100;
+	}
+	input,
+	select,
+	textarea {
+		@apply rounded border p-2 outline-none ring-indigo-300;
+	}
+
+	/* Set all svg colors
+	svg {
+		@apply primary-color;
+	} */
+}
