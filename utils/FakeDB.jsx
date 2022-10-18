@@ -17,6 +17,7 @@ const fakeData = {
 			img: 'https://unsplash.com/photos/uEGX88nVotU/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8MTR8fHJlY29yZGluZyUyMHN0dWRpb3xlbnwwfHx8fDE2NjU5MjI4MTU&force=true',
 			studiotype: 'Premium Studio',
 			services: ['Aufnehmen', 'Mischen', 'Mastern', 'Podcast/Hörbuch'],
+			recordingEngineer: 'yes',
 			recordingEngineer: { preis: '5$', pro: 'Stunde' },
 			studioBooking: {
 				perHour: '25',
@@ -54,6 +55,7 @@ const fakeData = {
 			img: 'https://unsplash.com/photos/aLPY2rRTYQI/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8MTF8fG11c2ljJTIwc3R1ZGlvfGVufDB8fHx8MTY2NTg3MzU4Mw&force=true',
 			studiotype: 'Home Studio',
 			services: ['Mastern', 'Podcast/Hörbuch'],
+			recordingEngineer: 'yes',
 			recordingEngineer: { preis: '15$', pro: 'Stunde' },
 			studioBooking: {
 				perHour: '15$',
@@ -98,7 +100,7 @@ const fakeData = {
 			img: 'https://unsplash.com/photos/-qFWOJEEQh4/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8MTZ8fG11c2ljJTIwc3R1ZGlvfGVufDB8fHx8MTY2NTg3MzU4Mw&force=true',
 			studiotype: 'Medium Studio',
 			services: ['Aufnehmen', 'Mischen', 'Mastern', 'Podcast/Hörbuch'],
-			recordingEngineer: { preis: '50', pro: 'Stunde' },
+			recordingEngineer: 'no',
 			studioBooking: {
 				perHour: '105',
 				perDay: '1000',

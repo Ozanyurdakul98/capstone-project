@@ -16,9 +16,9 @@ function search() {
 			{
 				_id: '1',
 				user: 'Admin',
-				title: 'Premiumstudio für deinen perfekten Sound',
+				title: 'Premiumstudio for your perfect Sound',
 				studioname: 'SoundDeluxe',
-				openingOption: 'Benutzerdefiniert',
+				openingOption: 'Custom',
 				openingCustom: {
 					monday: '08:00 - 18:00',
 					thuesday: '08:00 - 18:00',
@@ -29,8 +29,9 @@ function search() {
 					sunday: '08:00 - 18:00',
 				},
 				img: 'https://unsplash.com/photos/uEGX88nVotU/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8MTR8fHJlY29yZGluZyUyMHN0dWRpb3xlbnwwfHx8fDE2NjU5MjI4MTU&force=true',
-				studiotype: 'Premium Studio',
+				studiotype: 'Premiumstudio',
 				services: ['Recording', 'Mix', 'Master', 'Podcast/Audiobook'],
+				recordingEngineerAvailabilty: { available: true },
 				recordingEngineer: { preis: '5$', pro: 'Stunde' },
 				studioBooking: {
 					perHour: '25',
@@ -41,7 +42,7 @@ function search() {
 
 				description:
 					' Lorem ipsum dolor sit, amet consectetur adipisicing elit. Adipisci, laboriosam dicta. Sed rerum totam delectus suscipit similique voluptatum repellat, maxime iure et modi, quam aliquid iste? Aperiam harum quod cumque quaerat eligendi delectus, fuga iure ut nobis pariatur veniam id et vitae hic quae rerum velit voluptatibus quasi unde sequi.',
-				locationFeatures: ['Parkplätze', 'Snacks', 'Wi-Fi', 'WC', 'Küche', 'Übernachtung'],
+				locationFeatures: ['Parking', 'Snacks', 'Wi-Fi', 'WC', 'Kitchen', 'Sleepover'],
 				equipment: [
 					'equipment1',
 					'equipment31',
@@ -63,12 +64,14 @@ function search() {
 			{
 				_id: '2',
 				user: 'User1',
-				title: 'Ich mische deine Tracks sehr günstig',
+				title: 'I mix your tracks to perfection for a little price',
 				studioname: 'Sound300',
 				openingOption: 'Immer verfügbar',
 				img: 'https://unsplash.com/photos/aLPY2rRTYQI/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8MTF8fG11c2ljJTIwc3R1ZGlvfGVufDB8fHx8MTY2NTg3MzU4Mw&force=true',
 				studiotype: 'Home Studio',
 				services: ['Recording', 'Podcast/Audiobook'],
+				recordingEngineerAvailabilty: { available: true },
+
 				recordingEngineer: { preis: '15$', pro: 'Stunde' },
 				studioBooking: {
 					perHour: '15$',
@@ -77,7 +80,7 @@ function search() {
 
 				description:
 					' Lorem ipsum dolor sit, amet consectetur adipisicing elit. Adipisci, laboriosam dicta. Sed rerum totam delectus suscipit similique voluptatum repellat, maxime iure et modi, quam aliquid iste? Aperiam harum quod cumque quaerat eligendi delectus, fuga iure ut nobis pariatur veniam id et vitae hic quae rerum velit voluptatibus quasi unde sequi.',
-				locationFeatures: ['Parkplätze', 'Snacks'],
+				locationFeatures: ['Wi-Fi', 'WC', 'Kitchen', 'Sleepover'],
 				equipment: [
 					'equipment1',
 					'equipment31',
@@ -100,7 +103,7 @@ function search() {
 			{
 				_id: '3',
 				user: 'User2',
-				title: 'Premiumstudio für deinen perfekten Sound',
+				title: 'Mediumstudio to fit your needs',
 				studioname: 'SoundDeluxe',
 				openingOption: 'Benutzerdefiniert',
 				openingCustom: {
@@ -112,9 +115,9 @@ function search() {
 					saturday: '08:00 - 18:00',
 				},
 				img: 'https://unsplash.com/photos/-qFWOJEEQh4/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8MTZ8fG11c2ljJTIwc3R1ZGlvfGVufDB8fHx8MTY2NTg3MzU4Mw&force=true',
-				studiotype: 'Medium Studio',
-				services: ['Aufnehmen', 'Mischen', 'Mastern', 'Podcast/Hörbuch'],
-				recordingEngineer: { preis: '50', pro: 'Stunde' },
+				studiotype: 'Mediumstudio',
+				services: ['Recording', 'Mix', 'Master', 'Podcast/Audiobook'],
+				recordingEngineerAvailabilty: { available: false },
 				studioBooking: {
 					perHour: '105',
 					perDay: '1000',
@@ -122,7 +125,7 @@ function search() {
 
 				description:
 					' Lorem ipsum dolor sit, amet consectetur adipisicing elit. Adipisci, laboriosam dicta. Sed rerum totam delectus suscipit similique voluptatum repellat, maxime iure et modi, quam aliquid iste? Aperiam harum quod cumque quaerat eligendi delectus, fuga iure ut nobis pariatur veniam id et vitae hic quae rerum velit voluptatibus quasi unde sequi.',
-				locationFeatures: ['Parkplätze', 'Snacks', 'Wi-Fi', 'WC', 'Küche', 'Übernachtung'],
+				locationFeatures: ['Parking', 'Snacks', 'Wi-Fi', 'WC', 'Kitchen', 'Sleepover'],
 				equipment: [
 					'equipment1',
 					'equipment31',
@@ -147,17 +150,29 @@ function search() {
 		<div>
 			<h1>Search results</h1>
 			<div>
-				{listings.map(({ _id, title, img, studiotype, services, description, location }) => (
-					<ListingCards
-						key={_id}
-						title={title}
-						img={img}
-						studiotype={studiotype}
-						services={services}
-						description={description}
-						location={location}
-					></ListingCards>
-				))}
+				{listings.map(
+					({
+						_id,
+						title,
+						img,
+						studiotype,
+						services,
+						recordingEngineerAvailabilty,
+						description,
+						location,
+					}) => (
+						<ListingCards
+							key={_id}
+							title={title}
+							img={img}
+							studiotype={studiotype}
+							services={services}
+							recordingEngineerAvailabilty={recordingEngineerAvailabilty.available}
+							description={description}
+							location={location}
+						></ListingCards>
+					)
+				)}
 			</div>
 		</div>
 	);

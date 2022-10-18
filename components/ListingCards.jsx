@@ -7,7 +7,16 @@ import Image from 'next/image';
 import { IconContext } from 'react-icons';
 import { FiHeart } from 'react-icons/fi';
 
-function ListingCards({ _id, title, img, studiotype, services, description, location }) {
+function ListingCards({
+	_id,
+	title,
+	img,
+	studiotype,
+	services,
+	recordingEngineerAvailabilty,
+	description,
+	location,
+}) {
 	const ref = useRef(null);
 
 	const slicedServices = services.slice(0, 3).map((service, index) => service);
@@ -42,7 +51,7 @@ function ListingCards({ _id, title, img, studiotype, services, description, loca
 						<button>
 							<IconContext.Provider
 								value={{
-									color: 'black',
+									color: 'blue',
 									size: '18px',
 									className: 'global-class-name ',
 								}}
@@ -51,7 +60,12 @@ function ListingCards({ _id, title, img, studiotype, services, description, loca
 							</IconContext.Provider>
 						</button>
 					</div>
-					<p className='text-xs sm:text-sm'>{studiotype}</p>
+					<div className='flex gap-2'>
+						<p className='text-xs sm:text-sm'>{studiotype}</p>
+						<p className='text-xs sm:text-sm'>
+							{recordingEngineerAvailabilty ? 'Soundengineer' + ' ✅' : ''}
+						</p>
+					</div>
 					<h4 className='text-sm sm:text-xl'>{title}</h4>
 					<div
 						className='flex gap-2 items-center'
