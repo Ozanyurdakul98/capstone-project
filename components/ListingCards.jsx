@@ -7,6 +7,10 @@ import Image from 'next/image';
 import { IconContext } from 'react-icons';
 import { FiHeart } from 'react-icons/fi';
 import { TiTick } from 'react-icons/ti';
+import { IoIosWifi } from 'react-icons/io';
+import { RiParkingBoxLine } from 'react-icons/ri';
+import { TbSmoking } from 'react-icons/tb';
+import { MdBed } from 'react-icons/md';
 
 function ListingCards({
 	_id,
@@ -17,6 +21,7 @@ function ListingCards({
 	soundEngineerAvailabilty,
 	studioBooking,
 	description,
+	locationFeatures,
 	location,
 }) {
 	const ref = useRef(null);
@@ -35,7 +40,7 @@ function ListingCards({
 	return (
 		<div>
 			<div className='flex w-full pr-2'>
-				<div className='relative h-24 w-32 sm:w-40 flex-shrink-0 md:h-52 md:w-80'>
+				<div className='relative h-24 w-32  sm:h-28 sm:w-40 flex-shrink-0 md:h-52 md:w-80'>
 					<Image
 						src={img}
 						layout='fill'
@@ -102,9 +107,14 @@ function ListingCards({
 							))
 						)}
 					</div>
-					<div className='flex justify-end'>
+					<div className='flex justify-between'>
+						<div className='flex gap-2'>
+							{locationFeatures.wifi ? <IoIosWifi /> : ''}
+							{locationFeatures.parking ? <RiParkingBoxLine /> : ''}
+							{locationFeatures.smoking ? <TbSmoking /> : ''}
+							{locationFeatures.sleepover ? <MdBed /> : ''}
+						</div>
 						<p className='text-sm sm:text-base'>{studioBooking}$ / Hour</p>
-						<p></p>
 					</div>
 				</div>
 			</div>

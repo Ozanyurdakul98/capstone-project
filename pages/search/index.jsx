@@ -42,7 +42,15 @@ function search() {
 
 				description:
 					' Lorem ipsum dolor sit, amet consectetur adipisicing elit. Adipisci, laboriosam dicta. Sed rerum totam delectus suscipit similique voluptatum repellat, maxime iure et modi, quam aliquid iste? Aperiam harum quod cumque quaerat eligendi delectus, fuga iure ut nobis pariatur veniam id et vitae hic quae rerum velit voluptatibus quasi unde sequi.',
-				locationFeatures: ['Parking', 'Snacks', 'Wi-Fi', 'WC', 'Kitchen', 'Sleepover'],
+				locationFeatures: {
+					parking: true,
+					snacks: true,
+					wifi: true,
+					wc: true,
+					kitchen: true,
+					sleepover: true,
+					smoking: true,
+				},
 				equipment: [
 					'equipment1',
 					'equipment31',
@@ -80,7 +88,15 @@ function search() {
 
 				description:
 					' Lorem ipsum dolor sit, amet consectetur adipisicing elit. Adipisci, laboriosam dicta. Sed rerum totam delectus suscipit similique voluptatum repellat, maxime iure et modi, quam aliquid iste? Aperiam harum quod cumque quaerat eligendi delectus, fuga iure ut nobis pariatur veniam id et vitae hic quae rerum velit voluptatibus quasi unde sequi.',
-				locationFeatures: ['Wi-Fi', 'WC', 'Kitchen', 'Sleepover'],
+				locationFeatures: {
+					parking: true,
+					snacks: true,
+					wifi: true,
+					wc: true,
+					kitchen: true,
+					sleepover: true,
+					smoking: true,
+				},
 				equipment: [
 					'equipment1',
 					'equipment31',
@@ -125,7 +141,15 @@ function search() {
 
 				description:
 					' Lorem ipsum dolor sit, amet consectetur adipisicing elit. Adipisci, laboriosam dicta. Sed rerum totam delectus suscipit similique voluptatum repellat, maxime iure et modi, quam aliquid iste? Aperiam harum quod cumque quaerat eligendi delectus, fuga iure ut nobis pariatur veniam id et vitae hic quae rerum velit voluptatibus quasi unde sequi.',
-				locationFeatures: ['Parking', 'Snacks', 'Wi-Fi', 'WC', 'Kitchen', 'Sleepover'],
+				locationFeatures: {
+					parking: true,
+					snacks: true,
+					wifi: true,
+					wc: true,
+					kitchen: true,
+					sleepover: true,
+					smoking: true,
+				},
 				equipment: [
 					'equipment1',
 					'equipment31',
@@ -160,6 +184,7 @@ function search() {
 						soundEngineerAvailabilty,
 						studioBooking,
 						description,
+						locationFeatures,
 						location,
 					}) => (
 						<ListingCards
@@ -171,6 +196,7 @@ function search() {
 							soundEngineerAvailabilty={soundEngineerAvailabilty.available}
 							studioBooking={studioBooking.perHour}
 							description={description}
+							locationFeatures={locationFeatures}
 							location={location}
 						></ListingCards>
 					)
