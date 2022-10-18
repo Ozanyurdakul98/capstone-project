@@ -14,6 +14,7 @@ function search() {
 	const fakeData = {
 		studioListings: [
 			{
+				_id: '1',
 				user: 'Admin',
 				title: 'Premiumstudio für deinen perfekten Sound',
 				studioname: 'SoundDeluxe',
@@ -60,6 +61,7 @@ function search() {
 			},
 
 			{
+				_id: '2',
 				user: 'User1',
 				title: 'Ich mische deine Tracks sehr günstig',
 				studioname: 'Sound300',
@@ -96,6 +98,7 @@ function search() {
 			},
 
 			{
+				_id: '3',
 				user: 'User2',
 				title: 'Premiumstudio für deinen perfekten Sound',
 				studioname: 'SoundDeluxe',
@@ -144,11 +147,12 @@ function search() {
 		<div>
 			<h1>Search results</h1>
 			<div>
-				{listings.map(({ _id, title, img }) => (
+				{listings.map(({ _id, title, img, location }) => (
 					<ListingCards
 						key={_id}
 						title={title}
 						img={img}
+						location={location}
 					></ListingCards>
 				))}
 			</div>

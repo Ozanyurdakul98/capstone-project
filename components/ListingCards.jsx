@@ -2,11 +2,11 @@ import React from 'react';
 //tools
 import Image from 'next/image';
 
-function ListingCards({ _id, title, img }) {
+function ListingCards({ _id, title, img, location }) {
 	return (
 		<div>
-			<div key={_id}>
-				<div className='relative h-24 w-40 flex-shrink-0 md:h-52 md:w-80'>
+			<div className='flex'>
+				<div className='relative h-24 w-36 flex-shrink-0 md:h-52 md:w-80'>
 					<Image
 						src={img}
 						layout='fill'
@@ -15,7 +15,12 @@ function ListingCards({ _id, title, img }) {
 					/>
 				</div>
 				<div>
-					<h4>{title}</h4>
+					<div>
+						<p className='text-xs'>
+							{location.length > 30 ? location.substring(0, 30) + '...' : location}
+						</p>
+					</div>
+					<h4 className='text-xl'>{title}</h4>
 				</div>
 			</div>
 		</div>
