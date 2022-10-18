@@ -11,6 +11,10 @@
 # next.js
 /.next/
 /out/
+/.swc/
+
+# github
+/.github/
 
 # production
 /build
