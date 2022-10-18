@@ -114,7 +114,7 @@ function ListingCards({
 							{locationFeatures.smoking ? <TbSmoking /> : ''}
 							{locationFeatures.sleepover ? <MdBed /> : ''}
 						</div>
-						<p className='text-sm sm:text-base'>{studioBooking}$ / Hour</p>
+						<p className='text-sm font-semibold md:text-lg sm:text-base'>{studioBooking}$ / Hour</p>
 					</div>
 				</div>
 			</div>
