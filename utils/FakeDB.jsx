@@ -1,4 +1,4 @@
-const data = {
+const fakeData = {
 	studioListings: [
 		{
 			user: 'Admin',
@@ -127,4 +127,4 @@ const data = {
 	],
 };
 
-export default data;
+export default fakeData;
