@@ -30,7 +30,7 @@ function search() {
 				},
 				img: 'https://unsplash.com/photos/uEGX88nVotU/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8MTR8fHJlY29yZGluZyUyMHN0dWRpb3xlbnwwfHx8fDE2NjU5MjI4MTU&force=true',
 				studiotype: 'Premium Studio',
-				services: ['Aufnehmen', 'Mischen', 'Mastern', 'Podcast/Hörbuch'],
+				services: ['Recording', 'Mix', 'Master', 'Podcast/Audiobook'],
 				recordingEngineer: { preis: '5$', pro: 'Stunde' },
 				studioBooking: {
 					perHour: '25',
@@ -68,7 +68,7 @@ function search() {
 				openingOption: 'Immer verfügbar',
 				img: 'https://unsplash.com/photos/aLPY2rRTYQI/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8MTF8fG11c2ljJTIwc3R1ZGlvfGVufDB8fHx8MTY2NTg3MzU4Mw&force=true',
 				studiotype: 'Home Studio',
-				services: ['Mastern', 'Podcast/Hörbuch'],
+				services: ['Recording', 'Podcast/Audiobook'],
 				recordingEngineer: { preis: '15$', pro: 'Stunde' },
 				studioBooking: {
 					perHour: '15$',
@@ -147,11 +147,12 @@ function search() {
 		<div>
 			<h1>Search results</h1>
 			<div>
-				{listings.map(({ _id, title, img, services, description, location }) => (
+				{listings.map(({ _id, title, img, studiotype, services, description, location }) => (
 					<ListingCards
 						key={_id}
 						title={title}
 						img={img}
+						studiotype={studiotype}
 						services={services}
 						description={description}
 						location={location}

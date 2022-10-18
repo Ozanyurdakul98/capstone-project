@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { IconContext } from 'react-icons';
 import { FiHeart } from 'react-icons/fi';
 
-function ListingCards({ _id, title, img, services, description, location }) {
+function ListingCards({ _id, title, img, studiotype, services, description, location }) {
 	const ref = useRef(null);
 
 	const slicedServices = services.slice(0, 3).map((service, index) => service);
@@ -51,16 +51,17 @@ function ListingCards({ _id, title, img, services, description, location }) {
 							</IconContext.Provider>
 						</button>
 					</div>
+					<p className='text-xs sm:text-sm'>{studiotype}</p>
 					<h4 className='text-sm sm:text-xl'>{title}</h4>
 					<div
 						className='flex gap-2 items-center'
 						ref={ref}
 					>
-						{width <= 340 ? (
+						{width <= 340 && services.length > 3 ? (
 							<>
 								{slicedServices.map((item, index) => (
 									<p
-										className='rounded-full bg-red-200 px-[9px] text-xs sm:text-base '
+										className='rounded-full bg-red-200 px-[9px] text-xs '
 										key={`${index}`}
 									>
 										{item}
@@ -72,12 +73,16 @@ function ListingCards({ _id, title, img, services, description, location }) {
 							services.map((service, _id) => (
 								<p
 									key={_id}
-									className='rounded-full bg-red-200 px-[9px] text-xs sm:text-base '
+									className='rounded-full bg-red-200 px-[9px] text-xs sm:text-sm '
 								>
 									{service}
 								</p>
 							))
 						)}
+					</div>
+					<div>
+						<p></p>
+						<p></p>
 					</div>
 				</div>
 			</div>
