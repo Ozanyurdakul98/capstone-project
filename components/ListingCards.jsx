@@ -53,31 +53,21 @@ function ListingCards({ _id, title, img, services, description, location }) {
 					</div>
 					<h4 className='text-sm sm:text-xl'>{title}</h4>
 					<div
+						className='flex gap-2 items-center'
 						ref={ref}
-						className='flex gap-2 '
 					>
 						{width <= 340 ? (
-							<div className='flex'>
-								{slicedServices.map((item, index) => {
-									if (index === slicedServices.length - 1)
-										return (
-											<p
-												className='rounded-full bg-red-200 px-[9px] text-xs sm:text-base '
-												key={`${index}`}
-											>
-												{(index ? '' : '') + item}...
-											</p>
-										);
-									return (
-										<p
-											className='rounded-full bg-red-200 px-[9px] text-xs sm:text-base '
-											key={`${index}`}
-										>
-											{(index ? '' : '') + item}
-										</p>
-									);
-								})}
-							</div>
+							<>
+								{slicedServices.map((item, index) => (
+									<p
+										className='rounded-full bg-red-200 px-[9px] text-xs sm:text-base '
+										key={`${index}`}
+									>
+										{item}
+									</p>
+								))}
+								...
+							</>
 						) : (
 							services.map((service, _id) => (
 								<p
