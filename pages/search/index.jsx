@@ -31,8 +31,8 @@ function search() {
 				img: 'https://unsplash.com/photos/uEGX88nVotU/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8MTR8fHJlY29yZGluZyUyMHN0dWRpb3xlbnwwfHx8fDE2NjU5MjI4MTU&force=true',
 				studiotype: 'Premiumstudio',
 				services: ['Recording', 'Mix', 'Master', 'Podcast/Audiobook'],
-				recordingEngineerAvailabilty: { available: true },
-				recordingEngineer: { preis: '5$', pro: 'Stunde' },
+				soundEngineerAvailabilty: { available: true },
+				soundEngineer: { preis: '5$', pro: 'Stunde' },
 				studioBooking: {
 					perHour: '25',
 					perDay: '125',
@@ -70,12 +70,12 @@ function search() {
 				img: 'https://unsplash.com/photos/aLPY2rRTYQI/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8MTF8fG11c2ljJTIwc3R1ZGlvfGVufDB8fHx8MTY2NTg3MzU4Mw&force=true',
 				studiotype: 'Home Studio',
 				services: ['Recording', 'Podcast/Audiobook'],
-				recordingEngineerAvailabilty: { available: true },
+				soundEngineerAvailabilty: { available: true },
 
-				recordingEngineer: { preis: '15$', pro: 'Stunde' },
+				soundEngineer: { preis: '15', pro: 'Stunde' },
 				studioBooking: {
-					perHour: '15$',
-					perDay: '100$',
+					perHour: '15',
+					perDay: '100',
 				},
 
 				description:
@@ -117,7 +117,7 @@ function search() {
 				img: 'https://unsplash.com/photos/-qFWOJEEQh4/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8MTZ8fG11c2ljJTIwc3R1ZGlvfGVufDB8fHx8MTY2NTg3MzU4Mw&force=true',
 				studiotype: 'Mediumstudio',
 				services: ['Recording', 'Mix', 'Master', 'Podcast/Audiobook'],
-				recordingEngineerAvailabilty: { available: false },
+				soundEngineerAvailabilty: { available: false },
 				studioBooking: {
 					perHour: '105',
 					perDay: '1000',
@@ -157,7 +157,8 @@ function search() {
 						img,
 						studiotype,
 						services,
-						recordingEngineerAvailabilty,
+						soundEngineerAvailabilty,
+						studioBooking,
 						description,
 						location,
 					}) => (
@@ -167,7 +168,8 @@ function search() {
 							img={img}
 							studiotype={studiotype}
 							services={services}
-							recordingEngineerAvailabilty={recordingEngineerAvailabilty.available}
+							soundEngineerAvailabilty={soundEngineerAvailabilty.available}
+							studioBooking={studioBooking.perHour}
 							description={description}
 							location={location}
 						></ListingCards>

@@ -14,7 +14,8 @@ function ListingCards({
 	img,
 	studiotype,
 	services,
-	recordingEngineerAvailabilty,
+	soundEngineerAvailabilty,
+	studioBooking,
 	description,
 	location,
 }) {
@@ -24,17 +25,17 @@ function ListingCards({
 	console.log(slicedServices);
 
 	const [width, setWidth] = useState(0);
-	const [height, setHeight] = useState(0);
+	// const [height, setHeight] = useState(0);
 
 	useLayoutEffect(() => {
 		setWidth(ref.current.offsetWidth);
-		setHeight(ref.current.offsetHeight);
+		// setHeight(ref.current.offsetHeight);
 	}, []);
 
 	return (
 		<div>
-			<div className='flex w-full'>
-				<div className='relative h-24 w-36 flex-shrink-0 md:h-52 md:w-80'>
+			<div className='flex w-full pr-2'>
+				<div className='relative h-24 w-32 sm:w-40 flex-shrink-0 md:h-52 md:w-80'>
 					<Image
 						src={img}
 						layout='fill'
@@ -44,7 +45,7 @@ function ListingCards({
 				</div>
 				<div ref={ref}></div>
 
-				<div className='flex flex-col pl-5 w-full'>
+				<div className='flex flex-col pl-2 sm:pl-5 w-full'>
 					<div className='flex justify-between items-center'>
 						<p className='text-xs'>
 							{location.length > 30 ? location.substring(0, 30) + '...' : location}
@@ -64,7 +65,7 @@ function ListingCards({
 					<div className='flex gap-2'>
 						<p className='text-xs sm:text-sm'>{studiotype}</p>
 						<p className='text-xs flex sm:text-sm'>
-							{recordingEngineerAvailabilty ? (
+							{soundEngineerAvailabilty ? (
 								<>
 									Soundengineer <TiTick className='text-green-500' />
 								</>
@@ -101,8 +102,8 @@ function ListingCards({
 							))
 						)}
 					</div>
-					<div>
-						<p></p>
+					<div className='flex justify-end'>
+						<p className='text-sm sm:text-base'>{studioBooking}$ / Hour</p>
 						<p></p>
 					</div>
 				</div>
