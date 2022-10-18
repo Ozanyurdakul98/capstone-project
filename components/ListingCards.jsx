@@ -6,6 +6,7 @@ import Image from 'next/image';
 //icons
 import { IconContext } from 'react-icons';
 import { FiHeart } from 'react-icons/fi';
+import { TiTick } from 'react-icons/ti';
 
 function ListingCards({
 	_id,
@@ -62,8 +63,14 @@ function ListingCards({
 					</div>
 					<div className='flex gap-2'>
 						<p className='text-xs sm:text-sm'>{studiotype}</p>
-						<p className='text-xs sm:text-sm'>
-							{recordingEngineerAvailabilty ? 'Soundengineer' + ' ✅' : ''}
+						<p className='text-xs flex sm:text-sm'>
+							{recordingEngineerAvailabilty ? (
+								<>
+									Soundengineer <TiTick className='text-green-500' />
+								</>
+							) : (
+								''
+							)}
 						</p>
 					</div>
 					<h4 className='text-sm sm:text-xl'>{title}</h4>
