@@ -10,6 +10,9 @@ import { FiHeart } from 'react-icons/fi';
 function ListingCards({ _id, title, img, services, description, location }) {
 	const ref = useRef(null);
 
+	const slicedServices = services.slice(0, 3).map((service, index) => service);
+	console.log(slicedServices);
+
 	const [width, setWidth] = useState(0);
 	const [height, setHeight] = useState(0);
 
@@ -29,11 +32,7 @@ function ListingCards({ _id, title, img, services, description, location }) {
 						alt=''
 					/>
 				</div>
-				<div ref={ref}>
-					<h2>Width: {width}</h2>
-
-					<h2>Height: {height}</h2>
-				</div>
+				<div ref={ref}></div>
 
 				<div className='flex flex-col pl-5 w-full'>
 					<div className='flex justify-between items-center'>
@@ -57,23 +56,38 @@ function ListingCards({ _id, title, img, services, description, location }) {
 						ref={ref}
 						className='flex gap-2 '
 					>
-						{width <= 340
-							? services.slice(0, 3).map((service, _id) => (
-									<p
-										key={_id}
-										className='rounded-full bg-red-200 px-[9px] text-xs sm:text-base '
-									>
-										{service}
-									</p>
-							  ))
-							: services.map((service, _id) => (
-									<p
-										key={_id}
-										className='rounded-full bg-red-200 px-[9px] text-xs sm:text-base '
-									>
-										{service}
-									</p>
-							  ))}
+						{width <= 340 ? (
+							<div className='flex'>
+								{slicedServices.map((item, index) => {
+									if (index === slicedServices.length - 1)
+										return (
+											<p
+												className='rounded-full bg-red-200 px-[9px] text-xs sm:text-base '
+												key={`${index}`}
+											>
+												{(index ? '' : '') + item}...
+											</p>
+										);
+									return (
+										<p
+											className='rounded-full bg-red-200 px-[9px] text-xs sm:text-base '
+											key={`${index}`}
+										>
+											{(index ? '' : '') + item}
+										</p>
+									);
+								})}
+							</div>
+						) : (
+							services.map((service, _id) => (
+								<p
+									key={_id}
+									className='rounded-full bg-red-200 px-[9px] text-xs sm:text-base '
+								>
+									{service}
+								</p>
+							))
+						)}
 					</div>
 				</div>
 			</div>
