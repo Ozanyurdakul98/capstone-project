@@ -40,7 +40,7 @@ function ListingCards({
 	return (
 		<div>
 			<div className='flex w-full pr-2'>
-				<div className='relative h-24 w-32  sm:h-28 sm:w-40 flex-shrink-0 md:h-52 md:w-80'>
+				<div className='relative h-24 w-32  flex-shrink-0 sm:h-28 sm:w-40 md:h-52 md:w-80'>
 					<Image
 						src={img}
 						layout='fill'
@@ -50,8 +50,8 @@ function ListingCards({
 				</div>
 				<div ref={ref}></div>
 
-				<div className='flex flex-col pl-2 sm:pl-5 w-full'>
-					<div className='flex justify-between items-center'>
+				<div className='flex w-full flex-col pl-2 sm:pl-5'>
+					<div className='flex items-center justify-between'>
 						<p className='text-xs'>
 							{location.length > 30 ? location.substring(0, 30) + '...' : location}
 						</p>
@@ -69,7 +69,7 @@ function ListingCards({
 					</div>
 					<div className='flex gap-2'>
 						<p className='text-xs sm:text-sm'>{studiotype}</p>
-						<p className='text-xs flex sm:text-sm'>
+						<p className='flex text-xs sm:text-sm'>
 							{soundEngineerAvailabilty ? (
 								<>
 									Soundengineer <TiTick className='text-green-500' />
@@ -81,7 +81,7 @@ function ListingCards({
 					</div>
 					<h4 className='text-sm sm:text-xl'>{title}</h4>
 					<div
-						className='flex gap-2 items-center'
+						className='flex items-center gap-2'
 						ref={ref}
 					>
 						{width <= 340 && services.length > 3 ? (
@@ -114,7 +114,7 @@ function ListingCards({
 							{locationFeatures.smoking ? <TbSmoking /> : ''}
 							{locationFeatures.sleepover ? <MdBed /> : ''}
 						</div>
-						<p className='text-sm font-semibold md:text-lg sm:text-base'>{studioBooking}$ / Hour</p>
+						<p className='text-sm font-semibold sm:text-base md:text-lg'>{studioBooking}$ / Hour</p>
 					</div>
 				</div>
 			</div>
