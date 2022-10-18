@@ -14,13 +14,13 @@ function ListingCards({ _id, title, img, location }) {
 						alt=''
 					/>
 				</div>
-				<div>
+				<div className='flex flex-col pl-5'>
 					<div>
 						<p className='text-xs'>
 							{location.length > 30 ? location.substring(0, 30) + '...' : location}
 						</p>
 					</div>
-					<h4 className='text-xl'>{title}</h4>
+					<h4 className='text-sm'>{title}</h4>
 				</div>
 			</div>
 		</div>
