@@ -147,11 +147,13 @@ function search() {
 		<div>
 			<h1>Search results</h1>
 			<div>
-				{listings.map(({ _id, title, img, location }) => (
+				{listings.map(({ _id, title, img, services, description, location }) => (
 					<ListingCards
 						key={_id}
 						title={title}
 						img={img}
+						services={services}
+						description={description}
 						location={location}
 					></ListingCards>
 				))}
