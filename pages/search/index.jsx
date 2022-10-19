@@ -171,9 +171,9 @@ function Search() {
 	};
 	const listings = fakeData.studioListings;
 	return (
-		<div>
+		<>
 			<h1>Search results</h1>
-			<div>
+			<>
 				{listings.map(
 					({
 						_id,
@@ -201,8 +201,8 @@ function Search() {
 						></ListingCards>
 					)
 				)}
-			</div>
-		</div>
+			</>
+		</>
 	);
 }
 
