@@ -3,9 +3,13 @@ import SearchBar from './SearchBar';
 
 function Header() {
 	return (
-		<div className='flex justify-center'>
-			<SearchBar />
-		</div>
+		<header>
+			<nav>
+				<div className='flex justify-center'>
+					<SearchBar />
+				</div>
+			</nav>
+		</header>
 	);
 }
 

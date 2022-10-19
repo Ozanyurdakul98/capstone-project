@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
+//styles
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 
 function SearchBar() {
+	const [searchInput, setSearchInput] = useState('');
 	return (
 		<div>
 			<form className='flex  flex-1 items-center space-x-2 rounded-full border border-gray-200 bg-gray-100 px-3 py-1 shadow-sm md:shadow-lg'>
@@ -9,7 +11,13 @@ function SearchBar() {
 				<input
 					className='flex-1 border-none bg-transparent outline-none'
 					type='text'
+					value={searchInput}
+					onChange={(e) => setSearchInput(e.target.value.toLowerCase())}
 				/>
+				<button
+					hidden
+					type='submit'
+				></button>
 			</form>
 		</div>
 	);
