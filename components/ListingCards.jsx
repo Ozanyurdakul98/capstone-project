@@ -26,15 +26,12 @@ function ListingCards({
 }) {
 	const ref = useRef(null);
 
-	const slicedServices = services.slice(0, 3).map((service, index) => service);
-	console.log(slicedServices);
+	const slicedServices = services.slice(0, 3).map((service) => service);
 
 	const [width, setWidth] = useState(0);
-	// const [height, setHeight] = useState(0);
 
-	useLayoutEffect(() => {
+	useEffect(() => {
 		setWidth(ref.current.offsetWidth);
-		// setHeight(ref.current.offsetHeight);
 	}, []);
 
 	return (
@@ -92,7 +89,7 @@ function ListingCards({
 								{slicedServices.map((item, index) => (
 									<p
 										className='rounded-full bg-red-200 px-[9px] text-xs sm:text-sm md:text-lg'
-										key={`${index}`}
+										key={{ index }}
 									>
 										{item}
 									</p>
@@ -100,9 +97,9 @@ function ListingCards({
 								...
 							</>
 						) : (
-							services.map((service, _id) => (
+							services.map((service, index) => (
 								<p
-									key={_id}
+									key={index}
 									className='rounded-full bg-red-200 px-[9px] text-xs sm:text-sm md:text-lg'
 								>
 									{service}

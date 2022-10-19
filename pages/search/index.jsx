@@ -10,7 +10,7 @@ export async function getServerSideProps(context) {
 	};
 }
 
-function search() {
+function Search() {
 	const fakeData = {
 		studioListings: [
 			{
@@ -32,7 +32,7 @@ function search() {
 				studiotype: 'Premiumstudio',
 				services: ['Recording', 'Mix', 'Master', 'Podcast/Audiobook'],
 				soundEngineerAvailabilty: { available: true },
-				soundEngineer: { preis: '5$', pro: 'Stunde' },
+				soundEngineer: { preis: '5', pro: 'Stunde' },
 				studioBooking: {
 					perHour: '25',
 					perDay: '125',
@@ -206,4 +206,4 @@ function search() {
 	);
 }
 
-export default search;
+export default Search;
