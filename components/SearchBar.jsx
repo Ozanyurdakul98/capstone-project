@@ -8,6 +8,7 @@ import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 
 function SearchBar() {
 	const [searchInput, setSearchInput] = useState('');
+	const [date, setDate] = useState('');
 	const [startDate, setStartDate] = useState(new Date());
 	const [endDate, setEndDate] = useState(new Date());
 
@@ -37,15 +38,26 @@ function SearchBar() {
 					type='submit'
 				></button>
 			</form>
-			<DateRange
-				ranges={[selectionRange]}
-				rangeColors={['#df1b1b']}
-				showMonthAndYearPickers={false}
-				onChange={handleSelect}
-				minDate={new Date()}
-				calendarFocus={'forwards'}
-				moveRangeOnFirstSelection={true}
-			/>
+			{searchInput && (
+				<button
+					className='border border-black'
+					onClick={() => setDate((before) => !before)}
+				>
+					Check In
+				</button>
+			)}
+			{date && (
+				<DateRange
+					className='transition'
+					ranges={[selectionRange]}
+					rangeColors={['#df1b1b']}
+					showMonthAndYearPickers={false}
+					onChange={handleSelect}
+					minDate={new Date()}
+					calendarFocus={'forwards'}
+					moveRangeOnFirstSelection={false}
+				/>
+			)}
 		</div>
 	);
 }
