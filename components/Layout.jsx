@@ -1,6 +1,9 @@
 import Head from 'next/head';
 import React from 'react';
+//components
+//styles
 import styled from 'styled-components';
+import Header from './Header';
 
 export default function Layout({ children }) {
 	return (
@@ -12,7 +15,9 @@ export default function Layout({ children }) {
 					href='/favicon.ico'
 				/>
 			</Head>
-			<StyledHeader>Navigation()</StyledHeader>
+			<StyledHeader>
+				<Header />
+			</StyledHeader>
 			<StyledMain className='container'>{children}</StyledMain>
 			<StyledFooter>@Copyright Tonstudio-Kleinanzeigen 2022</StyledFooter>
 		</div>
