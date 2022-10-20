@@ -13,14 +13,12 @@ import { TbSmoking } from 'react-icons/tb';
 import { MdBed } from 'react-icons/md';
 
 function ListingCards({
-	_id,
 	title,
 	img,
 	studiotype,
 	services,
 	soundEngineerAvailabilty,
 	studioBooking,
-	description,
 	locationFeatures,
 	location,
 }) {
@@ -35,7 +33,7 @@ function ListingCards({
 	}, []);
 
 	return (
-		<div>
+		<article>
 			<div className='flex w-full cursor-pointer rounded-lg border-b py-7 px-2 first:border hover:opacity-80 hover:shadow-lg'>
 				<div className='relative h-24 w-32  flex-shrink-0 sm:h-32 sm:w-48 md:h-36 md:w-56 lg:h-52 lg:w-80'>
 					<Image
@@ -120,10 +118,8 @@ function ListingCards({
 					</div>
 				</div>
 			</div>
-		</div>
+		</article>
 	);
 }
 
 export default ListingCards;
-
-//Get width of an Element inspired by @Borislav Hadzhiev at https://bobbyhadz.com/blog/react-get-width-of-element
