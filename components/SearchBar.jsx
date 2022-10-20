@@ -3,8 +3,6 @@ import React, { useState } from 'react';
 import { DateRange } from 'react-date-range';
 import { useRouter } from 'next/router';
 //styles
-import 'react-date-range/dist/styles.css'; // main style file
-import 'react-date-range/dist/theme/default.css'; // theme css file
 import { MagnifyingGlassIcon, UsersIcon } from '@heroicons/react/24/solid';
 
 function SearchBar() {
@@ -19,6 +17,7 @@ function SearchBar() {
 				startDate: startDate.toISOString(),
 				endDate: endDate.toISOString(),
 				noOfGuests,
+				servicesSelected,
 			},
 		});
 		setSearchInput('');
@@ -41,7 +40,12 @@ function SearchBar() {
 	const [guestsButton, setGuestsButton] = useState('');
 	const [noOfGuests, setNoOfGuest] = useState(1);
 	//services
+	const [servicesSelected, setServicesSelected] = useState('recording');
 	const [servicesButton, setServicesButton] = useState('');
+	const handleServicesSelect = (event) => {
+		console.log(event.target.value);
+		setServicesSelected(event.target.value);
+	};
 	//buttons
 	const handleButtonDate = () => {
 		if (guestsButton || servicesButton) {
@@ -84,7 +88,7 @@ function SearchBar() {
 
 			{/* SearchInput-DropDown */}
 			{searchInput && (
-				<div className='absolute left-0 flex w-full flex-col gap-8 bg-white pb-5 pt-5 '>
+				<div className='absolute left-0 z-50 flex w-full flex-col gap-8 bg-white pb-5 pt-5'>
 					<div className='flex flex-shrink-0 justify-center gap-2'>
 						{dateButton ? (
 							<button
@@ -166,14 +170,11 @@ function SearchBar() {
 								<h4 className='h4 flex-grow'>Services</h4>
 								<select
 									className='select-search ml-5'
+									onChange={(event) => handleServicesSelect(event)}
+									value={servicesSelected}
 									name='services'
 								>
-									<option
-										className=''
-										value='recording'
-									>
-										Recording
-									</option>
+									<option value='recording'>Recording</option>
 									<option value='mix'>Mix</option>
 									<option value='master'>Master</option>
 									<option value='musicProduction'>Music Production</option>
