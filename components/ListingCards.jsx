@@ -3,6 +3,7 @@ import React from 'react';
 import { useEffect, useLayoutEffect, useState, useRef } from 'react';
 //tools
 import Image from 'next/image';
+import { nanoid } from 'nanoid';
 //icons
 import { IconContext } from 'react-icons';
 import { FiHeart } from 'react-icons/fi';
@@ -87,7 +88,7 @@ function ListingCards({
 								{slicedServices.map((item, index) => (
 									<p
 										className='rounded-full bg-red-200 px-[9px] text-xs sm:text-sm md:text-lg'
-										key={{ index }}
+										key={nanoid()}
 									>
 										{item}
 									</p>
@@ -97,7 +98,7 @@ function ListingCards({
 						) : (
 							services.map((service, index) => (
 								<p
-									key={index}
+									key={nanoid()}
 									className='rounded-full bg-red-200 px-[9px] text-xs sm:text-sm md:text-lg'
 								>
 									{service}

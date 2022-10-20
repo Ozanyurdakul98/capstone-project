@@ -30,7 +30,7 @@
 		@apply mb-1 h-10 w-20 rounded-full border  bg-[#1e90ff] px-5  text-white outline-none;
 	}
 	.select-search {
-		@apply top-1 mb-1 max-w-min rounded-full bg-[#1e90ff] pl-5  text-white after:absolute after:h-5 after:w-5;
+		@apply top-1 mb-1 h-10 max-w-min rounded-full bg-[#1e90ff] pl-5  text-white after:absolute after:h-5 after:w-5;
 	}
 
 	.h4 {

@@ -3,7 +3,7 @@ import React from 'react';
 //services
 //components
 import ListingCards from '../../components/ListingCards';
-
+import { nanoid } from 'nanoid';
 export async function getServerSideProps(context) {
 	return {
 		props: {}, // will be passed to the page component as props
@@ -174,9 +174,9 @@ function Search() {
 		<>
 			<h1>Search results</h1>
 			<>
+				{console.log(listings._id)}
 				{listings.map(
 					({
-						_id,
 						title,
 						img,
 						studiotype,
@@ -188,7 +188,7 @@ function Search() {
 						location,
 					}) => (
 						<ListingCards
-							key={_id}
+							key={nanoid()}
 							title={title}
 							img={img}
 							studiotype={studiotype}
