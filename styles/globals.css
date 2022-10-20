@@ -15,7 +15,7 @@
 		@apply rounded bg-amber-300 py-2 px-4 shadow outline-none hover:bg-amber-400 active:bg-red-100;
 	}
 	.button-active {
-		@apply flex max-h-8 transform cursor-pointer items-center rounded-full  border border-black bg-[#1e90ff] px-4 py-2 text-white transition duration-100 ease-out  hover:shadow-lg active:scale-95 active:bg-gray-100;
+		@apply flex max-h-8 transform cursor-pointer items-center rounded-full  border bg-[#1e90ff] px-4 py-2 text-white transition duration-100 ease-out  hover:shadow-lg active:scale-95 active:bg-gray-100;
 	}
 	.button {
 		@apply flex max-h-8 transform cursor-pointer items-center rounded-full  border border-black  px-4 py-2 transition duration-100 ease-out  hover:shadow-lg active:scale-95 active:bg-gray-100;

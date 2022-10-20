@@ -8,6 +8,7 @@ import 'react-date-range/dist/theme/default.css'; // theme css file
 import { MagnifyingGlassIcon, UsersIcon } from '@heroicons/react/24/solid';
 
 function SearchBar() {
+	//search
 	const [searchInput, setSearchInput] = useState('');
 	//date
 	const [dateButton, setDateButton] = useState('');
@@ -24,9 +25,27 @@ function SearchBar() {
 	//services
 	const [servicesButton, setServicesButton] = useState('');
 	//buttons
-	const handleButtonDate = () => setDateButton((before) => !before);
-	const handleButtonGuests = () => setGuestsButton((before) => !before);
-	const handleButtonServices = () => setServicesButton((before) => !before);
+	const handleButtonDate = () => {
+		if (guestsButton || servicesButton) {
+			setServicesButton('');
+			setGuestsButton('');
+		}
+		setDateButton((before) => !before);
+	};
+	const handleButtonGuests = () => {
+		if (dateButton || servicesButton) {
+			setDateButton('');
+			setServicesButton('');
+		}
+		setGuestsButton((before) => !before);
+	};
+	const handleButtonServices = () => {
+		if (dateButton || guestsButton) {
+			setDateButton('');
+			setGuestsButton('');
+		}
+		setServicesButton((before) => !before);
+	};
 
 	const handleSelect = (ranges) => {
 		setStartDate(ranges.selection.startDate);
@@ -54,28 +73,54 @@ function SearchBar() {
 			{searchInput && (
 				<div className='absolute left-0 flex w-full flex-col gap-8 bg-white pb-5 pt-5 '>
 					<>
-						<div className='ml-5 flex flex-shrink-0  gap-2'>
-							<div onClick={handleButtonDate}>
-								{dateButton ? (
-									<button className='button-active '>When?</button>
-								) : (
-									<button className='button '>When?</button>
-								)}
-							</div>
-							<div onClick={handleButtonGuests}>
-								{guestsButton ? (
-									<button className='button-active '>Guests?</button>
-								) : (
-									<button className='button '>Guests?</button>
-								)}
-							</div>
-							<div onClick={handleButtonServices}>
-								{servicesButton ? (
-									<button className='button-active '>Services?</button>
-								) : (
-									<button className='button '>Services?</button>
-								)}
-							</div>
+						<div className='flex flex-shrink-0 justify-center gap-2'>
+							{dateButton ? (
+								<button
+									onClick={handleButtonDate}
+									className='button-active '
+								>
+									When?
+								</button>
+							) : (
+								<button
+									onClick={handleButtonDate}
+									className='button '
+								>
+									When?
+								</button>
+							)}
+
+							{guestsButton ? (
+								<button
+									onClick={handleButtonGuests}
+									className='button-active '
+								>
+									Guests?
+								</button>
+							) : (
+								<button
+									onClick={handleButtonGuests}
+									className='button '
+								>
+									Guests?
+								</button>
+							)}
+
+							{servicesButton ? (
+								<button
+									onClick={handleButtonServices}
+									className='button-active '
+								>
+									Services?
+								</button>
+							) : (
+								<button
+									onClick={handleButtonServices}
+									className='button '
+								>
+									Services?
+								</button>
+							)}
 						</div>
 						<div className=' flex w-screen flex-col items-center justify-center'>
 							{dateButton && (
@@ -126,9 +171,16 @@ function SearchBar() {
 							)}
 						</div>
 					</>
-					<div className='flex justify-between'>
-						<button>Cancel</button>
-						<button>Search</button>
+					<div className='mx-5 flex items-center justify-between gap-2 border-t-2 pt-5'>
+						<button
+							onClick={() => setSearchInput('')}
+							className='button flex-grow  justify-center border-none bg-red-500 text-white'
+						>
+							Cancel
+						</button>
+						<button className='button flex-grow justify-center border-none bg-green-500 text-white'>
+							Search
+						</button>
 					</div>
 				</div>
 			)}
