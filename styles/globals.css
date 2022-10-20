@@ -14,13 +14,27 @@
 	.login-button {
 		@apply rounded bg-amber-300 py-2 px-4 shadow outline-none hover:bg-amber-400 active:bg-red-100;
 	}
+	.button-active {
+		@apply flex max-h-8 transform cursor-pointer items-center rounded-full  border bg-[#1e90ff] px-4 py-2 text-white transition duration-100 ease-out  hover:shadow-lg active:scale-95 active:bg-gray-100;
+	}
 	.button {
-		@apply transform cursor-pointer rounded-full border px-4 py-2 transition duration-100 ease-out hover:shadow-lg active:scale-95 active:bg-gray-100;
+		@apply flex max-h-8 transform cursor-pointer items-center rounded-full  border border-black  px-4 py-2 transition duration-100 ease-out  hover:shadow-lg active:scale-95 active:bg-gray-100;
 	}
 	input,
 	select,
 	textarea {
 		@apply rounded border p-2 outline-none ring-indigo-300;
+	}
+
+	.number-search {
+		@apply mb-1 h-10 w-20 rounded-full border  bg-[#1e90ff] px-5  text-white outline-none;
+	}
+	.select-search {
+		@apply top-1 mb-1 max-w-min rounded-full bg-[#1e90ff] pl-5  text-white after:absolute after:h-5 after:w-5;
+	}
+
+	.h4 {
+		@apply text-lg font-semibold;
 	}
 
 	/* Set all svg colors
