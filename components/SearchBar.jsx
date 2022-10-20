@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 //tools
 import { DateRange } from 'react-date-range';
+import format from 'date-fns/format';
 import { useRouter } from 'next/router';
 //styles
 import { MagnifyingGlassIcon, UsersIcon } from '@heroicons/react/24/solid';
@@ -14,8 +15,9 @@ function SearchBar() {
 			pathname: '/search',
 			query: {
 				location: searchInput !== '' ? searchInput : '',
-				startDate: startDate.toISOString(),
-				endDate: endDate.toISOString(),
+				startDate: format(startDate, 'dd/MM/yyyy'),
+				endDate: format(endDate, 'dd/MM/yyyy'),
+				// endDate: endDate.toISOString(),
 				noOfGuests,
 				servicesSelected,
 			},
@@ -23,9 +25,29 @@ function SearchBar() {
 		setSearchInput('');
 	};
 	//date
-	const [dateButton, setDateButton] = useState('');
+	const [dateButton, setDateButton] = useState(true);
+	const [calenderOpen, setCalenderOpen] = useState(false);
+	const [searchOpen, setSearchOpen] = useState(false);
 	const [startDate, setStartDate] = useState(new Date());
 	const [endDate, setEndDate] = useState(new Date());
+	const refOne = useRef(null);
+	const refTwo = useRef(null);
+	useEffect(() => {
+		//set calender to close
+		document.addEventListener('click', hideOnOutsideClick, true);
+		//set search filter to close
+		document.addEventListener('click', hideOnOutsideClick, true);
+	}, []);
+	const hideOnOutsideClick = (event) => {
+		//set calender to close
+		if (refOne.current && !refOne.current.contains(event.target)) {
+			setCalenderOpen(false);
+		}
+		//set search filter to close
+		if (refTwo.current && !refTwo.current.contains(event.target)) {
+			setSearchInput('');
+		}
+	};
 	const selectionRange = {
 		startDate: startDate,
 		endDate: endDate,
@@ -33,7 +55,9 @@ function SearchBar() {
 	};
 	const handleSelect = (ranges) => {
 		setStartDate(ranges.selection.startDate);
+		console.log(format(startDate, 'dd/MM/yyyy'));
 		setEndDate(ranges.selection.endDate);
+		console.log(endDate);
 	};
 
 	//guests
@@ -70,7 +94,10 @@ function SearchBar() {
 	};
 
 	return (
-		<div className='relative w-full'>
+		<div
+			className='relative w-full'
+			ref={refTwo}
+		>
 			{/* SearchInput */}
 			<form className='flex  flex-1 items-center space-x-2 rounded-full border border-gray-300 bg-gray-100 px-3 py-1 shadow-sm md:shadow-lg'>
 				<MagnifyingGlassIcon className='h-6 w-6 shrink-0 cursor-pointer rounded-full bg-black/30 p-1 text-white' />
@@ -140,16 +167,33 @@ function SearchBar() {
 					</div>
 					<div className=' flex w-screen flex-col items-center justify-center'>
 						{dateButton && (
-							<DateRange
-								className='max-w-min px-10'
-								ranges={[selectionRange]}
-								rangeColors={['#df1b1b']}
-								showMonthAndYearPickers={false}
-								onChange={handleSelect}
-								minDate={new Date()}
-								calendarFocus={'forwards'}
-								moveRangeOnFirstSelection={false}
-							/>
+							<>
+								<div
+									className='flex max-w-min flex-col items-center justify-center'
+									ref={refOne}
+								>
+									<input
+										className='rounded-full'
+										value={format(startDate, 'dd/MM/yy') + ' - ' + format(endDate, 'dd/MM/yy')}
+										readOnly
+										onClick={() => {
+											setCalenderOpen((previous) => !previous);
+										}}
+									/>
+									{calenderOpen && (
+										<DateRange
+											className='max-w-min'
+											ranges={[selectionRange]}
+											rangeColors={['#df1b1b']}
+											showMonthAndYearPickers={false}
+											onChange={handleSelect}
+											minDate={new Date()}
+											calendarFocus={'forwards'}
+											moveRangeOnFirstSelection={false}
+										/>
+									)}
+								</div>
+							</>
 						)}
 						{guestsButton && (
 							<div className='mb-4 flex items-center border-b'>
