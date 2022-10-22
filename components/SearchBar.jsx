@@ -10,18 +10,26 @@ function SearchBar() {
 	//search
 	const [searchInput, setSearchInput] = useState('');
 	const router = useRouter();
-	const search = () => {
-		router.push({
-			pathname: '/search',
-			query: {
-				location: searchInput !== '' ? searchInput : '',
-				startDate: format(startDate, 'dd/MM/yyyy'),
-				endDate: format(endDate, 'dd/MM/yyyy'),
-				// endDate: endDate.toISOString(),
-				noOfGuests,
-				servicesSelected,
-			},
-		});
+	const [routerPath, setRouterPath] = useState('');
+	const search = (event) => {
+		event.preventDefault();
+		//if i dont do eventpreventDefault and search 2x with same router qurey (like hit 2x enter on input) it breaks.(see devtools)
+		if (router.query.location !== routerPath) {
+			router.push({
+				pathname: '/search',
+				query: {
+					location: searchInput !== '' ? searchInput : '',
+					startDate: format(startDate, 'dd/MM/yyyy'),
+					endDate: format(endDate, 'dd/MM/yyyy'),
+					// endDate: endDate.toISOString(),
+					noOfGuests,
+					servicesSelected,
+				},
+			});
+			console.log('prerendersearch');
+			setRouterPath(router.query);
+		} else {
+		}
 		setSearchInput('');
 	};
 	//date
@@ -99,7 +107,10 @@ function SearchBar() {
 			ref={refTwo}
 		>
 			{/* SearchInput */}
-			<form className='flex  flex-1 items-center space-x-2 rounded-full border border-gray-300 bg-gray-100 px-3 py-1 shadow-sm md:shadow-lg'>
+			<form
+				onSubmit={search}
+				className='flex  flex-1 items-center space-x-2 rounded-full border border-gray-300 bg-gray-100 px-3 py-1 shadow-sm md:shadow-lg'
+			>
 				<MagnifyingGlassIcon className='h-6 w-6 shrink-0 cursor-pointer rounded-full bg-black/30 p-1 text-white' />
 				<input
 					className='flex-1 border-none bg-transparent outline-none'
@@ -107,10 +118,6 @@ function SearchBar() {
 					value={searchInput}
 					onChange={(e) => setSearchInput(e.target.value.toLowerCase())}
 				/>
-				<button
-					hidden
-					type='submit'
-				></button>
 			</form>
 
 			{/* SearchInput-DropDown */}
