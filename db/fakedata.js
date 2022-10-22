@@ -7,7 +7,6 @@ const fakeData = {
 			studioname: 'SoundDeluxe',
 			openingOption: 'Custom',
 			openingCustom: {
-				monday: '08:00 - 18:00',
 				thuesday: '08:00 - 18:00',
 				wednesday: '08:00 - 18:00',
 				thursday: '08:00 - 18:00',
@@ -61,7 +60,7 @@ const fakeData = {
 			user: 'User1',
 			title: 'I mix your tracks to perfection for a little price',
 			studioname: 'Sound300',
-			openingOption: 'Immer verfügbar',
+			openingOption: 'Always Available',
 			img: 'https://unsplash.com/photos/aLPY2rRTYQI/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8MTF8fG11c2ljJTIwc3R1ZGlvfGVufDB8fHx8MTY2NTg3MzU4Mw&force=true',
 			studiotype: 'Home Studio',
 			services: ['Recording', 'Podcast/Audiobook'],
@@ -108,7 +107,7 @@ const fakeData = {
 			user: 'User2',
 			title: 'Mediumstudio to fit your needs',
 			studioname: 'SoundDeluxe',
-			openingOption: 'Benutzerdefiniert',
+			openingOption: 'Custom',
 			openingCustom: {
 				monday: '08:00 - 18:00',
 				thuesday: '08:00 - 18:00',

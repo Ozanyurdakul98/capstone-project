@@ -3,6 +3,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { DateRange } from 'react-date-range';
 import format from 'date-fns/format';
 import { useRouter } from 'next/router';
+//Assets
+
 //styles
 import { MagnifyingGlassIcon, UsersIcon } from '@heroicons/react/24/solid';
 import { TbBorderOuter } from 'react-icons/tb';
@@ -28,6 +30,7 @@ function SearchBar() {
 					servicesSelected,
 				},
 			});
+			console.log(startDate.toISOString());
 			return setSearchInput('');
 		} else if (searchInput === '') {
 			router.push({
@@ -42,7 +45,6 @@ function SearchBar() {
 	//date
 	const [dateButton, setDateButton] = useState(true);
 	const [calenderOpen, setCalenderOpen] = useState(false);
-	const [searchOpen, setSearchOpen] = useState(false);
 	const [startDate, setStartDate] = useState(new Date());
 	const [endDate, setEndDate] = useState(new Date());
 	const refOne = useRef(null);
@@ -70,9 +72,9 @@ function SearchBar() {
 	};
 	const handleSelect = (ranges) => {
 		setStartDate(ranges.selection.startDate);
-		console.log(format(startDate, 'dd/MM/yyyy'));
+		console.log('search', startDate.toISOString());
 		setEndDate(ranges.selection.endDate);
-		console.log(endDate);
+		console.log('end', endDate.toISOString());
 	};
 
 	//guests
@@ -82,7 +84,6 @@ function SearchBar() {
 	const [servicesSelected, setServicesSelected] = useState('recording');
 	const [servicesButton, setServicesButton] = useState('');
 	const handleServicesSelect = (event) => {
-		console.log(event.target.value);
 		setServicesSelected(event.target.value);
 	};
 	//buttons

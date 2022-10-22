@@ -9,15 +9,15 @@ import { fakeData } from '../../db/fakedata';
 //components
 import ListingCards from '../../components/ListingCards';
 import { nanoid } from 'nanoid';
+import { check } from 'prettier';
 
 export async function getServerSideProps(context) {
 	const query = JSON.parse(JSON.stringify(context.query));
-	const checkInDay = new Date(query.startDate).getDay();
+
 	return {
 		props: {
 			location: query.location || null,
 			startDate: query.startDate || null,
-			checkIn: checkInDay || null,
 			endDate: query.endDate || null,
 			noOfGuests: query.noOfGuests || null,
 			servicesSelected: query.servicesSelected || null,
@@ -27,42 +27,111 @@ export async function getServerSideProps(context) {
 
 const listings = fakeData.studioListings;
 
-function Search({ location, startDate, checkIn, endDate }) {
+function Search(location) {
 	const [search, setSearch] = useState(listings);
-	const [searchFilter, setSearchFilter] = useState({ location, startDate });
+	const [searchFilter, setSearchFilter] = useState('');
 	const router = useRouter();
-	// console.log({ location });
-	console.log('c', checkIn);
-	console.log('dates', format(new Date(startDate), 'dd/MM/yyyy'), endDate);
-	console.log('dates2', startDate, endDate);
-	console.log('dates3', new Date(startDate).getDay(), endDate);
-	// console.log(new Date(parseInt(endDate)).getDay());
-	// console.log(Date.parse(startDate));
-
-	if (router.query.location !== searchFilter.location) {
-		//page is not reloading and firing the useEffect, so to be able to filter listings, without full page reload
-		//therefore i use this function to activate the useEffect dependency and stilly have the Vorteile from fast pageload
-		const refreshData = () => router.replace(router.asPath);
-		setSearchFilter(router.query);
-		console.log('refresh');
-	}
+	const refreshData = () => {
+		router.replace(router.asPath);
+	};
 
 	useEffect(() => {
-		console.log('filterloco', searchFilter.location);
-		console.log('filter', searchFilter);
-		console.log('useeffect');
-
+		console.log('effect');
+		console.log('searchFilter', searchFilter);
+		if (router.query.location !== searchFilter.location) {
+			//page is not reloading and firing the useEffect, so to be able to filter listings, without full page reload
+			//therefore i use this function to activate the useEffect dependency and stilly have the Vorteile from fast pageload
+			console.log('rerender');
+			setSearchFilter(location);
+			return refreshData();
+		}
+		const date = new Date(searchFilter.startDate).getDay();
+		const checkIn = new Date(location.startDate).getDay();
+		console.log('checkIn', checkIn);
+		console.log('checkIn2', date);
 		if (searchFilter.location) {
-			const filtered = listings.filter((listings) =>
+			const filteredLoc = listings.filter((listings) =>
 				listings.location.toLowerCase().includes(searchFilter.location.toLocaleLowerCase())
 			);
-			return setSearch(filtered);
+			if (searchFilter.startDate) {
+				if (checkIn === 0) {
+					const filteredDay = filteredLoc.filter(
+						(studio) =>
+							studio.openingCustom?.sunday ||
+							studio.openingOption === 'Always Available' ||
+							studio.openingOption === 'On Request'
+					);
+					console.log('Sunday', filteredDay);
+					return setSearch(filteredDay);
+				} else if (checkIn === 1) {
+					const filteredDay = filteredLoc.filter(
+						(studio) =>
+							studio.openingCustom?.monday ||
+							studio.openingOption === 'Always Available' ||
+							studio.openingOption === 'On Request'
+					);
+					console.log('Monday', filteredDay);
+					return setSearch(filteredDay);
+				} else if (checkIn === 2) {
+					const filteredDay = filteredLoc.filter(
+						(studio) =>
+							studio.openingCustom?.thuesday ||
+							studio.openingOption === 'Always Available' ||
+							studio.openingOption === 'On Request'
+					);
+					console.log('Thuesday', filteredDay);
+					return setSearch(filteredDay);
+				} else if (checkIn === 3) {
+					const filteredDay = filteredLoc.filter(
+						(studio) =>
+							studio.openingCustom?.wednesday ||
+							studio.openingOption === 'Always Available' ||
+							studio.openingOption === 'On Request'
+					);
+					console.log('Wednesday', filteredDay);
+					return setSearch(filteredDay);
+				} else if (checkIn === 4) {
+					const filteredDay = filteredLoc.filter(
+						(studio) =>
+							studio.openingCustom?.thursday ||
+							studio.openingOption === 'Always Available' ||
+							studio.openingOption === 'On Request'
+					);
+					console.log('Thursday', filteredDay);
+					return setSearch(filteredDay);
+				} else if (checkIn === 5) {
+					const filteredDay = filteredLoc.filter(
+						(studio) =>
+							studio.openingCustom?.friday ||
+							studio.openingOption === 'Always Available' ||
+							studio.openingOption === 'On Request'
+					);
+					console.log('Friday', filteredDay);
+					return setSearch(filteredDay);
+				} else if (checkIn === 6) {
+					const filteredDay = filteredLoc.filter(
+						(studio) =>
+							studio.openingCustom?.saturday ||
+							studio.openingOption === 'Always Available' ||
+							studio.openingOption === 'On Request'
+					);
+					console.log('Saturday', filteredDay);
+					return setSearch(filteredDay);
+				}
+			}
+			console.log('outer return ELSE');
+			return setSearch(filteredLoc);
 		}
-	}, [searchFilter]);
+	}, [router.query, searchFilter]);
+	const date = new Date(location.startDate);
+	console.log('date', date);
 
 	return (
 		<>
-			<h1>Search results</h1>
+			<h1>
+				Search results for
+				{format(date, ' dd/MM/yyyy')} and {location.location}
+			</h1>
 			<>
 				{search.map(
 					({
