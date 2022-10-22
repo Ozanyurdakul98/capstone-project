@@ -237,7 +237,8 @@ function SearchBar() {
 									<option value='mix'>Mix</option>
 									<option value='master'>Master</option>
 									<option value='musicProduction'>Music Production</option>
-									<option value='rentStudio'>Rent a Studio</option>
+									<option value='podcast & Audiobook'>Podcast & Audiobook</option>
+									<option value='rent Studio'>Rent a Studio</option>
 								</select>
 							</div>
 						)}

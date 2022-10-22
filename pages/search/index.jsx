@@ -9,7 +9,6 @@ import { fakeData } from '../../db/fakedata';
 //components
 import ListingCards from '../../components/ListingCards';
 import { nanoid } from 'nanoid';
-import { check } from 'prettier';
 
 export async function getServerSideProps(context) {
 	const query = JSON.parse(JSON.stringify(context.query));
@@ -39,7 +38,8 @@ function Search(location) {
 		console.log(searchFilter.noOfGuests);
 		if (
 			router.query.location !== searchFilter.location ||
-			router.query.noOfGuests !== searchFilter.noOfGuests
+			router.query.noOfGuests !== searchFilter.noOfGuests ||
+			router.query.servicesSelected !== searchFilter.servicesSelected
 		) {
 			//page is not reloading and firing the useEffect, so to be able to filter listings, without full page reload
 			//therefore i use this function to activate the useEffect dependency and stilly have the Vorteile from fast pageload
@@ -49,11 +49,22 @@ function Search(location) {
 		const checkIn = new Date(location.startDate).getDay();
 		if (searchFilter.location) {
 			let filteredLoc = listings.filter((listings) =>
-				listings.location.toLowerCase().includes(searchFilter.location.toLocaleLowerCase())
+				listings.location.toLowerCase().includes(searchFilter.location.toLowerCase())
 			);
 			if (searchFilter.startDate) {
 				if (searchFilter.noOfGuests > 1) {
 					filteredLoc = filteredLoc.filter((studio) => studio.maxGuests >= searchFilter.noOfGuests);
+				}
+				if (searchFilter.servicesSelected) {
+					console.log('filterserv', searchFilter.servicesSelected);
+					filteredLoc = filteredLoc.filter((studio) =>
+						studio.services
+							.map((element) => {
+								return element.toLowerCase();
+							})
+							.includes(searchFilter.servicesSelected.toLowerCase())
+					);
+					console.log('filtLOC', filteredLoc);
 				}
 				if (checkIn === 0) {
 					const filteredDay = filteredLoc.filter(

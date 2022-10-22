@@ -16,7 +16,7 @@ const fakeData = {
 			},
 			img: 'https://unsplash.com/photos/uEGX88nVotU/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8MTR8fHJlY29yZGluZyUyMHN0dWRpb3xlbnwwfHx8fDE2NjU5MjI4MTU&force=true',
 			studiotype: 'Premiumstudio',
-			services: ['Recording', 'Mix', 'Master', 'Podcast/Audiobook'],
+			services: ['Recording', 'Mix', 'Master', 'Podcast & Audiobook', 'Rent Studio'],
 			maxGuests: 14,
 			soundEngineerAvailabilty: { available: true },
 			soundEngineer: { preis: '5', pro: 'Stunde' },
@@ -64,7 +64,7 @@ const fakeData = {
 			openingOption: 'Always Available',
 			img: 'https://unsplash.com/photos/aLPY2rRTYQI/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8MTF8fG11c2ljJTIwc3R1ZGlvfGVufDB8fHx8MTY2NTg3MzU4Mw&force=true',
 			studiotype: 'Home Studio',
-			services: ['Recording', 'Podcast/Audiobook'],
+			services: ['Recording', 'Podcast & Audiobook'],
 			maxGuests: 2,
 
 			soundEngineerAvailabilty: { available: true },
@@ -121,7 +121,7 @@ const fakeData = {
 			},
 			img: 'https://unsplash.com/photos/-qFWOJEEQh4/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8MTZ8fG11c2ljJTIwc3R1ZGlvfGVufDB8fHx8MTY2NTg3MzU4Mw&force=true',
 			studiotype: 'Mediumstudio',
-			services: ['Recording', 'Mix', 'Master', 'Podcast/Audiobook'],
+			services: ['Recording', 'Mix', 'Master', 'Podcast & Audiobook', 'Rent Studio'],
 			maxGuests: 3,
 
 			soundEngineerAvailabilty: { available: false },
