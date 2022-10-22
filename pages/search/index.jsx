@@ -36,24 +36,25 @@ function Search(location) {
 	};
 
 	useEffect(() => {
-		console.log('effect');
-		console.log('searchFilter', searchFilter);
-		if (router.query.location !== searchFilter.location) {
+		console.log(searchFilter.noOfGuests);
+		if (
+			router.query.location !== searchFilter.location ||
+			router.query.noOfGuests !== searchFilter.noOfGuests
+		) {
 			//page is not reloading and firing the useEffect, so to be able to filter listings, without full page reload
 			//therefore i use this function to activate the useEffect dependency and stilly have the Vorteile from fast pageload
-			console.log('rerender');
 			setSearchFilter(location);
 			return refreshData();
 		}
-		const date = new Date(searchFilter.startDate).getDay();
 		const checkIn = new Date(location.startDate).getDay();
-		console.log('checkIn', checkIn);
-		console.log('checkIn2', date);
 		if (searchFilter.location) {
-			const filteredLoc = listings.filter((listings) =>
+			let filteredLoc = listings.filter((listings) =>
 				listings.location.toLowerCase().includes(searchFilter.location.toLocaleLowerCase())
 			);
 			if (searchFilter.startDate) {
+				if (searchFilter.noOfGuests > 1) {
+					filteredLoc = filteredLoc.filter((studio) => studio.maxGuests >= searchFilter.noOfGuests);
+				}
 				if (checkIn === 0) {
 					const filteredDay = filteredLoc.filter(
 						(studio) =>
@@ -118,13 +119,14 @@ function Search(location) {
 					console.log('Saturday', filteredDay);
 					return setSearch(filteredDay);
 				}
+
+				console.log('devam');
 			}
-			console.log('outer return ELSE');
+
 			return setSearch(filteredLoc);
 		}
 	}, [router.query, searchFilter]);
 	const date = new Date(location.startDate);
-	console.log('date', date);
 
 	return (
 		<>

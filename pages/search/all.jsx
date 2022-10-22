@@ -34,7 +34,7 @@ function Search({ location, startDate, checkIn, endDate }) {
 
 	return (
 		<>
-			<h1>Search results</h1>
+			<h1>All Search results</h1>
 			<>
 				{search.map(
 					({

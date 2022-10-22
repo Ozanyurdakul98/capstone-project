@@ -30,7 +30,7 @@ function SearchBar() {
 					servicesSelected,
 				},
 			});
-			console.log(startDate.toISOString());
+
 			return setSearchInput('');
 		} else if (searchInput === '') {
 			router.push({
@@ -72,9 +72,8 @@ function SearchBar() {
 	};
 	const handleSelect = (ranges) => {
 		setStartDate(ranges.selection.startDate);
-		console.log('search', startDate.toISOString());
+
 		setEndDate(ranges.selection.endDate);
-		console.log('end', endDate.toISOString());
 	};
 
 	//guests
@@ -123,6 +122,7 @@ function SearchBar() {
 				<input
 					className='flex-1 border-none bg-transparent outline-none'
 					type='text'
+					placeholder='type your location '
 					value={searchInput}
 					onChange={(e) => setSearchInput(e.target.value.toLowerCase())}
 				/>
