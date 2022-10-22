@@ -1,12 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
-//tools
-import format from 'date-fns/format';
-
-//utils
+import React, { useState } from 'react';
+//db
 import { fakeData } from '../../db/fakedata';
-
-//services
 //components
 import ListingCards from '../../components/ListingCards';
 import { nanoid } from 'nanoid';
@@ -28,9 +22,8 @@ export async function getServerSideProps(context) {
 
 const listings = fakeData.studioListings;
 
-function Search({ location, startDate, checkIn, endDate }) {
+function Search() {
 	const [search, setSearch] = useState(listings);
-	const [searchFilter, setSearchFilter] = useState({ location, startDate });
 
 	return (
 		<>

@@ -2,10 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 //tools
 import format from 'date-fns/format';
-
-//utils
+//db
 import { fakeData } from '../../db/fakedata';
-//services
 //components
 import ListingCards from '../../components/ListingCards';
 import { nanoid } from 'nanoid';
@@ -35,14 +33,11 @@ function Search(location) {
 	};
 
 	useEffect(() => {
-		console.log(searchFilter.noOfGuests);
 		if (
 			router.query.location !== searchFilter.location ||
 			router.query.noOfGuests !== searchFilter.noOfGuests ||
 			router.query.servicesSelected !== searchFilter.servicesSelected
 		) {
-			//page is not reloading and firing the useEffect, so to be able to filter listings, without full page reload
-			//therefore i use this function to activate the useEffect dependency and stilly have the Vorteile from fast pageload
 			setSearchFilter(location);
 			return refreshData();
 		}
@@ -56,7 +51,6 @@ function Search(location) {
 					filteredLoc = filteredLoc.filter((studio) => studio.maxGuests >= searchFilter.noOfGuests);
 				}
 				if (searchFilter.servicesSelected) {
-					console.log('filterserv', searchFilter.servicesSelected);
 					filteredLoc = filteredLoc.filter((studio) =>
 						studio.services
 							.map((element) => {
@@ -64,7 +58,6 @@ function Search(location) {
 							})
 							.includes(searchFilter.servicesSelected.toLowerCase())
 					);
-					console.log('filtLOC', filteredLoc);
 				}
 				if (checkIn === 0) {
 					const filteredDay = filteredLoc.filter(
@@ -73,7 +66,6 @@ function Search(location) {
 							studio.openingOption === 'Always Available' ||
 							studio.openingOption === 'On Request'
 					);
-					console.log('Sunday', filteredDay);
 					return setSearch(filteredDay);
 				} else if (checkIn === 1) {
 					const filteredDay = filteredLoc.filter(
@@ -82,7 +74,6 @@ function Search(location) {
 							studio.openingOption === 'Always Available' ||
 							studio.openingOption === 'On Request'
 					);
-					console.log('Monday', filteredDay);
 					return setSearch(filteredDay);
 				} else if (checkIn === 2) {
 					const filteredDay = filteredLoc.filter(
@@ -91,7 +82,6 @@ function Search(location) {
 							studio.openingOption === 'Always Available' ||
 							studio.openingOption === 'On Request'
 					);
-					console.log('Thuesday', filteredDay);
 					return setSearch(filteredDay);
 				} else if (checkIn === 3) {
 					const filteredDay = filteredLoc.filter(
@@ -100,7 +90,6 @@ function Search(location) {
 							studio.openingOption === 'Always Available' ||
 							studio.openingOption === 'On Request'
 					);
-					console.log('Wednesday', filteredDay);
 					return setSearch(filteredDay);
 				} else if (checkIn === 4) {
 					const filteredDay = filteredLoc.filter(
@@ -109,7 +98,6 @@ function Search(location) {
 							studio.openingOption === 'Always Available' ||
 							studio.openingOption === 'On Request'
 					);
-					console.log('Thursday', filteredDay);
 					return setSearch(filteredDay);
 				} else if (checkIn === 5) {
 					const filteredDay = filteredLoc.filter(
@@ -118,7 +106,6 @@ function Search(location) {
 							studio.openingOption === 'Always Available' ||
 							studio.openingOption === 'On Request'
 					);
-					console.log('Friday', filteredDay);
 					return setSearch(filteredDay);
 				} else if (checkIn === 6) {
 					const filteredDay = filteredLoc.filter(
@@ -127,13 +114,9 @@ function Search(location) {
 							studio.openingOption === 'Always Available' ||
 							studio.openingOption === 'On Request'
 					);
-					console.log('Saturday', filteredDay);
 					return setSearch(filteredDay);
 				}
-
-				console.log('devam');
 			}
-
 			return setSearch(filteredLoc);
 		}
 	}, [router.query, searchFilter]);

@@ -3,28 +3,21 @@ import React, { useState, useEffect, useRef } from 'react';
 import { DateRange } from 'react-date-range';
 import format from 'date-fns/format';
 import { useRouter } from 'next/router';
-//Assets
-
 //styles
 import { MagnifyingGlassIcon, UsersIcon } from '@heroicons/react/24/solid';
-import { TbBorderOuter } from 'react-icons/tb';
 
 function SearchBar() {
 	//search
 	const [searchInput, setSearchInput] = useState('');
 	const router = useRouter();
-	const [routerPath, setRouterPath] = useState('');
 	const search = (event) => {
 		event.preventDefault();
 		if (searchInput !== '') {
-			// if (router.query.location !== routerPath.location) {
 			router.push({
 				pathname: '/search',
 				query: {
 					location: searchInput !== '' ? searchInput : '',
 					startDate: startDate.toISOString(),
-					// startDate: format(startDate, 'dd/MM/yyyy'),
-					// endDate: format(endDate, 'yyy/MM/dd'),
 					endDate: endDate.toISOString(),
 					noOfGuests,
 					servicesSelected,
@@ -50,17 +43,13 @@ function SearchBar() {
 	const refOne = useRef(null);
 	const refTwo = useRef(null);
 	useEffect(() => {
-		//set calender to close
 		document.addEventListener('click', hideOnOutsideClick, true);
-		//set search filter to close
 		document.addEventListener('click', hideOnOutsideClick, true);
 	}, []);
 	const hideOnOutsideClick = (event) => {
-		//set calender to close
 		if (refOne.current && !refOne.current.contains(event.target)) {
 			setCalenderOpen(false);
 		}
-		//set search filter to close
 		if (refTwo.current && !refTwo.current.contains(event.target)) {
 			setSearchInput('');
 		}

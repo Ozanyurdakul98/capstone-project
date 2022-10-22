@@ -1,6 +1,6 @@
 import React from 'react';
 //hooks
-import { useEffect, useLayoutEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 //tools
 import Image from 'next/image';
 import { nanoid } from 'nanoid';
