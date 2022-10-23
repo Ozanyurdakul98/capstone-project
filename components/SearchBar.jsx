@@ -4,7 +4,12 @@ import { DateRange } from 'react-date-range';
 import format from 'date-fns/format';
 import { useRouter } from 'next/router';
 //styles
-import { MagnifyingGlassIcon, UsersIcon } from '@heroicons/react/24/solid';
+import {
+	MagnifyingGlassIcon,
+	UsersIcon,
+	PlusCircleIcon,
+	MinusCircleIcon,
+} from '@heroicons/react/24/solid';
 
 function SearchBar() {
 	//search
@@ -68,6 +73,19 @@ function SearchBar() {
 	//guests
 	const [guestsButton, setGuestsButton] = useState('');
 	const [noOfGuests, setNoOfGuest] = useState(1);
+	const handleGuestInput = () => {};
+	const handleGuestInputPlus = () => {
+		setNoOfGuest((before) => before + 1);
+		if (noOfGuests >= 20) {
+			setNoOfGuest(20);
+		}
+	};
+	const handleGuestInputMinus = () => {
+		setNoOfGuest((before) => before - 1);
+		if (noOfGuests <= 1) {
+			setNoOfGuest(1);
+		}
+	};
 	//services
 	const [servicesSelected, setServicesSelected] = useState('recording');
 	const [servicesButton, setServicesButton] = useState('');
@@ -105,11 +123,11 @@ function SearchBar() {
 			{/* SearchInput */}
 			<form
 				onSubmit={search}
-				className='flex  flex-1 items-center space-x-2 rounded-full border border-gray-300 bg-gray-100 px-3 py-1 shadow-sm md:shadow-lg'
+				className=' relative z-50 flex flex-1 items-center space-x-2 rounded-full border border-gray-300 bg-gray-100 px-3 py-1 shadow-sm md:shadow-lg'
 			>
 				<MagnifyingGlassIcon className='h-6 w-6 shrink-0 cursor-pointer rounded-full bg-black/30 p-1 text-white' />
 				<input
-					className='flex-1 border-none bg-transparent outline-none'
+					className='relative z-50 flex-1 border-none bg-transparent outline-none'
 					type='text'
 					placeholder='type your location '
 					value={searchInput}
@@ -119,7 +137,7 @@ function SearchBar() {
 
 			{/* SearchInput-DropDown */}
 			{searchInput && (
-				<div className='absolute left-0 z-50 flex w-full flex-col gap-8 bg-white pb-5 pt-5'>
+				<div className=' searchFadein absolute left-0 z-40  flex w-full flex-col gap-8 bg-white pb-5 pt-5'>
 					<div className='flex flex-shrink-0 justify-center gap-2'>
 						{dateButton ? (
 							<button
@@ -177,7 +195,7 @@ function SearchBar() {
 									ref={refOne}
 								>
 									<input
-										className='rounded-full'
+										className='date-search '
 										value={format(startDate, 'dd/MM/yy') + ' - ' + format(endDate, 'dd/MM/yy')}
 										readOnly
 										onClick={() => {
@@ -203,14 +221,23 @@ function SearchBar() {
 							<div className='mb-4 flex items-center border-b'>
 								<h4 className='h4 flex-grow'>Number of Guests</h4>
 								<UsersIcon className='icon ml-5' />
-								<input
-									className='number-search'
-									type='number'
-									min={1}
-									max={20}
-									value={noOfGuests}
-									onChange={(e) => setNoOfGuest(e.target.value)}
-								/>
+								<div className='ml-5 flex items-center'>
+									<button className='icon-big cursor-pointer'>
+										<MinusCircleIcon onClick={handleGuestInputMinus} />
+									</button>
+									<input
+										className='number-search text-center'
+										type='number'
+										min={1}
+										max={20}
+										value={noOfGuests}
+										onChange={handleGuestInput}
+										disabled
+									/>
+									<button className='icon-big cursor-cell '>
+										<PlusCircleIcon onClick={handleGuestInputPlus} />
+									</button>
+								</div>
 							</div>
 						)}
 						{servicesButton && (

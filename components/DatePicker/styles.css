@@ -10,30 +10,27 @@
 }
 
 .rdrDateDisplay {
-	display: flex;
-	justify-content: space-between;
+	display: none;
 }
 
 .rdrDateDisplayItem {
-	flex: 1 1;
-	width: 0;
-	text-align: center;
-	color: inherit;
+	display: none;
 }
 
 .rdrDateDisplayItem + .rdrDateDisplayItem {
-	margin-left: 0.833em;
+	display: none;
 }
 
 .rdrDateDisplayItem input {
-	text-align: inherit;
+	display: none;
 }
 
 .rdrDateDisplayItem input:disabled {
-	cursor: pointer;
+	display: none;
 }
 
 .rdrDateDisplayItemActive {
+	display: none;
 }
 
 .rdrMonthAndYearWrapper {
@@ -57,7 +54,7 @@
 
 .rdrNextPrevButton {
 	box-sizing: inherit;
-	cursor: pointer;
+	cursor: grabbing;
 	outline: none;
 }
 
@@ -138,7 +135,7 @@
 	width: calc(100% / 7);
 	position: relative;
 	font: inherit;
-	cursor: pointer;
+	cursor: grabbing;
 }
 
 .rdrDayNumber {

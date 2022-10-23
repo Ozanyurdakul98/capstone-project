@@ -11,6 +11,9 @@
 	.icon {
 		@apply h-9 w-6 cursor-pointer rounded-sm  lg:w-9 lg:p-1 lg:hover:bg-gray-100;
 	}
+	.icon-big {
+		@apply h-12 w-8 transform cursor-pointer rounded-sm text-[#1e90ff] transition duration-100 active:text-black lg:w-12 lg:p-1 lg:hover:text-opacity-80;
+	}
 	.login-button {
 		@apply rounded bg-amber-300 py-2 px-4 shadow outline-none hover:bg-amber-400 active:bg-red-100;
 	}
@@ -27,18 +30,43 @@
 	}
 
 	.number-search {
-		@apply mb-1 h-10 w-20 rounded-full border  bg-[#1e90ff] px-5  text-white outline-none;
+		@apply mb-1 h-10 w-14 rounded-full border  bg-[#1e90ff] px-4  text-white outline-none;
 	}
 	.select-search {
-		@apply top-1 mb-1 h-10 max-w-min rounded-full bg-[#1e90ff] pl-5  text-white after:absolute after:h-5 after:w-5;
+		@apply top-1 mb-1 h-10 max-w-min cursor-pointer  rounded-full bg-[#1e90ff] pl-5  text-white after:absolute after:h-5 after:w-5;
 	}
-
+	.date-search {
+		@apply mb-2 cursor-pointer rounded-full text-center outline-none;
+	}
 	.h4 {
 		@apply text-lg font-semibold;
 	}
 
+	.searchFadein {
+		animation: fadeInAnimation 200ms;
+	}
+
+	@keyframes fadeInAnimation {
+		from {
+			opacity: 0;
+			transform: translateY(-70%);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
 	/* Set all svg colors
 	svg {
 		@apply primary-color;
 	} */
+}
+@layer base {
+	input[type='number']::-webkit-outer-spin-button,
+	input[type='number']::-webkit-inner-spin-button,
+	input[type='number'] {
+		-webkit-appearance: none;
+		margin: 0;
+		-moz-appearance: textfield !important;
+	}
 }
