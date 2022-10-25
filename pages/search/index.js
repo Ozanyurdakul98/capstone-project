@@ -22,7 +22,6 @@ export async function getServerSideProps(context) {
 }
 
 const listings = fakeData.studioListings;
-
 function Search(location) {
 	const [search, setSearch] = useState(listings);
 	const [searchFilter, setSearchFilter] = useState('');
@@ -30,6 +29,8 @@ function Search(location) {
 	const refreshData = () => {
 		router.replace(router.asPath);
 	};
+	console.log('router', router.query.startDate);
+	console.log('state', searchFilter.startDate);
 
 	useEffect(() => {
 		const weekdays = [
@@ -49,8 +50,10 @@ function Search(location) {
 		if (
 			router.query.location !== searchFilter.location ||
 			router.query.noOfGuests !== searchFilter.noOfGuests ||
-			router.query.servicesSelected !== searchFilter.servicesSelected
+			router.query.servicesSelected !== searchFilter.servicesSelected ||
+			router.query.startDate !== searchFilter.startDate
 		) {
+			console.log('firing');
 			setSearchFilter(location);
 			return refreshData();
 		}
@@ -83,13 +86,7 @@ function Search(location) {
 			);
 			setSearch(filteredLocation);
 		}
-	}, [
-		router.query.location,
-		router.query.noOfGuests,
-		router.query.servicesSelected,
-		router.query,
-		searchFilter,
-	]);
+	}, [router.query, searchFilter]);
 
 	const date = new Date(location.startDate);
 	return (
