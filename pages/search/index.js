@@ -54,7 +54,7 @@ function Search(location) {
 			setSearchFilter(location);
 			return refreshData();
 		}
-		if (checkInDay === weekdayMap[checkInDay]) {
+		if (searchFilter.location || checkInDay === weekdayMap[checkInDay]) {
 			const filteredLocation = listings
 				.filter((studio) =>
 					studio.location.toLowerCase().includes(searchFilter.location.toLowerCase())
@@ -73,9 +73,23 @@ function Search(location) {
 						studio.openingOption === 'Always Available' ||
 						studio.openingOption === 'On Request'
 				);
-			return setSearch(filteredLocation);
+			console.log(
+				listings.filter(
+					(studio) =>
+						studio.openingCustom?.[weekdays[checkInDay]] ||
+						studio.openingOption === 'Always Available' ||
+						studio.openingOption === 'On Request'
+				)
+			);
+			setSearch(filteredLocation);
 		}
-	}, [router.query.location, router.query.noOfGuests, router.query.servicesSelected, searchFilter]);
+	}, [
+		router.query.location,
+		router.query.noOfGuests,
+		router.query.servicesSelected,
+		router.query,
+		searchFilter,
+	]);
 
 	const date = new Date(location.startDate);
 	return (
