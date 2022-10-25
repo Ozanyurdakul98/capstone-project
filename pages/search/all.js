@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 //db
 import { fakeData } from '../../db/fakedata';
 //components
@@ -20,16 +20,14 @@ export async function getServerSideProps(context) {
 	};
 }
 
-const listings = fakeData.studioListings;
+const allResults = fakeData.studioListings;
 
 function Search() {
-	const [search, setSearch] = useState(listings);
-
 	return (
 		<>
 			<h1>All Search results</h1>
 			<>
-				{search.map(
+				{allResults.map(
 					({
 						title,
 						img,

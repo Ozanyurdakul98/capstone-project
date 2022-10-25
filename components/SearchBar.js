@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { DateRange } from 'react-date-range';
 import format from 'date-fns/format';
 import { useRouter } from 'next/router';
+import { nanoid } from 'nanoid';
 //styles
 import {
 	MagnifyingGlassIcon,
@@ -15,7 +16,7 @@ function SearchBar() {
 	//search
 	const [searchInput, setSearchInput] = useState('');
 	const router = useRouter();
-	const search = (event) => {
+	const handleSearch = (event) => {
 		event.preventDefault();
 		if (searchInput !== '') {
 			router.push({
@@ -26,36 +27,36 @@ function SearchBar() {
 					endDate: endDate.toISOString(),
 					noOfGuests,
 					servicesSelected,
+					id: nanoid(),
 				},
 			});
 
-			return setSearchInput('');
+			setSearchInput('');
 		} else if (searchInput === '') {
 			router.push({
 				pathname: '/search/all',
 				query: {},
 			});
-			return setSearchInput('');
 		} else {
-			return alert('please enter a location');
+			alert('please enter a location');
+			return;
 		}
 	};
 	//date
-	const [dateButton, setDateButton] = useState(true);
+	const [dateButtonActive, setDateButtonActive] = useState(true);
 	const [calenderOpen, setCalenderOpen] = useState(false);
 	const [startDate, setStartDate] = useState(new Date());
 	const [endDate, setEndDate] = useState(new Date());
-	const refOne = useRef(null);
-	const refTwo = useRef(null);
+	const closeCalendarContainer = useRef(null);
+	const closeSearchContainer = useRef(null);
 	useEffect(() => {
-		document.addEventListener('click', hideOnOutsideClick, true);
-		document.addEventListener('click', hideOnOutsideClick, true);
+		document.body.addEventListener('click', hideOnOutsideClick, true);
 	}, []);
 	const hideOnOutsideClick = (event) => {
-		if (refOne.current && !refOne.current.contains(event.target)) {
+		if (closeCalendarContainer.current && !closeCalendarContainer.current.contains(event.target)) {
 			setCalenderOpen(false);
 		}
-		if (refTwo.current && !refTwo.current.contains(event.target)) {
+		if (closeSearchContainer.current && !closeSearchContainer.current.contains(event.target)) {
 			setSearchInput('');
 		}
 	};
@@ -71,58 +72,51 @@ function SearchBar() {
 	};
 
 	//guests
-	const [guestsButton, setGuestsButton] = useState('');
+	const [guestsButtonActive, setGuestsButtonActive] = useState('');
 	const [noOfGuests, setNoOfGuest] = useState(1);
-	const handleGuestInput = () => {};
 	const handleGuestInputPlus = () => {
-		setNoOfGuest((before) => before + 1);
-		if (noOfGuests >= 20) {
-			setNoOfGuest(20);
-		}
+		setNoOfGuest((counter) => counter + 1);
 	};
 	const handleGuestInputMinus = () => {
-		setNoOfGuest((before) => before - 1);
-		if (noOfGuests <= 1) {
-			setNoOfGuest(1);
-		}
+		setNoOfGuest((counter) => counter - 1);
 	};
 	//services
+	const [servicesButtonActive, setServicesButtonActive] = useState('');
 	const [servicesSelected, setServicesSelected] = useState('recording');
-	const [servicesButton, setServicesButton] = useState('');
 	const handleServicesSelect = (event) => {
 		setServicesSelected(event.target.value);
 	};
 	//buttons
 	const handleButtonDate = () => {
-		if (guestsButton || servicesButton) {
-			setServicesButton('');
-			setGuestsButton('');
+		if (guestsButtonActive || servicesButtonActive) {
+			setServicesButtonActive('');
+			setGuestsButtonActive('');
 		}
-		setDateButton((before) => !before);
+		setDateButtonActive((before) => !before);
 	};
 	const handleButtonGuests = () => {
-		if (dateButton || servicesButton) {
-			setDateButton('');
-			setServicesButton('');
+		if (dateButtonActive || servicesButtonActive) {
+			setDateButtonActive('');
+			setServicesButtonActive('');
 		}
-		setGuestsButton((before) => !before);
+		setGuestsButtonActive((before) => !before);
 	};
 	const handleButtonServices = () => {
-		if (dateButton || guestsButton) {
-			setDateButton('');
-			setGuestsButton('');
+		if (dateButtonActive || guestsButtonActive) {
+			setDateButtonActive('');
+			setGuestsButtonActive('');
 		}
-		setServicesButton((before) => !before);
+		setServicesButtonActive((before) => !before);
 	};
 
 	return (
 		<div
 			className='relative w-full'
-			ref={refTwo}
+			ref={closeSearchContainer}
 		>
 			{/* SearchInput */}
 			<form
-				onSubmit={search}
+				onSubmit={handleSearch}
 				className=' relative z-50 flex flex-1 items-center space-x-2 rounded-full border border-gray-300 bg-gray-100 px-3 py-1 shadow-sm md:shadow-lg'
 			>
 				<MagnifyingGlassIcon className='h-6 w-6 shrink-0 cursor-pointer rounded-full bg-black/30 p-1 text-white' />
@@ -139,60 +133,33 @@ function SearchBar() {
 			{searchInput && (
 				<div className=' searchFadein absolute left-0 z-40  flex w-full flex-col gap-8 bg-white pb-5 pt-5'>
 					<div className='flex flex-shrink-0 justify-center gap-2'>
-						{dateButton ? (
-							<button
-								onClick={handleButtonDate}
-								className='button-active '
-							>
-								When?
-							</button>
-						) : (
-							<button
-								onClick={handleButtonDate}
-								className='button '
-							>
-								When?
-							</button>
-						)}
+						<button
+							onClick={handleButtonDate}
+							className={dateButtonActive ? 'button-active' : 'button'}
+						>
+							When?
+						</button>
 
-						{guestsButton ? (
-							<button
-								onClick={handleButtonGuests}
-								className='button-active '
-							>
-								Guests?
-							</button>
-						) : (
-							<button
-								onClick={handleButtonGuests}
-								className='button '
-							>
-								Guests?
-							</button>
-						)}
+						<button
+							onClick={handleButtonGuests}
+							className={guestsButtonActive ? 'button-active' : 'button'}
+						>
+							Guests?
+						</button>
 
-						{servicesButton ? (
-							<button
-								onClick={handleButtonServices}
-								className='button-active '
-							>
-								Services?
-							</button>
-						) : (
-							<button
-								onClick={handleButtonServices}
-								className='button '
-							>
-								Services?
-							</button>
-						)}
+						<button
+							onClick={handleButtonServices}
+							className={servicesButtonActive ? 'button-active' : 'button'}
+						>
+							Services?
+						</button>
 					</div>
 					<div className=' flex w-screen flex-col items-center justify-center'>
-						{dateButton && (
+						{dateButtonActive && (
 							<>
 								<div
 									className='flex max-w-min flex-col items-center justify-center'
-									ref={refOne}
+									ref={closeCalendarContainer}
 								>
 									<input
 										className='date-search '
@@ -217,30 +184,37 @@ function SearchBar() {
 								</div>
 							</>
 						)}
-						{guestsButton && (
+						{guestsButtonActive && (
 							<div className='mb-4 flex items-center border-b'>
 								<h4 className='h4 flex-grow'>Number of Guests</h4>
 								<UsersIcon className='icon ml-5' />
 								<div className='ml-5 flex items-center'>
-									<button className='icon-big cursor-pointer'>
-										<MinusCircleIcon onClick={handleGuestInputMinus} />
+									<button
+										className='icon-big cursor-pointer'
+										onClick={handleGuestInputMinus}
+										disabled={noOfGuests === 1}
+									>
+										<MinusCircleIcon />
 									</button>
 									<input
-										className='number-search text-center'
+										className='number-search text-center disabled:text-white'
 										type='number'
 										min={1}
-										max={20}
+										max={15}
 										value={noOfGuests}
-										onChange={handleGuestInput}
 										disabled
 									/>
-									<button className='icon-big cursor-cell '>
-										<PlusCircleIcon onClick={handleGuestInputPlus} />
+									<button
+										className='icon-big cursor-cell '
+										onClick={handleGuestInputPlus}
+										disabled={noOfGuests === 15}
+									>
+										<PlusCircleIcon />
 									</button>
 								</div>
 							</div>
 						)}
-						{servicesButton && (
+						{servicesButtonActive && (
 							<div className='mb-4 flex items-center border-b'>
 								<h4 className='h4 flex-grow'>Services</h4>
 								<select
@@ -268,7 +242,7 @@ function SearchBar() {
 							Cancel
 						</button>
 						<button
-							onClick={search}
+							onClick={handleSearch}
 							className='button flex-grow justify-center border-none bg-green-500 text-white'
 						>
 							Search

@@ -14,6 +14,7 @@ import { TbSmoking } from 'react-icons/tb';
 import { MdBed } from 'react-icons/md';
 
 function ListingCards({
+	_id,
 	title,
 	img,
 	studiotype,
@@ -87,8 +88,8 @@ function ListingCards({
 							<>
 								{slicedServices.map((item, index) => (
 									<p
+										key={index}
 										className='rounded-full bg-red-200 px-[9px] text-xs sm:text-sm md:text-lg'
-										key={nanoid()}
 									>
 										{item}
 									</p>
@@ -98,7 +99,7 @@ function ListingCards({
 						) : (
 							services.map((service, index) => (
 								<p
-									key={nanoid()}
+									key={index}
 									className='rounded-full bg-red-200 px-[9px] text-xs sm:text-sm md:text-lg'
 								>
 									{service}

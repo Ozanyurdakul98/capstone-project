@@ -1,7 +1,8 @@
+import { nanoid } from 'nanoid';
 const fakeData = {
 	studioListings: [
 		{
-			_id: '1',
+			_id: `${nanoid()}`,
 			user: 'Admin',
 			title: 'Premiumstudio for your perfect Sound',
 			studioname: 'SoundDeluxe',
@@ -57,7 +58,7 @@ const fakeData = {
 		},
 
 		{
-			_id: '2',
+			_id: `${nanoid()}`,
 			user: 'User1',
 			title: 'I mix your tracks to perfection for a little price',
 			studioname: 'Sound300',
@@ -106,7 +107,7 @@ const fakeData = {
 		},
 
 		{
-			_id: '3',
+			_id: `${nanoid()}`,
 			user: 'User2',
 			title: 'Mediumstudio to fit your needs',
 			studioname: 'SoundDeluxe',
