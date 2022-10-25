@@ -1,9 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
+//Components
+import {
+	ClickToCloseFullscreen as ClickToCloseMax,
+	ClickToCloseDiv as ClickToCloseMin,
+} from './ClickToClose';
 //tools
 import { DateRange } from 'react-date-range';
 import format from 'date-fns/format';
 import { useRouter } from 'next/router';
-import { nanoid } from 'nanoid';
 //styles
 import {
 	MagnifyingGlassIcon,
@@ -15,6 +19,7 @@ import {
 function SearchBar() {
 	//search
 	const [searchInput, setSearchInput] = useState('');
+	const [activePanel, setActivePanel] = useState('calendar');
 	const router = useRouter();
 	const handleSearch = (event) => {
 		event.preventDefault();
@@ -27,7 +32,6 @@ function SearchBar() {
 					endDate: endDate.toISOString(),
 					noOfGuests,
 					servicesSelected,
-					id: nanoid(),
 				},
 			});
 
@@ -43,22 +47,15 @@ function SearchBar() {
 		}
 	};
 	//date
-	const [dateButtonActive, setDateButtonActive] = useState(true);
 	const [calenderOpen, setCalenderOpen] = useState(false);
 	const [startDate, setStartDate] = useState(new Date());
 	const [endDate, setEndDate] = useState(new Date());
-	const closeCalendarContainer = useRef(null);
-	const closeSearchContainer = useRef(null);
-	useEffect(() => {
-		document.body.addEventListener('click', hideOnOutsideClick, true);
-	}, []);
-	const hideOnOutsideClick = (event) => {
-		if (closeCalendarContainer.current && !closeCalendarContainer.current.contains(event.target)) {
-			setCalenderOpen(false);
-		}
-		if (closeSearchContainer.current && !closeSearchContainer.current.contains(event.target)) {
-			setSearchInput('');
-		}
+
+	const handleCTCSearch = () => {
+		setSearchInput('');
+	};
+	const handleCTCCalendar = () => {
+		setCalenderOpen(false);
 	};
 	const selectionRange = {
 		startDate: startDate,
@@ -72,7 +69,6 @@ function SearchBar() {
 	};
 
 	//guests
-	const [guestsButtonActive, setGuestsButtonActive] = useState('');
 	const [noOfGuests, setNoOfGuest] = useState(1);
 	const handleGuestInputPlus = () => {
 		setNoOfGuest((counter) => counter + 1);
@@ -81,39 +77,13 @@ function SearchBar() {
 		setNoOfGuest((counter) => counter - 1);
 	};
 	//services
-	const [servicesButtonActive, setServicesButtonActive] = useState('');
 	const [servicesSelected, setServicesSelected] = useState('recording');
 	const handleServicesSelect = (event) => {
 		setServicesSelected(event.target.value);
 	};
-	//buttons
-	const handleButtonDate = () => {
-		if (guestsButtonActive || servicesButtonActive) {
-			setServicesButtonActive('');
-			setGuestsButtonActive('');
-		}
-		setDateButtonActive((before) => !before);
-	};
-	const handleButtonGuests = () => {
-		if (dateButtonActive || servicesButtonActive) {
-			setDateButtonActive('');
-			setServicesButtonActive('');
-		}
-		setGuestsButtonActive((before) => !before);
-	};
-	const handleButtonServices = () => {
-		if (dateButtonActive || guestsButtonActive) {
-			setDateButtonActive('');
-			setGuestsButtonActive('');
-		}
-		setServicesButtonActive((before) => !before);
-	};
 
 	return (
-		<div
-			className='relative w-full'
-			ref={closeSearchContainer}
-		>
+		<div className='flex w-full items-center justify-center'>
 			{/* SearchInput */}
 			<form
 				onSubmit={handleSearch}
@@ -128,39 +98,35 @@ function SearchBar() {
 					onChange={(e) => setSearchInput(e.target.value.toLowerCase())}
 				/>
 			</form>
-
 			{/* SearchInput-DropDown */}
 			{searchInput && (
-				<div className=' searchFadein absolute left-0 z-40  flex w-full flex-col gap-8 bg-white pb-5 pt-5'>
-					<div className='flex flex-shrink-0 justify-center gap-2'>
-						<button
-							onClick={handleButtonDate}
-							className={dateButtonActive ? 'button-active' : 'button'}
-						>
-							When?
-						</button>
+				<>
+					<div className='searchFadein absolute top-16 z-40 flex min-h-64  w-full  flex-col  rounded-2xl bg-white pb-5 pt-5 shadow-xxl  md:min-h-72 md:w-11/12 xl:w-6/12'>
+						<div className='relative z-40 flex min-h-20  items-center justify-center gap-2'>
+							<button
+								onClick={() => setActivePanel('calendar')}
+								className={activePanel === 'calendar' ? 'button-active' : 'button'}
+							>
+								When?
+							</button>
 
-						<button
-							onClick={handleButtonGuests}
-							className={guestsButtonActive ? 'button-active' : 'button'}
-						>
-							Guests?
-						</button>
+							<button
+								onClick={() => setActivePanel('guests')}
+								className={activePanel === 'guests' ? 'button-active' : 'button'}
+							>
+								Guests?
+							</button>
 
-						<button
-							onClick={handleButtonServices}
-							className={servicesButtonActive ? 'button-active' : 'button'}
-						>
-							Services?
-						</button>
-					</div>
-					<div className=' flex w-screen flex-col items-center justify-center'>
-						{dateButtonActive && (
-							<>
-								<div
-									className='flex max-w-min flex-col items-center justify-center'
-									ref={closeCalendarContainer}
-								>
+							<button
+								onClick={() => setActivePanel('services')}
+								className={activePanel === 'services' ? 'button-active' : 'button'}
+							>
+								Services?
+							</button>
+						</div>
+						<div className=' flex min-h-28 w-full  flex-col items-center '>
+							{activePanel === 'calendar' && (
+								<div className='flex max-w-min flex-col items-center justify-center'>
 									<input
 										className='date-search '
 										value={format(startDate, 'dd/MM/yy') + ' - ' + format(endDate, 'dd/MM/yy')}
@@ -170,85 +136,91 @@ function SearchBar() {
 										}}
 									/>
 									{calenderOpen && (
-										<DateRange
-											className='max-w-min'
-											ranges={[selectionRange]}
-											rangeColors={['#df1b1b']}
-											showMonthAndYearPickers={false}
-											onChange={handleSelect}
-											minDate={new Date()}
-											calendarFocus={'forwards'}
-											moveRangeOnFirstSelection={false}
-										/>
+										<>
+											<DateRange
+												className='relative z-40 max-w-min'
+												ranges={[selectionRange]}
+												rangeColors={['#df1b1b']}
+												showMonthAndYearPickers={false}
+												onChange={handleSelect}
+												minDate={new Date()}
+												calendarFocus={'forwards'}
+												moveRangeOnFirstSelection={false}
+											/>
+											<ClickToCloseMin onClick={(event) => handleCTCCalendar(event)} />
+										</>
 									)}
 								</div>
-							</>
-						)}
-						{guestsButtonActive && (
-							<div className='mb-4 flex items-center border-b'>
-								<h4 className='h4 flex-grow'>Number of Guests</h4>
-								<UsersIcon className='icon ml-5' />
-								<div className='ml-5 flex items-center'>
-									<button
-										className='icon-big cursor-pointer'
-										onClick={handleGuestInputMinus}
-										disabled={noOfGuests === 1}
-									>
-										<MinusCircleIcon />
-									</button>
-									<input
-										className='number-search text-center disabled:text-white'
-										type='number'
-										min={1}
-										max={15}
-										value={noOfGuests}
-										disabled
-									/>
-									<button
-										className='icon-big cursor-cell '
-										onClick={handleGuestInputPlus}
-										disabled={noOfGuests === 15}
-									>
-										<PlusCircleIcon />
-									</button>
+							)}
+							{activePanel === 'guests' && (
+								<div className='mb-4 flex items-center border-b'>
+									<h4 className='h4 flex-grow'>Number of Guests</h4>
+									<UsersIcon className='icon ml-5' />
+									<div className='ml-5 flex items-center'>
+										<button
+											className='icon-big cursor-pointer'
+											onClick={handleGuestInputMinus}
+											disabled={noOfGuests === 1}
+										>
+											<MinusCircleIcon />
+										</button>
+										<input
+											className='number-search text-center disabled:text-white'
+											type='number'
+											min={1}
+											max={15}
+											value={noOfGuests}
+											disabled
+										/>
+										<button
+											className='icon-big cursor-cell '
+											onClick={handleGuestInputPlus}
+											disabled={noOfGuests === 15}
+										>
+											<PlusCircleIcon />
+										</button>
+									</div>
 								</div>
-							</div>
-						)}
-						{servicesButtonActive && (
-							<div className='mb-4 flex items-center border-b'>
-								<h4 className='h4 flex-grow'>Services</h4>
-								<select
-									className='select-search ml-5'
-									onChange={(event) => handleServicesSelect(event)}
-									value={servicesSelected}
-									name='services'
-								>
-									<option value='recording'>Recording</option>
-									<option value='mix'>Mix</option>
-									<option value='master'>Master</option>
-									<option value='musicProduction'>Music Production</option>
-									<option value='podcast & Audiobook'>Podcast & Audiobook</option>
-									<option value='rent Studio'>Rent a Studio</option>
-								</select>
-							</div>
-						)}
+							)}
+							{activePanel === 'services' && (
+								<div className='mb-4 flex items-center border-b'>
+									<h4 className='h4 flex-grow'>Services</h4>
+									<select
+										className='select-search ml-5'
+										onChange={(event) => handleServicesSelect(event)}
+										value={servicesSelected}
+										name='services'
+									>
+										<option value='recording'>Recording</option>
+										<option value='mix'>Mix</option>
+										<option value='master'>Master</option>
+										<option value='musicProduction'>Music Production</option>
+										<option value='podcast & Audiobook'>Podcast & Audiobook</option>
+										<option value='rent Studio'>Rent a Studio</option>
+									</select>
+								</div>
+							)}
+						</div>
+						<div className='flex-end relative z-40 mx-5 flex h-16 items-center justify-between gap-2   border-t-2 pt-5'>
+							<button
+								onClick={() => setSearchInput('')}
+								className='button flex-grow  justify-center border-none bg-red-500 text-white'
+							>
+								Cancel
+							</button>
+							<button
+								onClick={handleSearch}
+								className='button flex-grow justify-center border-none bg-green-500 text-white'
+							>
+								Search
+							</button>
+						</div>
 					</div>
-
-					<div className='mx-5 flex items-center justify-between gap-2 border-t-2 pt-5'>
-						<button
-							onClick={() => setSearchInput('')}
-							className='button flex-grow  justify-center border-none bg-red-500 text-white'
-						>
-							Cancel
-						</button>
-						<button
-							onClick={handleSearch}
-							className='button flex-grow justify-center border-none bg-green-500 text-white'
-						>
-							Search
-						</button>
-					</div>
-				</div>
+					<ClickToCloseMax
+						style={'bg-black/50'}
+						onClick={(event) => handleCTCSearch(event)}
+					/>
+				</>
 			)}
 		</div>
 	);

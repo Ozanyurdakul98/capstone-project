@@ -7,7 +7,7 @@ import Header from './Header';
 
 export default function Layout({ children }) {
 	return (
-		<div>
+		<div className=' relative'>
 			<Head>
 				<title>Tonstudio-Kleinanzeigen</title>
 				<link

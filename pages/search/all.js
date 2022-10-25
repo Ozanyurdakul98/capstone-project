@@ -2,7 +2,7 @@ import React from 'react';
 //db
 import { fakeData } from '../../db/fakedata';
 //components
-import ListingCards from '../../components/ListingCards';
+import ListingCards from '../../components/ListingCard';
 import { nanoid } from 'nanoid';
 
 export async function getServerSideProps(context) {

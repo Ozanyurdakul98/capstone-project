@@ -5,7 +5,7 @@ import format from 'date-fns/format';
 //db
 import { fakeData } from '../../db/fakedata';
 //components
-import ListingCards from '../../components/ListingCards';
+import ListingCard from '../../components/ListingCard';
 
 export async function getServerSideProps(context) {
 	const query = context.query;
@@ -21,18 +21,12 @@ export async function getServerSideProps(context) {
 	};
 }
 
-const listings = fakeData.studioListings;
 function Search(location) {
-	const [search, setSearch] = useState(listings);
+	const listings = fakeData.studioListings;
 	const [searchFilter, setSearchFilter] = useState('');
 	const router = useRouter();
-	const refreshData = () => {
-		router.replace(router.asPath);
-	};
-	console.log('router', router.query.startDate);
-	console.log('state', searchFilter.startDate);
 
-	useEffect(() => {
+	function filterStudioListings() {
 		const weekdays = [
 			'sunday',
 			'monday',
@@ -42,10 +36,6 @@ function Search(location) {
 			'friday',
 			'saturday',
 		];
-		const weekdayNumbers = [0, 1, 2, 3, 4, 5, 6];
-		const weekdayMap = weekdayNumbers.map((day) => {
-			return day;
-		});
 		const checkInDay = new Date(location.startDate).getDay();
 		if (
 			router.query.location !== searchFilter.location ||
@@ -53,50 +43,38 @@ function Search(location) {
 			router.query.servicesSelected !== searchFilter.servicesSelected ||
 			router.query.startDate !== searchFilter.startDate
 		) {
-			console.log('firing');
 			setSearchFilter(location);
-			return refreshData();
 		}
-		if (searchFilter.location || checkInDay === weekdayMap[checkInDay]) {
-			const filteredLocation = listings
-				.filter((studio) =>
-					studio.location.toLowerCase().includes(searchFilter.location.toLowerCase())
-				)
-				.filter((studio) => studio.maxGuests >= searchFilter.noOfGuests)
-				.filter((studio) =>
-					studio.services
-						.map((element) => {
-							return element.toLowerCase();
-						})
-						.includes(searchFilter.servicesSelected.toLowerCase())
-				)
-				.filter(
-					(studio) =>
-						studio.openingCustom?.[weekdays[checkInDay]] ||
-						studio.openingOption === 'Always Available' ||
-						studio.openingOption === 'On Request'
-				);
-			console.log(
-				listings.filter(
-					(studio) =>
-						studio.openingCustom?.[weekdays[checkInDay]] ||
-						studio.openingOption === 'Always Available' ||
-						studio.openingOption === 'On Request'
-				)
+		const filteredLocation = listings
+			.filter((studio) =>
+				studio.location?.toLowerCase().includes(searchFilter.location?.toLowerCase())
+			)
+			.filter((studio) => studio.maxGuests >= searchFilter.noOfGuests)
+			.filter((studio) =>
+				studio.services
+					.map((studio) => {
+						return studio.toLowerCase();
+					})
+					.includes(searchFilter.servicesSelected.toLowerCase())
+			)
+			.filter(
+				(studio) =>
+					studio.openingCustom?.[weekdays[checkInDay]] ||
+					studio.openingOption === 'Always Available' ||
+					studio.openingOption === 'On Request'
 			);
-			setSearch(filteredLocation);
-		}
-	}, [router.query, searchFilter]);
-
+		return filteredLocation;
+	}
+	const filteredStudioListings = filterStudioListings();
 	const date = new Date(location.startDate);
 	return (
 		<>
 			<h1>
 				Search results for
-				{format(date, ' dd/MM/yyyy')} and {location.location}
+				{format(date, 'dd/MM/yyyy')} and {location.location}
 			</h1>
 			<>
-				{search.map(
+				{filteredStudioListings.map(
 					({
 						_id,
 						title,
@@ -109,7 +87,7 @@ function Search(location) {
 						locationFeatures,
 						location,
 					}) => (
-						<ListingCards
+						<ListingCard
 							key={_id}
 							title={title}
 							img={img}
@@ -120,7 +98,7 @@ function Search(location) {
 							description={description}
 							locationFeatures={locationFeatures}
 							location={location}
-						></ListingCards>
+						></ListingCard>
 					)
 				)}
 			</>

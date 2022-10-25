@@ -16,6 +16,12 @@ module.exports = {
 				'primary-color': 'var(--primary-color)',
 				'secondary-color': 'var(--secondary-color)',
 			},
+			boxShadow: {
+				xxl: '0 45px 60px -15px rgba(0, 0, 0, 0.65)',
+			},
+			minHeight: (theme) => ({
+				...theme('spacing'),
+			}),
 		},
 	},
 	plugins: [],

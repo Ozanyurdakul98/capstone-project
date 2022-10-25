@@ -11,6 +11,9 @@
 	.icon {
 		@apply h-9 w-6 cursor-pointer rounded-sm  lg:w-9 lg:p-1 lg:hover:bg-gray-100;
 	}
+	.icon-sm {
+		@apply h-9 w-6 cursor-pointer rounded-sm  lg:w-9 lg:p-1 lg:hover:bg-gray-100;
+	}
 	.icon-big {
 		@apply h-12 w-8 transform cursor-pointer rounded-sm text-[#1e90ff] transition duration-100 active:text-black disabled:text-gray-400 lg:w-12 lg:p-1 lg:hover:text-opacity-80;
 	}
@@ -43,21 +46,28 @@
 	}
 
 	.searchFadein {
-		animation: fadeInAnimation 200ms;
+		animation: fadeInAnimation 250ms;
 	}
 
 	@keyframes fadeInAnimation {
 		from {
-			opacity: 0;
-			transform: translateY(-70%);
+			transform: translateY(-85%);
 		}
 		to {
-			opacity: 1;
 			transform: translateY(0);
 		}
 	}
-	/* Set all svg colors
-	svg {
+	/* //professional */
+	/* @keyframes fadeInAnimation {
+		from {
+			transform: translateY(-85%) translateX(-100%) rotate(23deg);
+		}
+		to {
+			transform: translateY(0) translateX(0) rotate(0deg);
+		}
+	} */
+
+	/* Set all svg colors svg {
 		@apply primary-color;
 	} */
 }

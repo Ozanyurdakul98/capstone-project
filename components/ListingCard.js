@@ -3,9 +3,7 @@ import React from 'react';
 import { useEffect, useState, useRef } from 'react';
 //tools
 import Image from 'next/image';
-import { nanoid } from 'nanoid';
 //icons
-import { IconContext } from 'react-icons';
 import { FiHeart } from 'react-icons/fi';
 import { TiTick } from 'react-icons/ti';
 import { IoIosWifi } from 'react-icons/io';
@@ -13,8 +11,7 @@ import { RiParkingBoxLine } from 'react-icons/ri';
 import { TbSmoking } from 'react-icons/tb';
 import { MdBed } from 'react-icons/md';
 
-function ListingCards({
-	_id,
+function ListingCard({
 	title,
 	img,
 	studiotype,
@@ -55,20 +52,12 @@ function ListingCards({
 								{location.length > 30 ? location.substring(0, 30) + '...' : location}
 							</p>
 							<button>
-								<IconContext.Provider
-									value={{
-										color: 'blue',
-										size: '18px',
-										className: 'global-class-name ',
-									}}
-								>
-									<FiHeart />
-								</IconContext.Provider>
+								<FiHeart className='icon-sm' />
 							</button>
 						</div>
 						<div className='flex gap-2'>
 							<p className='text-xs sm:text-sm md:text-lg'>{studiotype}</p>
-							<p className='md:text- flex text-xs sm:text-sm'>
+							<p className='flex text-xs sm:text-sm md:text-lg'>
 								{soundEngineerAvailabilty ? (
 									<>
 										Soundengineer <TiTick className='text-green-500' />
@@ -80,33 +69,33 @@ function ListingCards({
 						</div>
 					</div>
 					<h4 className='text-sm sm:text-xl md:text-3xl'>{title}</h4>
-					<div
+					<ul
 						className='flex items-center gap-2'
 						ref={ref}
 					>
-						{width <= 340 && services.length > 3 ? (
+						{width <= 400 && services.length > 3 ? (
 							<>
-								{slicedServices.map((item, index) => (
-									<p
-										key={index}
-										className='rounded-full bg-red-200 px-[9px] text-xs sm:text-sm md:text-lg'
+								{slicedServices.map((service) => (
+									<li
+										key={service}
+										className='rounded-full bg-red-200 px-[9px] text-xs sm:text-xs md:text-sm lg:text-base xl:text-lg'
 									>
-										{item}
-									</p>
+										{service}
+									</li>
 								))}
 								...
 							</>
 						) : (
-							services.map((service, index) => (
-								<p
-									key={index}
-									className='rounded-full bg-red-200 px-[9px] text-xs sm:text-sm md:text-lg'
+							services.map((service) => (
+								<li
+									key={service}
+									className=' rounded-full bg-red-200 px-[9px] text-xs sm:text-xs md:text-sm lg:text-base xl:text-lg'
 								>
 									{service}
-								</p>
+								</li>
 							))
 						)}
-					</div>
+					</ul>
 					<div className='flex items-center justify-between'>
 						<div className='flex gap-2'>
 							{locationFeatures.wifi ? <IoIosWifi className='sm:h-6 sm:w-6' /> : ''}
@@ -124,4 +113,4 @@ function ListingCards({
 	);
 }
 
-export default ListingCards;
+export default ListingCard;
