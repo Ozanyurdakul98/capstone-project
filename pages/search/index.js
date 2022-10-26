@@ -26,45 +26,35 @@ function Search(location) {
 	const [searchFilter, setSearchFilter] = useState('');
 	const router = useRouter();
 
-	function filterStudioListings() {
-		const weekdays = [
-			'sunday',
-			'monday',
-			'thuesday',
-			'wednesday',
-			'thursday',
-			'friday',
-			'saturday',
-		];
-		const checkInDay = new Date(location.startDate).getDay();
-		if (
-			router.query.location !== searchFilter.location ||
-			router.query.noOfGuests !== searchFilter.noOfGuests ||
-			router.query.servicesSelected !== searchFilter.servicesSelected ||
-			router.query.startDate !== searchFilter.startDate
-		) {
-			setSearchFilter(location);
-		}
-		const filteredLocation = listings
-			.filter((studio) =>
-				studio.location?.toLowerCase().includes(searchFilter.location?.toLowerCase())
-			)
-			.filter((studio) => studio.maxGuests >= searchFilter.noOfGuests)
-			.filter((studio) =>
-				studio.services
-					.map((studio) => {
-						return studio.toLowerCase();
-					})
-					.includes(searchFilter.servicesSelected.toLowerCase())
-			)
-			.filter(
-				(studio) =>
-					studio.openingOption === 'Always Available' ||
-					studio.openingOption === 'On Request' ||
-					studio.openingCustom[weekdays[checkInDay]]
-			);
-		return filteredLocation;
+	const weekdays = ['sunday', 'monday', 'thuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+	const checkInDay = new Date(location.startDate).getDay();
+	if (
+		router.query.location !== searchFilter.location ||
+		router.query.noOfGuests !== searchFilter.noOfGuests ||
+		router.query.servicesSelected !== searchFilter.servicesSelected ||
+		router.query.startDate !== searchFilter.startDate
+	) {
+		setSearchFilter(location);
 	}
+	const filterStudioListings = listings
+		.filter((studio) =>
+			studio.location?.toLowerCase().includes(searchFilter.location?.toLowerCase())
+		)
+		.filter((studio) => studio.maxGuests >= searchFilter.noOfGuests)
+		.filter((studio) =>
+			studio.services
+				.map((studio) => {
+					return studio.toLowerCase();
+				})
+				.includes(searchFilter.servicesSelected.toLowerCase())
+		)
+		.filter(
+			(studio) =>
+				studio.openingOption === 'Always Available' ||
+				studio.openingOption === 'On Request' ||
+				studio.openingCustom[weekdays[checkInDay]]
+		);
+
 	const date = new Date(location.startDate);
 	return (
 		<>
@@ -73,7 +63,7 @@ function Search(location) {
 				{format(date, 'dd/MM/yyyy')} and {location.location}
 			</h1>
 			<>
-				{filterStudioListings().map(
+				{filterStudioListings.map(
 					({
 						_id,
 						title,
