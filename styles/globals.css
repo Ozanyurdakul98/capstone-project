@@ -51,21 +51,12 @@
 
 	@keyframes fadeInAnimation {
 		from {
-			transform: translateY(-85%);
-		}
-		to {
-			transform: translateY(0);
-		}
-	}
-	/* //professional */
-	/* @keyframes fadeInAnimation {
-		from {
 			transform: translateY(-85%) translateX(-100%) rotate(23deg);
 		}
 		to {
 			transform: translateY(0) translateX(0) rotate(0deg);
 		}
-	} */
+	}
 
 	/* Set all svg colors svg {
 		@apply primary-color;

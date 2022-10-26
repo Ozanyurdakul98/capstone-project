@@ -65,7 +65,6 @@ function Search(location) {
 			);
 		return filteredLocation;
 	}
-	const filteredStudioListings = filterStudioListings();
 	const date = new Date(location.startDate);
 	return (
 		<>
@@ -74,7 +73,7 @@ function Search(location) {
 				{format(date, 'dd/MM/yyyy')} and {location.location}
 			</h1>
 			<>
-				{filteredStudioListings.map(
+				{filterStudioListings().map(
 					({
 						_id,
 						title,

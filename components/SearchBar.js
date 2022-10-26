@@ -51,10 +51,10 @@ function SearchBar() {
 	const [startDate, setStartDate] = useState(new Date());
 	const [endDate, setEndDate] = useState(new Date());
 
-	const handleCTCSearch = () => {
+	const handleClickToCloseSearch = () => {
 		setSearchInput('');
 	};
-	const handleCTCCalendar = () => {
+	const handleClickToCloseCalendar = () => {
 		setCalenderOpen(false);
 	};
 	const selectionRange = {
@@ -70,10 +70,10 @@ function SearchBar() {
 
 	//guests
 	const [noOfGuests, setNoOfGuest] = useState(1);
-	const handleGuestInputPlus = () => {
+	const incrementNumberGuests = () => {
 		setNoOfGuest((counter) => counter + 1);
 	};
-	const handleGuestInputMinus = () => {
+	const decrementNumberGuests = () => {
 		setNoOfGuest((counter) => counter - 1);
 	};
 	//services
@@ -95,7 +95,7 @@ function SearchBar() {
 					type='text'
 					placeholder='type your location '
 					value={searchInput}
-					onChange={(e) => setSearchInput(e.target.value.toLowerCase())}
+					onChange={(event) => setSearchInput(event.target.value.toLowerCase())}
 				/>
 			</form>
 			{/* SearchInput-DropDown */}
@@ -147,7 +147,7 @@ function SearchBar() {
 												calendarFocus={'forwards'}
 												moveRangeOnFirstSelection={false}
 											/>
-											<ClickToCloseMin onClick={(event) => handleCTCCalendar(event)} />
+											<ClickToCloseMin onClick={(event) => handleClickToCloseCalendar(event)} />
 										</>
 									)}
 								</div>
@@ -159,7 +159,7 @@ function SearchBar() {
 									<div className='ml-5 flex items-center'>
 										<button
 											className='icon-big cursor-pointer'
-											onClick={handleGuestInputMinus}
+											onClick={decrementNumberGuests}
 											disabled={noOfGuests === 1}
 										>
 											<MinusCircleIcon />
@@ -174,7 +174,7 @@ function SearchBar() {
 										/>
 										<button
 											className='icon-big cursor-cell '
-											onClick={handleGuestInputPlus}
+											onClick={incrementNumberGuests}
 											disabled={noOfGuests === 15}
 										>
 											<PlusCircleIcon />
@@ -218,7 +218,7 @@ function SearchBar() {
 					</div>
 					<ClickToCloseMax
 						style={'bg-black/50'}
-						onClick={(event) => handleCTCSearch(event)}
+						onClick={(event) => handleClickToCloseSearch(event)}
 					/>
 				</>
 			)}
