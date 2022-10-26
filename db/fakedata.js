@@ -18,8 +18,8 @@ const fakeData = {
 			studiotype: 'Premiumstudio',
 			services: ['Recording', 'Mix', 'Master', 'Podcast & Audiobook', 'Rent Studio'],
 			maxGuests: 14,
-			soundEngineerAvailabilty: { available: true },
-			soundEngineer: { preis: '5', pro: 'Stunde' },
+			soundEngineer: { available: true },
+			soundEngineerPrice: { preis: '5', pro: 'Stunde' },
 			studioBooking: {
 				perHour: '25',
 				perDay: '125',
@@ -66,9 +66,9 @@ const fakeData = {
 			services: ['Recording', 'Podcast & Audiobook'],
 			maxGuests: 2,
 
-			soundEngineerAvailabilty: { available: true },
+			soundEngineer: { available: true },
 
-			soundEngineer: { preis: '15', pro: 'Stunde' },
+			soundEngineerPrice: { preis: '15', pro: 'Stunde' },
 			studioBooking: {
 				perHour: '15',
 				perDay: '100',
@@ -122,7 +122,7 @@ const fakeData = {
 			services: ['Recording', 'Mix', 'Master', 'Podcast & Audiobook', 'Rent Studio'],
 			maxGuests: 3,
 
-			soundEngineerAvailabilty: { available: false },
+			soundEngineer: { available: false },
 			studioBooking: {
 				perHour: '105',
 				perDay: '1000',
@@ -158,4 +158,4 @@ const fakeData = {
 		},
 	],
 };
-export { fakeData };
+export default fakeData;

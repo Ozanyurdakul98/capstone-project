@@ -70,7 +70,7 @@ function Search(location) {
 						img,
 						studiotype,
 						services,
-						soundEngineerAvailabilty,
+						soundEngineer,
 						studioBooking,
 						description,
 						locationFeatures,
@@ -82,7 +82,7 @@ function Search(location) {
 							img={img}
 							studiotype={studiotype}
 							services={services}
-							soundEngineerAvailabilty={soundEngineerAvailabilty.available}
+							soundEngineer={soundEngineer.available}
 							studioBooking={studioBooking.perHour}
 							description={description}
 							locationFeatures={locationFeatures}

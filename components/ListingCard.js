@@ -16,7 +16,7 @@ function ListingCard({
 	img,
 	studiotype,
 	services,
-	soundEngineerAvailabilty,
+	soundEngineer,
 	studioBooking,
 	locationFeatures,
 	location,
@@ -58,7 +58,7 @@ function ListingCard({
 						<div className='flex gap-2'>
 							<p className='text-xs sm:text-sm md:text-lg'>{studiotype}</p>
 							<p className='flex text-xs sm:text-sm md:text-lg'>
-								{soundEngineerAvailabilty ? (
+								{soundEngineer ? (
 									<>
 										Soundengineer <TiTick className='text-green-500' />
 									</>
