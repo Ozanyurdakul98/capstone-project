@@ -2,8 +2,7 @@ import { nanoid } from 'nanoid';
 const fakeData = {
 	studioListings: [
 		{
-			_id: nanoid(),
-			user: 'Admin',
+			id: nanoid(),
 			title: 'Premiumstudio for your perfect Sound',
 			studioname: 'SoundDeluxe',
 			openingOption: 'Custom',
@@ -58,8 +57,7 @@ const fakeData = {
 		},
 
 		{
-			_id: nanoid(),
-			user: 'User1',
+			id: nanoid(),
 			title: 'I mix your tracks to perfection for a little price',
 			studioname: 'Sound300',
 			openingOption: 'Always Available',
@@ -107,8 +105,7 @@ const fakeData = {
 		},
 
 		{
-			_id: nanoid(),
-			user: 'User2',
+			id: nanoid(),
 			title: 'Mediumstudio to fit your needs',
 			studioname: 'SoundDeluxe',
 			openingOption: 'Custom',
