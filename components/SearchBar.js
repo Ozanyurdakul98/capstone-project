@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import {
 	BackgroundOverlayFullscreen as ClickToCloseMax,
 	BackgroundOverlay as ClickToCloseMin,
-} from './ClickToClose';
+} from './BackgroundOverlay';
 //tools
 import { DateRange } from 'react-date-range';
 import format from 'date-fns/format';
@@ -102,17 +102,17 @@ function SearchBar() {
 			{searchInput && (
 				<>
 					<div className='searchFadein absolute top-16 z-40 flex min-h-64  w-full  flex-col  rounded-2xl bg-white pb-5 pt-5 shadow-xxl  md:min-h-72 md:w-11/12 xl:w-6/12'>
-						<div className='relative z-40 flex min-h-20  items-center justify-center gap-2'>
+						<div className='relative  flex min-h-20  items-center justify-center gap-2'>
 							<button
 								onClick={() => setActivePanel('calendar')}
-								className={activePanel === 'calendar' ? 'button-active' : 'button'}
+								className={activePanel === 'calendar' ? 'button-active z-40' : 'button z-40'}
 							>
 								When?
 							</button>
 
 							<button
 								onClick={() => setActivePanel('guests')}
-								className={activePanel === 'guests' ? 'button-active' : 'button'}
+								className={activePanel === 'guests' ? 'button-active z-40' : 'button z-40'}
 							>
 								Guests?
 							</button>
