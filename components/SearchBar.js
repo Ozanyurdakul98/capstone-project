@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 //Components
 import {
-	ClickToCloseFullscreen as ClickToCloseMax,
-	ClickToCloseDiv as ClickToCloseMin,
+	BackgroundOverlayFullscreen as ClickToCloseMax,
+	BackgroundOverlay as ClickToCloseMin,
 } from './ClickToClose';
 //tools
 import { DateRange } from 'react-date-range';

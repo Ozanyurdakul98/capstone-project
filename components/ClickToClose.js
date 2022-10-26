@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function ClickToCloseFullscreen({ onClick, style }) {
+export function BackgroundOverlayFullscreen({ onClick, style }) {
 	return (
 		<button
 			onClick={(event) => onClick(event)}
@@ -9,7 +9,7 @@ export function ClickToCloseFullscreen({ onClick, style }) {
 	);
 }
 
-export function ClickToCloseDiv({ onClick, style }) {
+export function BackgroundOverlay({ onClick, style }) {
 	return (
 		<button
 			onClick={(event) => onClick(event)}

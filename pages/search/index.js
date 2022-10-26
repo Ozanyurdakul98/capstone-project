@@ -59,9 +59,9 @@ function Search(location) {
 			)
 			.filter(
 				(studio) =>
-					studio.openingCustom?.[weekdays[checkInDay]] ||
 					studio.openingOption === 'Always Available' ||
-					studio.openingOption === 'On Request'
+					studio.openingOption === 'On Request' ||
+					studio.openingCustom[weekdays[checkInDay]]
 			);
 		return filteredLocation;
 	}
