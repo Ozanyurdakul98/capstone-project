@@ -1,34 +1,18 @@
 import React from 'react';
 //db
-import { fakeData } from '../../db/fakedata';
+import db from '../../lib/dbConnect';
+import StudioListing from '../../models/StudioListing';
 //components
 import ListingCards from '../../components/ListingCard';
-import { nanoid } from 'nanoid';
 
-// export async function getServerSideProps(context) {
-// 	const query = JSON.parse(JSON.stringify(context.query));
-// 	const checkInDay = new Date(query.startDate).getDay();
-// 	return {
-// 		props: {
-// 			location: query.location || null,
-// 			startDate: query.startDate || null,
-// 			checkIn: checkInDay || null,
-// 			endDate: query.endDate || null,
-// 			noOfGuests: query.noOfGuests || null,
-// 			servicesSelected: query.servicesSelected || null,
-// 		},
-// 	};
-// }
-
-// const allResults = fakeData.studioListings;
-
-function Search() {
+function Search({ listings }) {
 	return (
 		<>
 			<h1>All Search results</h1>
 			<>
-				{/* {allResults.map(
+				{listings.map(
 					({
+						id,
 						title,
 						img,
 						studiotype,
@@ -40,7 +24,7 @@ function Search() {
 						location,
 					}) => (
 						<ListingCards
-							key={nanoid()}
+							key={id}
 							title={title}
 							img={img}
 							studiotype={studiotype}
@@ -52,10 +36,23 @@ function Search() {
 							location={location}
 						></ListingCards>
 					)
-				)} */}
+				)}
 			</>
 		</>
 	);
 }
 
 export default Search;
+
+export async function getServerSideProps(context) {
+	await db.connect();
+
+	const fetchingListings = await StudioListing.find();
+	const fetchedListings = JSON.parse(JSON.stringify(fetchingListings));
+
+	return {
+		props: {
+			listings: fetchedListings || null,
+		},
+	};
+}
