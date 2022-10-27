@@ -1,42 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/router';
+//SSR
+import db from '../../lib/dbConnect';
+import StudioListing from '../../models/StudioListing';
 //tools
 import format from 'date-fns/format';
+import mongoose from 'mongoose';
 //db
-import { fakeData } from '../../db/fakedata';
+// import { fakeData } from '../../db/fakedata';
 //components
 import ListingCard from '../../components/ListingCard';
 
-export async function getServerSideProps(context) {
-	const query = context.query;
-
-	return {
-		props: {
-			location: query.location || null,
-			startDate: query.startDate || null,
-			endDate: query.endDate || null,
-			noOfGuests: query.noOfGuests || null,
-			servicesSelected: query.servicesSelected || null,
-		},
-	};
-}
-
-function Search(location) {
-	const listings = fakeData.studioListings;
-	const [searchFilter, setSearchFilter] = useState('');
+function Search({ listings, query }) {
+	const [searchFilter, setSearchFilter] = useState(query);
 	const router = useRouter();
-
 	const weekdays = ['sunday', 'monday', 'thuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-	const checkInDay = new Date(location.startDate).getDay();
+	const checkInDay = new Date(query.startDate).getDay();
+
 	if (
 		router.query.location !== searchFilter.location ||
 		router.query.noOfGuests !== searchFilter.noOfGuests ||
 		router.query.servicesSelected !== searchFilter.servicesSelected ||
 		router.query.startDate !== searchFilter.startDate
 	) {
-		setSearchFilter(location);
+		const routerQueryFilters = router.query;
+		setSearchFilter(routerQueryFilters);
 	}
-	const filterStudioListings = listings
+	const filteredListings = listings
 		.filter((studio) =>
 			studio.location?.toLowerCase().includes(searchFilter.location?.toLowerCase())
 		)
@@ -55,44 +45,57 @@ function Search(location) {
 				studio.openingCustom[weekdays[checkInDay]]
 		);
 
-	const date = new Date(location.startDate);
+	const date = new Date(query.startDate);
 	return (
 		<>
 			<h1>
 				Search results for
-				{format(date, 'dd/MM/yyyy')} and {location.location}
+				{format(date, ' dd/MM/yyyy')} and {query.location}
 			</h1>
-			<>
-				{filterStudioListings.map(
-					({
-						_id,
-						title,
-						img,
-						studiotype,
-						services,
-						soundEngineer,
-						studioBooking,
-						description,
-						locationFeatures,
-						location,
-					}) => (
-						<ListingCard
-							key={_id}
-							title={title}
-							img={img}
-							studiotype={studiotype}
-							services={services}
-							soundEngineer={soundEngineer.available}
-							studioBooking={studioBooking.perHour}
-							description={description}
-							locationFeatures={locationFeatures}
-							location={location}
-						></ListingCard>
-					)
-				)}
-			</>
+
+			{filteredListings.map(
+				({
+					_id,
+					title,
+					img,
+					studiotype,
+					services,
+					soundEngineer,
+					studioBooking,
+					description,
+					locationFeatures,
+					location,
+				}) => (
+					<ListingCard
+						key={_id}
+						title={title}
+						img={img}
+						studiotype={studiotype}
+						services={services}
+						soundEngineer={soundEngineer.available}
+						studioBooking={studioBooking.perHour}
+						description={description}
+						locationFeatures={locationFeatures}
+						location={location}
+					></ListingCard>
+				)
+			)}
 		</>
 	);
 }
-
 export default Search;
+
+export async function getServerSideProps(context) {
+	const query = context.query;
+	await db.connect();
+
+	const fetchingListings = await StudioListing.find();
+	const fetchedListings = JSON.parse(JSON.stringify(fetchingListings));
+
+	return {
+		props: {
+			listings: fetchedListings || null,
+			query: query,
+		},
+	};
+}

@@ -5,29 +5,29 @@ import { fakeData } from '../../db/fakedata';
 import ListingCards from '../../components/ListingCard';
 import { nanoid } from 'nanoid';
 
-export async function getServerSideProps(context) {
-	const query = JSON.parse(JSON.stringify(context.query));
-	const checkInDay = new Date(query.startDate).getDay();
-	return {
-		props: {
-			location: query.location || null,
-			startDate: query.startDate || null,
-			checkIn: checkInDay || null,
-			endDate: query.endDate || null,
-			noOfGuests: query.noOfGuests || null,
-			servicesSelected: query.servicesSelected || null,
-		},
-	};
-}
+// export async function getServerSideProps(context) {
+// 	const query = JSON.parse(JSON.stringify(context.query));
+// 	const checkInDay = new Date(query.startDate).getDay();
+// 	return {
+// 		props: {
+// 			location: query.location || null,
+// 			startDate: query.startDate || null,
+// 			checkIn: checkInDay || null,
+// 			endDate: query.endDate || null,
+// 			noOfGuests: query.noOfGuests || null,
+// 			servicesSelected: query.servicesSelected || null,
+// 		},
+// 	};
+// }
 
-const allResults = fakeData.studioListings;
+// const allResults = fakeData.studioListings;
 
 function Search() {
 	return (
 		<>
 			<h1>All Search results</h1>
 			<>
-				{allResults.map(
+				{/* {allResults.map(
 					({
 						title,
 						img,
@@ -52,7 +52,7 @@ function Search() {
 							location={location}
 						></ListingCards>
 					)
-				)}
+				)} */}
 			</>
 		</>
 	);
