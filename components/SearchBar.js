@@ -119,7 +119,7 @@ function SearchBar() {
 
 							<button
 								onClick={() => setActivePanel('services')}
-								className={activePanel === 'services' ? 'button-active' : 'button'}
+								className={activePanel === 'services' ? 'button-active z-40' : 'button z-40'}
 							>
 								Services?
 							</button>

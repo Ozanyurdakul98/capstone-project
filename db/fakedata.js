@@ -2,8 +2,7 @@ import { nanoid } from 'nanoid';
 const fakeData = {
 	studioListings: [
 		{
-			_id: nanoid(),
-			user: 'Admin',
+			id: nanoid(),
 			title: 'Premiumstudio for your perfect Sound',
 			studioname: 'SoundDeluxe',
 			openingOption: 'Custom',
@@ -19,8 +18,8 @@ const fakeData = {
 			studiotype: 'Premiumstudio',
 			services: ['Recording', 'Mix', 'Master', 'Podcast & Audiobook', 'Rent Studio'],
 			maxGuests: 14,
-			soundEngineerAvailabilty: { available: true },
-			soundEngineer: { preis: '5', pro: 'Stunde' },
+			soundEngineer: { available: true },
+			soundEngineerPrice: { preis: '5', pro: 'Stunde' },
 			studioBooking: {
 				perHour: '25',
 				perDay: '125',
@@ -58,8 +57,7 @@ const fakeData = {
 		},
 
 		{
-			_id: nanoid(),
-			user: 'User1',
+			id: nanoid(),
 			title: 'I mix your tracks to perfection for a little price',
 			studioname: 'Sound300',
 			openingOption: 'Always Available',
@@ -68,9 +66,9 @@ const fakeData = {
 			services: ['Recording', 'Podcast & Audiobook'],
 			maxGuests: 2,
 
-			soundEngineerAvailabilty: { available: true },
+			soundEngineer: { available: true },
 
-			soundEngineer: { preis: '15', pro: 'Stunde' },
+			soundEngineerPrice: { preis: '15', pro: 'Stunde' },
 			studioBooking: {
 				perHour: '15',
 				perDay: '100',
@@ -107,8 +105,7 @@ const fakeData = {
 		},
 
 		{
-			_id: nanoid(),
-			user: 'User2',
+			id: nanoid(),
 			title: 'Mediumstudio to fit your needs',
 			studioname: 'SoundDeluxe',
 			openingOption: 'Custom',
@@ -125,7 +122,7 @@ const fakeData = {
 			services: ['Recording', 'Mix', 'Master', 'Podcast & Audiobook', 'Rent Studio'],
 			maxGuests: 3,
 
-			soundEngineerAvailabilty: { available: false },
+			soundEngineer: { available: false },
 			studioBooking: {
 				perHour: '105',
 				perDay: '1000',
@@ -161,4 +158,4 @@ const fakeData = {
 		},
 	],
 };
-export { fakeData };
+// export default fakeData;
