@@ -43,8 +43,6 @@ function ListingCard({
 						alt=''
 					/>
 				</div>
-				<div ref={ref}></div>
-
 				<div className='flex w-full flex-col justify-between pl-2 sm:pl-5'>
 					<div className='flex flex-col md:gap-2'>
 						<div className='flex items-center justify-between'>
@@ -68,7 +66,7 @@ function ListingCard({
 							</p>
 						</div>
 					</div>
-					<h4 className='text-sm sm:text-xl md:text-3xl'>{title}</h4>
+					<h4 className='text-sm sm:text-xl md:text-2xl'>{title}</h4>
 					<ul
 						className='flex items-center gap-2'
 						ref={ref}
@@ -98,10 +96,10 @@ function ListingCard({
 					</ul>
 					<div className='flex items-center justify-between'>
 						<div className='flex gap-2'>
-							{locationFeatures.wifi ? <IoIosWifi className='sm:h-6 sm:w-6' /> : ''}
-							{locationFeatures.parking ? <RiParkingBoxLine className='sm:h-6 sm:w-6' /> : ''}
-							{locationFeatures.smoking ? <TbSmoking className='sm:h-6 sm:w-6' /> : ''}
-							{locationFeatures.sleepover ? <MdBed className='sm:h-6 sm:w-6' /> : ''}
+							{locationFeatures.wifi ? <IoIosWifi className='icon' /> : ''}
+							{locationFeatures.parking ? <RiParkingBoxLine className='icon' /> : ''}
+							{locationFeatures.smoking ? <TbSmoking className='icon' /> : ''}
+							{locationFeatures.sleepover ? <MdBed className='icon' /> : ''}
 						</div>
 						<p className='text-sm font-semibold sm:text-base md:text-lg lg:text-2xl'>
 							{studioBooking}$ / Hour

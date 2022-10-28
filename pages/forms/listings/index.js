@@ -3,13 +3,15 @@ import React from 'react';
 function FormListings() {
 	return (
 		<div>
-			<h1 className='mt-4 mb-2 text-center text-4xl font-bold leading-tight'>Add Studio Listing</h1>
-			<form className='w-full '>
+			<h1 className='mt-4 mb-2  text-center text-4xl font-bold leading-tight'>
+				Add Studio Listing
+			</h1>
+			<form className='w-full text-[color:var(--primary-text)] '>
 				{/* title */}
-				<fieldset className='w-full'>
+				<fieldset className='w-full leading-tight'>
 					<label
 						htmlFor='titel'
-						className='label-form block'
+						className='label-form block '
 					>
 						Listing Titel
 					</label>
@@ -22,7 +24,7 @@ function FormListings() {
 					/>
 				</fieldset>
 				{/* Mediafiles */}
-				<fieldset className='w-full'>
+				<fieldset className='w-full leading-snug'>
 					<legend
 						htmlFor='image'
 						className=' label-form'
@@ -31,7 +33,7 @@ function FormListings() {
 					</legend>
 					<div className='flex flex-row items-center justify-between md:flex-row '>
 						<label
-							className='relative flex h-60 w-40 cursor-pointer flex-col items-center justify-center rounded-xl border border-gray-500 bg-white text-black   '
+							className='relative flex h-60 w-40 cursor-pointer flex-col items-center justify-center rounded-xl border border-gray-500 bg-white'
 							htmlFor='image'
 						>
 							<input
@@ -51,25 +53,29 @@ function FormListings() {
 					</div>
 				</fieldset>
 				{/* OpeningHours */}
-				<fieldset className='w-full'>
+				<fieldset className='flex w-full gap-3 leading-tight'>
 					<legend className='label-form'>Opening hours</legend>
-					<input
-						type='radio'
-						id='openingHours'
-						value='Always available'
-						name='openingHours'
-					/>
-					<label htmlFor='openingHours'>Always available</label>
-					<input
-						type='radio'
-						id='onRequest'
-						value='On Request'
-						name='openingHours'
-					/>
-					<label htmlFor='onRequest'>Business hours</label>
+					<div className='radio-form'>
+						<input
+							type='radio'
+							id='openingHours'
+							value='Always available'
+							name='openingHours'
+						/>
+						<label htmlFor='openingHours'>Always available</label>
+					</div>
+					<div className='radio-form'>
+						<input
+							type='radio'
+							id='onRequest'
+							value='On Request'
+							name='openingHours'
+						/>
+						<label htmlFor='onRequest'>Business hours</label>
+					</div>
 				</fieldset>
 				{/* Studiotype */}
-				<fieldset>
+				<fieldset className='w-full leading-snug'>
 					<legend className='label-form'>Studiotype</legend>
 					<button className='border-2 border-black'>
 						<p>Premium Studio</p>
@@ -97,6 +103,66 @@ function FormListings() {
 							The studio is in the lower price segment
 						</p>
 					</button>
+				</fieldset>
+				{/* services */}
+				<fieldset className='w-full leading-snug'>
+					<legend className='label-form'>Studio services</legend>
+					<div className='flex flex-col '>
+						<div className='checkbox-form'>
+							<input
+								id='recording'
+								value='Recording'
+								name='services'
+								type='checkbox'
+							/>
+							<label htmlFor='aufnehmen'>Recording</label>
+						</div>
+						<div className='checkbox-form'>
+							<input
+								id='mix'
+								value='Mix'
+								name='services'
+								type='checkbox'
+							/>
+							<label htmlFor='abmischen'>Mix</label>
+						</div>
+						<div className=' checkbox-form'>
+							<input
+								id='mastern'
+								value='Mastern'
+								name='dienstleistung'
+								type='checkbox'
+							/>
+							<label htmlFor='mastern'>Mastern</label>
+						</div>
+						<div className=' checkbox-form'>
+							<input
+								id='musikproduktion'
+								value='Musikproduktion'
+								name='dienstleistung'
+								type='checkbox'
+							/>
+							<label htmlFor='mastern'>Musikproduktion (Aufnehmen, Mischen & Mastern)</label>
+						</div>
+						<div className=' checkbox-form'>
+							<input
+								id='vermieten'
+								value='Vermieten'
+								name='dienstleistung'
+								type='checkbox'
+							/>
+							<label htmlFor='mastern'>Studio vermieten (ohne Tontechniker)</label>
+						</div>
+						<div className=' checkbox-form'>
+							<input
+								id='vermieten'
+								value='Podcast/Hörbuch'
+								name='dienstleistung'
+								type='checkbox'
+							/>
+							<label htmlFor='mastern'>Podcast/Hörbuch</label>
+						</div>
+					</div>
 				</fieldset>
 				{/* location-features */}
 				<fieldset></fieldset>
