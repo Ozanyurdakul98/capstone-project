@@ -3,17 +3,27 @@
 @tailwind utilities;
 
 :root {
-	--primary-color: #0c2c4d;
+	--primary-color: #0f3c69;
 	--secondary-color: #1e90ff;
 
-	--primary-icon: #0c2c4d;
+	--primary-bg: #edf0f5;
+
+	--primary-icon: #0f3c69;
 	--secondary-icon: #1e90ff;
 
-	--primary-text: #0c2c4d;
-	--primary-bg: #edf0f5;
+	--primary-text: #0f3c69;
 }
 
 @layer components {
+	.text-primary {
+		@apply text-[color:var(--primary-text)];
+	}
+	.border-primary {
+		@apply border-[color:var(--primary-color)];
+	}
+	.border-secondary {
+		@apply border-[color:var(--secondary-color)];
+	}
 	.icon {
 		@apply cursor-pointer rounded-sm text-[color:var(--primary-icon)] sm:h-6 sm:w-6 lg:h-9 lg:w-9 lg:p-1 lg:hover:bg-gray-100;
 	}
@@ -38,7 +48,7 @@
 		@apply rounded border p-2 outline-none ring-indigo-300;
 	}
 	.input-form {
-		@apply block w-full appearance-none border-gray-500 bg-[#edf0f5] py-3 px-4  leading-tight text-gray-700 focus:border-gray-500/30 focus:bg-white focus:outline-none sm:w-2/3 lg:w-1/2;
+		@apply w-full appearance-none border-gray-500 bg-[#edf0f5] py-3 px-4  leading-tight text-gray-700 focus:border-gray-500/30 focus:bg-white focus:outline-none sm:w-2/3 lg:w-1/2;
 	}
 	.checkbox-form {
 		@apply flex gap-2;
@@ -61,7 +71,6 @@
 	.h4 {
 		@apply text-lg font-semibold;
 	}
-
 	.searchFadein {
 		animation: fadeInAnimation 250ms;
 	}
