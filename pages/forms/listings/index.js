@@ -5,6 +5,7 @@ function FormListings() {
 		<div>
 			<h1 className='mt-4 mb-2 text-center text-4xl font-bold leading-tight'>Add Studio Listing</h1>
 			<form className='w-full '>
+				{/* title */}
 				<fieldset className='w-full'>
 					<label
 						htmlFor='titel'
@@ -20,6 +21,7 @@ function FormListings() {
 						required
 					/>
 				</fieldset>
+				{/* Mediafiles */}
 				<fieldset className='w-full'>
 					<legend
 						htmlFor='image'
@@ -48,6 +50,7 @@ function FormListings() {
 						</ul>
 					</div>
 				</fieldset>
+				{/* OpeningHours */}
 				<fieldset className='w-full'>
 					<legend className='label-form'>Opening hours</legend>
 					<input
@@ -65,6 +68,7 @@ function FormListings() {
 					/>
 					<label htmlFor='onRequest'>Business hours</label>
 				</fieldset>
+				{/* Studiotype */}
 				<fieldset>
 					<legend className='label-form'>Studiotype</legend>
 					<button className='border-2 border-black'>
@@ -94,9 +98,15 @@ function FormListings() {
 						</p>
 					</button>
 				</fieldset>
+				{/* location-features */}
+				<fieldset></fieldset>
 			</form>
 		</div>
 	);
 }
-
+//Soundengineer
+//services
+//studio-price
+//location-features
+//location
 export default FormListings;
