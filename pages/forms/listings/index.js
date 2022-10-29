@@ -233,24 +233,94 @@ function FormListings() {
 						<label htmlFor='smoking'>Smoking</label>
 					</div>
 				</fieldset>
+				{/* Soundengineer */}
+				<fieldset className='flexflex-col  w-full gap-3 leading-tight'>
+					<legend className='label-form'>Soundengineer</legend>
+					<div className='radio-form'>
+						<input
+							type='radio'
+							value='Soundengineer'
+							id='soundengineerNo'
+							name='soundengineer'
+						/>
+						<label htmlFor='soundengineerNo'>No</label>
+						<input
+							type='radio'
+							value='No Soundengineer'
+							id='soundengineerYes'
+							name='soundengineer'
+						/>
+						<label htmlFor='soundengineerYes'>Yes</label>
+					</div>
+					<div className='flex gap-3'>
+						<legend className=''>Soundengineer is:</legend>
+						<div>
+							<div className='radio-form'>
+								<input
+									type='radio'
+									name='soundengineerPrice'
+									id='soundengineerInclusive'
+									value='Inclusive'
+								/>
+								<label htmlFor='soundengineerInclusive'>Inclusive</label>
+							</div>
+							<div className='radio-form'>
+								<input
+									type='radio'
+									name='soundengineerPrice'
+									id='soundengineerOnrequest'
+									value='On Request'
+								/>
+								<label htmlFor='soundengineerOnrequest'>On Request</label>
+							</div>
+							<div className='flex items-center '>
+								<input
+									className='mr-2'
+									type='radio'
+									name='tontechniker-benutzerdefiniert'
+									id='tontechniker-benutzerdefiniert'
+								/>
+								<input
+									className='w-12  outline-none'
+									type='number'
+									name='tontechniker-preis'
+									id='tontechniker-preis'
+								/>
+								<p className='mr-2'>€ /</p>
+								<select
+									className='mr-2 w-24'
+									type='number'
+									name='tontechniker-preis'
+									id='tontechniker-optionen'
+								>
+									<option value='tontechniker-stunde'>Stunde</option>
+									<option value='tontechniker-tag'>Tag</option>
+									<option value='tontechniker-woche'>Woche</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</fieldset>
 				{/* Form-Buttons */}
 				<fieldset className='flex justify-between'>
-					<button type='button'>
-						<input
-							className=' cursor-pointer border-none'
-							type='reset'
-							value='Reset'
-						/>
+					<button
+						className='button bg-secondary text-white'
+						type='button'
+					>
+						Reset
 					</button>
-					<button type='submit'>Submit</button>
+					<button
+						type='submit'
+						className='button bg-secondary text-white'
+					>
+						Submit
+					</button>
 				</fieldset>
 			</form>
 		</div>
 	);
 }
 //Soundengineer
-//services
 //studio-price
-//location-features
 //location
 export default FormListings;

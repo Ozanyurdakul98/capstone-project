@@ -6,7 +6,9 @@
 	--primary-color: #0f3c69;
 	--secondary-color: #1e90ff;
 
-	--primary-bg: #edf0f5;
+	--site-bg: #edf0f5;
+	--primary-bg: #0f3c69;
+	--secondary-bg: #1e90ff;
 
 	--primary-icon: #0f3c69;
 	--secondary-icon: #1e90ff;
@@ -23,6 +25,15 @@
 	}
 	.border-secondary {
 		@apply border-[color:var(--secondary-color)];
+	}
+	.bg-site {
+		@apply bg-[color:var(--site-bg)];
+	}
+	.bg-primary {
+		@apply bg-[color:var(--primary-bg)];
+	}
+	.bg-secondary {
+		@apply bg-[color:var(--secondary-bg)];
 	}
 	.icon {
 		@apply cursor-pointer rounded-sm text-[color:var(--primary-icon)] sm:h-6 sm:w-6 lg:h-9 lg:w-9 lg:p-1 lg:hover:bg-gray-100;

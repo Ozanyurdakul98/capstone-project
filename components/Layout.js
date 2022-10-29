@@ -7,7 +7,7 @@ import Header from './Header';
 
 export default function Layout({ children }) {
 	return (
-		<div className='relative bg-[color:var(--primary-bg)]'>
+		<div className='bg-site relative'>
 			<Head>
 				<title>Tonstudio-Kleinanzeigen</title>
 				<link
