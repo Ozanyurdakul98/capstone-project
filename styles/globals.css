@@ -36,7 +36,7 @@
 		@apply bg-[color:var(--secondary-bg)];
 	}
 	.icon {
-		@apply cursor-pointer rounded-sm text-[color:var(--primary-icon)] sm:h-6 sm:w-6 lg:h-9 lg:w-9 lg:p-1 lg:hover:bg-gray-100;
+		@apply h-6 w-6 cursor-pointer rounded-sm text-[color:var(--primary-icon)] lg:h-9 lg:w-9 lg:p-1 lg:hover:bg-gray-100;
 	}
 	.icon-sm {
 		@apply h-9 w-6 cursor-pointer rounded-sm  lg:w-9 lg:p-1 lg:hover:bg-gray-100;
@@ -62,7 +62,7 @@
 		@apply w-full appearance-none border-gray-500 bg-[#edf0f5] py-3 px-4  leading-tight text-gray-700 focus:border-gray-500/30 focus:bg-white focus:outline-none sm:w-2/3 lg:w-1/2;
 	}
 	.checkbox-form {
-		@apply flex gap-2;
+		@apply flex items-center gap-2;
 	}
 	.radio-form {
 		@apply flex gap-2;
@@ -107,7 +107,8 @@
 		margin: 0;
 		-moz-appearance: textfield !important;
 		opacity: 1;
-		-webkit-text-fill-color: #ffffff;
+		outline: none;
+		/* -webkit-text-fill-color: #ffffff; */
 	}
 	select {
 		-webkit-appearance: none;

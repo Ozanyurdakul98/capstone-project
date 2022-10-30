@@ -6,7 +6,7 @@ function FormListings() {
 			<h1 className='text-primary mt-4 mb-2 text-center text-4xl font-bold leading-tight'>
 				Add Studio Listing
 			</h1>
-			<form className='w-full text-[color:var(--primary-text)] '>
+			<form className='text-primary w-full '>
 				{/* title */}
 				<fieldset className='w-full leading-tight'>
 					<label
@@ -234,7 +234,7 @@ function FormListings() {
 					</div>
 				</fieldset>
 				{/* Soundengineer */}
-				<fieldset className='flexflex-col  w-full gap-3 leading-tight'>
+				<fieldset className='flex w-full flex-col gap-3 leading-tight'>
 					<legend className='label-form'>Soundengineer</legend>
 					<div className='radio-form'>
 						<input
@@ -243,63 +243,131 @@ function FormListings() {
 							id='soundengineerNo'
 							name='soundengineer'
 						/>
-						<label htmlFor='soundengineerNo'>No</label>
+						<label htmlFor='soundengineerNo'>
+							No <span className='text-sm'>(Studio only for Rent)</span>
+						</label>
+					</div>
+					<div className='radio-form'>
 						<input
 							type='radio'
-							value='No Soundengineer'
-							id='soundengineerYes'
-							name='soundengineer'
+							name='soundengineerPrice'
+							id='soundengineerOnrequest'
+							value='On Request'
 						/>
-						<label htmlFor='soundengineerYes'>Yes</label>
+						<label htmlFor='soundengineerOnrequest'>On Request</label>
 					</div>
-					<div className='flex gap-3'>
-						<legend className=''>Soundengineer is:</legend>
-						<div>
-							<div className='radio-form'>
-								<input
-									type='radio'
-									name='soundengineerPrice'
-									id='soundengineerInclusive'
-									value='Inclusive'
-								/>
-								<label htmlFor='soundengineerInclusive'>Inclusive</label>
-							</div>
-							<div className='radio-form'>
-								<input
-									type='radio'
-									name='soundengineerPrice'
-									id='soundengineerOnrequest'
-									value='On Request'
-								/>
-								<label htmlFor='soundengineerOnrequest'>On Request</label>
-							</div>
-							<div className='flex items-center '>
-								<input
-									className='mr-2'
-									type='radio'
-									name='tontechniker-benutzerdefiniert'
-									id='tontechniker-benutzerdefiniert'
-								/>
-								<input
-									className='w-12  outline-none'
-									type='number'
-									name='tontechniker-preis'
-									id='tontechniker-preis'
-								/>
-								<p className='mr-2'>€ /</p>
-								<select
-									className='mr-2 w-24'
-									type='number'
-									name='tontechniker-preis'
-									id='tontechniker-optionen'
-								>
-									<option value='tontechniker-stunde'>Stunde</option>
-									<option value='tontechniker-tag'>Tag</option>
-									<option value='tontechniker-woche'>Woche</option>
-								</select>
-							</div>
-						</div>
+					<div className='radio-form'>
+						<input
+							type='radio'
+							name='soundengineerPrice'
+							id='soundengineerInclusive'
+							value='Inclusive'
+						/>
+						<label htmlFor='soundengineerInclusive'>Inclusive</label>
 					</div>
+					<div className='radio-form flex items-center'>
+						<input
+							type='radio'
+							name='soundengineerPrice'
+							id='SoundengineerPriceCustom'
+							value='InputNumber'
+						/>
+						<label
+							className='pr-1'
+							htmlFor='SoundengineerPriceCustom'
+						>
+							Price:
+						</label>
+						<input
+							className='w-12 outline-none'
+							type='number'
+							name='soundengineerPrice'
+							id='soundengineerCustomPriceInput'
+						/>
+						<label
+							htmlFor='soundengineerCustomPriceInput'
+							className='mr-2'
+						>
+							€ / hour
+						</label>
+					</div>
+				</fieldset>
+				{/* studio-price */}
+				<fieldset className='flex w-full flex-col gap-3 leading-tight'>
+					<legend className='label-form'>Studio Pricing</legend>
+					<div className='checkbox-form'>
+						<input
+							type='checkbox'
+							name='studioPricingHour'
+							id='studioPricingHour'
+							value='InputNumber'
+						/>
+						<label htmlFor='studioPricingHour'>per Hour</label>
+						<input
+							className='w-16'
+							type='number'
+							name='studioPricingHour'
+							id='studioPricingHour'
+						/>
+						€
+					</div>
+					<div className='checkbox-form'>
+						<input
+							type='checkbox'
+							name='studioPricingDay'
+							id='studioPricingDay'
+							value='InputNumber'
+						/>
+						<label htmlFor='studioPricingDay'>per Day</label>
+						<input
+							type='number'
+							name='studioPricingDay'
+							id='studioPricingDay'
+							className='w-16'
+						/>
+						€
+					</div>
+					<div className='checkbox-form'>
+						<input
+							type='checkbox'
+							name='studioPricingWeek'
+							id='studioPricingWeek'
+							value='InputNumber'
+						/>
+						<label htmlFor='studioPricingWeek'>per Week</label>
+						<input
+							type='number'
+							name='studioPricingWeek'
+							id='studioPricingWeek'
+							className='w-16'
+						/>
+						€
+					</div>
+					<div className='checkbox-form'>
+						<input
+							type='checkbox'
+							name='studioPricingMonth'
+							id='studioPricingMonth'
+							value='InputNumber'
+						/>
+						<label htmlFor='studioPricingMonth'>per Month</label>
+						<input
+							type='number'
+							name='studioPricingMonth'
+							id='studioPricingMonth'
+							className='w-16'
+						/>
+						€
+					</div>
+				</fieldset>
+				{/* location */}
+				<fieldset className='w-full leading-tight'>
+					<legend className='label-form'>Location</legend>
+					<input
+						className='input-form'
+						type='text'
+						placeholder='Type [City], [Address]'
+					/>
 				</fieldset>
 				{/* Form-Buttons */}
 				<fieldset className='flex justify-between'>
@@ -320,7 +388,6 @@ function FormListings() {
 		</div>
 	);
 }
-//Soundengineer
-//studio-price
+
 //location
 export default FormListings;
