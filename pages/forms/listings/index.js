@@ -11,17 +11,17 @@ function FormListings() {
 		locationFeatures: [],
 		soundengineer: '',
 		studioPricing: {},
+		studioLocation: '',
 	});
 	const [checked, setChecked] = useState({
 		soundengineer: false,
 		studioPricing: [],
 	});
+
 	const handleFormSubmit = (event) => {
 		event.preventDefault();
-		const formData = new FormData(event.target);
-
-		console.log('submitted', formData);
 	};
+
 	const handleChange = (event) => {
 		const target = event.target;
 		const type = target.type;
@@ -30,13 +30,12 @@ function FormListings() {
 		const id = target.id;
 		const value = checkValues(type, form, name, wert, id);
 		setForm({ ...form, [name]: value() });
-		console.log('form', form);
 	};
+
 	const handleCheck = (event) => {
 		const target = event.target;
 		const name = target.name;
 		const id = target.id;
-		const BoolCheck = target.checked;
 		const isChecked = () => {
 			if (name === 'soundengineer') {
 				return id;
@@ -50,16 +49,13 @@ function FormListings() {
 			}
 		};
 		setChecked({ ...checked, [name]: isChecked() });
-		console.log('checkedForm', checked);
 	};
 	function checkValues(type, form, name, wert, id) {
 		return () => {
 			if (name === 'studioPricing' || id === 'soundengineerPrice') {
 				let newObject = { ...form?.[name], [id]: wert };
-				console.log('newarr1', newObject);
 				if (form?.name?.contains(id.contains(wert))) {
 					newObject = newObject.map((ids) => ids !== id);
-					console.log('newarr2', newArray);
 				}
 				return newObject;
 			}
@@ -558,6 +554,9 @@ function FormListings() {
 						type='text'
 						name='studioLocation'
 						placeholder='Type [City], [Address]'
+						required
+						value={form.studioLocation}
+						onChange={handleChange}
 					/>
 				</fieldset>
 				{/* Form-Buttons */}
