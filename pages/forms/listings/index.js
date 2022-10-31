@@ -31,25 +31,6 @@ function FormListings() {
 		const value = checkValues(type, form, name, wert, id);
 		setForm({ ...form, [name]: value() });
 	};
-
-	const handleCheck = (event) => {
-		const target = event.target;
-		const name = target.name;
-		const id = target.id;
-		const isChecked = () => {
-			if (name === 'soundengineer') {
-				return id;
-			}
-			if (name === 'studioPricing') {
-				let newArray = [...checked?.[name], id];
-				if (checked?.[name].includes(id)) {
-					newArray = newArray.filter((pricing) => pricing !== id);
-				}
-				return newArray;
-			}
-		};
-		setChecked({ ...checked, [name]: isChecked() });
-	};
 	function checkValues(type, form, name, wert, id) {
 		return () => {
 			if (name === 'studioPricing' || id === 'soundengineerPrice') {
@@ -70,6 +51,25 @@ function FormListings() {
 			}
 		};
 	}
+
+	const handleCheck = (event) => {
+		const target = event.target;
+		const name = target.name;
+		const id = target.id;
+		const isChecked = () => {
+			if (name === 'soundengineer') {
+				return id;
+			}
+			if (name === 'studioPricing') {
+				let newArray = [...checked?.[name], id];
+				if (checked?.[name].includes(id)) {
+					newArray = newArray.filter((pricing) => pricing !== id);
+				}
+				return newArray;
+			}
+		};
+		setChecked({ ...checked, [name]: isChecked() });
+	};
 
 	return (
 		<div>
