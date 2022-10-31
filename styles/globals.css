@@ -61,6 +61,10 @@
 	.input-form {
 		@apply w-full appearance-none border-gray-500 bg-[#edf0f5] py-3 px-4  leading-tight text-gray-700 focus:border-gray-500/30 focus:bg-white focus:outline-none sm:w-2/3 lg:w-1/2;
 	}
+	.priceInput-form {
+		@apply w-12 disabled:bg-slate-300 disabled:text-black/20;
+	}
+
 	.checkbox-form {
 		@apply flex items-center gap-2;
 	}

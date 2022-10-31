@@ -1,12 +1,89 @@
 import React from 'react';
+import { useState } from 'react';
 
 function FormListings() {
+	const [form, setForm] = useState({
+		listingTitle: '',
+		images: '',
+		openingHours: 'Always Available',
+		studiotype: 'Home Studio',
+		services: [],
+		locationFeatures: [],
+		soundengineer: '',
+		studioPricing: {},
+	});
+	const [checked, setChecked] = useState({
+		soundengineer: false,
+		studioPricing: [],
+	});
+	const handleFormSubmit = (event) => {
+		event.preventDefault();
+		const formData = new FormData(event.target);
+
+		console.log('submitted', formData);
+	};
+	const handleChange = (event) => {
+		const target = event.target;
+		const type = target.type;
+		const name = target.name;
+		const wert = target.value;
+		const id = target.id;
+		const value = checkValues(type, form, name, wert, id);
+		setForm({ ...form, [name]: value() });
+		console.log('form', form);
+	};
+	const handleCheck = (event) => {
+		const target = event.target;
+		const name = target.name;
+		const id = target.id;
+		const BoolCheck = target.checked;
+		const isChecked = () => {
+			if (name === 'soundengineer') {
+				return id;
+			}
+			if (name === 'studioPricing') {
+				let newArray = [...checked?.[name], id];
+				if (checked?.[name].includes(id)) {
+					newArray = newArray.filter((pricing) => pricing !== id);
+				}
+				return newArray;
+			}
+		};
+		setChecked({ ...checked, [name]: isChecked() });
+		console.log('checkedForm', checked);
+	};
+	function checkValues(type, form, name, wert, id) {
+		return () => {
+			if (name === 'studioPricing' || id === 'soundengineerPrice') {
+				let newObject = { ...form?.[name], [id]: wert };
+				console.log('newarr1', newObject);
+				if (form?.name?.contains(id.contains(wert))) {
+					newObject = newObject.map((ids) => ids !== id);
+					console.log('newarr2', newArray);
+				}
+				return newObject;
+			}
+			if (type === 'checkbox' || type === 'file') {
+				let newArray = [...form?.[name], wert];
+				if (form?.[name].includes(wert)) {
+					newArray = newArray.filter((service) => service !== wert);
+				}
+				return newArray;
+			} else {
+				return wert;
+			}
+		};
+	}
+
 	return (
 		<div>
 			<h1 className='text-primary mt-4 mb-2 text-center text-4xl font-bold leading-tight'>
 				Add Studio Listing
 			</h1>
-			<form className='text-primary w-full '>
+			<form
+				className='text-primary w-full '
+				onSubmit={handleFormSubmit}
+			>
 				{/* title */}
 				<fieldset className='w-full leading-tight'>
 					<label
@@ -19,8 +96,10 @@ function FormListings() {
 						className='input-form block'
 						type='text'
 						id='titel'
-						name='listingTitel'
+						name='listingTitle'
 						required
+						value={form.listingTitle}
+						onChange={handleChange}
 					/>
 				</fieldset>
 				{/* Mediafiles */}
@@ -41,6 +120,8 @@ function FormListings() {
 								type='file'
 								name='images'
 								id='image'
+								required
+								onChange={handleChange}
 							/>
 							Upload Image
 						</label>
@@ -59,17 +140,21 @@ function FormListings() {
 						<input
 							type='radio'
 							id='openingHours'
-							value='Always available'
 							name='openingHours'
+							value='Always Available'
+							checked={form.openingHours.includes('Always Available')}
+							onChange={handleChange}
 						/>
-						<label htmlFor='openingHours'>Always available</label>
+						<label htmlFor='openingHours'>Always Available</label>
 					</div>
 					<div className='radio-form'>
 						<input
 							type='radio'
 							id='onRequest'
-							value='On Request'
 							name='openingHours'
+							value='On Request'
+							checked={form.openingHours.includes('On Request')}
+							onChange={handleChange}
 						/>
 						<label htmlFor='onRequest'>On Request</label>
 					</div>
@@ -79,7 +164,14 @@ function FormListings() {
 					<legend className='label-form'>Studiotype</legend>
 					<button
 						type='button'
-						className='border-primary border-2'
+						className={
+							form.studiotype === 'Premium Studio'
+								? 'border-primary border-2 bg-red-500'
+								: 'border-primary border-2'
+						}
+						onClick={() => {
+							setForm({ ...form, studiotype: 'Premium Studio' });
+						}}
 					>
 						<p>Premium Studio</p>
 						<p>
@@ -91,7 +183,14 @@ function FormListings() {
 					</button>
 					<button
 						type='button'
-						className='border-primary border-2'
+						className={
+							form.studiotype === 'Medium Studio'
+								? 'border-primary border-2 bg-red-500'
+								: 'border-primary border-2'
+						}
+						onClick={() => {
+							setForm({ ...form, studiotype: 'Medium Studio' });
+						}}
 					>
 						<p>Medium Studio</p>
 						<p>
@@ -102,7 +201,14 @@ function FormListings() {
 					</button>
 					<button
 						type='button'
-						className='border-primary border-2'
+						className={
+							form.studiotype === 'Home Studio'
+								? 'border-primary border-2 bg-red-500'
+								: 'border-primary border-2'
+						}
+						onClick={() => {
+							setForm({ ...form, studiotype: 'Home Studio' });
+						}}
 					>
 						<p>Home Studio</p>
 						<p>
@@ -122,6 +228,8 @@ function FormListings() {
 							value='Recording'
 							name='services'
 							type='checkbox'
+							checked={form.services.includes('Recording')}
+							onChange={handleChange}
 						/>
 						<label htmlFor='recording'>Recording</label>
 					</div>
@@ -131,6 +239,8 @@ function FormListings() {
 							value='Mix'
 							name='services'
 							type='checkbox'
+							checked={form.services.includes('Mix')}
+							onChange={handleChange}
 						/>
 						<label htmlFor='mix'>Mix</label>
 					</div>
@@ -140,6 +250,8 @@ function FormListings() {
 							value='Master'
 							name='services'
 							type='checkbox'
+							checked={form.services.includes('Master')}
+							onChange={handleChange}
 						/>
 						<label htmlFor='master'>Master</label>
 					</div>
@@ -149,6 +261,8 @@ function FormListings() {
 							value='Musicproduction'
 							name='services'
 							type='checkbox'
+							checked={form.services.includes('Musicproduction')}
+							onChange={handleChange}
 						/>
 						<label htmlFor='musicproduction'>
 							Musicproduction <span className='text-sm'>(Recording, Mix & Master)</span>
@@ -160,6 +274,8 @@ function FormListings() {
 							value='Rent Studio'
 							name='services'
 							type='checkbox'
+							checked={form.services.includes('Rent Studio')}
+							onChange={handleChange}
 						/>
 						<label htmlFor='rentAStudio'>
 							Rent Studio <span className='text-sm'>(without Soundengineer)</span>
@@ -171,6 +287,8 @@ function FormListings() {
 							value='Podcast & Audiobooks'
 							name='services'
 							type='checkbox'
+							checked={form.services.includes('Podcast & Audiobooks')}
+							onChange={handleChange}
 						/>
 						<label htmlFor='podcastAndAudiobooks'>Podcast & Audiobooks</label>
 					</div>
@@ -184,6 +302,7 @@ function FormListings() {
 							id='parking'
 							value='Parking'
 							name='locationFeatures'
+							onChange={handleChange}
 						/>
 						<label htmlFor='parking'>Parking</label>
 					</div>
@@ -193,6 +312,7 @@ function FormListings() {
 							id='wifi'
 							value='Wi-Fi'
 							name='locationFeatures'
+							onChange={handleChange}
 						/>
 						<label htmlFor='wifi'>Wi-Fi</label>
 					</div>
@@ -202,6 +322,7 @@ function FormListings() {
 							id='snacks'
 							value='Snacks'
 							name='locationFeatures'
+							onChange={handleChange}
 						/>
 						<label htmlFor='snacks'>Snacks</label>
 					</div>
@@ -211,6 +332,7 @@ function FormListings() {
 							id='wc'
 							value='WC'
 							name='locationFeatures'
+							onChange={handleChange}
 						/>
 						<label htmlFor='wc'>WC</label>
 					</div>
@@ -220,6 +342,7 @@ function FormListings() {
 							id='kitchen'
 							value='Kitchen'
 							name='locationFeatures'
+							onChange={handleChange}
 						/>
 						<label htmlFor='kitchen'>Kitchen</label>
 					</div>
@@ -229,6 +352,7 @@ function FormListings() {
 							id='smoking'
 							value='Smoking'
 							name='locationFeatures'
+							onChange={handleChange}
 						/>
 						<label htmlFor='smoking'>Smoking</label>
 					</div>
@@ -239,9 +363,13 @@ function FormListings() {
 					<div className='radio-form'>
 						<input
 							type='radio'
-							value='Soundengineer'
 							id='soundengineerNo'
 							name='soundengineer'
+							value='No Soundengineer'
+							onChange={(event) => {
+								handleChange(event);
+								handleCheck(event);
+							}}
 						/>
 						<label htmlFor='soundengineerNo'>
 							No <span className='text-sm'>(Studio only for Rent)</span>
@@ -250,42 +378,60 @@ function FormListings() {
 					<div className='radio-form'>
 						<input
 							type='radio'
-							name='soundengineerPrice'
-							id='soundengineerOnrequest'
+							id='soundengineerOnRequest'
+							name='soundengineer'
 							value='On Request'
+							onChange={(event) => {
+								handleChange(event);
+								handleCheck(event);
+							}}
 						/>
-						<label htmlFor='soundengineerOnrequest'>On Request</label>
+						<label htmlFor='soundengineerOnRequest'>On Request</label>
 					</div>
 					<div className='radio-form'>
 						<input
 							type='radio'
-							name='soundengineerPrice'
 							id='soundengineerInclusive'
+							name='soundengineer'
 							value='Inclusive'
+							onChange={(event) => {
+								handleChange(event);
+								handleCheck(event);
+							}}
 						/>
 						<label htmlFor='soundengineerInclusive'>Inclusive</label>
 					</div>
 					<div className='radio-form flex items-center'>
 						<input
 							type='radio'
-							name='soundengineerPrice'
-							id='SoundengineerPriceCustom'
-							value='InputNumber'
+							name='soundengineer'
+							id='soundengineerPrice'
+							onChange={(event) => {
+								handleChange(event);
+								handleCheck(event);
+							}}
 						/>
 						<label
 							className='pr-1'
-							htmlFor='SoundengineerPriceCustom'
+							htmlFor='soundengineerPrice'
 						>
 							Price:
 						</label>
 						<input
-							className='w-12 outline-none'
+							className='priceInput-form outline-none'
 							type='number'
-							name='soundengineerPrice'
-							id='soundengineerCustomPriceInput'
+							name='soundengineer'
+							id='soundengineerPrice'
+							disabled={checked.soundengineer != 'soundengineerPrice'}
+							value={
+								checked.soundengineer === 'soundengineerPrice'
+									? form.soundengineer.soundengineerPrice
+									: 0
+							}
+							onChange={handleChange}
 						/>
 						<label
-							htmlFor='soundengineerCustomPriceInput'
+							htmlFor='soundengineerPriceInput'
 							className='mr-2'
 						>
 							€ / hour
@@ -298,64 +444,108 @@ function FormListings() {
 					<div className='checkbox-form'>
 						<input
 							type='checkbox'
-							name='studioPricingHour'
+							name='studioPricing'
 							id='studioPricingHour'
-							value='InputNumber'
+							value={''}
+							onChange={(event) => {
+								handleChange(event);
+								handleCheck(event);
+							}}
 						/>
 						<label htmlFor='studioPricingHour'>per Hour</label>
 						<input
-							className='w-16'
+							className='priceInput-form outline-none'
 							type='number'
-							name='studioPricingHour'
+							name='studioPricing'
 							id='studioPricingHour'
+							disabled={!checked.studioPricing.includes('studioPricingHour')}
+							value={
+								checked.studioPricing.includes('studioPricingHour')
+									? form.studioPricing.studioPricingHour
+									: 0
+							}
+							onChange={handleChange}
 						/>
 						€
 					</div>
 					<div className='checkbox-form'>
 						<input
 							type='checkbox'
-							name='studioPricingDay'
+							name='studioPricing'
 							id='studioPricingDay'
-							value='InputNumber'
+							value={''}
+							onChange={(event) => {
+								handleChange(event);
+								handleCheck(event);
+							}}
 						/>
 						<label htmlFor='studioPricingDay'>per Day</label>
 						<input
+							className='priceInput-form outline-none'
 							type='number'
-							name='studioPricingDay'
+							name='studioPricing'
 							id='studioPricingDay'
-							className='w-16'
+							disabled={!checked.studioPricing.includes('studioPricingDay')}
+							value={
+								checked.studioPricing.includes('studioPricingDay')
+									? form.studioPricing.studioPricingDay
+									: 0
+							}
+							onChange={handleChange}
 						/>
 						€
 					</div>
 					<div className='checkbox-form'>
 						<input
 							type='checkbox'
-							name='studioPricingWeek'
+							name='studioPricing'
 							id='studioPricingWeek'
-							value='InputNumber'
+							value={''}
+							onChange={(event) => {
+								handleChange(event);
+								handleCheck(event);
+							}}
 						/>
 						<label htmlFor='studioPricingWeek'>per Week</label>
 						<input
+							className='priceInput-form outline-none'
 							type='number'
-							name='studioPricingWeek'
+							name='studioPricing'
 							id='studioPricingWeek'
-							className='w-16'
+							disabled={!checked.studioPricing.includes('studioPricingWeek')}
+							value={
+								checked.studioPricing.includes('studioPricingWeek')
+									? form.studioPricing.studioPricingWeek
+									: 0
+							}
+							onChange={handleChange}
 						/>
 						€
 					</div>
 					<div className='checkbox-form'>
 						<input
 							type='checkbox'
-							name='studioPricingMonth'
+							name='studioPricing'
 							id='studioPricingMonth'
-							value='InputNumber'
+							value={''}
+							onChange={(event) => {
+								handleChange(event);
+								handleCheck(event);
+							}}
 						/>
 						<label htmlFor='studioPricingMonth'>per Month</label>
 						<input
+							className='priceInput-form outline-none'
 							type='number'
-							name='studioPricingMonth'
+							name='studioPricing'
 							id='studioPricingMonth'
-							className='w-16'
+							disabled={!checked.studioPricing.includes('studioPricingMonth')}
+							value={
+								checked.studioPricing.includes('studioPricingMonth')
+									? form.studioPricing.studioPricingMonth
+									: 0
+							}
+							onChange={handleChange}
 						/>
 						€
 					</div>
@@ -366,6 +556,7 @@ function FormListings() {
 					<input
 						className='input-form'
 						type='text'
+						name='studioLocation'
 						placeholder='Type [City], [Address]'
 					/>
 				</fieldset>
@@ -389,5 +580,4 @@ function FormListings() {
 	);
 }
 
-//location
 export default FormListings;
