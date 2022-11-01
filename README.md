@@ -1,34 +1,38 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Tonstudio Kleinanzeigen
 
-## Getting Started
+I want to serve a platform for music service-provider and let them create digital business cards which users can compare with each other.
 
-First, run the development server:
+Key features:
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+- search and filter
+- User Authentication (login)
+- create listings
+- Serverside Rendering
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Key tech:
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+- Next 12
+- React
+- MongoDB, mongoose
+- TailwindCSS
+- Styled-Components
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+Below you will see my scetches i have already finished to implement as code in this project. Please look at my projects board in this Repo for a better look into which steps I took and how I worked on them.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## Step 1
 
-## Learn More
+Create Listings with fake data
 
-To learn more about Next.js, take a look at the following resources:
+![Getting Started](/docs/images/step1.png)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Step 2
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Create the search bar with search options to filter the listings
+![Getting Started](/docs/images/step2.png)
 
-## Deploy on Vercel
+## Step 3
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Includes the MongoDB setup/connection and SSR, as well as creating the create-a-listing form itself
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+![Getting Started](/docs/images/step3.png)
+![Getting Started](/docs/images/step3-2.png)

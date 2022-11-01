@@ -5,7 +5,7 @@ import db from '../../lib/dbConnect';
 import StudioListing from '../../models/StudioListing';
 //tools
 import format from 'date-fns/format';
-import mongoose from 'mongoose';
+
 //db
 // import { fakeData } from '../../db/fakedata';
 //components
