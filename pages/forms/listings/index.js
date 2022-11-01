@@ -18,8 +18,24 @@ function FormListings() {
 		studioPricing: [],
 	});
 
-	const handleFormSubmit = (event) => {
+	const handleFormSubmit = async (event) => {
 		event.preventDefault();
+		try {
+			const res = await fetch('/api/form', {
+				method: 'POST',
+				body: JSON.stringify(form),
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			});
+			if (!res.ok) {
+				throw new Error(res.status);
+			}
+		} catch (error) {
+			console.error('Failed to add', error);
+		}
+		const result = await res.json();
+		alert(`Is this your data: ${result}`);
 	};
 
 	const handleChange = (event) => {
