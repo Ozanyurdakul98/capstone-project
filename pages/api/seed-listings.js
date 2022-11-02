@@ -8,7 +8,7 @@ import fakeData from '../../db/fakedata';
 const handler = async (req, res) => {
 	await db.connect();
 	await StudioListing.deleteMany();
-	await StudioListing.insertMany(fakeData.studioListings);
+	// await StudioListing.insertMany(fakeData.studioListings);
 	await db.disconnect();
 	res.send({ message: 'seeded successfully' });
 };

@@ -20,6 +20,7 @@ function FormListings() {
 
 	const handleFormSubmit = async (event) => {
 		event.preventDefault();
+		console.log('formdata', form);
 		try {
 			const res = await fetch('/api/form', {
 				method: 'POST',
@@ -31,11 +32,12 @@ function FormListings() {
 			if (!res.ok) {
 				throw new Error(res.status);
 			}
+			const result = await res.json();
+			console.log(result);
+			alert(`Is this your data: ${result.listingTitle}`);
 		} catch (error) {
 			console.error('Failed to add', error);
 		}
-		const result = await res.json();
-		alert(`Is this your data: ${result}`);
 	};
 
 	const handleChange = (event) => {
@@ -46,14 +48,19 @@ function FormListings() {
 		const id = target.id;
 		const value = checkValues(type, form, name, wert, id);
 		setForm({ ...form, [name]: value() });
+		console.log(form.studioPricing);
 	};
 	function checkValues(type, form, name, wert, id) {
 		return () => {
-			if (name === 'studioPricing' || id === 'soundengineerPrice') {
-				let newObject = { ...form?.[name], [id]: wert };
-				if (form?.name?.contains(id.contains(wert))) {
-					newObject = newObject.map((ids) => ids !== id);
-				}
+			if (name === 'studioPricing') {
+				const newObject = { ...form?.[name], [id]: wert };
+				const test = Object.fromEntries(Object.entries(newObject).filter(([k, v]) => v));
+
+				return test;
+			}
+			if (id === 'soundengineerPrice') {
+				const newObject = { ...form?.[id], [id]: wert };
+
 				return newObject;
 			}
 			if (type === 'checkbox' || type === 'file') {
@@ -72,6 +79,7 @@ function FormListings() {
 		const target = event.target;
 		const name = target.name;
 		const id = target.id;
+		const wert = target.value;
 		const isChecked = () => {
 			if (name === 'soundengineer') {
 				return id;
@@ -80,6 +88,11 @@ function FormListings() {
 				let newArray = [...checked?.[name], id];
 				if (checked?.[name].includes(id)) {
 					newArray = newArray.filter((pricing) => pricing !== id);
+					const currentForm = { ...form?.[name], [id]: wert };
+					const deleteUnchecked = Object.fromEntries(
+						Object.entries(currentForm).filter((pricing) => !pricing.includes(id))
+					);
+					setForm({ ...form, [name]: deleteUnchecked });
 				}
 				return newArray;
 			}
@@ -132,7 +145,6 @@ function FormListings() {
 								type='file'
 								name='images'
 								id='image'
-								required
 								onChange={handleChange}
 							/>
 							Upload Image
@@ -458,9 +470,7 @@ function FormListings() {
 							type='checkbox'
 							name='studioPricing'
 							id='studioPricingHour'
-							value={''}
 							onChange={(event) => {
-								handleChange(event);
 								handleCheck(event);
 							}}
 						/>
@@ -472,9 +482,11 @@ function FormListings() {
 							id='studioPricingHour'
 							disabled={!checked.studioPricing.includes('studioPricingHour')}
 							value={
-								checked.studioPricing.includes('studioPricingHour')
-									? form.studioPricing.studioPricingHour
-									: 0
+								!checked.studioPricing.includes('studioPricingHour')
+									? 0
+									: form.studioPricing.studioPricingHour === undefined
+									? ''
+									: form.studioPricing.studioPricingHour
 							}
 							onChange={handleChange}
 						/>
@@ -485,9 +497,7 @@ function FormListings() {
 							type='checkbox'
 							name='studioPricing'
 							id='studioPricingDay'
-							value={''}
 							onChange={(event) => {
-								handleChange(event);
 								handleCheck(event);
 							}}
 						/>
@@ -499,9 +509,11 @@ function FormListings() {
 							id='studioPricingDay'
 							disabled={!checked.studioPricing.includes('studioPricingDay')}
 							value={
-								checked.studioPricing.includes('studioPricingDay')
-									? form.studioPricing.studioPricingDay
-									: 0
+								!checked.studioPricing.includes('studioPricingDay')
+									? 0
+									: form.studioPricing.studioPricingDay === undefined
+									? ''
+									: form.studioPricing.studioPricingDay
 							}
 							onChange={handleChange}
 						/>
@@ -512,9 +524,7 @@ function FormListings() {
 							type='checkbox'
 							name='studioPricing'
 							id='studioPricingWeek'
-							value={''}
 							onChange={(event) => {
-								handleChange(event);
 								handleCheck(event);
 							}}
 						/>
@@ -526,9 +536,11 @@ function FormListings() {
 							id='studioPricingWeek'
 							disabled={!checked.studioPricing.includes('studioPricingWeek')}
 							value={
-								checked.studioPricing.includes('studioPricingWeek')
-									? form.studioPricing.studioPricingWeek
-									: 0
+								!checked.studioPricing.includes('studioPricingWeek')
+									? 0
+									: form.studioPricing.studioPricingWeek === undefined
+									? ''
+									: form.studioPricing.studioPricingWeek
 							}
 							onChange={handleChange}
 						/>
@@ -539,9 +551,7 @@ function FormListings() {
 							type='checkbox'
 							name='studioPricing'
 							id='studioPricingMonth'
-							value={''}
 							onChange={(event) => {
-								handleChange(event);
 								handleCheck(event);
 							}}
 						/>
@@ -553,9 +563,11 @@ function FormListings() {
 							id='studioPricingMonth'
 							disabled={!checked.studioPricing.includes('studioPricingMonth')}
 							value={
-								checked.studioPricing.includes('studioPricingMonth')
-									? form.studioPricing.studioPricingMonth
-									: 0
+								!checked.studioPricing.includes('studioPricingMonth')
+									? 0
+									: form.studioPricing.studioPricingMonth === undefined
+									? ''
+									: form.studioPricing.studioPricingMonth
 							}
 							onChange={handleChange}
 						/>
