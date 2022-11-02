@@ -48,20 +48,15 @@ function FormListings() {
 		const id = target.id;
 		const value = checkValues(type, form, name, wert, id);
 		setForm({ ...form, [name]: value() });
-		console.log(form.studioPricing);
 	};
 	function checkValues(type, form, name, wert, id) {
 		return () => {
-			if (name === 'studioPricing') {
-				const newObject = { ...form?.[name], [id]: wert };
-				const test = Object.fromEntries(Object.entries(newObject).filter(([k, v]) => v));
-
-				return test;
-			}
-			if (id === 'soundengineerPrice') {
-				const newObject = { ...form?.[id], [id]: wert };
-
-				return newObject;
+			if (name === 'studioPricing' || id === 'soundengineerPrice') {
+				const currentForm = { ...form?.[name === 'studioPricing' ? name : id], [id]: wert };
+				const deleteUndefined = Object.fromEntries(
+					Object.entries(currentForm).filter(([k, v]) => v)
+				);
+				return deleteUndefined;
 			}
 			if (type === 'checkbox' || type === 'file') {
 				let newArray = [...form?.[name], wert];
