@@ -12,17 +12,16 @@ import { TbSmoking } from 'react-icons/tb';
 import { MdBed } from 'react-icons/md';
 
 function ListingCard({
-	title,
-	img,
+	listingTitle,
+	images,
 	studiotype,
 	services,
-	soundEngineer,
-	studioBooking,
+	soundengineer,
+	studioPricing,
 	locationFeatures,
-	location,
+	studioLocation,
 }) {
 	const ref = useRef(null);
-
 	const slicedServices = services.slice(0, 3).map((service) => service);
 
 	const [width, setWidth] = useState(0);
@@ -36,7 +35,8 @@ function ListingCard({
 			<div className='flex w-full cursor-pointer rounded-lg border-b py-7 px-2 first:border hover:opacity-80 hover:shadow-lg'>
 				<div className='relative h-24 w-32  flex-shrink-0 sm:h-32 sm:w-48 md:h-36 md:w-56 lg:h-52 lg:w-80'>
 					<Image
-						src={img}
+						src={images}
+						// src=''
 						layout='fill'
 						objectFit='cover'
 						className='rounded-xl'
@@ -47,7 +47,9 @@ function ListingCard({
 					<div className='flex flex-col md:gap-2'>
 						<div className='flex items-center justify-between'>
 							<p className='text-xs text-gray-400'>
-								{location.length > 30 ? location.substring(0, 30) + '...' : location}
+								{studioLocation.length > 30
+									? studioLocation.substring(0, 30) + '...'
+									: studioLocation}
 							</p>
 							<button>
 								<FiHeart className='icon-sm' />
@@ -56,7 +58,7 @@ function ListingCard({
 						<div className='flex gap-2'>
 							<p className='text-xs sm:text-sm md:text-lg'>{studiotype}</p>
 							<p className='flex text-xs sm:text-sm md:text-lg'>
-								{soundEngineer ? (
+								{soundengineer ? (
 									<>
 										Soundengineer <TiTick className='text-green-500' />
 									</>
@@ -66,7 +68,7 @@ function ListingCard({
 							</p>
 						</div>
 					</div>
-					<h4 className='text-sm sm:text-xl md:text-2xl'>{title}</h4>
+					<h4 className='text-sm sm:text-xl md:text-2xl'>{listingTitle}</h4>
 					<ul
 						className='flex items-center gap-2'
 						ref={ref}
@@ -102,7 +104,15 @@ function ListingCard({
 							{locationFeatures.sleepover ? <MdBed className='icon' /> : ''}
 						</div>
 						<p className='text-sm font-semibold sm:text-base md:text-lg lg:text-2xl'>
-							{studioBooking}$ / Hour
+							{studioPricing.studioPricingHour
+								? studioPricing.studioPricingHour + '$ / Hour'
+								: studioPricing.studioPricingDay
+								? studioPricing.studioPricingDay + '$ / Day'
+								: studioPricing.studioPricingWeek
+								? studioPricing.studioPricingWeek + '$ / Week'
+								: studioPricing.studioPricingMonth
+								? studioPricing.studioPricingMonth + '$ / Month'
+								: '' + ' / Day'}
 						</p>
 					</div>
 				</div>

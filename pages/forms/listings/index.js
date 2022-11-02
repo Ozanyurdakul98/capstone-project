@@ -20,7 +20,6 @@ function FormListings() {
 
 	const handleFormSubmit = async (event) => {
 		event.preventDefault();
-		console.log('formdata', form);
 		try {
 			const res = await fetch('/api/form', {
 				method: 'POST',
@@ -33,8 +32,7 @@ function FormListings() {
 				throw new Error(res.status);
 			}
 			const result = await res.json();
-			console.log(result);
-			alert(`Is this your data: ${result.listingTitle}`);
+			alert(`Is this your data: ${result}`);
 		} catch (error) {
 			console.error('Failed to add', error);
 		}

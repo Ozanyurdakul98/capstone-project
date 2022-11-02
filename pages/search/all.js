@@ -12,28 +12,26 @@ function Search({ listings }) {
 			<>
 				{listings.map(
 					({
-						id,
-						title,
-						img,
+						_id,
+						listingTitle,
+						images,
 						studiotype,
 						services,
-						soundEngineer,
-						studioBooking,
-						description,
+						soundengineer,
+						studioPricing,
 						locationFeatures,
-						location,
+						studioLocation,
 					}) => (
 						<ListingCards
-							key={id}
-							title={title}
-							img={img}
+							key={_id}
+							listingTitle={listingTitle}
+							images={images}
 							studiotype={studiotype}
 							services={services}
-							soundEngineer={soundEngineer.available}
-							studioBooking={studioBooking.perHour}
-							description={description}
+							soundengineer={soundengineer}
+							studioPricing={studioPricing}
 							locationFeatures={locationFeatures}
-							location={location}
+							studioLocation={studioLocation}
 						></ListingCards>
 					)
 				)}

@@ -33,12 +33,11 @@ import { nanoid } from 'nanoid';
 const studioListingSchema = new mongoose.Schema(
 	{
 		maxGuests: { type: Number, default: 3 },
-		id: { type: String, default: nanoid() },
 		listingTitle: { type: String },
 		images: {
 			type: String,
-			default: '/public/Thumbnail-Default.png',
-			set: (v) => (v === '' || undefined || null ? '/public/Thumbnail-Default.png' : v),
+			default: '/images/Thumbnail-Default.png',
+			set: (v) => (v === '' || undefined || null ? '/images/Thumbnail-Default.png' : v),
 		},
 		openingHours: {
 			type: String,
