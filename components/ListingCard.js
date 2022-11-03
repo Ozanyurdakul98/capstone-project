@@ -22,7 +22,7 @@ function ListingCard({
 	studioLocation,
 }) {
 	const ref = useRef(null);
-	const slicedServices = services.slice(0, 3).map((service) => service);
+	const slicedServices = services.slice(0, 3);
 
 	const [width, setWidth] = useState(0);
 
