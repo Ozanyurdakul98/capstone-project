@@ -9,12 +9,7 @@ import { DateRange } from 'react-date-range';
 import format from 'date-fns/format';
 import { useRouter } from 'next/router';
 //styles
-import {
-	MagnifyingGlassIcon,
-	UsersIcon,
-	PlusCircleIcon,
-	MinusCircleIcon,
-} from '@heroicons/react/24/solid';
+import { MagnifyingGlassIcon, UsersIcon, PlusCircleIcon, MinusCircleIcon } from '@heroicons/react/24/solid';
 
 function SearchBar() {
 	//search
@@ -87,8 +82,7 @@ function SearchBar() {
 			{/* SearchInput */}
 			<form
 				onSubmit={handleSearch}
-				className=' relative z-50 flex flex-1 items-center space-x-2 rounded-full border border-gray-300 bg-gray-100 px-3 py-1 shadow-sm md:shadow-lg'
-			>
+				className=' relative z-50 flex flex-1 items-center space-x-2 rounded-full border border-gray-300 bg-gray-100 px-3 py-1 shadow-sm md:shadow-lg'>
 				<MagnifyingGlassIcon className='h-6 w-6 shrink-0 cursor-pointer rounded-full bg-black/30 p-1 text-white' />
 				<input
 					className='relative z-50 flex-1 border-none bg-transparent outline-none'
@@ -105,22 +99,19 @@ function SearchBar() {
 						<div className='relative  flex min-h-20  items-center justify-center gap-2'>
 							<button
 								onClick={() => setActivePanel('calendar')}
-								className={activePanel === 'calendar' ? 'button-active z-40' : 'button z-40'}
-							>
+								className={activePanel === 'calendar' ? 'button-active z-40' : 'button z-40'}>
 								When?
 							</button>
 
 							<button
 								onClick={() => setActivePanel('guests')}
-								className={activePanel === 'guests' ? 'button-active z-40' : 'button z-40'}
-							>
+								className={activePanel === 'guests' ? 'button-active z-40' : 'button z-40'}>
 								Guests?
 							</button>
 
 							<button
 								onClick={() => setActivePanel('services')}
-								className={activePanel === 'services' ? 'button-active z-40' : 'button z-40'}
-							>
+								className={activePanel === 'services' ? 'button-active z-40' : 'button z-40'}>
 								Services?
 							</button>
 						</div>
@@ -160,8 +151,7 @@ function SearchBar() {
 										<button
 											className='icon-big cursor-pointer'
 											onClick={decrementNumberGuests}
-											disabled={noOfGuests === 1}
-										>
+											disabled={noOfGuests === 1}>
 											<MinusCircleIcon />
 										</button>
 										<input
@@ -175,8 +165,7 @@ function SearchBar() {
 										<button
 											className='icon-big cursor-cell '
 											onClick={incrementNumberGuests}
-											disabled={noOfGuests === 15}
-										>
+											disabled={noOfGuests === 15}>
 											<PlusCircleIcon />
 										</button>
 									</div>
@@ -189,8 +178,7 @@ function SearchBar() {
 										className='select-search ml-5'
 										onChange={(event) => handleServicesSelect(event)}
 										value={servicesSelected}
-										name='services'
-									>
+										name='services'>
 										<option value='recording'>Recording</option>
 										<option value='mix'>Mix</option>
 										<option value='master'>Master</option>
@@ -204,22 +192,17 @@ function SearchBar() {
 						<div className='flex-end relative z-40 mx-5 flex h-16 items-center justify-between gap-2   border-t-2 pt-5'>
 							<button
 								onClick={() => setSearchInput('')}
-								className='button flex-grow  justify-center border-none bg-red-500 text-white'
-							>
+								className='button flex-grow  justify-center border-none bg-red-500 text-white'>
 								Cancel
 							</button>
 							<button
 								onClick={handleSearch}
-								className='button flex-grow justify-center border-none bg-green-500 text-white'
-							>
+								className='button flex-grow justify-center border-none bg-green-500 text-white'>
 								Search
 							</button>
 						</div>
 					</div>
-					<ClickToCloseMax
-						style={'bg-black/50'}
-						onClick={(event) => handleClickToCloseSearch(event)}
-					/>
+					<ClickToCloseMax style={'bg-black/50'} onClick={(event) => handleClickToCloseSearch(event)} />
 				</>
 			)}
 		</div>

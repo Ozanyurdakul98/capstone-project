@@ -23,9 +23,7 @@ function Search({ listings, query }) {
 		setSearchFilter(routerQueryFilters);
 	}
 	const filteredListings = listings
-		.filter((studio) =>
-			studio.studioLocation?.toLowerCase().includes(searchFilter.location?.toLowerCase())
-		)
+		.filter((studio) => studio.studioLocation?.toLowerCase().includes(searchFilter.location?.toLowerCase()))
 		.filter((studio) => studio.maxGuests >= searchFilter.noOfGuests)
 		.filter((studio) =>
 			studio.services

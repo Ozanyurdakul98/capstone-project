@@ -10,10 +10,7 @@ export default function Layout({ children }) {
 		<div className='bg-site relative'>
 			<Head>
 				<title>Tonstudio-Kleinanzeigen</title>
-				<link
-					rel='icon'
-					href='/favicon.ico'
-				/>
+				<link rel='icon' href='/favicon.ico' />
 			</Head>
 			<StyledHeader>
 				<Header />

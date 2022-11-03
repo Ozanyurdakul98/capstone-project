@@ -47,9 +47,7 @@ function ListingCard({
 					<div className='flex flex-col md:gap-2'>
 						<div className='flex items-center justify-between'>
 							<p className='text-xs text-gray-400'>
-								{studioLocation.length > 30
-									? studioLocation.substring(0, 30) + '...'
-									: studioLocation}
+								{studioLocation.length > 30 ? studioLocation.substring(0, 30) + '...' : studioLocation}
 							</p>
 							<button>
 								<FiHeart className='icon-sm' />
@@ -69,17 +67,13 @@ function ListingCard({
 						</div>
 					</div>
 					<h4 className='text-sm sm:text-xl md:text-2xl'>{listingTitle}</h4>
-					<ul
-						className='flex items-center gap-2'
-						ref={ref}
-					>
+					<ul className='flex items-center gap-2' ref={ref}>
 						{width <= 400 && services.length > 3 ? (
 							<>
 								{slicedServices.map((service) => (
 									<li
 										key={service}
-										className='rounded-full bg-red-200 px-[9px] text-xs sm:text-xs md:text-sm lg:text-base xl:text-lg'
-									>
+										className='rounded-full bg-red-200 px-[9px] text-xs sm:text-xs md:text-sm lg:text-base xl:text-lg'>
 										{service}
 									</li>
 								))}
@@ -89,8 +83,7 @@ function ListingCard({
 							services.map((service) => (
 								<li
 									key={service}
-									className=' rounded-full bg-red-200 px-[9px] text-xs sm:text-xs md:text-sm lg:text-base xl:text-lg'
-								>
+									className=' rounded-full bg-red-200 px-[9px] text-xs sm:text-xs md:text-sm lg:text-base xl:text-lg'>
 									{service}
 								</li>
 							))
