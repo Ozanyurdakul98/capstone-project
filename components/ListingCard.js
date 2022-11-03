@@ -40,7 +40,7 @@ function ListingCard({
 						layout='fill'
 						objectFit='cover'
 						className='rounded-xl'
-						alt=''
+						alt='Thumbnail'
 					/>
 				</div>
 				<div className='flex w-full flex-col justify-between pl-2 sm:pl-5'>
@@ -63,7 +63,7 @@ function ListingCard({
 										Soundengineer <TiTick className='text-green-500' />
 									</>
 								) : (
-									''
+									'❌'
 								)}
 							</p>
 						</div>
@@ -98,10 +98,10 @@ function ListingCard({
 					</ul>
 					<div className='flex items-center justify-between'>
 						<div className='flex gap-2'>
-							{locationFeatures.wifi ? <IoIosWifi className='icon' /> : ''}
-							{locationFeatures.parking ? <RiParkingBoxLine className='icon' /> : ''}
-							{locationFeatures.smoking ? <TbSmoking className='icon' /> : ''}
-							{locationFeatures.sleepover ? <MdBed className='icon' /> : ''}
+							{locationFeatures.wifi ? <IoIosWifi className='icon' /> : null}
+							{locationFeatures.parking ? <RiParkingBoxLine className='icon' /> : null}
+							{locationFeatures.smoking ? <TbSmoking className='icon' /> : null}
+							{locationFeatures.sleepover ? <MdBed className='icon' /> : null}
 						</div>
 						<p className='text-sm font-semibold sm:text-base md:text-lg lg:text-2xl'>
 							{studioPricing.studioPricingHour
@@ -112,7 +112,7 @@ function ListingCard({
 								? studioPricing.studioPricingWeek + '$ / Week'
 								: studioPricing.studioPricingMonth
 								? studioPricing.studioPricingMonth + '$ / Month'
-								: '' + ' / Day'}
+								: null}
 						</p>
 					</div>
 				</div>
