@@ -377,10 +377,13 @@ function FormListings() {
               Price:
             </label>
             <input
-              className='priceInput-form outline-none'
+              className='priceInput-form peer'
               type='number'
               name='soundengineer'
               id='soundengineerPrice'
+              required
+              min={1}
+              max={9999}
               disabled={checked.soundengineer != 'soundengineerPrice'}
               value={checked.soundengineer === 'soundengineerPrice' ? form.soundengineer.soundengineerPrice : 0}
               onChange={handleChange}
@@ -388,6 +391,7 @@ function FormListings() {
             <label htmlFor='soundengineerPriceInput' className='mr-2'>
               € / hour
             </label>
+            <span className='err'>From 1 to 9999</span>
           </div>
         </fieldset>
         {/* studio-price */}
@@ -404,10 +408,13 @@ function FormListings() {
             />
             <label htmlFor='studioPricingHour'>per Hour</label>
             <input
-              className='priceInput-form outline-none'
+              className='priceInput-form peer outline-none'
               type='number'
               name='studioPricing'
               id='studioPricingHour'
+              required
+              min={1}
+              max={9999}
               disabled={!checked.studioPricing.includes('studioPricingHour')}
               value={
                 !checked.studioPricing.includes('studioPricingHour')
@@ -418,7 +425,7 @@ function FormListings() {
               }
               onChange={handleChange}
             />
-            €
+            €<span className='err'>From 1 to 9999</span>
           </div>
           <div className='checkbox-form'>
             <input
@@ -431,10 +438,13 @@ function FormListings() {
             />
             <label htmlFor='studioPricingDay'>per Day</label>
             <input
-              className='priceInput-form outline-none'
+              className='priceInput-form peer'
               type='number'
               name='studioPricing'
               id='studioPricingDay'
+              required
+              max={9999}
+              min={1}
               disabled={!checked.studioPricing.includes('studioPricingDay')}
               value={
                 !checked.studioPricing.includes('studioPricingDay')
@@ -445,7 +455,7 @@ function FormListings() {
               }
               onChange={handleChange}
             />
-            €
+            €<span className='err'>From 1 to 9999</span>
           </div>
           <div className='checkbox-form'>
             <input
@@ -458,10 +468,13 @@ function FormListings() {
             />
             <label htmlFor='studioPricingWeek'>per Week</label>
             <input
-              className='priceInput-form outline-none'
+              className='priceInput-form peer'
               type='number'
               name='studioPricing'
               id='studioPricingWeek'
+              required
+              min={1}
+              max={9999}
               disabled={!checked.studioPricing.includes('studioPricingWeek')}
               value={
                 !checked.studioPricing.includes('studioPricingWeek')
@@ -472,7 +485,7 @@ function FormListings() {
               }
               onChange={handleChange}
             />
-            €
+            €<span className='err'>From 1 to 9999</span>
           </div>
           <div className='checkbox-form'>
             <input
@@ -485,10 +498,13 @@ function FormListings() {
             />
             <label htmlFor='studioPricingMonth'>per Month</label>
             <input
-              className='priceInput-form outline-none'
+              className='priceInput-form peer '
               type='number'
               name='studioPricing'
               id='studioPricingMonth'
+              required
+              min={1}
+              max={9999}
               disabled={!checked.studioPricing.includes('studioPricingMonth')}
               value={
                 !checked.studioPricing.includes('studioPricingMonth')
@@ -499,7 +515,7 @@ function FormListings() {
               }
               onChange={handleChange}
             />
-            €
+            €<span className='err'>From 1 to 9999</span>
           </div>
         </fieldset>
         {/* location */}
