@@ -73,8 +73,6 @@ function FormListings() {
     const type = target.type;
     const name = target.name;
     const wert = target.value;
-    console.log(wert);
-    console.log(wert.trim());
     const id = target.id;
     const value = checkValues(type, form, name, wert, id);
     setForm({ ...form, [name]: value() });
@@ -121,7 +119,7 @@ function FormListings() {
     };
     setChecked({ ...checked, [name]: isChecked() });
   };
-  console.log(form);
+
   return (
     <div>
       <h1 className='text-primary mt-4 mb-2 text-center text-4xl font-bold leading-tight'>Add Studio Listing</h1>
