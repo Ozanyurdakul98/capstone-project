@@ -43,6 +43,8 @@ function FormListings() {
     const type = target.type;
     const name = target.name;
     const wert = target.value;
+    console.log(wert);
+    console.log(wert.trim());
     const id = target.id;
     const value = checkValues(type, form, name, wert, id);
     setForm({ ...form, [name]: value() });
@@ -104,14 +106,13 @@ function FormListings() {
             type='text'
             id='titel'
             name='listingTitle'
-            minLength={10}
-            maxLength={60}
             required
-            pattern='^([a-zA-Z0-9\s,_-]){3,60}$'
+            autoComplete='off'
+            pattern='^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){10,60}$'
             value={form.listingTitle}
             onChange={handleChange}
           />
-          <span className='err'>Min 10-60 characters, no special character&apos;s!</span>
+          <span className='err'>Only 10-60 characters and (a-z, A-Z, 0-9, ! äöü ,-_) allowed!</span>
         </fieldset>
         {/* Mediafiles */}
         <fieldset className='w-full leading-tight'>
@@ -511,11 +512,11 @@ function FormListings() {
             placeholder='Type [City], [Address]'
             required
             autoComplete='off'
-            pattern='^([a-zA-Z0-9\s,_-]){3,60}$'
+            pattern='^([a-zA-Z-])([a-zA-Z-0-9-,äöü\s]){5,60}$'
             value={form.studioLocation}
             onChange={handleChange}
           />
-          <span className='err '>Min 5-60 characters, no special character&apos;s!</span>
+          <span className='err'>Only 5-60 characters and (a-z, A-Z, 0-9, äöü ,-) allowed!</span>
         </fieldset>
         {/* Form-Buttons */}
         <fieldset className='flex justify-between'>
