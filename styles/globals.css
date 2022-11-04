@@ -3,121 +3,126 @@
 @tailwind utilities;
 
 :root {
-	--primary-color: #0f3c69;
-	--secondary-color: #1e90ff;
+  --primary-color: #0f3c69;
+  --secondary-color: #1e90ff;
 
-	--site-bg: #edf0f5;
-	--primary-bg: #0f3c69;
-	--secondary-bg: #1e90ff;
+  --site-bg: #edf0f5;
+  --primary-bg: #0f3c69;
+  --secondary-bg: #1e90ff;
 
-	--primary-icon: #0f3c69;
-	--secondary-icon: #1e90ff;
+  --primary-icon: #0f3c69;
+  --secondary-icon: #1e90ff;
 
-	--primary-text: #0f3c69;
+  --primary-text: #0f3c69;
 }
 
 @layer components {
-	.text-primary {
-		@apply text-[color:var(--primary-text)];
-	}
-	.border-primary {
-		@apply border-[color:var(--primary-color)];
-	}
-	.border-secondary {
-		@apply border-[color:var(--secondary-color)];
-	}
-	.bg-site {
-		@apply bg-[color:var(--site-bg)];
-	}
-	.bg-primary {
-		@apply bg-[color:var(--primary-bg)];
-	}
-	.bg-secondary {
-		@apply bg-[color:var(--secondary-bg)];
-	}
-	.icon {
-		@apply h-6 w-6 cursor-pointer rounded-sm text-[color:var(--primary-icon)] lg:h-9 lg:w-9 lg:p-1 lg:hover:bg-gray-100;
-	}
-	.icon-sm {
-		@apply h-9 w-6 cursor-pointer rounded-sm  lg:w-9 lg:p-1 lg:hover:bg-gray-100;
-	}
-	.icon-big {
-		@apply h-12 w-8 transform cursor-pointer rounded-sm text-[color:var(--secondary-icon)] transition duration-100 active:text-black disabled:text-gray-400 lg:w-12 lg:p-1 lg:hover:text-opacity-80;
-	}
-	.login-button {
-		@apply rounded bg-amber-300 py-2 px-4 shadow outline-none hover:bg-amber-400 active:bg-red-100;
-	}
-	.button-active {
-		@apply flex max-h-8 transform cursor-pointer items-center rounded-full  border bg-[#1e90ff] px-4 py-2 text-white transition duration-100 ease-out  hover:shadow-lg active:scale-95 active:bg-gray-100;
-	}
-	.button {
-		@apply flex max-h-8 transform cursor-pointer items-center rounded-full  border border-black  px-4 py-2 transition duration-100 ease-out  hover:shadow-lg active:scale-95 active:bg-gray-100;
-	}
-	input,
-	select,
-	textarea {
-		@apply rounded border p-2 outline-none ring-indigo-300;
-	}
-	.input-form {
-		@apply w-full appearance-none border-gray-500 bg-[#edf0f5] py-3 px-4  leading-tight text-gray-700 focus:border-gray-500/30 focus:bg-white focus:outline-none sm:w-2/3 lg:w-1/2;
-	}
-	.priceInput-form {
-		@apply w-12 disabled:bg-slate-300 disabled:text-black/20;
-	}
+  .text-primary {
+    @apply text-[color:var(--primary-text)];
+  }
+  .border-primary {
+    @apply border-[color:var(--primary-color)];
+  }
+  .border-secondary {
+    @apply border-[color:var(--secondary-color)];
+  }
+  .bg-site {
+    @apply bg-[color:var(--site-bg)];
+  }
+  .bg-primary {
+    @apply bg-[color:var(--primary-bg)];
+  }
+  .bg-secondary {
+    @apply bg-[color:var(--secondary-bg)];
+  }
+  .icon {
+    @apply h-6 w-6 cursor-pointer rounded-sm text-[color:var(--primary-icon)] lg:h-9 lg:w-9 lg:p-1 lg:hover:bg-gray-100;
+  }
+  .icon-sm {
+    @apply h-9 w-6 cursor-pointer rounded-sm  lg:w-9 lg:p-1 lg:hover:bg-gray-100;
+  }
+  .icon-big {
+    @apply h-12 w-8 transform cursor-pointer rounded-sm text-[color:var(--secondary-icon)] transition duration-100 active:text-black disabled:text-gray-400 lg:w-12 lg:p-1 lg:hover:text-opacity-80;
+  }
+  .login-button {
+    @apply rounded bg-amber-300 py-2 px-4 shadow outline-none hover:bg-amber-400 active:bg-red-100;
+  }
+  .button-active {
+    @apply flex max-h-8 transform cursor-pointer items-center rounded-full  border bg-[#1e90ff] px-4 py-2 text-white transition duration-100 ease-out  hover:shadow-lg active:scale-95 active:bg-gray-100;
+  }
+  .button {
+    @apply flex max-h-8 transform cursor-pointer items-center rounded-full  border border-black  px-4 py-2 transition duration-100 ease-out  hover:shadow-lg active:scale-95 active:bg-gray-100;
+  }
+  input,
+  select,
+  textarea {
+    @apply rounded border p-2 outline-none ring-indigo-300;
+  }
+  .input-form {
+    @apply w-full appearance-none  border-gray-500 bg-[#edf0f5] py-3 px-4  leading-tight text-gray-700 focus:border-gray-500/30 focus:bg-white focus:outline-none sm:w-2/3 lg:w-1/2;
+  }
 
-	.checkbox-form {
-		@apply flex items-center gap-2;
-	}
-	.radio-form {
-		@apply flex gap-2;
-	}
-	.label-form {
-		@apply ml-5 mb-2 block text-xs font-bold uppercase tracking-wide text-[color:var(--primary-text)] lg:text-base;
-	}
-	.number-search {
-		@apply mb-1 h-10 w-14 rounded-full border  bg-[#1e90ff] px-4  text-white outline-none disabled:text-white;
-	}
-	.select-search {
-		@apply top-1 mb-1 h-10 max-w-min cursor-pointer  rounded-full bg-[#1e90ff] pl-5  text-white after:absolute after:h-5 after:w-5;
-	}
-	.date-search {
-		@apply mb-2 cursor-pointer rounded-full text-center outline-none;
-	}
-	.h4 {
-		@apply text-lg font-semibold;
-	}
-	.searchFadein {
-		animation: fadeInAnimation 250ms;
-	}
+  /* input[data-focused='true'] {
+    @apply bg-black;
+  } */
+  .priceInput-form {
+    @apply w-12 outline-none disabled:bg-slate-300 disabled:text-black/20;
+  }
 
-	@keyframes fadeInAnimation {
-		from {
-			transform: translateY(-85%) translateX(-100%) rotate(23deg);
-		}
-		to {
-			transform: translateY(0) translateX(0) rotate(0deg);
-		}
-	}
+  .checkbox-form {
+    @apply flex items-center gap-2;
+  }
+  .radio-form {
+    @apply flex gap-2;
+  }
+  .label-form {
+    @apply ml-5 mb-2 block text-xs font-bold uppercase tracking-wide text-[color:var(--primary-text)] lg:text-base;
+  }
+  .number-search {
+    @apply mb-1 h-10 w-14 rounded-full border  bg-[#1e90ff] px-4  text-white outline-none disabled:text-white;
+  }
+  .select-search {
+    @apply top-1 mb-1 h-10 max-w-min cursor-pointer  rounded-full bg-[#1e90ff] pl-5  text-white after:absolute after:h-5 after:w-5;
+  }
+  .date-search {
+    @apply mb-2 cursor-pointer rounded-full text-center outline-none;
+  }
+  .h4 {
+    @apply text-lg font-semibold;
+  }
+  .searchFadein {
+    animation: fadeInAnimation 250ms;
+  }
 
-	/* Set all svg colors svg {
+  @keyframes fadeInAnimation {
+    from {
+      transform: translateY(-85%) translateX(-100%) rotate(23deg);
+    }
+    to {
+      transform: translateY(0) translateX(0) rotate(0deg);
+    }
+  }
+
+  /* Set all svg colors svg {
 		@apply primary-color;
 	} */
 }
 @layer base {
-	input[type='number']::-webkit-outer-spin-button,
-	input[type='number']::-webkit-inner-spin-button,
-	input[type='number'] {
-		-webkit-appearance: none;
-		margin: 0;
-		-moz-appearance: textfield !important;
-		opacity: 1;
-		outline: none;
-		/* -webkit-text-fill-color: #ffffff; */
-	}
-	select {
-		-webkit-appearance: none;
-		background: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAyMC4wLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiDQoJIHZpZXdCb3g9IjAgMCA0LjkgMTAiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDQuOSAxMDsiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4NCgkuc3Qwe2ZpbGw6I2ZmZmZmZjt9DQo8L3N0eWxlPg0KPHRpdGxlPmFycm93czwvdGl0bGU+DQo8cG9seWdvbiBjbGFzcz0ic3QwIiBwb2ludHM9IjEuNCw0LjcgMi41LDMuMiAzLjUsNC43ICIvPg0KPHBvbHlnb24gY2xhc3M9InN0MCIgcG9pbnRzPSIzLjUsNS4zIDIuNSw2LjggMS40LDUuMyAiLz4NCjwvc3ZnPg==')
-			no-repeat 95% 50%;
-		margin: 0;
-	}
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number'] {
+    -webkit-appearance: none;
+    margin: 0;
+    -moz-appearance: textfield !important;
+    opacity: 1;
+    outline: none;
+
+    /* -webkit-text-fill-color: #ffffff; */
+  }
+  select {
+    -webkit-appearance: none;
+    background: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAyMC4wLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiDQoJIHZpZXdCb3g9IjAgMCA0LjkgMTAiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDQuOSAxMDsiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4NCgkuc3Qwe2ZpbGw6I2ZmZmZmZjt9DQo8L3N0eWxlPg0KPHRpdGxlPmFycm93czwvdGl0bGU+DQo8cG9seWdvbiBjbGFzcz0ic3QwIiBwb2ludHM9IjEuNCw0LjcgMi41LDMuMiAzLjUsNC43ICIvPg0KPHBvbHlnb24gY2xhc3M9InN0MCIgcG9pbnRzPSIzLjUsNS4zIDIuNSw2LjggMS40LDUuMyAiLz4NCjwvc3ZnPg==')
+      no-repeat 95% 50%;
+    margin: 0;
+  }
 }

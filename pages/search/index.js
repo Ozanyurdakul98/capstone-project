@@ -5,9 +5,6 @@ import db from '../../lib/dbConnect';
 import StudioListing from '../../models/StudioListing';
 //tools
 import format from 'date-fns/format';
-
-//db
-// import { fakeData } from '../../db/fakedata';
 //components
 import ListingCard from '../../components/ListingCard';
 
@@ -16,7 +13,6 @@ function Search({ listings, query }) {
 	const router = useRouter();
 	const weekdays = ['sunday', 'monday', 'thuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 	const checkInDay = new Date(query.startDate).getDay();
-
 	if (
 		router.query.location !== searchFilter.location ||
 		router.query.noOfGuests !== searchFilter.noOfGuests ||
@@ -27,9 +23,7 @@ function Search({ listings, query }) {
 		setSearchFilter(routerQueryFilters);
 	}
 	const filteredListings = listings
-		.filter((studio) =>
-			studio.location?.toLowerCase().includes(searchFilter.location?.toLowerCase())
-		)
+		.filter((studio) => studio.studioLocation?.toLowerCase().includes(searchFilter.location?.toLowerCase()))
 		.filter((studio) => studio.maxGuests >= searchFilter.noOfGuests)
 		.filter((studio) =>
 			studio.services
@@ -40,9 +34,9 @@ function Search({ listings, query }) {
 		)
 		.filter(
 			(studio) =>
-				studio.openingOption === 'Always Available' ||
-				studio.openingOption === 'On Request' ||
-				studio.openingCustom[weekdays[checkInDay]]
+				studio.openingHours === 'Always Available' ||
+				studio.openingHours === 'On Request' ||
+				studio.openingHours[weekdays[checkInDay]]
 		);
 
 	const date = new Date(query.startDate);
@@ -56,27 +50,25 @@ function Search({ listings, query }) {
 			{filteredListings.map(
 				({
 					_id,
-					title,
-					img,
+					listingTitle,
+					images,
 					studiotype,
 					services,
-					soundEngineer,
-					studioBooking,
-					description,
+					soundengineer,
+					studioPricing,
 					locationFeatures,
-					location,
+					studioLocation,
 				}) => (
 					<ListingCard
 						key={_id}
-						title={title}
-						img={img}
+						listingTitle={listingTitle}
+						images={images}
 						studiotype={studiotype}
 						services={services}
-						soundEngineer={soundEngineer.available}
-						studioBooking={studioBooking.perHour}
-						description={description}
+						soundengineer={soundengineer}
+						studioPricing={studioPricing}
 						locationFeatures={locationFeatures}
-						location={location}
+						studioLocation={studioLocation}
 					></ListingCard>
 				)
 			)}
