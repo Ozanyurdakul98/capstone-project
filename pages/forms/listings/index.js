@@ -119,7 +119,6 @@ function FormListings() {
     };
     setChecked({ ...checked, [name]: isChecked() });
   };
-
   return (
     <div>
       <h1 className='text-primary mt-4 mb-2 text-center text-4xl font-bold leading-tight'>Add Studio Listing</h1>
@@ -136,7 +135,7 @@ function FormListings() {
             name='listingTitle'
             required
             autoComplete='off'
-            pattern='^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){10,60}$'
+            pattern='^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){9,60}$'
             errorMessage={'Only 10-60 characters and (a-z, A-Z, 0-9, ! äöü ,-_) allowed!'}
             value={form.listingTitle}
             onChange={handleChange}></FormInput>
@@ -553,7 +552,7 @@ function FormListings() {
             required
             autoComplete='off'
             errorMessage={'Only 5-60 characters and (a-z, A-Z, 0-9, äöü ,-) allowed!'}
-            pattern='^([a-zA-Z-])([a-zA-Z-0-9-,äöü\s]){5,60}$'
+            pattern='^([a-zA-Z-])([a-zA-Z-0-9-,äöü\s]){4,60}$'
             value={form.studioLocation}
             onChange={handleChange}
           />
