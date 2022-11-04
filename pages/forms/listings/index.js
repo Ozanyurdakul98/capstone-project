@@ -1,6 +1,38 @@
 import React from 'react';
 import { useState } from 'react';
 
+function FormInput(props) {
+  const [focused, setFocused] = useState(false);
+  const { label, errorMessage, onChange, afterLabel, ...inputProps } = props;
+  const handleFocus = (event) => {
+    setFocused(true);
+  };
+  return (
+    <>
+      <input
+        {...inputProps}
+        onChange={onChange}
+        onClick={handleFocus}
+        onBlur={handleFocus}
+        data-focused={focused.toString()}
+      />
+      <label htmlFor={props.id} className={afterLabel ? 'mr-2 block' : 'hidden'}>
+        {afterLabel}
+      </label>
+      <span
+        className={
+          focused && errorMessage && props.type !== 'number'
+            ? 'block text-red-500 peer-valid:invisible peer-invalid:visible'
+            : props.type === 'number' && errorMessage && !props.disabled
+            ? 'text-red-500 peer-enabled:block'
+            : 'hidden'
+        }>
+        {errorMessage}
+      </span>
+    </>
+  );
+}
+
 function FormListings() {
   const [form, setForm] = useState({
     listingTitle: '',
@@ -17,7 +49,6 @@ function FormListings() {
     soundengineer: false,
     studioPricing: [],
   });
-
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -37,7 +68,6 @@ function FormListings() {
       console.error('Failed to add', error);
     }
   };
-
   const handleChange = (event) => {
     const target = event.target;
     const type = target.type;
@@ -91,7 +121,7 @@ function FormListings() {
     };
     setChecked({ ...checked, [name]: isChecked() });
   };
-
+  console.log(form);
   return (
     <div>
       <h1 className='text-primary mt-4 mb-2 text-center text-4xl font-bold leading-tight'>Add Studio Listing</h1>
@@ -101,18 +131,17 @@ function FormListings() {
           <label htmlFor='titel' className='label-form block '>
             Listing Titel
           </label>
-          <input
-            className='input-form peer block'
+          <FormInput
+            className='input-form peer block '
             type='text'
             id='titel'
             name='listingTitle'
             required
             autoComplete='off'
             pattern='^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){10,60}$'
+            errorMessage={'Only 10-60 characters and (a-z, A-Z, 0-9, ! äöü ,-_) allowed!'}
             value={form.listingTitle}
-            onChange={handleChange}
-          />
-          <span className='err'>Only 10-60 characters and (a-z, A-Z, 0-9, ! äöü ,-_) allowed!</span>
+            onChange={handleChange}></FormInput>
         </fieldset>
         {/* Mediafiles */}
         <fieldset className='w-full leading-tight'>
@@ -364,19 +393,16 @@ function FormListings() {
             <label htmlFor='soundengineerInclusive'>Inclusive</label>
           </div>
           <div className='radio-form flex items-center'>
-            <input
+            <FormInput
               type='radio'
               name='soundengineer'
               id='soundengineerPrice'
+              afterLabel={'Price:'}
               onChange={(event) => {
                 handleChange(event);
                 handleCheck(event);
-              }}
-            />
-            <label className='pr-1' htmlFor='soundengineerPrice'>
-              Price:
-            </label>
-            <input
+              }}></FormInput>
+            <FormInput
               className='priceInput-form peer'
               type='number'
               name='soundengineer'
@@ -384,21 +410,18 @@ function FormListings() {
               required
               min={1}
               max={9999}
+              errorMessage={'From 1 to 9999'}
+              afterLabel={'€ / hour'}
               disabled={checked.soundengineer != 'soundengineerPrice'}
               value={checked.soundengineer === 'soundengineerPrice' ? form.soundengineer.soundengineerPrice : 0}
-              onChange={handleChange}
-            />
-            <label htmlFor='soundengineerPriceInput' className='mr-2'>
-              € / hour
-            </label>
-            <span className='err'>From 1 to 9999</span>
+              onChange={handleChange}></FormInput>
           </div>
         </fieldset>
         {/* studio-price */}
         <fieldset className='flex w-full flex-col gap-3 leading-tight'>
           <legend className='label-form'>Studio Pricing</legend>
           <div className='checkbox-form'>
-            <input
+            <FormInput
               type='checkbox'
               name='studioPricing'
               id='studioPricingHour'
@@ -407,7 +430,7 @@ function FormListings() {
               }}
             />
             <label htmlFor='studioPricingHour'>per Hour</label>
-            <input
+            <FormInput
               className='priceInput-form peer outline-none'
               type='number'
               name='studioPricing'
@@ -415,6 +438,8 @@ function FormListings() {
               required
               min={1}
               max={9999}
+              afterLabel={'€'}
+              errorMessage={'From 1 to 9999'}
               disabled={!checked.studioPricing.includes('studioPricingHour')}
               value={
                 !checked.studioPricing.includes('studioPricingHour')
@@ -423,21 +448,19 @@ function FormListings() {
                   ? ''
                   : form.studioPricing.studioPricingHour
               }
-              onChange={handleChange}
-            />
-            €<span className='err'>From 1 to 9999</span>
+              onChange={handleChange}></FormInput>
           </div>
           <div className='checkbox-form'>
-            <input
+            <FormInput
               type='checkbox'
               name='studioPricing'
               id='studioPricingDay'
+              afterLabel={'per Day'}
               onChange={(event) => {
                 handleCheck(event);
               }}
             />
-            <label htmlFor='studioPricingDay'>per Day</label>
-            <input
+            <FormInput
               className='priceInput-form peer'
               type='number'
               name='studioPricing'
@@ -445,6 +468,8 @@ function FormListings() {
               required
               max={9999}
               min={1}
+              afterLabel={'€'}
+              errorMessage={'From 1 to 9999'}
               disabled={!checked.studioPricing.includes('studioPricingDay')}
               value={
                 !checked.studioPricing.includes('studioPricingDay')
@@ -455,19 +480,18 @@ function FormListings() {
               }
               onChange={handleChange}
             />
-            €<span className='err'>From 1 to 9999</span>
           </div>
           <div className='checkbox-form'>
-            <input
+            <FormInput
               type='checkbox'
               name='studioPricing'
               id='studioPricingWeek'
+              afterLabel={'per Week'}
               onChange={(event) => {
                 handleCheck(event);
               }}
             />
-            <label htmlFor='studioPricingWeek'>per Week</label>
-            <input
+            <FormInput
               className='priceInput-form peer'
               type='number'
               name='studioPricing'
@@ -475,6 +499,8 @@ function FormListings() {
               required
               min={1}
               max={9999}
+              afterLabel={'€'}
+              errorMessage={'From 1 to 9999'}
               disabled={!checked.studioPricing.includes('studioPricingWeek')}
               value={
                 !checked.studioPricing.includes('studioPricingWeek')
@@ -485,24 +511,25 @@ function FormListings() {
               }
               onChange={handleChange}
             />
-            €<span className='err'>From 1 to 9999</span>
           </div>
           <div className='checkbox-form'>
-            <input
+            <FormInput
               type='checkbox'
               name='studioPricing'
               id='studioPricingMonth'
+              afterLabel={'per Month'}
               onChange={(event) => {
                 handleCheck(event);
               }}
             />
-            <label htmlFor='studioPricingMonth'>per Month</label>
-            <input
+            <FormInput
               className='priceInput-form peer '
               type='number'
               name='studioPricing'
               id='studioPricingMonth'
               required
+              afterLabel={'€'}
+              errorMessage={'From 1 to 9999'}
               min={1}
               max={9999}
               disabled={!checked.studioPricing.includes('studioPricingMonth')}
@@ -515,24 +542,23 @@ function FormListings() {
               }
               onChange={handleChange}
             />
-            €<span className='err'>From 1 to 9999</span>
           </div>
         </fieldset>
         {/* location */}
         <fieldset className='w-full leading-tight'>
           <legend className='label-form'>Location</legend>
-          <input
+          <FormInput
             className='input-form peer'
             type='text'
             name='studioLocation'
             placeholder='Type [City], [Address]'
             required
             autoComplete='off'
+            errorMessage={'Only 5-60 characters and (a-z, A-Z, 0-9, äöü ,-) allowed!'}
             pattern='^([a-zA-Z-])([a-zA-Z-0-9-,äöü\s]){5,60}$'
             value={form.studioLocation}
             onChange={handleChange}
           />
-          <span className='err'>Only 5-60 characters and (a-z, A-Z, 0-9, äöü ,-) allowed!</span>
         </fieldset>
         {/* Form-Buttons */}
         <fieldset className='flex justify-between'>
