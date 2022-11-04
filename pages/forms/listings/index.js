@@ -24,7 +24,7 @@ function FormInput(props) {
           focused && errorMessage && props.type !== 'number'
             ? 'block text-red-500 peer-valid:invisible peer-invalid:visible'
             : props.type === 'number' && errorMessage && !props.disabled
-            ? 'text-red-500 peer-enabled:block'
+            ? 'text-red-500 peer-valid:invisible peer-enabled:block'
             : 'hidden'
         }>
         {errorMessage}
