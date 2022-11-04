@@ -9,13 +9,7 @@ function FormInput(props) {
   };
   return (
     <>
-      <input
-        {...inputProps}
-        onChange={onChange}
-        onClick={handleFocus}
-        onBlur={handleFocus}
-        data-focused={focused.toString()}
-      />
+      <input {...inputProps} onChange={onChange} onBlur={handleFocus} data-focused={focused.toString()} />
       <label htmlFor={props.id} className={afterLabel ? 'mr-2 block' : 'hidden'}>
         {afterLabel}
       </label>
