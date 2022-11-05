@@ -23,9 +23,9 @@ export default async function handler(req, res) {
         return res.status(201).json({ success: true, data: listing });
       } catch (error) {
         console.log('error', error);
-        return res.status(400).json({ success: false.valueOf, message: 'Unauthorized' });
+        return res.status(400).json({ success: false, message: 'Unauthorized' });
       }
     }
   }
-  return res.status(400).json({ success: false, message: 'HTTP method is not allowed' });
+  return res.status(400).json({ success: false, message: 'HTTP method is not allowed, Unauthorized' });
 }

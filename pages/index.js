@@ -1,12 +1,14 @@
 import Head from 'next/head';
-import Image from 'next/image';
+import Link from 'next/link';
 import styled from 'styled-components';
 
 import { useSession, signIn, signOut } from 'next-auth/react';
+import Github from 'next-auth/providers/github';
 
 export default function Home() {
-  const { data: session } = useSession();
-  console.log({ session });
+  const { data: session, status } = useSession();
+  console.log(status);
+
   console.log(session);
   return (
     <>
@@ -14,7 +16,6 @@ export default function Home() {
         <title>Homepage</title>
       </Head>
       <h1>Tonstudio-Kleinanzeigen</h1>
-
       <p className='mt-20 text-blue-500 underline'>Log dich ein</p>
       {session ? (
         <>
@@ -25,29 +26,22 @@ export default function Home() {
         <>
           <p>Not signed in</p>
           <button onClick={() => signIn()}>Sign in</button>
+          <br />
         </>
       )}
-      <Background>
-        <Image
-          src='https://unsplash.com/photos/9y7y26C-l4Y/download?ixid=MnwxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNjU5MjcwNjYw&force=true&w=2400'
-          alt='Schöne Fische'
-          layout='responsive'
-          width={2400}
-          height={1800}
-        />
-      </Background>
+      {session ? (
+        <Link href={`/forms/listings`}>
+          <a> Produkt hinzufügen (loggedIn)</a>
+        </Link>
+      ) : (
+        <button onClick={() => signIn(Github, { callbackUrl: '/forms/listings' })}>
+          <a>Produkt hinzufügen (authCheck)</a>
+        </button>
+      )}{' '}
+      <br />
+      <Link href={`/forms/listings`}>
+        <a> Produkt hinzufügen (just href)</a>
+      </Link>
     </>
   );
 }
-const Background = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  overflow-y: hidden;
-  top: 0;
-  left: 0;
-  z-index: -10;
-  @media (max-width: 600px) {
-    display: none;
-  }
-`;
