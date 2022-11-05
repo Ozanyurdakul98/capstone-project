@@ -12,36 +12,39 @@ export default function Home() {
   console.log(session);
   return (
     <>
-      <Head>
-        <title>Homepage</title>
-      </Head>
       <h1>Tonstudio-Kleinanzeigen</h1>
-      <p className='mt-20 text-blue-500 underline'>Log dich ein</p>
-      {session ? (
-        <>
-          <p>Signed in as {session.user.email}</p>
-          <button onClick={() => signOut()}>Sign out</button>
-        </>
-      ) : (
-        <>
-          <p>Not signed in</p>
-          <button onClick={() => signIn()}>Sign in</button>
-          <br />
-        </>
-      )}
-      {session ? (
+      <div className=' mt-10 w-60 border-4 border-red-300'>
+        {session ? (
+          <>
+            <p>Signed in as {session.user.email}</p>
+            <button className='text-blue-500' onClick={() => signOut()}>
+              Sign out
+            </button>
+          </>
+        ) : (
+          <>
+            <p>Not signed in</p>
+            <button className='text-blue-500' onClick={() => signIn()}>
+              Sign in
+            </button>
+            <br />
+          </>
+        )}
+      </div>
+      <div className=' mt-10 w-80 border-4 border-red-300'>
+        {session ? (
+          <Link href={`/forms/listings`}>
+            <a className='text-blue-500'> Produkt hinzufügen (loggedIn=allowed)</a>
+          </Link>
+        ) : (
+          <button className='block text-blue-500' onClick={() => signIn(Github, { callbackUrl: '/forms/listings' })}>
+            <a>Produkt hinzufügen (AuthRequire)</a>
+          </button>
+        )}
         <Link href={`/forms/listings`}>
-          <a> Produkt hinzufügen (loggedIn)</a>
+          <a className='text-blue-500'> Produkt hinzufügen (SSR check/redirect)</a>
         </Link>
-      ) : (
-        <button onClick={() => signIn(Github, { callbackUrl: '/forms/listings' })}>
-          <a>Produkt hinzufügen (authCheck)</a>
-        </button>
-      )}{' '}
-      <br />
-      <Link href={`/forms/listings`}>
-        <a> Produkt hinzufügen (just href)</a>
-      </Link>
+      </div>
     </>
   );
 }

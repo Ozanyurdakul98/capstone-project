@@ -119,7 +119,6 @@ function FormListings() {
     setChecked({ ...checked, [name]: isChecked() });
   };
 
-  if (typeof window === 'undefined') return null;
   if (session) {
     return (
       <div>
