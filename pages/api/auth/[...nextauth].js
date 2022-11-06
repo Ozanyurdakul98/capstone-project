@@ -7,7 +7,6 @@ import db from '../../../lib/dbConnect';
 db.connect();
 
 export const authOptions = {
-  session: { strategy: 'jwt' },
   providers: [
     CredentialsProvider({
       name: 'Credentials',
@@ -25,6 +24,7 @@ export const authOptions = {
 
         if (!user) {
           // Any object returned will be saved in `user` property of the JWT
+          console.log('not registered');
           throw new Error("You haven't registered yet");
         }
         if (user) return signinUser({ password, user });
@@ -38,7 +38,9 @@ export const authOptions = {
     }),
     // ...add more providers here
   ],
-  secret: 'anystring',
+  pages: { signIn: '/signin' },
+  secret: 'secret',
+  database: process.env.DB_URI,
 };
 
 export default NextAuth(authOptions);

@@ -32,7 +32,6 @@ function FormInput(props) {
 
 function FormListings() {
   const { data: session } = useSession();
-
   const [form, setForm] = useState({
     listingTitle: '',
     images: '',
