@@ -10,18 +10,39 @@ export default function SignIn({ csrfToken, providers }) {
     password: '',
     message: null,
   });
+  const email = form.email;
+  const password = form.password;
 
   const signinUser = async (event) => {
+    event.preventDefault();
     let options = { redirect: false, email, password };
     const res = await signIn('credentials', options);
-    event.preventDefault();
     setForm({ ...form, message: null });
     if (res?.error) {
       return setForm({ ...form, message: res.error });
     }
     return router.push('/');
   };
-
+  const signupUser = async (event) => {
+    event.preventDefault();
+    setForm({ ...form, message: null });
+    const res = await fetch('/api/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    });
+    let user = await res.json();
+    if (user.message) {
+      setForm({ ...form, message: user.message });
+    }
+    if (user.message == 'success') {
+      let options = { redirect: false, email, password };
+      const res = await signIn('credentials', options);
+      return router.push('/');
+    }
+  };
   const handleChange = (event) => {
     const t = event.target;
     const name = t.name;
@@ -52,7 +73,9 @@ export default function SignIn({ csrfToken, providers }) {
         <button className='button' type='submit' onClick={(event) => signinUser(event)}>
           Sign in with Credentials
         </button>
-        <button className='button'>Sign up</button>
+        <button onClick={(event) => signupUser(event)} className='button'>
+          Sign up
+        </button>
       </form>
 
       {Object.values(providers).map((provider) => {

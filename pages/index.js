@@ -7,9 +7,8 @@ import Github from 'next-auth/providers/github';
 
 export default function Home() {
   const { data: session, status } = useSession();
-  console.log(status);
+  // console.log(status, session);
 
-  console.log(session);
   return (
     <>
       <h1>Tonstudio-Kleinanzeigen</h1>

@@ -9,22 +9,13 @@ db.connect();
 export const authOptions = {
   providers: [
     CredentialsProvider({
-      name: 'Credentials',
-      // You can specify which fields should be submitted, by adding keys to the `credentials` object.
-      // You can pass any HTML attribute to the <input> tag through the object.
-      credentials: {
-        email: { label: 'Username', type: 'email', placeholder: 'jsmith' },
-        password: { label: 'Password', type: 'password' },
-      },
       async authorize(credentials, req) {
         // Add logic here to look up the user from the credentials supplied
         const email = credentials.email;
         const password = credentials.password;
         const user = await User.findOne({ email });
-
         if (!user) {
           // Any object returned will be saved in `user` property of the JWT
-          console.log('not registered');
           throw new Error("You haven't registered yet");
         }
         if (user) return signinUser({ password, user });
@@ -38,6 +29,24 @@ export const authOptions = {
     }),
     // ...add more providers here
   ],
+  session: {
+    strategy: 'jwt',
+  },
+  callbacks: {
+    async jwt({ token, user, account }) {
+      // Persist the OAuth access_token and or the user id to the token right after signin
+      if (user) {
+        token.avatar = user.avatar;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      // Send properties to the client, like an access_token and user id from a provider.
+      session.user.avatar = token.avatar ? token.avatar : token.picture ? token.picture : null;
+      session = { user: { name: token.name, email: token.email, avatar: session.user.avatar } };
+      return session;
+    },
+  },
   pages: { signIn: '/signin' },
   secret: 'secret',
   database: process.env.DB_URI,

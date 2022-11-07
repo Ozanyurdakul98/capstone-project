@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { unstable_getServerSession } from 'next-auth/next';
 import { authOptions } from '../../api/auth/[...nextauth].js';
-import { useSession, getSession } from 'next-auth/react';
+// import { useSession, getSession } from 'next-auth/react';
 
 function FormInput(props) {
   const [focused, setFocused] = useState(false);
@@ -30,8 +30,9 @@ function FormInput(props) {
   );
 }
 
-function FormListings() {
-  const { data: session } = useSession();
+function FormListings(session) {
+  // const { data: session } = useSession();
+  console.log(session);
   const [form, setForm] = useState({
     listingTitle: '',
     images: '',
@@ -66,6 +67,7 @@ function FormListings() {
       console.error('Failed to add', error);
     }
   };
+
   const handleChange = (event) => {
     const target = event.target;
     const type = target.type;
@@ -576,14 +578,9 @@ function FormListings() {
 export default FormListings;
 
 export async function getServerSideProps(context) {
-  const session = await getSession({ req: context.req });
-  if (session) {
-    return {
-      props: {
-        session: await unstable_getServerSession(context.req, context.res, authOptions),
-      },
-    };
-  } else {
+  const session = await unstable_getServerSession(context.req, context.res, authOptions);
+  console.log('form', session);
+  if (!session) {
     return {
       redirect: {
         destination: '/',
@@ -591,4 +588,8 @@ export async function getServerSideProps(context) {
       },
     };
   }
+
+  return {
+    props: session || null,
+  };
 }
