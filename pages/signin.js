@@ -83,8 +83,8 @@ export default function SignIn({ csrfToken, providers }) {
           return;
         }
         return (
-          <div key={providers.name}>
-            <button className='button' onClick={() => signIn(provider.id)}>
+          <div key={provider.id}>
+            <button key={provider.id} className='button' onClick={() => signIn(provider.id)}>
               Sign in with {provider.name}
             </button>
           </div>
