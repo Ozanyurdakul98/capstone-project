@@ -4,6 +4,7 @@ import GithubProvider from 'next-auth/providers/github';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import User from '../../../models/UserModel';
 import db from '../../../lib/dbConnect';
+
 db.connect();
 
 export const authOptions = {
