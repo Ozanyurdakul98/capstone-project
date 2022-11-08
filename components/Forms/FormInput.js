@@ -4,29 +4,55 @@ import { useState } from 'react';
 // import { useSession, getSession } from 'next-auth/react';
 export function FormInput(props) {
   const [focused, setFocused] = useState(false);
-  const { label, errorMessage, onChange, beforeLabel, afterLabel, divClass, ...inputProps } = props;
+  const { label, errorMessage, onChange, beforeLabel, afterLabel, divClass, divClassAll, ...inputProps } = props;
   const handleFocus = (event) => {
     setFocused(true);
   };
   return (
     <>
-      <label htmlFor={props.id} className={beforeLabel ? 'label-form block' : 'hidden'}>
-        {beforeLabel}
-      </label>
-      {divClass ? (
-        <div className={divClass}>
-          <input {...inputProps} onChange={onChange} onBlur={handleFocus} data-focused={focused.toString()} />
-          <label htmlFor={props.id} className={afterLabel ? 'mr-2 block' : 'hidden'}>
-            {afterLabel}
+      {divClassAll ? (
+        <div className={divClassAll}>
+          <label htmlFor={props.id} className={beforeLabel ? 'label-form block' : 'hidden'}>
+            {beforeLabel}
           </label>
+          {divClass ? (
+            <div className={divClass}>
+              <input {...inputProps} onChange={onChange} onBlur={handleFocus} data-focused={focused.toString()} />
+              <label htmlFor={props.id} className={afterLabel ? 'mr-2 block' : 'hidden'}>
+                {afterLabel}
+              </label>
+            </div>
+          ) : (
+            <>
+              <input {...inputProps} onChange={onChange} onBlur={handleFocus} data-focused={focused.toString()} />
+
+              <label htmlFor={props.id} className={afterLabel ? 'mr-2 block' : 'hidden'}>
+                {afterLabel}
+              </label>
+            </>
+          )}
         </div>
       ) : (
         <>
-          <input {...inputProps} onChange={onChange} onBlur={handleFocus} data-focused={focused.toString()} />
-
-          <label htmlFor={props.id} className={afterLabel ? 'mr-2 block' : 'hidden'}>
-            {afterLabel}
+          <label htmlFor={props.id} className={beforeLabel ? 'label-form block' : 'hidden'}>
+            {beforeLabel}
           </label>
+          {divClass ? (
+            <div className={divClass}>
+              <input {...inputProps} onChange={onChange} onBlur={handleFocus} data-focused={focused.toString()} />
+              <label htmlFor={props.id} className={afterLabel ? 'mr-2 block' : 'hidden'}>
+                {afterLabel}
+              </label>
+            </div>
+          ) : (
+            <>
+              <input {...inputProps} onChange={onChange} onBlur={handleFocus} data-focused={focused.toString()} />
+
+              <label htmlFor={props.id} className={afterLabel ? 'mr-2 block' : 'hidden'}>
+                {afterLabel}
+              </label>
+            </>
+          )}
         </>
       )}
 

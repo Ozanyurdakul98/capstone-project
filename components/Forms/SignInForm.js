@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import { signIn } from 'next-auth/react';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
@@ -65,54 +66,66 @@ export default function SignInComponent({ csrfToken, providers }) {
   }
 
   return (
-    <div className='signIn-form'>
-      <form action='' onSubmit={signinUser}>
-        <FormInput type='hidden' name='csrfToken' defaultValue={csrfToken} />
-        <label htmlFor='email'>Email adress</label>
-        <FormInput
-          className='input-form peer'
-          type='email'
-          name='email'
-          id='email'
-          placeholder='Email'
-          required
-          pattern='^([a-zA-Z-0-9-!äöü@.,-_]){5,60}$'
-          errorMessage={'( a-z, A-Z, 0-9, äöü !,-@._ ) min 5 max 60 characters allowed!'}
-          onChange={handleChange}
+    <div className='signIn-form grid h-screen w-full grid-cols-1 sm:grid-cols-2'>
+      <div className='relative hidden sm:block'>
+        <Image
+          className='h-full w-full'
+          src='/images/Thumbnail-signin.jpg'
+          layout='fill'
+          objectFit='contain'
+          alt='login-image'
         />
-        <label htmlFor='password'>Password</label>
-        <FormInput
-          className='input-form peer'
-          type='password'
-          name='password'
-          id='password'
-          placeholder='Password'
-          required
-          pattern='^([a-zA-Z-0-9-!äöü#@.,-_]){8,60}$'
-          errorMessage={'( a-z, A-Z, 0-9, äöü #!,-@._ ) min 8 max 60 characters allowed!'}
-          onChange={handleChange}
-        />
-        <p>{form.message}</p>
-        <button className='button' type='submit'>
-          Sign in with Credentials
-        </button>
-        <button onClick={(event) => signupUser(event)} className='button'>
-          Sign up
-        </button>
-      </form>
+      </div>
+      <div>
+        <form action='' onSubmit={signinUser}>
+          <FormInput type='hidden' name='csrfToken' defaultValue={csrfToken} />
+          <legend className='label-form text-2xl'>Sign In</legend>
+          <FormInput
+            beforeLabel={'Email adress'}
+            className='input-form peer'
+            type='email'
+            name='email'
+            id='email'
+            placeholder='Email'
+            required
+            pattern='^([a-zA-Z-0-9-!äöü@.,-_]){5,60}$'
+            errorMessage={'( a-z, A-Z, 0-9, äöü !,-@._ ) min 5 max 60 characters allowed!'}
+            onChange={handleChange}
+          />
+          <FormInput
+            beforeLabel={'Password'}
+            className='input-form peer'
+            type='password'
+            name='password'
+            id='password'
+            placeholder='Password'
+            required
+            pattern='^([a-zA-Z-0-9-!äöü#@.,-_]){8,60}$'
+            errorMessage={'( a-z, A-Z, 0-9, äöü #!,-@._ ) min 8 max 60 characters allowed!'}
+            onChange={handleChange}
+          />
 
-      {Object.values(providers).map((provider) => {
-        if (provider.name === 'Credentials') {
-          return;
-        }
-        return (
-          <div key={provider.id}>
-            <button key={provider.id} className='button' onClick={() => signIn(provider.id)}>
-              Sign in with {provider.name}
-            </button>
-          </div>
-        );
-      })}
+          <button className='button' type='submit'>
+            Sign in with Credentials
+          </button>
+          <button onClick={(event) => signupUser(event)} className='button'>
+            Sign up
+          </button>
+        </form>
+        <p>{form.message}</p>{' '}
+        {Object.values(providers).map((provider) => {
+          if (provider.name === 'Credentials') {
+            return;
+          }
+          return (
+            <div key={provider.id}>
+              <button key={provider.id} className='button' onClick={() => signIn(provider.id)}>
+                Sign in with {provider.name}
+              </button>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }

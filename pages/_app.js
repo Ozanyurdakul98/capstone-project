@@ -9,13 +9,22 @@ import '../components/DatePicker/styles.css';
 import '../components/DatePicker/default.css';
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
+  console.log('compone', Component.name);
+  // const isSignIn = ["/signup/", "/signin/"].indexOf( this.props.location.pathname) !== 0;
+  const isSignIn = ['signup', 'signin'].indexOf(Component.name) !== -1;
+  console.log('signin', isSignIn);
+
   return (
     <>
       <GlobalStyle />
       <SessionProvider session={session}>
-        <Layout>
+        {!isSignIn ? (
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        ) : (
           <Component {...pageProps} />
-        </Layout>
+        )}
       </SessionProvider>
     </>
   );
