@@ -36,3 +36,8 @@ Includes the MongoDB setup/connection and SSR, as well as creating the create-a-
 
 ![Getting Started](/docs/images/step3.png)
 ![Getting Started](/docs/images/step3-2.png)
+
+## Step 4
+
+Add User Authentication via Credentials(email & password) and Github Auth. SignIn and SignUp using NextAuth.js
+![Image](https://user-images.githubusercontent.com/68496958/197496267-ca80b7f9-9bd1-4f6b-b93a-efe16b6be158.png)
