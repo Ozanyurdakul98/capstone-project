@@ -101,7 +101,7 @@ function FormListings(session) {
           {/* title */}
           <fieldset className='w-full leading-tight'>
             <FormInput
-              beforeLabel={'Listing Titel'}
+              beforeLabel={{ string: 'Listing Title', css: 'label-form ' }}
               className='input-form peer block '
               type='text'
               id='titel'
@@ -542,7 +542,7 @@ function FormListings(session) {
           {/* location */}
           <fieldset className='w-full leading-tight'>
             <FormInput
-              beforeLabel={'Location'}
+              beforeLabel={{ string: 'Location', css: 'label-form ' }}
               className='input-form peer'
               type='text'
               name='studioLocation'

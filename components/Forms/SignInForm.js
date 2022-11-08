@@ -72,29 +72,31 @@ export default function SignInComponent({ csrfToken, providers }) {
           className='h-full w-full'
           src='/images/Thumbnail-signin.jpg'
           layout='fill'
-          objectFit='contain'
+          objectFit='cover'
           alt='login-image'
         />
       </div>
-      <div>
-        <form action='' onSubmit={signinUser}>
+      <div className='bg-primary flex flex-col justify-center '>
+        <form action='' className='form-login' onSubmit={signinUser}>
           <FormInput type='hidden' name='csrfToken' defaultValue={csrfToken} />
-          <legend className='label-form text-2xl'>Sign In</legend>
+          <legend className='label-form text-2xl '>Sign In</legend>
           <FormInput
-            beforeLabel={'Email adress'}
-            className='input-form peer'
+            divClassAll={'w-full '}
+            beforeLabel={{ string: 'Email adress', css: 'label-form-login' }}
+            className='input-login justify peer'
             type='email'
             name='email'
             id='email'
             placeholder='Email'
             required
-            pattern='^([a-zA-Z-0-9-!äöü@.,-_]){5,60}$'
-            errorMessage={'( a-z, A-Z, 0-9, äöü !,-@._ ) min 5 max 60 characters allowed!'}
+            pattern='^([^\s@]+@[^\s@]+\.[^\s@]+$)'
+            errorMessage={'Not a valid email adress'}
             onChange={handleChange}
           />
           <FormInput
-            beforeLabel={'Password'}
-            className='input-form peer'
+            divClassAll={'w-full'}
+            beforeLabel={{ string: 'Password', css: 'label-form-login' }}
+            className='input-login peer'
             type='password'
             name='password'
             id='password'
@@ -104,27 +106,14 @@ export default function SignInComponent({ csrfToken, providers }) {
             errorMessage={'( a-z, A-Z, 0-9, äöü #!,-@._ ) min 8 max 60 characters allowed!'}
             onChange={handleChange}
           />
-
-          <button className='button' type='submit'>
-            Sign in with Credentials
+          <p>{form.message}</p>
+          <button className='login-button' type='submit'>
+            Sign in
           </button>
-          <button onClick={(event) => signupUser(event)} className='button'>
+          <button onClick={(event) => signupUser(event)} className='button hidden'>
             Sign up
           </button>
         </form>
-        <p>{form.message}</p>{' '}
-        {Object.values(providers).map((provider) => {
-          if (provider.name === 'Credentials') {
-            return;
-          }
-          return (
-            <div key={provider.id}>
-              <button key={provider.id} className='button' onClick={() => signIn(provider.id)}>
-                Sign in with {provider.name}
-              </button>
-            </div>
-          );
-        })}
       </div>
     </div>
   );
