@@ -61,10 +61,12 @@
   .input-form {
     @apply w-full appearance-none  border-gray-500 bg-[#edf0f5] py-3 px-4  leading-tight text-gray-700 focus:border-gray-500/30 focus:bg-white focus:outline-none sm:w-2/3 lg:w-1/2;
   }
-
-  /* input[data-focused='true'] {
-    @apply bg-black;
-  } */
+  .errormessage {
+    @apply block text-red-500;
+  }
+  input:invalid[data-focused='true'] {
+    @apply border-2 border-red-500;
+  }
   .priceInput-form {
     @apply w-12 outline-none disabled:bg-slate-300 disabled:text-black/20;
   }

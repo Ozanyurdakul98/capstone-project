@@ -33,9 +33,11 @@ export function FormInput(props) {
       <span
         className={
           focused && errorMessage && props.type !== 'number'
-            ? 'block text-red-500 peer-valid:invisible peer-invalid:visible'
-            : props.type === 'number' && errorMessage && !props.disabled
-            ? 'text-red-500 peer-valid:invisible peer-enabled:block'
+            ? 'block text-red-500 peer-valid:hidden peer-invalid:visible'
+            : props.type === 'number' && errorMessage && !props.disabled && focused
+            ? 'text-red-500 peer-valid:hidden peer-enabled:block'
+            : (props.type === 'email' || props.type === 'password') && errorMessage && focused
+            ? 'block text-red-500 peer-valid:hidden peer-invalid:visible'
             : 'hidden'
         }>
         {errorMessage}
