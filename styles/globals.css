@@ -71,10 +71,10 @@
     @apply mx-auto flex w-full max-w-[400px] flex-col items-center rounded-lg bg-white p-8 px-8;
   }
   .input-login {
-    @apply focus:bg-site mt-2 w-full rounded-lg bg-blue-200/70 p-2 focus:border-blue-500 focus:outline-none;
+    @apply focus:bg-site mt-2 w-full rounded-lg bg-blue-200/70 p-2 pl-5 focus:border-blue-500 focus:outline-none;
   }
-  .label-form-login {
-    @apply mb-1 mt-4 ml-5 block text-xs font-bold uppercase tracking-wide text-[color:var(--primary-text)] sm:text-sm lg:text-base;
+  .label-login {
+    @apply mb-1 mt-4 ml-5 block text-xs font-bold uppercase tracking-wide text-[color:var(--primary-text)] sm:text-sm;
   }
   .login-button {
     @apply hover:bg-secondary-hover my-5 w-full  rounded-lg bg-secondary-color py-2 text-white outline-none active:bg-primary-color;

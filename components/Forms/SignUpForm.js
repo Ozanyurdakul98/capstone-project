@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { FormInput } from './FormInput';
 import Link from 'next/link';
-export default function SignInComponent({ csrfToken, providers }) {
+export default function SignUpComponent({ csrfToken, providers }) {
   const router = useRouter();
   const [form, setForm] = useState({
     email: '',
@@ -79,7 +79,7 @@ export default function SignInComponent({ csrfToken, providers }) {
       <div className='bg-primary flex flex-col justify-center '>
         <form action='' className='form-login' onSubmit={signinUser}>
           <FormInput type='hidden' name='csrfToken' defaultValue={csrfToken} />
-          <legend className='label-form text-2xl '>Sign In</legend>
+          <legend className='label-form text-2xl '>Sign Up</legend>
           <FormInput
             divClassAll={'w-full '}
             beforeLabel={{ string: 'Email adress', css: 'label-login' }}
@@ -106,12 +106,25 @@ export default function SignInComponent({ csrfToken, providers }) {
             errorMessage={'( a-z, A-Z, 0-9, äöü #!,-@._ ) min 8 max 60 characters allowed!'}
             onChange={handleChange}
           />
+          <FormInput
+            divClassAll={'w-full'}
+            beforeLabel={{ string: 'Confirm Password', css: 'label-login' }}
+            className='input-login peer'
+            type='password'
+            name='password'
+            id='password'
+            placeholder='Password'
+            required
+            pattern='^([a-zA-Z-0-9-!äöü#@.,-_]){8,60}$'
+            errorMessage={'( a-z, A-Z, 0-9, äöü #!,-@._ ) min 8 max 60 characters allowed!'}
+            onChange={handleChange}
+          />
           <p>{form.message}</p>
           <button className='login-button' type='submit'>
             Sign In
           </button>
-          <Link href='/signup'>
-            <a className='text-sm underline'>Or Sign Up right here</a>
+          <Link href='/signin'>
+            <a className='text-sm underline'>Or Sign In right here</a>
           </Link>
           <button onClick={(event) => signupUser(event)} className='button hidden'>
             Sign up
