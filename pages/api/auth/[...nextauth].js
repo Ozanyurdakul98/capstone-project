@@ -66,18 +66,16 @@ export default NextAuth(authOptions);
 
 const signinUser = async ({ password, user }) => {
   const patternPassword = /^([a-zA-Z-0-9-!äöü#@.,-_]){8,60}$/i;
-
+  const isMatch = await bcrypt.compare(password, user.password);
   if (!password) {
     throw new Error('You need to enter a password!');
   }
-  console.log(user);
   if (password.length <= 7) {
     throw new Error('Password is too short!');
   }
   if (!patternPassword.test(password)) {
     throw new Error('Wrong Password! Please try again');
   }
-  const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
     throw new Error('Wrong Password! Please try again');
   }

@@ -18,6 +18,7 @@ export default function SignUpComponent({ csrfToken }) {
 
   const email = form.email;
   const password = form.password;
+  const matchpassword = form.matchpassword;
 
   const signupUser = async (event) => {
     event.preventDefault();
@@ -30,7 +31,7 @@ export default function SignUpComponent({ csrfToken }) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, password, matchpassword }),
       });
       let user = await res.json();
       if (user.message) {
