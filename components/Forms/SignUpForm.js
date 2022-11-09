@@ -5,47 +5,45 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { FormInput } from './FormInput';
 import Link from 'next/link';
-export default function SignUpComponent({ csrfToken, providers }) {
+export default function SignUpComponent({ csrfToken }) {
   const router = useRouter();
   const [form, setForm] = useState({
     email: '',
     password: '',
+    matchpassword: '',
     message: null,
   });
+  const [formErrors, setFormErrors] = useState({});
+  const [isSubmit, setIsSubmit] = useState(false);
+
   const email = form.email;
   const password = form.password;
 
-  const signinUser = async (event) => {
-    event.preventDefault();
-    console.log(event.target.checkValidity());
-    let options = { redirect: false, email, password };
-    const res = await signIn('credentials', options);
-    setForm({ ...form, message: null });
-    if (res?.error) {
-      return setForm({ ...form, message: res.error });
-    }
-    return router.push('/');
-  };
   const signupUser = async (event) => {
     event.preventDefault();
     setForm({ ...form, message: null });
-    const res = await fetch('/api/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password }),
-    });
-    let user = await res.json();
-    if (user.message) {
-      setForm({ ...form, message: user.message });
-    }
-    if (user.message == 'success') {
-      let options = { redirect: false, email, password };
-      const res = await signIn('credentials', options);
-      return router.push('/');
+    setFormErrors(validate(form));
+    setIsSubmit(true);
+    if (Object.keys(formErrors).length === 0 && isSubmit) {
+      const res = await fetch('/api/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+      let user = await res.json();
+      if (user.message) {
+        setForm({ ...form, message: user.message });
+      }
+      if (user.message == 'success') {
+        let options = { redirect: false, email, password };
+        const res = await signIn('credentials', options);
+        return router.push('/');
+      }
     }
   };
+
   const handleChange = (event) => {
     const t = event.target;
     console.log(t);
@@ -62,8 +60,35 @@ export default function SignUpComponent({ csrfToken, providers }) {
     if (name === 'password') {
       return wert;
     }
+    if (name === 'matchpassword') {
+      return wert;
+    }
     return;
   }
+  const validate = (values) => {
+    const errors = {};
+    const patternEmail = /^([^\s@]+@[^\s@]+\.[^\s@]+$)$/i;
+    const patternPassword = /^([a-zA-Z-0-9-!äöü#@.,-_]){8,60}$/i;
+    const isMatch = form.password === form.matchpassword;
+
+    if (!form.email) {
+      errors.email = 'A Email adress is required!';
+    } else if (!patternEmail.test(form.email)) {
+      errors.email = 'Your Email format is invalid!';
+    }
+    if (!form.password) {
+      errors.password = 'Please enter password';
+    } else if (!patternPassword.test(form.password)) {
+      errors.password = 'Incorrect format! Only (a-zA-Z-0-9-!äöü#@.,-_) and 8-20 characters';
+    }
+    if (!form.matchpassword) {
+      errors.matchpassword = 'Enter your Password again!';
+    } else if (!isMatch) {
+      errors.matchpassword = 'Password Incorrect.';
+    }
+
+    return errors;
+  };
 
   return (
     <div className=' signIn-form grid h-screen w-full grid-cols-1 overflow-y-hidden sm:grid-cols-2'>
@@ -89,7 +114,7 @@ export default function SignUpComponent({ csrfToken, providers }) {
         </div>
       </div>
       <div className='bg-primary flex flex-col justify-center '>
-        <form action='' className='form-login' onSubmit={signinUser}>
+        <form action='' autoComplete='off' noValidate className='form-login' onSubmit={signupUser}>
           <FormInput type='hidden' name='csrfToken' defaultValue={csrfToken} />
           <legend className='label-form text-2xl '>Sign Up</legend>
           <FormInput
@@ -105,6 +130,7 @@ export default function SignUpComponent({ csrfToken, providers }) {
             errorMessage={'Not a valid email adress'}
             onChange={handleChange}
           />
+          <span className='errormessage'>{formErrors.email}</span>
           <FormInput
             divClassAll={'w-full'}
             beforeLabel={{ string: 'Password', css: 'label-login' }}
@@ -118,19 +144,21 @@ export default function SignUpComponent({ csrfToken, providers }) {
             errorMessage={'( a-z, A-Z, 0-9, äöü #!,-@._ ) min 8 max 60 characters allowed!'}
             onChange={handleChange}
           />
+          <span className='errormessage'>{formErrors.password}</span>
           <FormInput
             divClassAll={'w-full'}
             beforeLabel={{ string: 'Confirm Password', css: 'label-login' }}
             className='input-login peer'
             type='password'
-            name='password'
-            id='password'
-            placeholder='Password'
+            name='matchpassword'
+            id='matchpassword'
+            placeholder='Confirm Password'
             required
-            pattern='^([a-zA-Z-0-9-!äöü#@.,-_]){8,60}$'
-            errorMessage={'( a-z, A-Z, 0-9, äöü #!,-@._ ) min 8 max 60 characters allowed!'}
+            pattern={form.password}
+            errorMessage={'Password is not matching!'}
             onChange={handleChange}
           />
+          <span className='errormessage'>{formErrors.matchpassword}</span>
           <p>{form.message}</p>
           <button className='login-button' type='submit'>
             Sign Up

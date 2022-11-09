@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { FormInput } from './FormInput';
 import Link from 'next/link';
-export default function SignInComponent({ csrfToken, providers }) {
+export default function SignInComponent({ csrfToken }) {
   const router = useRouter();
   const [form, setForm] = useState({
     email: '',
@@ -17,7 +17,7 @@ export default function SignInComponent({ csrfToken, providers }) {
 
   const signinUser = async (event) => {
     event.preventDefault();
-    console.log(event.target.checkValidity());
+
     let options = { redirect: false, email, password };
     const res = await signIn('credentials', options);
     setForm({ ...form, message: null });
@@ -26,26 +26,7 @@ export default function SignInComponent({ csrfToken, providers }) {
     }
     return router.push('/');
   };
-  const signupUser = async (event) => {
-    event.preventDefault();
-    setForm({ ...form, message: null });
-    const res = await fetch('/api/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password }),
-    });
-    let user = await res.json();
-    if (user.message) {
-      setForm({ ...form, message: user.message });
-    }
-    if (user.message == 'success') {
-      let options = { redirect: false, email, password };
-      const res = await signIn('credentials', options);
-      return router.push('/');
-    }
-  };
+
   const handleChange = (event) => {
     const t = event.target;
     console.log(t);
@@ -64,7 +45,7 @@ export default function SignInComponent({ csrfToken, providers }) {
     }
     return;
   }
-
+  console.log(form.message);
   return (
     <div className='signIn-form grid h-screen w-full grid-cols-1 sm:grid-cols-2'>
       <div className='relative hidden sm:block'>
@@ -77,7 +58,7 @@ export default function SignInComponent({ csrfToken, providers }) {
         />
       </div>
       <div className='bg-primary flex flex-col justify-center '>
-        <form action='' className='form-login' onSubmit={signinUser}>
+        <form action='' noValidate className='form-login' onSubmit={signinUser}>
           <FormInput type='hidden' name='csrfToken' defaultValue={csrfToken} />
           <legend className='label-form text-2xl '>Sign In</legend>
           <FormInput
@@ -106,7 +87,7 @@ export default function SignInComponent({ csrfToken, providers }) {
             errorMessage={'( a-z, A-Z, 0-9, äöü #!,-@._ ) min 8 max 60 characters allowed!'}
             onChange={handleChange}
           />
-          <p>{form.message}</p>
+          <p className='errormessage'>{form.message}</p>
           <button className='login-button' type='submit'>
             Sign In
           </button>
@@ -116,9 +97,6 @@ export default function SignInComponent({ csrfToken, providers }) {
               <a className=' text-sm underline'>Sign up right here</a>
             </Link>
           </div>
-          <button onClick={(event) => signupUser(event)} className='button hidden'>
-            Sign up
-          </button>
         </form>
       </div>
     </div>

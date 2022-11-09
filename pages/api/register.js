@@ -4,6 +4,16 @@ import User from '../../models/UserModel';
 export default async function handler(req, res) {
   const body = req.body;
   const user = await User.findOne({ email: body.email });
+  const patternEmail = /^([^\s@]+@[^\s@]+\.[^\s@]+$)$/i;
+  if (!email) {
+    throw new Error('You need to enter a Email!');
+  }
+  if (email.length > 50) {
+    throw new Error('Email adress is too long!');
+  }
+  if (!patternEmail.test(email)) {
+    throw new Error('Email format is not valid!');
+  }
   if (user) {
     res.status(200).json({ message: 'already registered' });
     return;
