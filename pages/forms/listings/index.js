@@ -48,7 +48,6 @@ function FormListings(session) {
     const id = target.id;
     const value = checkValues(type, form, name, wert, id);
     setForm({ ...form, [name]: value() });
-    console.log(form);
   };
   function checkValues(type, form, name, wert, id) {
     return () => {
@@ -575,7 +574,6 @@ export default FormListings;
 
 export async function getServerSideProps(context) {
   const session = await unstable_getServerSession(context.req, context.res, authOptions);
-  console.log('form', session);
   if (!session) {
     return {
       redirect: {

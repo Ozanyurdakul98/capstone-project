@@ -29,7 +29,6 @@ export default function SignInComponent({ csrfToken }) {
 
   const handleChange = (event) => {
     const t = event.target;
-    console.log(t);
     const name = t.name;
     const wert = t.value;
     const value = checkValues(name, wert);
@@ -45,7 +44,6 @@ export default function SignInComponent({ csrfToken }) {
     }
     return;
   }
-  console.log(form.message);
   return (
     <div className='signIn-form grid h-screen w-full grid-cols-1 sm:grid-cols-2'>
       <div className='relative hidden sm:block'>

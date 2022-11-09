@@ -10,7 +10,6 @@ export default async function handler(req, res) {
   const user = await User.findOne({ email: body.email });
   const patternEmail = /^([^\s@]+@[^\s@]+\.[^\s@]+$)$/i;
   const patternPassword = /^([a-zA-Z-0-9-!äöü#@.,-_]){8,60}$/i;
-  console.log(body);
   if (!email) {
     throw new Error('You need to enter a Email!');
   }

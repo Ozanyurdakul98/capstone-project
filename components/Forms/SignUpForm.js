@@ -47,7 +47,6 @@ export default function SignUpComponent({ csrfToken }) {
 
   const handleChange = (event) => {
     const t = event.target;
-    console.log(t);
     const name = t.name;
     const wert = t.value;
     const value = checkValues(name, wert);
