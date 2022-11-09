@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { FormInput } from './FormInput';
-import { ValidateSignUp } from './Validate';
+import { ValidateSignUp } from './Services/Validate';
 export default function SignUpComponent({ csrfToken }) {
   const router = useRouter();
   const [form, setForm] = useState({
