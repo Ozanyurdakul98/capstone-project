@@ -1,10 +1,11 @@
 import React from 'react';
-import Image from 'next/image';
-import { signIn } from 'next-auth/react';
 import { useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { FormInput } from './FormInput';
-import Link from 'next/link';
+import { ValidateSignUp } from './Validate';
 export default function SignUpComponent({ csrfToken }) {
   const router = useRouter();
   const [form, setForm] = useState({
@@ -21,9 +22,10 @@ export default function SignUpComponent({ csrfToken }) {
   const matchpassword = form.matchpassword;
 
   const signupUser = async (event) => {
+    const passForm = form;
     event.preventDefault();
     setForm({ ...form, message: null });
-    setFormErrors(validate(form));
+    setFormErrors(ValidateSignUp(passForm));
     setIsSubmit(true);
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       const res = await fetch('/api/register', {
@@ -65,30 +67,6 @@ export default function SignUpComponent({ csrfToken }) {
     }
     return;
   }
-  const validate = (values) => {
-    const errors = {};
-    const patternEmail = /^([^\s@]+@[^\s@]+\.[^\s@]+$)$/i;
-    const patternPassword = /^([a-zA-Z-0-9-!äöü#@.,-_]){8,60}$/i;
-    const isMatch = form.password === form.matchpassword;
-
-    if (!form.email) {
-      errors.email = 'A Email adress is required!';
-    } else if (!patternEmail.test(form.email)) {
-      errors.email = 'Your Email format is invalid!';
-    }
-    if (!form.password) {
-      errors.password = 'Please enter password';
-    } else if (!patternPassword.test(form.password)) {
-      errors.password = 'Incorrect format! Only (a-zA-Z-0-9-!äöü#@.,-_) and 8-20 characters';
-    }
-    if (!form.matchpassword) {
-      errors.matchpassword = 'Enter your Password again!';
-    } else if (!isMatch) {
-      errors.matchpassword = 'Password Incorrect.';
-    }
-
-    return errors;
-  };
 
   return (
     <div className=' signIn-form grid h-screen w-full grid-cols-1 overflow-y-hidden sm:grid-cols-2'>
