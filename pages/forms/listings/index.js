@@ -119,7 +119,7 @@ function FormListings(session) {
               errorMessage={'Only 10-60 characters and (a-z, A-Z, 0-9, ! äöü ,-_) allowed!'}
               value={form.listingTitle}
               onChange={handleChange}></FormInput>
-            <span className='errormessage'>{formErrors.listingTitle}</span>
+            <span className='errormessage '>{formErrors.listingTitle}</span>
           </fieldset>
           {/* Mediafiles */}
           <fieldset className='w-full leading-tight'>

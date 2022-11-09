@@ -61,7 +61,7 @@
     @apply rounded border p-2 outline-none ring-indigo-300;
   }
   .errormessage {
-    @apply block text-red-500;
+    @apply block pl-5 text-xs text-red-500 sm:text-sm;
   }
   input:invalid[data-focused='true'] {
     @apply border-2 border-red-500;
