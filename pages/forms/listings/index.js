@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { unstable_getServerSession } from 'next-auth/next';
 import { authOptions } from '../../api/auth/[...nextauth].js';
 import { FormInput } from '../../../components/Forms/FormInput';
-
+import { ValidateCreateListing } from '../../../components/Forms/Services/Validate.js';
 function FormListings(session) {
   const [form, setForm] = useState({
     listingTitle: '',
@@ -12,7 +12,7 @@ function FormListings(session) {
     studiotype: 'Home Studio',
     services: [],
     locationFeatures: [],
-    soundengineer: '',
+    soundengineer: 'On Request',
     studioPricing: {},
     studioLocation: '',
   });
@@ -20,23 +20,31 @@ function FormListings(session) {
     soundengineer: false,
     studioPricing: [],
   });
+  const [formErrors, setFormErrors] = useState({});
+  const [isSubmit, setIsSubmit] = useState(false);
+
   const handleFormSubmit = async (event) => {
+    const passForm = form;
     event.preventDefault();
-    try {
-      const res = await fetch('/api/form', {
-        method: 'POST',
-        body: JSON.stringify(form),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      const result = await res.json();
-      if (!res.ok) {
-        throw new Error(res.status);
+    setFormErrors(ValidateCreateListing(passForm));
+    setIsSubmit(true);
+    if (Object.keys(formErrors).length === 0 && isSubmit) {
+      try {
+        const res = await fetch('/api/form', {
+          method: 'POST',
+          body: JSON.stringify(form),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        const result = await res.json();
+        if (!res.ok) {
+          throw new Error(res.status);
+        }
+        alert(`Is this your data: ${result}`);
+      } catch (error) {
+        console.error('Failed to add', error);
       }
-      alert(`Is this your data: ${result}`);
-    } catch (error) {
-      console.error('Failed to add', error);
     }
   };
 
@@ -96,7 +104,7 @@ function FormListings(session) {
     return (
       <div>
         <h1 className='text-primary mt-4 mb-2 text-center text-4xl font-bold leading-tight'>Add Studio Listing</h1>
-        <form className='text-primary w-full ' onSubmit={handleFormSubmit}>
+        <form noValidate className='text-primary w-full ' onSubmit={handleFormSubmit}>
           {/* title */}
           <fieldset className='w-full leading-tight'>
             <FormInput
@@ -111,6 +119,7 @@ function FormListings(session) {
               errorMessage={'Only 10-60 characters and (a-z, A-Z, 0-9, ! äöü ,-_) allowed!'}
               value={form.listingTitle}
               onChange={handleChange}></FormInput>
+            <span className='errormessage'>{formErrors.listingTitle}</span>
           </fieldset>
           {/* Mediafiles */}
           <fieldset className='w-full leading-tight'>
@@ -284,6 +293,7 @@ function FormListings(session) {
               onChange={handleChange}
               afterLabel={'Podcast & Audiobooks'}
             />
+            <span className='errormessage'>{formErrors.listingTitle}</span>
           </fieldset>
           {/* location-features */}
           <fieldset className='flex  w-full flex-wrap gap-3 leading-tight'>
@@ -343,6 +353,7 @@ function FormListings(session) {
               afterLabel={'Smoking'}
             />
           </fieldset>
+          <span className='errormessage block'>{formErrors.locationFeatures}</span>
           {/* Soundengineer */}
           <fieldset className='flex w-full flex-col gap-3 leading-tight'>
             <legend className='label-form'>Soundengineer</legend>
@@ -368,6 +379,7 @@ function FormListings(session) {
               id='soundengineerOnRequest'
               name='soundengineer'
               value='On Request'
+              checked={form.soundengineer === 'On Request'}
               onChange={(event) => {
                 handleChange(event);
                 handleCheck(event);
@@ -410,6 +422,7 @@ function FormListings(session) {
                 value={checked.soundengineer === 'soundengineerPrice' ? form.soundengineer.soundengineerPrice : 0}
                 onChange={handleChange}></FormInput>
             </div>
+            <span className='errormessage'>{formErrors.soundengineer}</span>
           </fieldset>
           {/* studio-price */}
           <fieldset className='flex w-full flex-col gap-3 leading-tight'>
@@ -537,6 +550,7 @@ function FormListings(session) {
                 afterLabel={'€'}
               />
             </div>
+            <span className='errormessage'>{formErrors.studioPricing}</span>
           </fieldset>
           {/* location */}
           <fieldset className='w-full leading-tight'>
@@ -553,6 +567,7 @@ function FormListings(session) {
               value={form.studioLocation}
               onChange={handleChange}
             />
+            <span className='errormessage'>{formErrors.studioLocation}</span>
           </fieldset>
           {/* Form-Buttons */}
           <fieldset className='flex justify-between'>

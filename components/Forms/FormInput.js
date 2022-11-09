@@ -8,7 +8,8 @@ export function FormInput(props) {
 
   //   Leggend:
   //   -divClassAll = Div wrapping beforeLabel, input, afterLabel, span(errormessage) . provide String for css classes
-  //   -beforeLabel and afterLabel = provide Object with css and a string key and inside ThemeConsumer, a string
+  //   -beforeLabel  = provide Object with css and a string key and inside ThemeConsumer, a string
+  //   -afterLable = just a string
   //   -divClass = Div wrapping only input and afterLabel
   //   -errormessage = errormessage dispalying if input is invalid due to pattern/required. peer class for input required
 
