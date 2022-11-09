@@ -110,9 +110,12 @@ export default function SignInComponent({ csrfToken, providers }) {
           <button className='login-button' type='submit'>
             Sign In
           </button>
-          <Link href='/signup'>
-            <a className='text-sm underline'>Or Sign Up right here</a>
-          </Link>
+          <div className='flex'>
+            <span className='pr-2 text-sm text-black'>Need an account?</span>
+            <Link href='/signup'>
+              <a className=' text-sm underline'>Sign up right here</a>
+            </Link>
+          </div>
           <button onClick={(event) => signupUser(event)} className='button hidden'>
             Sign up
           </button>

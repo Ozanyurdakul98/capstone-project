@@ -66,15 +66,27 @@ export default function SignUpComponent({ csrfToken, providers }) {
   }
 
   return (
-    <div className='signIn-form grid h-screen w-full grid-cols-1 sm:grid-cols-2'>
+    <div className=' signIn-form grid h-screen w-full grid-cols-1 overflow-y-hidden sm:grid-cols-2'>
       <div className='relative hidden sm:block'>
         <Image
-          className='h-full w-full'
-          src='/images/Thumbnail-signin.jpg'
+          className='relative h-full w-full'
+          src='/images/Thumbnail-signup.jpg'
           layout='fill'
           objectFit='cover'
           alt='login-image'
         />
+        <div className='mt-32 flex h-full  items-center '>
+          <div className='relative mx-auto flex min-h-80 w-80 flex-col gap-4 rounded-md bg-white/90 py-10 px-5 text-xl'>
+            <p>
+              <span className=' text-2xl font-bold'> Sign up</span> and start looking for your needs. Compare recording
+              studios that help you produce your music or podcasts.
+            </p>
+            <p>
+              Or start listing your own studio or services to reach more cusomers in your area and help them compare
+              services and contacting you.
+            </p>
+          </div>
+        </div>
       </div>
       <div className='bg-primary flex flex-col justify-center '>
         <form action='' className='form-login' onSubmit={signinUser}>
@@ -121,11 +133,14 @@ export default function SignUpComponent({ csrfToken, providers }) {
           />
           <p>{form.message}</p>
           <button className='login-button' type='submit'>
-            Sign In
+            Sign Up
           </button>
-          <Link href='/signin'>
-            <a className='text-sm underline'>Or Sign In right here</a>
-          </Link>
+          <div className='flex'>
+            <span className='pr-2 text-sm text-black'>Already have an account?</span>
+            <Link href='/signin'>
+              <a className='text-sm underline'>Log in right here</a>
+            </Link>
+          </div>
           <button onClick={(event) => signupUser(event)} className='button hidden'>
             Sign up
           </button>
