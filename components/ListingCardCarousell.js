@@ -38,16 +38,16 @@ function ListingCard({
         <div className='flex w-full flex-col justify-between pl-2'>
           <div className='flex flex-col md:gap-2'>
             <div className='flex items-center justify-between'>
-              <p className='overflow-hidden overflow-ellipsis whitespace-nowrap text-xs text-gray-400'>
-                {studioLocation}
-              </p>
+              <p className='truncate text-xs text-gray-400'>{studioLocation}</p>
               <button>
                 <FiHeart className='icon-sm' />
               </button>
             </div>
-            <div className='-mt-2 flex  gap-2'>
-              <p className='rounded border border-slate-700 px-1 text-xs sm:text-sm md:text-lg'>{studiotype}</p>
-              <p className='flex rounded border border-slate-700 px-1 text-xs sm:text-sm md:text-lg'>
+            <div className='-mt-1 flex  gap-2'>
+              <p className='bg-primary rounded border border-slate-700 px-1 text-xs text-white  md:text-lg'>
+                {studiotype}
+              </p>
+              <p className='flex rounded border border-slate-700 px-1 text-xs  md:text-lg'>
                 {soundengineer ? (
                   <>
                     Soundengineer <TiTick className='text-green-500' />
@@ -58,7 +58,9 @@ function ListingCard({
               </p>
             </div>
           </div>
-          <h4 className='mt-1  min-h-[40px] text-sm font-semibold sm:text-xl md:text-2xl'>{listingTitle}</h4>
+          <h4 className='text-md mt-1 max-h-[45px] min-h-[40px] truncate font-semibold sm:text-base md:text-2xl'>
+            {listingTitle}
+          </h4>
           <div className='mt-2 flex items-center justify-between'>
             <ul className='flex min-h-[20px]  gap-2'>
               {locationFeatures.includes('Wi-Fi') ? (
@@ -83,9 +85,11 @@ function ListingCard({
               ) : null}
             </ul>
           </div>
-          <div className='relative top-2 flex w-full items-end justify-between text-right '>
-            <p className='rounded-xl border border-slate-700 p-1 text-xs'>{openingHours}</p>
-            <p className='relative top-1 text-lg font-semibold sm:text-base md:text-lg lg:text-2xl'>
+          <div className='relative top-2 flex w-full items-end justify-between gap-1 text-right '>
+            <p className='bg-primary truncate rounded-xl border border-slate-700 px-1 text-xs text-white'>
+              {openingHours}
+            </p>
+            <p className='relative top-1 whitespace-nowrap text-lg font-semibold sm:text-base md:text-lg lg:text-2xl'>
               {studioPricing.studioPricingHour
                 ? studioPricing.studioPricingHour + '$ / Hour'
                 : studioPricing.studioPricingDay
