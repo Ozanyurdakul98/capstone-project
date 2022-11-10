@@ -1,10 +1,40 @@
+import { useSession, signIn, signOut } from 'next-auth/react';
+import db from '../lib/dbConnect';
+import StudioListing from '../models/StudioListing';
 import Head from 'next/head';
 import Link from 'next/link';
+import Image from 'next/image';
 import Lottie from 'lottie-react';
-import { useSession, signIn, signOut } from 'next-auth/react';
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
+import ListingCard from '../components/ListingCardCarousell';
 import musicStudio1 from '../public/animations/musicStudio1.json';
-export default function Home() {
+
+export default function Home({ latestListings }) {
+  console.log(latestListings);
   const { data: session, status } = useSession();
+  const responsive = {
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 4,
+      slidesToSlide: 3, // optional, default to 1.
+    },
+    Laptop: {
+      breakpoint: { max: 1024, min: 750 },
+      items: 3,
+      slidesToSlide: 2, // optional, default to 1.
+    },
+    tablet: {
+      breakpoint: { max: 750, min: 500 },
+      items: 2,
+      slidesToSlide: 2, // optional, default to 1.
+    },
+    mobile: {
+      breakpoint: { max: 500, min: 0 },
+      items: 2,
+      slidesToSlide: 1, // optional, default to 1.
+    },
+  };
   return (
     <>
       <Head>
@@ -29,6 +59,50 @@ export default function Home() {
           <Lottie animationData={musicStudio1} loop={true} className='' />
         </div>
       </section>
+      <article className='mt-10 mb-80'>
+        <h2 className='label-form text-lg'>The 10 latest added Studio Listings</h2>
+        <Carousel
+          swipeable={false}
+          draggable={true}
+          showDots={true}
+          responsive={responsive}
+          ssr={true} // means to render carousel on server-side.
+          infinite={true}
+          autoPlay={false}
+          autoPlaySpeed={2000}
+          // customTransition='all .5'
+          transitionDuration={500}>
+          {latestListings.map(
+            ({
+              _id,
+              listingTitle,
+              images,
+              studiotype,
+              services,
+              soundengineer,
+              studioPricing,
+              openingHours,
+              locationFeatures,
+              studioLocation,
+            }) => (
+              <ListingCard
+                key={_id}
+                listingTitle={listingTitle}
+                images={images}
+                studiotype={studiotype}
+                services={services}
+                openingHours={openingHours}
+                soundengineer={soundengineer}
+                studioPricing={studioPricing}
+                locationFeatures={locationFeatures}
+                studioLocation={studioLocation}
+                className='mr-10'
+              />
+            )
+          )}
+        </Carousel>
+      </article>
+
       {/* {session ? (
           <>
             <p>Signed in as {session.user.email}</p>
@@ -61,4 +135,16 @@ export default function Home() {
         </Link> */}
     </>
   );
+}
+
+export async function getServerSideProps(context) {
+  const query = context.query;
+  await db.connect();
+
+  const latestAddedListings = await StudioListing.find().sort({ $natural: -1 }).limit(10);
+  const serializedLatestAddedListings = JSON.parse(JSON.stringify(latestAddedListings));
+  console.log('ssr2', latestAddedListings);
+  return {
+    props: { latestListings: serializedLatestAddedListings || null },
+  };
 }

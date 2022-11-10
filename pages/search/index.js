@@ -6,7 +6,7 @@ import StudioListing from '../../models/StudioListing';
 //tools
 import format from 'date-fns/format';
 //components
-import ListingCard from '../../components/ListingCard';
+import ListingCard from '../../components/ListingCardWide';
 
 function Search({ listings, query }) {
   const [searchFilter, setSearchFilter] = useState(query);

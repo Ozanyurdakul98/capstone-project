@@ -46,8 +46,8 @@ function ListingCard({
         <div className='flex w-full flex-col justify-between pl-2 sm:pl-5'>
           <div className='flex flex-col md:gap-2'>
             <div className='flex items-center justify-between'>
-              <p className='text-xs text-gray-400'>
-                {studioLocation.length > 30 ? studioLocation.substring(0, 30) + '...' : studioLocation}
+              <p className='overflow-hidden overflow-ellipsis whitespace-nowrap text-xs text-gray-400'>
+                {studioLocation}
               </p>
               <button>
                 <FiHeart className='icon-sm' />
