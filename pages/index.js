@@ -10,8 +10,8 @@ export default function Home() {
       <Head>
         <title>Tonstudio-Kleinanzeigen</title>
       </Head>
-      <section className='m-auto mt-4 flex flex-col-reverse items-center justify-center px-4 shadow-sm md:flex-row lg:gap-10'>
-        <div className=' mb-10 max-h-min max-w-md rounded-3xl bg-white p-2 px-10 pb-10 shadow-xl sm:flex sm:flex-col sm:items-center  sm:bg-none md:shadow-none'>
+      <section className='shadow-bt-lg m-auto mt-4 flex flex-col-reverse items-center justify-center px-4 md:flex-row lg:gap-10 xl:gap-40'>
+        <div className=' max-h-min max-w-md rounded-3xl bg-white p-2 px-10 pb-10 shadow-inner sm:flex sm:flex-col sm:items-center  sm:bg-none  md:shadow-xl'>
           <h1 className='mt-4 mb-2 text-4xl font-bold leading-tight '>Tonstudio-Kleinanzeigen</h1>
           <p className='text-sm'>
             Is made for the community of music producers and amateur musicians to offer the oppertunity for a free
@@ -20,14 +20,12 @@ export default function Home() {
           <p className='pt-2 text-sm'>
             Describe your services & studio and let the users decide by comparing your listing with others.
             <br />
-            <Link href='/search'>
-              <a className=' text-blue-600 hover:underline' href=''>
-                View all listings
-              </a>
+            <Link href='/search/all'>
+              <button className=' button'>View all listings</button>
             </Link>
           </p>
         </div>
-        <div className='flex-shrink-0'>
+        <div className=' min-w-[420px]'>
           <Lottie animationData={musicStudio1} loop={true} className='' />
         </div>
       </section>
