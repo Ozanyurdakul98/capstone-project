@@ -1,5 +1,5 @@
 import Carousel from 'react-multi-carousel';
-import ListingCard from '../components/ListingCardCarousell';
+import ListingCard from '../ListingCardCarousell';
 import 'react-multi-carousel/lib/styles.css';
 
 export const Latest10Listings = (props) => {

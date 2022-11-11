@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Lottie from 'lottie-react';
-import musicStudio1 from '../public/animations/musicStudio1.json';
+import musicStudio1 from '../../public/animations/musicStudio1.json';
 
 export function HomepageHero() {
   return (

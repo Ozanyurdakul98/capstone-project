@@ -2,27 +2,20 @@ import Head from 'next/head';
 import React from 'react';
 //components
 //styles
-import styled from 'styled-components';
 import Header from './Header';
+
+import { Footer } from './Homepage/Footer';
 
 export default function Layout({ children }) {
   return (
-    <div className='bg-site relative'>
+    <div className='bg-site  relative'>
       <Head>
         <title>Tonstudio-Kleinanzeigen</title>
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <StyledHeader>
-        <Header />
-      </StyledHeader>
+      <Header />
       <main className='container mx-auto'>{children}</main>
-      <StyledFooter>@Copyright Tonstudio-Kleinanzeigen 2022</StyledFooter>
+      <Footer />
     </div>
   );
 }
-
-const StyledHeader = styled.header``;
-const StyledMain = styled.main`
-  margin: 0 auto;
-`;
-const StyledFooter = styled.footer``;

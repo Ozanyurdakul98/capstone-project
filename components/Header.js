@@ -3,7 +3,7 @@ import SearchBar from './SearchBar';
 
 function Header() {
   return (
-    <header>
+    <header id='top'>
       <nav>
         <div className='flex justify-center'>
           <SearchBar />
