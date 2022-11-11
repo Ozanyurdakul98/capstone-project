@@ -6,6 +6,7 @@ import Image from 'next/image';
 import 'react-multi-carousel/lib/styles.css';
 import { Latest10Listings } from '../components/Latest10Listings';
 import { HomepageHero } from '../components/HomepageHero';
+import Link from 'next/link';
 
 export default function Home({ latestListings }) {
   console.log(latestListings);
@@ -18,15 +19,30 @@ export default function Home({ latestListings }) {
       </Head>
       <HomepageHero></HomepageHero>
       <Latest10Listings latestListings={latestListings}></Latest10Listings>
-      <section className='sm:grid-cols- grid h-screen w-full grid-cols-1'>
-        <div className='relative hidden sm:block'>
+      <section className='relative grid h-screen w-full'>
+        <div className='relative grid h-screen w-full '>
           <Image
-            className='h-full w-full'
-            src='/images/Thumbnail-signin.jpg'
+            src='/images/Banner-homepage1.jpg'
+            objectPosition='top'
             layout='fill'
             objectFit='cover'
             alt='login-image'
           />
+        </div>
+        <div className='absolute top-1/2 left-1/2 w-80 -translate-x-1/2 -translate-y-1/2 transform rounded-lg bg-white/90 py-10 px-6 font-thin md:left-1/3 lg:left-1/3 lg:text-lg xl:text-xl'>
+          <p className='mb-4'>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam ipsa ipsam est quo atque quaerat veritatis
+            expedita adipisci soluta, ab veniam delectus sequi, ipsum accusantium explicabo non laudantium facere
+            commodi.
+          </p>
+          <p>
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Libero quas officiis accusamus corporis odio
+            voluptatem quidem iure earum, cupiditate voluptates consequatur. Vero architecto amet provident delectus,
+            similique consequuntur harum blanditiis incidunt distinctio libero omnis ullam sapiente cumque.
+          </p>
+          <Link href='/signup'>
+            <button className=' button mt-4 text-base font-semibold'>Become a Host</button>
+          </Link>
         </div>
       </section>
       {/* {session ? (
@@ -64,12 +80,10 @@ export default function Home({ latestListings }) {
 }
 
 export async function getServerSideProps(context) {
-  const query = context.query;
   await db.connect();
 
   const latestAddedListings = await StudioListing.find().sort({ $natural: -1 }).limit(10);
   const serializedLatestAddedListings = JSON.parse(JSON.stringify(latestAddedListings));
-  console.log('ssr2', latestAddedListings);
   return {
     props: { latestListings: serializedLatestAddedListings || null },
   };

@@ -26,7 +26,7 @@ export const Latest10Listings = (props) => {
     },
   };
   return (
-    <article className='my-20 '>
+    <article className='my-40 '>
       <Carousel
         swipeable={true}
         draggable={true}
