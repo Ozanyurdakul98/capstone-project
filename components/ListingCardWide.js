@@ -65,11 +65,11 @@ function ListingCard({
             </div>
           </div>
           <h4 className='text-sm sm:text-xl md:text-2xl'>{listingTitle}</h4>
-          <div className='flex max-w-[270px] items-center gap-2 truncate sm:max-w-[450px]'>
+          <div className='flex items-center gap-2  '>
             {slicedServices.map((service) => (
               <p
                 key={service}
-                className=' truncate rounded-full bg-red-200 px-[9px] text-xs sm:text-xs md:text-sm lg:text-base xl:text-lg'>
+                className='max-w-full rounded-full bg-red-200 px-[9px] text-xs line-clamp-1 sm:text-sm md:text-sm lg:text-base xl:text-lg'>
                 {service}
               </p>
             ))}
