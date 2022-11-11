@@ -21,8 +21,6 @@ function ListingCard({
   locationFeatures,
   studioLocation,
 }) {
-  const slicedServices = services.slice(0, 3);
-
   console.log('1', soundengineer);
   console.log('2', soundengineer.soundengineerPrice);
   return (
@@ -46,8 +44,8 @@ function ListingCard({
               <p
                 className={
                   soundengineer && soundengineer !== 'No Soundengineer'
-                    ? 'bg-primary flex truncate rounded border border-slate-700 px-1  text-xs text-white sm:text-sm md:text-sm  '
-                    : 'flex truncate rounded border border-red-600 bg-red-600 px-1  text-xs text-white sm:text-sm md:text-sm  '
+                    ? 'bg-primary truncate rounded border border-slate-700 px-1  text-xs text-white sm:text-sm md:text-sm  '
+                    : ' truncate rounded border border-red-600 bg-red-600 px-1  text-xs text-white sm:text-sm md:text-sm  '
                 }>
                 {soundengineer && soundengineer !== 'No Soundengineer' ? (
                   <>
@@ -63,14 +61,10 @@ function ListingCard({
             </div>
           </div>
           <h4 className='text-sm sm:text-xl md:text-2xl'>{listingTitle}</h4>
-          <div className='flex items-center gap-2  '>
-            {slicedServices.map((service) => (
-              <p
-                key={service}
-                className='max-w-full rounded-full bg-red-200 px-[9px] text-xs line-clamp-1 sm:text-sm md:text-sm lg:text-base xl:text-lg'>
-                {service}
-              </p>
-            ))}
+          <div className='flex   items-center  '>
+            <p className=' pr-1 text-sm line-clamp-1 sm:text-sm md:text-sm lg:text-base xl:text-lg'>
+              {services.map((service) => service + ' | ')}
+            </p>
           </div>
           <div className='flex items-center justify-between'>
             <div className='flex gap-2'>
