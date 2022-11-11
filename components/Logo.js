@@ -23,8 +23,8 @@ export default function Logo(props) {
           width='408'
           height='408'
           filterUnits='userSpaceOnUse'
-          colorInterpolation-filters='sRGB'>
-          <feFlood flood-opacity='0' result='BackgroundImageFix' />
+          colorInterpolationFilters='sRGB'>
+          <feFlood floodOpacity='0' result='BackgroundImageFix' />
           <feColorMatrix
             in='SourceAlpha'
             type='matrix'

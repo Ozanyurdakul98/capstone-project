@@ -23,7 +23,6 @@ function ListingCard({
   locationFeatures,
   studioLocation,
 }) {
-  console.log(locationFeatures.includes('Wi-Fi'));
   return (
     <article className='mx-1 mb-10'>
       <div className='relative   flex min-h-[333px] w-full max-w-[250px] cursor-pointer flex-col rounded-lg border border-b border-slate-500 px-2 shadow-md hover:opacity-90 hover:shadow-lg'>
