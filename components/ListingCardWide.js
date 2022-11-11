@@ -21,27 +21,15 @@ function ListingCard({
   locationFeatures,
   studioLocation,
 }) {
-  // const ref = useRef(null);
   const slicedServices = services.slice(0, 3);
 
-  // const [width, setWidth] = useState(0);
-
-  // useEffect(() => {
-  //   setWidth(ref.current.offsetWidth);
-  // }, []);
-
+  console.log('1', soundengineer);
+  console.log('2', soundengineer.soundengineerPrice);
   return (
     <article>
       <div className='flex w-full cursor-pointer rounded-lg border-b py-7 px-2 first:border hover:opacity-80 hover:shadow-lg'>
         <div className='relative h-24 w-32  flex-shrink-0 sm:h-32 sm:w-48 md:h-36 md:w-56 lg:h-52 lg:w-80'>
-          <Image
-            src={images}
-            // src=''
-            layout='fill'
-            objectFit='cover'
-            className='rounded-xl'
-            alt='Thumbnail'
-          />
+          <Image src={images} layout='fill' objectFit='cover' className='rounded-xl' alt='Thumbnail' />
         </div>
         <div className='flex w-full flex-col justify-between pl-2 sm:pl-5'>
           <div className='flex flex-col md:gap-2'>
@@ -52,14 +40,24 @@ function ListingCard({
               </button>
             </div>
             <div className='flex gap-2'>
-              <p className='text-xs sm:text-sm md:text-lg'>{studiotype}</p>
-              <p className='flex text-xs sm:text-sm md:text-lg'>
-                {soundengineer ? (
+              <p className='bg-primary flex truncate rounded border border-slate-700 px-1  text-xs text-white sm:text-sm md:text-sm  '>
+                {studiotype}
+              </p>
+              <p
+                className={
+                  soundengineer && soundengineer !== 'No Soundengineer'
+                    ? 'bg-primary flex truncate rounded border border-slate-700 px-1  text-xs text-white sm:text-sm md:text-sm  '
+                    : 'flex truncate rounded border border-red-600 bg-red-600 px-1  text-xs text-white sm:text-sm md:text-sm  '
+                }>
+                {soundengineer && soundengineer !== 'No Soundengineer' ? (
                   <>
-                    Soundengineer <TiTick className='text-green-500' />
+                    Soundengineer
+                    {soundengineer.soundengineerPrice
+                      ? ' ' + soundengineer.soundengineerPrice + '€'
+                      : ' ' + soundengineer}
                   </>
                 ) : (
-                  '❌'
+                  soundengineer
                 )}
               </p>
             </div>

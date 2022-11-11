@@ -87,6 +87,9 @@
     @apply hover:bg-secondary-hover my-5 w-full  rounded-lg bg-secondary-color py-2 text-white outline-none active:bg-primary-color;
   }
   /* create listing */
+  .listingForm {
+    @apply my-10 w-full leading-tight;
+  }
   .input-form {
     @apply w-full appearance-none border-gray-500  bg-[#edf0f5] py-3 px-4 leading-tight  text-gray-700 focus:border-gray-500/30 focus:bg-white focus:outline-none sm:w-2/3 lg:w-1/2;
   }

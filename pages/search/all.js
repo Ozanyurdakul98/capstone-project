@@ -6,6 +6,7 @@ import StudioListing from '../../models/StudioListing';
 import ListingCards from '../../components/ListingCardWide';
 
 function Search({ listings }) {
+  console.log(listings);
   return (
     <>
       <h1>All Search results</h1>

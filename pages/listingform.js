@@ -1,9 +1,11 @@
 import React from 'react';
 import { useState } from 'react';
 import { unstable_getServerSession } from 'next-auth/next';
-import { authOptions } from '../../api/auth/[...nextauth].js';
-import { FormInput } from '../../../components/Forms/FormInput';
-import { ValidateCreateListing } from '../../../components/Forms/Services/Validate.js';
+import { authOptions } from './api/auth/[...nextauth].js';
+import { FormInput } from '../components/Forms/FormInput';
+import { ValidateCreateListing } from '../components/Forms/Services/Validate.js';
+import ListingCardWide from '../components/ListingCardWide';
+
 function FormListings(session) {
   const [form, setForm] = useState({
     listingTitle: '',
@@ -102,16 +104,17 @@ function FormListings(session) {
 
   if (session) {
     return (
-      <div>
+      <div className='px-2 sm:px-0'>
         <h1 className='text-primary mt-4 mb-2 text-center text-4xl font-bold leading-tight'>Add Studio Listing</h1>
         <form noValidate className='text-primary w-full ' onSubmit={handleFormSubmit}>
           {/* title */}
-          <fieldset className='w-full leading-tight'>
+          <fieldset className='listingForm  '>
             <FormInput
               beforeLabel={{ string: 'Listing Title', css: 'label-form ' }}
               className='input-form peer block '
               type='text'
               id='titel'
+              placeholder='Listing Title here..'
               name='listingTitle'
               required
               autoComplete='off'
@@ -122,7 +125,7 @@ function FormListings(session) {
             <span className='errormessage '>{formErrors.listingTitle}</span>
           </fieldset>
           {/* Mediafiles */}
-          <fieldset className='w-full leading-tight'>
+          <fieldset className='listingForm '>
             <legend htmlFor='image' className=' label-form'>
               Mediafiles
             </legend>
@@ -148,7 +151,7 @@ function FormListings(session) {
             </div>
           </fieldset>
           {/* OpeningHours */}
-          <fieldset className='flex w-full gap-3 leading-tight'>
+          <fieldset className='listingForm  flex gap-3 '>
             <legend className='label-form'>Opening hours</legend>
             <FormInput
               divClass='radio-form'
@@ -172,7 +175,7 @@ function FormListings(session) {
             />
           </fieldset>
           {/* Studiotype */}
-          <fieldset className='w-full leading-tight'>
+          <fieldset className='listingForm '>
             <legend className='label-form'>Studiotype</legend>
             <button
               type='button'
@@ -223,7 +226,7 @@ function FormListings(session) {
             </button>
           </fieldset>
           {/* services */}
-          <fieldset className='w-full leading-tight'>
+          <fieldset className='listingForm '>
             <legend className='label-form'>Studio services</legend>
             <FormInput
               divClass={'checkbox-form'}
@@ -293,10 +296,10 @@ function FormListings(session) {
               onChange={handleChange}
               afterLabel={'Podcast & Audiobooks'}
             />
-            <span className='errormessage'>{formErrors.listingTitle}</span>
+            <span className='errormessage'>{formErrors.services}</span>
           </fieldset>
           {/* location-features */}
-          <fieldset className='flex  w-full flex-wrap gap-3 leading-tight'>
+          <fieldset className='listingForm   flex flex-wrap gap-3 '>
             <legend className='label-form'>Location Features</legend>
             <FormInput
               divClass={'checkbox-form'}
@@ -352,10 +355,12 @@ function FormListings(session) {
               onChange={handleChange}
               afterLabel={'Smoking'}
             />
+            <div className='block'>
+              <span className='errormessage block'>{formErrors.locationFeatures}</span>
+            </div>
           </fieldset>
-          <span className='errormessage block'>{formErrors.locationFeatures}</span>
           {/* Soundengineer */}
-          <fieldset className='flex w-full flex-col gap-3 leading-tight'>
+          <fieldset className='listingForm  flex flex-col gap-3 '>
             <legend className='label-form'>Soundengineer</legend>
             <FormInput
               divClass={'radio-form'}
@@ -425,7 +430,7 @@ function FormListings(session) {
             <span className='errormessage'>{formErrors.soundengineer}</span>
           </fieldset>
           {/* studio-price */}
-          <fieldset className='flex w-full flex-col gap-3 leading-tight'>
+          <fieldset className='listingForm  flex flex-col gap-3 '>
             <legend className='label-form'>Studio Pricing</legend>
             <div className='checkbox-form'>
               <FormInput
@@ -553,7 +558,7 @@ function FormListings(session) {
             <span className='errormessage'>{formErrors.studioPricing}</span>
           </fieldset>
           {/* location */}
-          <fieldset className='w-full leading-tight'>
+          <fieldset className='listingForm'>
             <FormInput
               beforeLabel={{ string: 'Location', css: 'label-form ' }}
               className='input-form peer'
@@ -568,6 +573,18 @@ function FormListings(session) {
               onChange={handleChange}
             />
             <span className='errormessage'>{formErrors.studioLocation}</span>
+          </fieldset>
+          <fieldset>
+            <ListingCardWide
+              listingTitle={form.listingTitle}
+              images={form.images}
+              studiotype={form.studiotype}
+              services={form.services}
+              soundengineer={form.soundengineer}
+              studioPricing={form.studioPricing}
+              locationFeatures={form.locationFeatures}
+              studioLocation={form.studioLocation}
+            />
           </fieldset>
           {/* Form-Buttons */}
           <fieldset className='flex justify-between'>
