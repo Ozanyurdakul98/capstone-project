@@ -652,37 +652,47 @@ function FormListings(session) {
             <fieldset>
               {preview && (
                 <>
-                  <div className=''>
-                    <div className='searchFadein min-h-90 fixed inset-x-0 top-0 left-0 right-0 z-50 mx-auto flex w-full  flex-col  rounded-2xl bg-white pb-5 pt-5 shadow-xxl  md:min-h-72 md:w-11/12 xl:w-6/12'>
-                      <h2 className='h2 ml-5'>Preview of your Listings</h2>
-                      <div>
-                        <h3 className='h3 ml-5'>Searchpage preview</h3>
-                        <ListingCardWide
-                          listingTitle={form.listingTitle}
-                          images={form.images}
-                          studiotype={form.studiotype}
-                          services={form.services}
-                          soundengineer={form.soundengineer}
-                          studioPricing={form.studioPricing}
-                          locationFeatures={form.locationFeatures}
-                          studioLocation={form.studioLocation}
-                        />
+                  <div className='searchFadein fixed inset-x-0 inset-y-0 top-0 left-0 right-0 z-50 my-auto mx-auto flex h-4/6   w-full  flex-col gap-5    rounded-2xl bg-white pb-5 pt-5 shadow-xxl  md:min-h-72 md:w-11/12 xl:w-6/12'>
+                    <div className=' overflow-y-scroll'>
+                      {/* Previews */}
+                      <div className='flex flex-col gap-7 pb-20'>
+                        <div>
+                          <h2 className='h2 ml-5'>Preview of your Listings</h2>
+                          <p className='text-center '>Thank you for beeing part of Tonstudio-Kleinanzeigen!</p>
+                        </div>
+                        <div>
+                          <h3 className='h3 ml-5'>Searchpage preview</h3>
+
+                          <ListingCardWide
+                            listingTitle={form.listingTitle}
+                            images={form.images}
+                            studiotype={form.studiotype}
+                            services={form.services}
+                            soundengineer={form.soundengineer}
+                            studioPricing={form.studioPricing}
+                            locationFeatures={form.locationFeatures}
+                            studioLocation={form.studioLocation}
+                          />
+                        </div>
+                        <div className='ml-5 pb-4'>
+                          <h3 className='h3'>Startpage preview</h3>
+                          <div className='-ml-4'>
+                            <ListingCardCarousell
+                              listingTitle={form.listingTitle}
+                              images={form.images}
+                              studiotype={form.studiotype}
+                              services={form.services}
+                              soundengineer={form.soundengineer}
+                              studioPricing={form.studioPricing}
+                              locationFeatures={form.locationFeatures}
+                              openingHours={form.openingHours}
+                              studioLocation={form.studioLocation}
+                            />
+                          </div>
+                        </div>
                       </div>
-                      <div>
-                        <h3 className='h3 ml-5'>Startpage preview</h3>
-                        <ListingCardCarousell
-                          listingTitle={form.listingTitle}
-                          images={form.images}
-                          studiotype={form.studiotype}
-                          services={form.services}
-                          soundengineer={form.soundengineer}
-                          studioPricing={form.studioPricing}
-                          locationFeatures={form.locationFeatures}
-                          openingHours={form.openingHours}
-                          studioLocation={form.studioLocation}
-                        />
-                      </div>
-                      <div className='flex-end  z-40 mx-5 flex h-16 items-center justify-between gap-2 border-t-2   bg-white pt-5'>
+                      {/* Buttons */}
+                      <div className='flex-end absolute bottom-0 z-40 flex h-16 w-full items-center justify-between gap-2 border-t-2   bg-white pt-5'>
                         <button
                           onClick={() => setPreview(false)}
                           className='button flex-grow  justify-center border-none bg-red-500 text-white'>
