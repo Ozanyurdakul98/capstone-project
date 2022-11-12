@@ -62,13 +62,17 @@
   .button {
     @apply flex max-h-8 transform cursor-pointer items-center rounded-full  border border-black  px-4 py-2 transition duration-100 ease-out  hover:shadow-lg active:scale-95 active:bg-gray-100;
   }
+  .searchBarModal {
+    @apply absolute top-0 left-0 z-30 h-screen w-screen cursor-default;
+  }
   input,
   select,
   textarea {
     @apply rounded border p-2 outline-none ring-indigo-300;
   }
+
   .errormessage {
-    @apply block pl-5 text-xs text-red-500 sm:text-sm;
+    @apply block pl-5 text-sm text-red-500 sm:text-sm;
   }
   input:invalid[data-focused='true'] {
     @apply border-2 border-red-500;
@@ -88,24 +92,34 @@
   }
   /* create listing */
   .listingForm {
-    @apply my-10 w-full leading-tight;
+    @apply my-10 w-full leading-tight xl:my-20;
   }
   .input-form {
-    @apply w-full appearance-none border-gray-500  bg-[#edf0f5] py-3 px-4 leading-tight  text-gray-700 focus:border-gray-500/30 focus:bg-white focus:outline-none sm:w-2/3 lg:w-1/2;
+    @apply w-full appearance-none border-gray-500  bg-[#edf0f5] py-3 px-5 leading-tight  text-gray-700 focus:border-gray-500/30 focus:bg-white focus:outline-none sm:w-2/3 lg:w-1/2;
   }
-
-  .priceInput-form {
+  /* .priceInput-form {
     @apply w-12 outline-none disabled:bg-slate-300 disabled:text-black/20;
+  } */
+  .priceInput-form {
+    @apply text-primary h-6 w-12 p-0 text-center outline-none disabled:bg-slate-300 disabled:text-black/20;
   }
-
+  .studiotypeActive {
+    @apply border-secondary bg-secondary max-w-[435px] rounded border-2 p-4 font-thin text-white transition duration-75 ease-in  active:scale-95;
+  }
+  .studiotype {
+    @apply border-primary bg-primary max-w-[435px] rounded border-2 p-4 font-thin text-white  transition duration-75 ease-in  active:scale-95;
+  }
   .checkbox-form {
     @apply flex items-center gap-2;
   }
   .radio-form {
-    @apply flex gap-2;
+    @apply bg-primary checked:bg-secondary flex max-w-max cursor-pointer items-center gap-2 rounded-xl p-1 pl-2 text-white shadow-lg transition duration-75 ease-in active:scale-95;
+  }
+  .radio-formActive {
+    @apply bg-secondary checked:bg-secondary flex max-w-max cursor-pointer items-center gap-2 rounded-xl p-1 pl-2 text-white shadow-lg transition duration-75 ease-in active:scale-95;
   }
   .label-form {
-    @apply mb-2 ml-5 block text-xs font-bold uppercase tracking-wide text-[color:var(--primary-text)] lg:text-base;
+    @apply mb-2 ml-5 block text-base font-bold uppercase tracking-wide text-[color:var(--primary-text)] lg:text-lg;
   }
   .number-search {
     @apply mb-1 h-10 w-14 rounded-full border  bg-[#1e90ff] px-4  text-white outline-none disabled:text-white;
@@ -119,6 +133,13 @@
   /* carousell */
   .container-padding-bottom {
     @apply pt-14 pb-2;
+  }
+  /* Headers */
+  .h2 {
+    @apply block text-lg font-bold uppercase tracking-wide  text-[color:var(--primary-text)] md:text-xl lg:text-2xl;
+  }
+  .h3 {
+    @apply block text-sm font-bold uppercase tracking-wide  text-[color:var(--primary-text)] md:text-[15px] lg:text-lg;
   }
   .h4 {
     @apply text-lg font-semibold;
@@ -152,6 +173,7 @@
 
     /* -webkit-text-fill-color: #ffffff; */
   }
+
   select {
     -webkit-appearance: none;
     background: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAyMC4wLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiDQoJIHZpZXdCb3g9IjAgMCA0LjkgMTAiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDQuOSAxMDsiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4NCgkuc3Qwe2ZpbGw6I2ZmZmZmZjt9DQo8L3N0eWxlPg0KPHRpdGxlPmFycm93czwvdGl0bGU+DQo8cG9seWdvbiBjbGFzcz0ic3QwIiBwb2ludHM9IjEuNCw0LjcgMi41LDMuMiAzLjUsNC43ICIvPg0KPHBvbHlnb24gY2xhc3M9InN0MCIgcG9pbnRzPSIzLjUsNS4zIDIuNSw2LjggMS40LDUuMyAiLz4NCjwvc3ZnPg==')

@@ -25,9 +25,8 @@ export function ValidateSignUp(form) {
 
 export function ValidateCreateListing(form) {
   const errors = {};
-  const regex = /^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_s]){9,60}$/i;
-  const patternLocation = /^([a-zA-Z-])([a-zA-Z-0-9-,äöüs]){4,60}$/i;
-
+  const regex = /^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){9,60}$/i;
+  const patternLocation = /^([a-zA-Z-])([a-zA-Z-0-9-,äöü\s]){4,60}$/i;
   if (!form.listingTitle) {
     errors.listingTitle = 'A listing title is required!';
   } else if (!regex.test(form.listingTitle)) {

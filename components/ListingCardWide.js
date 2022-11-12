@@ -21,8 +21,6 @@ function ListingCard({
   locationFeatures,
   studioLocation,
 }) {
-  console.log('1', soundengineer);
-  console.log('2', soundengineer.soundengineerPrice);
   return (
     <article>
       <div className='flex w-full cursor-pointer rounded-lg border-b py-7 px-2 first:border hover:opacity-80 hover:shadow-lg'>
