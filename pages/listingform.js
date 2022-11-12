@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { unstable_getServerSession } from 'next-auth/next';
 import { authOptions } from './api/auth/[...nextauth].js';
 import { FormInput } from '../components/Forms/FormInput';
-import { ValidateCreateListing } from '../components/Forms/Services/Validate.js';
+import { ValidateCreateListing } from '../helpers/Validate.js';
 import ListingCardWide from '../components/ListingCardWide';
 import ListingCardCarousell from '../components/ListingCardCarousell';
 import Image from 'next/image.js';
@@ -13,7 +13,7 @@ import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../components/Ba
 function FormListings(session) {
   const defaultForm = {
     listingTitle: '',
-    images: '/images/Thumbnail-Default.png',
+    images: '',
     openingHours: 'Always Available',
     studiotype: 'Home Studio',
     services: [],
@@ -185,9 +185,14 @@ function FormListings(session) {
                     onChange={handleChange}
                     required
                   />
-                  <div className='bg-primary relative flex h-56 w-44 flex-shrink-0 flex-col items-center justify-center gap-2 rounded-xl border-2 border-dotted border-white text-white transition duration-75 ease-out  active:scale-95 sm:h-60 sm:w-48 md:h-60 md:w-56 md:px-2 lg:h-72 lg:w-64'>
+                  <div
+                    className={
+                      form.images
+                        ? 'bg-site border-primary  relative  flex h-56 w-full flex-shrink-0 flex-col items-center justify-center gap-2 rounded-xl border-2 border-dotted text-white transition duration-75 ease-out  active:scale-95 sm:h-60 sm:w-48 md:h-60 md:w-56 md:px-2 lg:h-72 lg:w-64'
+                        : 'bg-primary relative  flex  h-56 w-full flex-shrink-0 flex-col items-center justify-center gap-2 rounded-xl border-2 border-dotted border-white text-white transition duration-75 ease-out  active:scale-95 sm:h-60 sm:w-48 md:h-60 md:w-56 md:px-2 lg:h-72 lg:w-64'
+                    }>
                     {form.images ? (
-                      <Image src={form.images} layout='fill' objectFit='cover' alt='Upload preview' />
+                      <Image src={form.images} layout='fill' alt='Thumbnail' objectFit='contain' />
                     ) : (
                       <>
                         <p className='text-center text-lg'>No picture selected</p>
@@ -632,7 +637,7 @@ function FormListings(session) {
               <span className='errormessage'>{formErrors.studioPricing}</span>
             </fieldset>
             {/* location */}
-            <fieldset className='listingForm'>
+            <fieldset className='listingForm mb-52'>
               <FormInput
                 beforeLabel={{ string: 'Location', css: 'label-form ' }}
                 className='input-form peer'
@@ -665,7 +670,7 @@ function FormListings(session) {
 
                           <ListingCardWide
                             listingTitle={form.listingTitle}
-                            images={form.images}
+                            images={form.images ? form.images : '/images/Thumbnail-Default.png'}
                             studiotype={form.studiotype}
                             services={form.services}
                             soundengineer={form.soundengineer}
@@ -679,7 +684,7 @@ function FormListings(session) {
                           <div className='-ml-4'>
                             <ListingCardCarousell
                               listingTitle={form.listingTitle}
-                              images={form.images}
+                              images={form.images ? form.images : '/images/Thumbnail-Default.png'}
                               studiotype={form.studiotype}
                               services={form.services}
                               soundengineer={form.soundengineer}

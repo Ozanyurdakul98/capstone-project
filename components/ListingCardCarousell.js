@@ -27,14 +27,7 @@ function ListingCard({
     <article className='mx-1 mb-10'>
       <div className='relative   flex min-h-[333px] w-full max-w-[250px] cursor-pointer flex-col rounded-lg border border-b border-slate-500 px-2 shadow-md hover:opacity-90 hover:shadow-lg'>
         <div className='relative h-40 w-full  flex-shrink-0'>
-          <Image
-            src={images}
-            // src=''
-            layout='fill'
-            objectFit='cover'
-            className='rounded-xl'
-            alt='Thumbnail'
-          />
+          <Image src={images} layout='fill' objectFit='cover' className='rounded-xl' alt='Thumbnail' />
         </div>
         <div className='mb-3 flex w-full flex-grow flex-col justify-between pl-2'>
           <div className='flex flex-col gap-[6px] md:gap-2'>
