@@ -656,7 +656,7 @@ function FormListings(session) {
                     <div className=' overflow-y-scroll'>
                       {/* Previews */}
                       <div className='flex flex-col gap-7 pb-20'>
-                        <div>
+                        <div className='flex flex-col gap-4'>
                           <h2 className='h2 ml-5'>Preview of your Listings</h2>
                           <p className='text-center '>Thank you for beeing part of Tonstudio-Kleinanzeigen!</p>
                         </div>
@@ -692,16 +692,16 @@ function FormListings(session) {
                         </div>
                       </div>
                       {/* Buttons */}
-                      <div className='flex-end absolute bottom-0 z-40 flex h-16 w-full items-center justify-between gap-2 border-t-2   bg-white pt-5'>
+                      <div className=' absolute bottom-0 z-40 flex h-16 w-full items-center  justify-between gap-3  rounded-b-xl border-t-2 bg-white px-2 pb-1 pt-5 '>
                         <button
                           onClick={() => setPreview(false)}
-                          className='button flex-grow  justify-center border-none bg-red-500 text-white'>
+                          className='form-button max-w-[250px]  flex-grow justify-center border-none bg-black text-white'>
                           Cancel
                         </button>
                         <button
                           onClick={handleFormSubmit}
-                          className='button flex-grow justify-center border-none bg-green-500 text-white'>
-                          Search
+                          className='form-button bg-primary max-w-[250px] flex-grow justify-center border-none text-white'>
+                          List Studio
                         </button>
                       </div>
                     </div>
@@ -715,10 +715,10 @@ function FormListings(session) {
               )}
             </fieldset>
             {/* Form-Buttons */}
-            <fieldset className='flex justify-between'>
+            <fieldset className='flex max-w-6xl justify-between gap-3 sm:gap-20 md:gap-80 lg:gap-[600px] '>
               <button
                 type='button'
-                className='button bg-secondary text-white'
+                className='form-button bg-black text-white hover:bg-black'
                 onClick={() => {
                   setForm(defaultForm);
                   setChecked(defaultChecked);
@@ -731,7 +731,7 @@ function FormListings(session) {
                   // handlePreview(event);
                   setPreview(true);
                 }}
-                className='button bg-secondary text-white'>
+                className='form-button hover:bg-secondary-hover text-white'>
                 Next
               </button>
             </fieldset>
