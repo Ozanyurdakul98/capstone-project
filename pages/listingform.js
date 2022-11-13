@@ -62,7 +62,6 @@ function FormListings(session) {
         });
         const result = await res.json();
         if (!res.ok) {
-          setPreview(false);
           throw new Error(res.status);
         }
         if (res.ok) {
@@ -77,6 +76,8 @@ function FormListings(session) {
         }
       } catch (error) {
         setFormErrors(error);
+        setPreview(false);
+        setSubmissionFailed(true);
         console.error('Failed to add', error);
       }
     }
@@ -147,8 +148,6 @@ function FormListings(session) {
     const url = 'https://api.cloudinary.com/v1_1/drt9lfnfg/image/upload';
     formData.append('file', checked.images);
     formData.append('upload_preset', preset);
-    console.log('started', formData);
-
     const res = await fetch(url, {
       method: 'POST',
       body: formData,
@@ -796,9 +795,7 @@ function FormListings(session) {
               <button
                 type='button'
                 onClick={(event) => {
-                  // handlePreview(event);
-                  // setPreview(true);
-                  setSubmissionFailed(true);
+                  handlePreview(event);
                 }}
                 className='form-button hover:bg-secondary-hover text-white'>
                 Next
