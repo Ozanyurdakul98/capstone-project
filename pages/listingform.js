@@ -684,7 +684,6 @@ function FormListings(session) {
                         </div>
                         <div>
                           <h3 className='h3 ml-5'>Searchpage preview</h3>
-
                           <ListingCardWide
                             listingTitle={form.listingTitle}
                             images={form.images ? form.images : '/images/Thumbnail-Default.png'}
