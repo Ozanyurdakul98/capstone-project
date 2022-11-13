@@ -9,6 +9,8 @@ import ListingCardCarousell from '../components/ListingCardCarousell';
 import Image from 'next/image.js';
 import { TbHandClick } from 'react-icons/tb';
 import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../components/BackgroundOverlay';
+import Link from 'next/link.js';
+import { useRouter } from 'next/router';
 
 function FormListings(session) {
   const defaultForm = {
@@ -31,15 +33,15 @@ function FormListings(session) {
   const [preview, setPreview] = useState(false);
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [submissionFailed, setSubmissionFailed] = useState(false);
+  const router = useRouter();
 
   const handlePreview = (event) => {
-    console.log('started');
     const passForm = form;
-    event.preventDefault();
     setFormErrors(ValidateCreateListing(passForm));
-    console.log('errs', ValidateCreateListing(passForm));
-    setIsSubmit(true);
-    if (Object.keys(ValidateCreateListing(passForm)).length === 0 && isSubmit) {
+    if (Object.keys(ValidateCreateListing(passForm)).length === 0) {
+      handleUploadInput(event);
       setPreview(true);
     }
   };
@@ -60,30 +62,24 @@ function FormListings(session) {
         });
         const result = await res.json();
         if (!res.ok) {
+          setPreview(false);
           throw new Error(res.status);
         }
-        alert(`Is this your data: ${result}`);
+        if (res.ok) {
+          setPreview(false);
+          setSubmitted(true);
+          router.push({
+            pathname: '/success',
+            query: {
+              operation: 'createlisting',
+            },
+          });
+        }
       } catch (error) {
+        setFormErrors(error);
         console.error('Failed to add', error);
       }
     }
-  };
-  const handleUploadInput = async (event) => {
-    //cloudinary
-    const formData = new FormData();
-    const preset = 'cy1wyxej';
-    const url = 'https://api.cloudinary.com/v1_1/drt9lfnfg/image/upload';
-    const files = event.target.files[0];
-    formData.append('file', form.images);
-    formData.append('upload_preset', preset);
-    console.log('DBfd', event.target.title.value);
-
-    const res = await fetch('https://api.cloudinary.com/v1_1/blabla/image/upload', {
-      method: 'POST',
-      body: formData,
-    });
-    // const data = await res.json();
-    const ImageUrl = res.data.secure_url;
   };
 
   const handleChange = (event) => {
@@ -111,9 +107,8 @@ function FormListings(session) {
       }
       if (name === 'images') {
         let wertImage = target.files[0];
-        setChecked({ ...checked, imageName: wertImage.name });
-        wertImage = URL.createObjectURL(wertImage);
-        return wertImage;
+        setChecked({ ...checked, imagesPreview: URL.createObjectURL(wertImage), images: wertImage });
+        return;
       } else {
         return wert;
       }
@@ -146,6 +141,24 @@ function FormListings(session) {
   const handleClickToCloseSearch = () => {
     setPreview(false);
   };
+  const handleUploadInput = async (event) => {
+    const formData = new FormData();
+    const preset = 'cy1wyxej';
+    const url = 'https://api.cloudinary.com/v1_1/drt9lfnfg/image/upload';
+    formData.append('file', checked.images);
+    formData.append('upload_preset', preset);
+    console.log('started', formData);
+
+    const res = await fetch(url, {
+      method: 'POST',
+      body: formData,
+    });
+    const data = await res.json();
+    data
+      ? setForm({ ...form, images: data.secure_url })
+      : setForm({ ...form, images: '/images/Thumbnail-Default.png' });
+  };
+
   if (session) {
     return (
       <>
@@ -187,12 +200,17 @@ function FormListings(session) {
                   />
                   <div
                     className={
-                      form.images
-                        ? 'bg-site border-primary  relative  flex h-56 w-full flex-shrink-0 flex-col items-center justify-center gap-2 rounded-xl border-2 border-dotted text-white transition duration-75 ease-out  active:scale-95 sm:h-60 sm:w-48 md:h-60 md:w-56 md:px-2 lg:h-72 lg:w-64'
-                        : 'bg-primary relative  flex  h-56 w-full flex-shrink-0 flex-col items-center justify-center gap-2 rounded-xl border-2 border-dotted border-white text-white transition duration-75 ease-out  active:scale-95 sm:h-60 sm:w-48 md:h-60 md:w-56 md:px-2 lg:h-72 lg:w-64'
+                      form.images || checked.imagesPreview
+                        ? 'bg-site border-primary  relative  flex h-56 w-48 flex-shrink-0 flex-col items-center justify-center gap-2 rounded-xl border-2 border-dotted text-white transition duration-75 ease-out  active:scale-95 sm:h-60 sm:w-48 md:h-60 md:w-56 md:px-2 lg:h-72 lg:w-64'
+                        : 'bg-primary relative  flex  h-56 w-48 flex-shrink-0 flex-col items-center justify-center gap-2 rounded-xl border-2 border-dotted border-white text-white transition duration-75 ease-out  active:scale-95 sm:h-60 sm:w-48 md:h-60 md:w-56 md:px-2 lg:h-72 lg:w-64'
                     }>
-                    {form.images ? (
-                      <Image src={form.images} layout='fill' alt='Thumbnail' objectFit='contain' />
+                    {form.images || checked.imagesPreview ? (
+                      <Image
+                        src={checked.imagesPreview ? checked.imagesPreview : form.images}
+                        layout='fill'
+                        alt='Thumbnail'
+                        objectFit='contain'
+                      />
                     ) : (
                       <>
                         <p className='text-center text-lg'>No picture selected</p>
@@ -653,7 +671,7 @@ function FormListings(session) {
               />
               <span className='errormessage'>{formErrors.studioLocation}</span>
             </fieldset>
-            {/* Preview */}
+            {/* PreviewModal */}
             <fieldset>
               {preview && (
                 <>
@@ -711,13 +729,58 @@ function FormListings(session) {
                       </div>
                     </div>
                   </div>
-
                   <ClickToCloseMax
                     style={'bg-black/50 searchBarModal  z-40 h-full'}
                     onClick={(event) => handleClickToCloseSearch(event)}
                   />
                 </>
               )}
+            </fieldset>
+            {/* ErrorModal */}
+            <fieldset>
+              {submissionFailed ? (
+                <>
+                  <div className='searchFadein w- fixed inset-x-0 inset-y-0 top-0 left-0 right-0 z-50 my-auto mx-auto flex   h-96  w-full flex-col  gap-5 rounded-2xl bg-white pb-5 pt-5  shadow-xxl md:min-h-72 md:w-7/12 xl:w-6/12 2xl:w-[680px]'>
+                    {/* Previews */}
+                    <div className='flex flex-col gap-7 overflow-y-scroll pb-20'>
+                      <h2 className='h2 ml-5'>The operation has failed!</h2>
+                      <div className='flex w-full flex-col gap-5 px-5 text-center '>
+                        <p>
+                          Your Studio listing could not submitted! Feel free to contact us with a screenshot of the
+                          error message, or try again and see if the problem is resolved.
+                        </p>
+                        <p>This is the Error message: </p>
+                        <p className='text-red-500'>{Object.entries(formErrors)}</p>
+                      </div>
+                    </div>
+                    {/* Buttons */}
+                    <div className=' absolute bottom-0 z-40 flex h-16 w-full items-center  justify-between gap-3 rounded-b-xl border-t-2 bg-white px-2 pb-1 pt-5 md:px-20 '>
+                      <Link href='/listingform'>
+                        <button
+                          className='form-button max-w-[250px] flex-grow justify-center border-none bg-black text-white'
+                          onClick={() => {
+                            setSubmissionFailed(false);
+                            router.push('/listingform');
+                            setTimeout(() => {
+                              router.reload();
+                            }, 100);
+                          }}>
+                          Try again
+                        </button>
+                      </Link>
+                      <Link href='/contact'>
+                        <button className='form-button bg-primary max-w-[250px] flex-grow justify-center border-none text-white'>
+                          Contact support
+                        </button>
+                      </Link>
+                    </div>
+                  </div>
+                  <ClickToCloseMax
+                    style={'bg-black/50 searchBarModal  z-40 h-full'}
+                    onClick={(event) => handleClickToCloseSearch(event)}
+                  />
+                </>
+              ) : null}
             </fieldset>
             {/* Form-Buttons */}
             <fieldset className='flex max-w-6xl justify-between gap-3 sm:gap-20 md:gap-80 lg:gap-[600px] '>
@@ -734,7 +797,8 @@ function FormListings(session) {
                 type='button'
                 onClick={(event) => {
                   // handlePreview(event);
-                  setPreview(true);
+                  // setPreview(true);
+                  setSubmissionFailed(true);
                 }}
                 className='form-button hover:bg-secondary-hover text-white'>
                 Next
@@ -766,7 +830,6 @@ export async function getServerSideProps(context) {
       },
     };
   }
-
   return {
     props: session || null,
   };
