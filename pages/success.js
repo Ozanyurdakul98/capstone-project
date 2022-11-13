@@ -9,31 +9,37 @@ export default function Success() {
   const router = useRouter();
   const [createListing, setCreateListing] = useState(false);
   const [signup, setSignup] = useState(false);
+  const [isRedirecting, setIsRedirecting] = useState(false);
   const [content, setContent] = useState();
   const signupContent = { header: 'Signing up', for: 'Signup' };
   const createListingContent = { header: 'Signing up', for: 'Submitting' };
 
+  function callRedirect() {
+    setTimeout(() => {
+      router.push('/');
+    }, 5000);
+  }
+
   useEffect(() => {
-    return () => {
+    setIsRedirecting(true);
+    if (isRedirecting) {
       if (router.query.operation === 'signup') {
         setSignup(true);
-        console.log('here');
         setContent(signupContent);
+        callRedirect();
       } else if (router.query.operation === 'createlisting') {
         setCreateListing(true);
         setContent(createListingContent);
+        callRedirect();
+      } else {
+        router.push('/');
       }
-    };
-  }, [router.query]);
-
-  function callRedirect() {
-    // setTimeout(() => {
-    //   router.push('/');
-    // }, 5000);
-  }
+    }
+    return;
+  }, [isRedirecting, router.push.operation]);
 
   return (
-    <div className='relative ml-5'>
+    <div className='relative ml-5 h-screen'>
       <h1 className='h1'>
         Congratulations for <u> {content?.header}!</u>
       </h1>
@@ -43,7 +49,7 @@ export default function Success() {
           Tonstudio-Kleinanzeigen thanks you for <strong>{content?.for}!</strong> You are a truly valuable member of
           this platform.
         </p>
-        <p>You will be redirected in 5 seconds... {callRedirect()}</p>
+        <p>You will be redirected in 5 seconds...</p>
       </section>
     </div>
   );

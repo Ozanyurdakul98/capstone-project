@@ -14,7 +14,7 @@ export default function Layout({ children }) {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <Header />
-      <main className='container mx-auto h-screen'>{children}</main>
+      <main className='container mx-auto'>{children}</main>
       <Footer />
     </div>
   );
