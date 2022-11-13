@@ -2,7 +2,7 @@ import React from 'react';
 import SignInComponent from '../components/Forms/SignInForm';
 import { getCsrfToken, getSession, getProviders } from 'next-auth/react';
 
-export default function signin({ csrfToken, providers }) {
+export default function Signin({ csrfToken, providers }) {
   return (
     <div>
       <SignInComponent csrfToken={csrfToken} providers={providers} />

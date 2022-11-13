@@ -4,7 +4,7 @@ import LogoWhite from '../LogoWhite';
 
 export function Footer() {
   return (
-    <footer aria-label='Site Footer' className='bg-primary mt-20'>
+    <footer aria-label='Site Footer' className='bg-primary'>
       <div className='relative mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8 lg:pt-24'>
         <div className='absolute top-4 right-4 sm:top-6 sm:right-6 lg:top-8 lg:right-8'>
           <a
