@@ -82,20 +82,20 @@ function SearchBar() {
       {/* SearchInput */}
       <form
         onSubmit={handleSearch}
-        className=' relative z-50 flex flex-1 items-center space-x-2 rounded-full border border-gray-300 bg-gray-100 px-3 py-1 shadow-sm md:shadow-lg'>
+        className='relative z-40 flex flex-1 items-center space-x-2 rounded-full border border-gray-300 bg-gray-100 px-3 py-1 shadow-sm md:shadow-lg'>
         <MagnifyingGlassIcon className='h-6 w-6 shrink-0 cursor-pointer rounded-full bg-black/30 p-1 text-white' />
         <input
-          className='relative z-50 flex-1 border-none bg-transparent outline-none'
+          className='relative z-40 flex-1 border-none bg-transparent outline-none'
           type='text'
           placeholder='type your location '
           value={searchInput}
-          onChange={(event) => setSearchInput(event.target.value.toLowerCase())}
+          onChange={(event) => setSearchInput(event.target.value.toLowerCase().trim())}
         />
       </form>
       {/* SearchInput-DropDown */}
       {searchInput && (
         <>
-          <div className='searchFadein absolute top-16 z-40 flex min-h-64  w-full  flex-col  rounded-2xl bg-white pb-5 pt-5 shadow-xxl  md:min-h-72 md:w-11/12 xl:w-6/12'>
+          <div className='searchFadein fixed top-16 z-40 mx-auto flex min-h-64 w-full flex-col  rounded-2xl  bg-white  pb-5 pt-5 shadow-xxl md:top-20 md:min-h-72 md:w-11/12 lg:inset-x-0 lg:w-10/12  xl:inset-x-auto  xl:w-6/12'>
             <div className='relative  flex min-h-20  items-center justify-center gap-2'>
               <button
                 onClick={() => setActivePanel('calendar')}

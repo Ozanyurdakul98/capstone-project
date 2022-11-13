@@ -738,7 +738,7 @@ function FormListings(session) {
             <fieldset>
               {submissionFailed ? (
                 <>
-                  <div className='searchFadein w- fixed inset-x-0 inset-y-0 top-0 left-0 right-0 z-50 my-auto mx-auto flex   h-96  w-full flex-col  gap-5 rounded-2xl bg-white pb-5 pt-5  shadow-xxl md:min-h-72 md:w-7/12 xl:w-6/12 2xl:w-[680px]'>
+                  <div className='searchFadein fixed inset-x-0 inset-y-0 top-0 left-0 right-0 z-50 my-auto mx-auto flex   h-96  w-full flex-col  gap-5 rounded-2xl bg-white pb-5 pt-5  shadow-xxl md:min-h-72 md:w-7/12 xl:w-6/12 2xl:w-[680px]'>
                     {/* Previews */}
                     <div className='flex flex-col gap-7 overflow-y-scroll pb-20'>
                       <h2 className='h2 ml-5'>The operation has failed!</h2>
