@@ -10,7 +10,7 @@ export default function Logo(props) {
       xmlns='http://www.w3.org/2000/svg'
       xmlnsXlink='http://www.w3.org/1999/xlink'>
       <g filter='url(#filter0_d_27_3)'>
-        <rect x='4' width='400' height='400' rx='189' fill='#ffffff' />
+        <rect x='4' width='400' height='400' rx='189' fill='var(--primary-color)' />
       </g>
       <g filter='url(#filter1_d_27_3)'>
         <rect x='4' width='400' height='400' rx='189' fill='url(#pattern0)' />
