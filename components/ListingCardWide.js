@@ -40,12 +40,12 @@ function ListingCard({
               <p
                 className={
                   soundengineer && soundengineer !== 'No Soundengineer'
-                    ? 'bg-primary truncate rounded border border-slate-700 px-1  text-xs text-white sm:text-sm md:text-sm  '
+                    ? 'bg-primary truncate  rounded border border-slate-700 px-1  text-xs text-white sm:text-sm md:text-sm  '
                     : ' truncate rounded border border-red-600 bg-red-600 px-1  text-xs text-white sm:text-sm md:text-sm  '
                 }>
                 {soundengineer && soundengineer !== 'No Soundengineer' ? (
                   <>
-                    Soundengineer
+                    Engineer
                     {soundengineer.soundengineerPrice
                       ? ' ' + soundengineer.soundengineerPrice + '€'
                       : ' ' + soundengineer}

@@ -36,22 +36,22 @@ export function Footer() {
             <ul className='flex flex-wrap justify-center gap-6 md:gap-8 lg:justify-end lg:gap-12'>
               <li>
                 <Link href='/'>
-                  <a className='text-white transition hover:text-gray-200/75'>About</a>
+                  <a className='text-white transition hover:text-gray-200/75'>Home</a>
                 </Link>
               </li>
               <li>
-                <Link href='/'>
-                  <a className='text-white transition hover:text-gray-200/75'>Services</a>
+                <Link href='/signin'>
+                  <a className='text-white transition hover:text-gray-200/75'>Signin</a>
                 </Link>
               </li>
               <li>
-                <Link href='/'>
-                  <a className='text-white transition hover:text-gray-200/75'>Projects</a>
+                <Link href='/signup'>
+                  <a className='text-white transition hover:text-gray-200/75'>Signup</a>
                 </Link>
               </li>
               <li>
-                <Link href='/'>
-                  <a className='text-white transition hover:text-gray-200/75'>Blog</a>
+                <Link href='/search/all'>
+                  <a className='text-white transition hover:text-gray-200/75'>Studios</a>
                 </Link>
               </li>
             </ul>
