@@ -8,7 +8,7 @@ import { Footer } from './Homepage/Footer';
 
 export default function Layout({ children }) {
   return (
-    <div className='bg-site  relative'>
+    <div className='bg-site relative overflow-x-hidden'>
       <Head>
         <title>Tonstudio-Kleinanzeigen</title>
         <link rel='icon' href='/favicon.ico' />

@@ -186,7 +186,7 @@ function FormListings(session) {
               <legend htmlFor='image' className=' label-form'>
                 Mediafiles
               </legend>
-              <div className=' relative flex flex-row items-center justify-between md:flex-row '>
+              <div className=' relative flex flex-col items-center justify-between md:flex-row '>
                 <label className=' cursor-pointer' htmlFor='images'>
                   <input
                     className='hidden'
@@ -224,7 +224,6 @@ function FormListings(session) {
                     {checked.imageName ? checked.imageName : 'Please select a picture'}
                   </p>
                 </label>
-
                 <ul className='border-primary text-primary bg-primary py h-44 w-60 list-disc rounded-xl border-4 p-2 pl-8 text-sm text-white md:absolute md:right-10 md:h-56 md:w-64 md:text-base lg:left-2/4 lg:h-60 lg:w-80 xl:text-lg '>
                   <li className='h3 list-none pb-2  text-white'>Tips for good photos:</li>
                   <li className='font-thin'>Different perspectives of the studio setup</li>

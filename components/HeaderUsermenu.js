@@ -17,10 +17,10 @@ export function HeaderUsermenu(props) {
     return classes.filter(Boolean).join(' ');
   }
   return (
-    <ul className='mx-2 flex cursor-pointer items-center md:mx-5 2xl:min-w-[200px]'>
+    <ul className='mr-2 flex cursor-pointer items-center md:mx-5 2xl:min-w-[200px]'>
       <li className='ml-2 md:inline'>
         <Menu as='div' className='relative inline-block text-left outline-none'>
-          <Menu.Button className='flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none '>
+          <Menu.Button className='flex justify-center bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none sm:rounded-md sm:border sm:border-gray-300 '>
             <div className='hidden sm:inline-flex'>
               Account
               <ChevronDownIcon className='-mr-1 ml-2 h-5 w-5' aria-hidden='true' />
@@ -37,11 +37,11 @@ export function HeaderUsermenu(props) {
             leave='transition ease-in duration-75'
             leaveFrom='transform opacity-100 scale-100'
             leaveTo='transform opacity-0 scale-95'>
-            <Menu.Items className='absolute right-0 z-50 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg  focus:outline-none'>
+            <Menu.Items className='absolute right-2 z-50 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg  focus:outline-none'>
               {session ? (
                 <>
                   <div className='grid grid-cols-3 px-1 py-1'>
-                    <div className='relative flex h-12 w-12'>
+                    <div className='relative flex h-10 w-10 sm:h-12 sm:w-12'>
                       <Image
                         src={avatar}
                         layout='fill'
@@ -54,20 +54,20 @@ export function HeaderUsermenu(props) {
                       <p className='block text-sm'>
                         Welcome <strong>{name}</strong>
                       </p>
-                      <p className='block text-sm'>{email}</p>
+                      <p className='block text-xs sm:text-sm'>{email}</p>
                     </div>
                   </div>
                   <div>
                     <Menu.Item>
                       {({ active }) => (
-                        <a
-                          href='#'
+                        <MyLink
+                          href='/listingform'
                           className={classNames(
                             active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                             'block px-4 py-3 text-sm'
                           )}>
                           Add Studio-Listing
-                        </a>
+                        </MyLink>
                       )}
                     </Menu.Item>
                   </div>
