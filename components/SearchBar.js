@@ -162,7 +162,7 @@ function SearchBar() {
                       value={noOfGuests}
                       disabled
                     />
-                    <button className='icon-big  ' onClick={incrementNumberGuests} disabled={noOfGuests === 15}>
+                    <button className='icon-big' onClick={incrementNumberGuests} disabled={noOfGuests === 15}>
                       <PlusCircleIcon />
                     </button>
                   </div>

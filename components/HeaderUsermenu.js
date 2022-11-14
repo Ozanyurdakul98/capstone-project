@@ -66,52 +66,12 @@ export function HeaderUsermenu(props) {
                             active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                             'block px-4 py-3 text-sm'
                           )}>
-                          My Profile
-                        </a>
-                      )}
-                    </Menu.Item>
-                  </div>
-                  <div>
-                    <Menu.Item>
-                      {({ active }) => (
-                        <a
-                          href='#'
-                          className={classNames(
-                            active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                            'block px-4 py-3 text-sm'
-                          )}>
                           Add Studio-Listing
                         </a>
                       )}
                     </Menu.Item>
                   </div>
                   <div>
-                    <Menu.Item>
-                      {({ active }) => (
-                        <a
-                          href='#'
-                          className={classNames(
-                            active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                            'block px-4 py-3 text-sm'
-                          )}>
-                          Favorites
-                        </a>
-                      )}
-                    </Menu.Item>
-                  </div>
-                  <div>
-                    <Menu.Item>
-                      {({ active }) => (
-                        <a
-                          href='#'
-                          className={classNames(
-                            active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                            'block px-4 py-3 text-sm'
-                          )}>
-                          Settings
-                        </a>
-                      )}
-                    </Menu.Item>
                     <Menu.Item>
                       {() => (
                         <button
