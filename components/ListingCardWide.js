@@ -1,6 +1,7 @@
 import React from 'react';
 //hooks
 import { useEffect, useState, useRef } from 'react';
+
 //tools
 import Image from 'next/image';
 //icons
@@ -31,9 +32,6 @@ function ListingCard({
           <div className='flex flex-col md:gap-2'>
             <div className='flex items-center justify-between'>
               <p className='truncate text-xs text-gray-400'>{studioLocation}</p>
-              <button>
-                <FiHeart className='icon-sm' />
-              </button>
             </div>
             <div className='flex gap-2'>
               <p className='bg-primary flex truncate rounded border border-slate-700 px-1  text-xs text-white sm:text-sm md:text-sm  '>

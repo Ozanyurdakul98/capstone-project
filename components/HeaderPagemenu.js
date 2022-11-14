@@ -45,7 +45,7 @@ export function HeaderPagemenu() {
                 <Menu.Item>
                   {({ active }) => (
                     <MyLink
-                      href='#'
+                      href='/search/recording'
                       className={classNames(
                         active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                         'block px-4 py-2 text-sm'
@@ -57,7 +57,7 @@ export function HeaderPagemenu() {
                 <Menu.Item>
                   {({ active }) => (
                     <MyLink
-                      href='#'
+                      href='/search/mixandmaster'
                       className={classNames(
                         active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                         'block px-4 py-2 text-sm'
@@ -69,7 +69,7 @@ export function HeaderPagemenu() {
                 <Menu.Item>
                   {({ active }) => (
                     <MyLink
-                      href='#'
+                      href='/search/musicproduction'
                       className={classNames(
                         active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                         'block px-4 py-2 text-sm'
@@ -81,7 +81,7 @@ export function HeaderPagemenu() {
                 <Menu.Item>
                   {({ active }) => (
                     <MyLink
-                      href='#'
+                      href='/search/rentstudio'
                       className={classNames(
                         active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                         'block px-4 py-2 text-sm'
