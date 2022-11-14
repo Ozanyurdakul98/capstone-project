@@ -12,7 +12,6 @@ import Link from 'next/link';
 
 export default function Home({ latestListings, totalUsers, totalListings }) {
   const { data: session, status } = useSession();
-  console.log(status, '1', session);
   return (
     <>
       <Head>

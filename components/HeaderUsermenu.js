@@ -17,7 +17,7 @@ export function HeaderUsermenu(props) {
     return classes.filter(Boolean).join(' ');
   }
   return (
-    <ul className='mx-2 flex cursor-pointer items-center md:mx-5 2xl:min-w-[250px]'>
+    <ul className='mx-2 flex cursor-pointer items-center md:mx-5 2xl:min-w-[200px]'>
       <li className='ml-2 md:inline'>
         <Menu as='div' className='relative inline-block text-left outline-none'>
           <Menu.Button className='flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none '>
