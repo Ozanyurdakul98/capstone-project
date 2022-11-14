@@ -135,7 +135,7 @@
   }
   /* carousell */
   .container-padding-bottom {
-    @apply pt-14 pb-2;
+    @apply pt-24 pb-2;
   }
   /* Headers */
   .h1 {

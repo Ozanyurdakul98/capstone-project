@@ -42,8 +42,6 @@ function Header() {
             <MyLink href='/listingform' className=''>
               <PlusIcon className='icon' />
             </MyLink>
-            <ChatBubbleBottomCenterTextIcon className='icon' />
-            <BuildingOfficeIcon className='icon' />
           </div>
           <HeaderUsermenu session={session} />
           {session ? null : (

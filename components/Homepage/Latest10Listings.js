@@ -77,7 +77,7 @@ export const Latest10Listings = (props) => {
 
 const CustomButtonGroup = ({ next, previous }) => {
   return (
-    <div className='absolute top-0 left-0 right-0 flex w-full items-end justify-between'>
+    <div className='absolute top-0 left-0 right-0 flex w-full flex-col items-end justify-between'>
       <div>
         <h2 className='label-form mb-0 text-lg'>The 10 latest added Studio Listings</h2>
       </div>
