@@ -42,7 +42,13 @@ export default function SignUpComponent({ csrfToken }) {
       if (user.message == 'success') {
         let options = { redirect: false, email, password };
         const res = await signIn('credentials', options);
-        return router.push('/');
+        router.push({
+          pathname: '/success',
+          query: {
+            operation: 'signup',
+          },
+        });
+        return;
       }
     }
   };

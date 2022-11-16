@@ -3,11 +3,22 @@ import { useState } from 'react';
 
 export function FormInput(props) {
   const [focused, setFocused] = useState(false);
-  const { label, errorMessage, onChange, beforeLabel, afterLabel, divClass, divClassAll, submitErrors, ...inputProps } =
-    props;
+  const {
+    label,
+    errorMessage,
+    onChange,
+    beforeLabel,
+    afterLabel,
+    divClass,
+    divClassAll,
+    submitErrors,
+    labelWrap,
+    ...inputProps
+  } = props;
 
   //   Leggend:
   //   -divClassAll = Div wrapping beforeLabel, input, afterLabel, span(errormessage) . provide String for css classes
+  //   -labelWarp = label Wrapping input, afterLbale, span
   //   -beforeLabel  = provide Object with css and a string key and inside ThemeConsumer, a string
   //   -afterLable = just a string
   //   -divClass = Div wrapping only input and afterLabel
@@ -53,6 +64,20 @@ export function FormInput(props) {
                 errorMessage={errorMessage}></ErrorMessage>
               <span>{submitErrors?.[name]}</span>
             </div>
+          ) : labelWrap ? (
+            <>
+              <label className={labelWrap.css} htmlFor={props.id}>
+                <input {...inputProps} onChange={onChange} onBlur={handleFocus} data-focused={focused.toString()} />
+                <Label id={props.id} afterLabel={afterLabel} />
+                {labelWrap.string}
+                <ErrorMessage
+                  type={props.type}
+                  disabled={props.disabled}
+                  focused={focused}
+                  errorMessage={errorMessage}></ErrorMessage>
+                <span>{submitErrors?.[name]}</span>
+              </label>
+            </>
           ) : (
             <>
               <input {...inputProps} onChange={onChange} onBlur={handleFocus} data-focused={focused.toString()} />
@@ -74,8 +99,15 @@ function Label(props) {
   return (
     <label
       htmlFor={props.id}
-      className={props.beforeLabel ? `block ${props.beforeLabel.css}` : props.afterLabel ? `mr-2 block ` : 'hidden'}>
-      {props.beforeLabel ? props.beforeLabel.string : props.afterLabel ? props.afterLabel : null}
+      className={
+        props.beforeLabel
+          ? `block ${props.beforeLabel.css}`
+          : props.afterLabel
+          ? `mr-2 block  ${props.afterLabel.css}`
+          : 'hidden'
+      }>
+      {props.beforeLabel ? props.beforeLabel.string : props.afterLabel ? props.afterLabel.string : null}
+      {props.afterLabel?.string2 ? props.afterLabel.string2 : null}
     </label>
   );
 }

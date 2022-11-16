@@ -202,7 +202,7 @@ function SearchBar() {
               </button>
             </div>
           </div>
-          <ClickToCloseMax style={'bg-black/50'} onClick={(event) => handleClickToCloseSearch(event)} />
+          <ClickToCloseMax style={'bg-black/50 searchBarModal'} onClick={(event) => handleClickToCloseSearch(event)} />
         </>
       )}
     </div>
