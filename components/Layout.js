@@ -15,7 +15,7 @@ export default function Layout({ children }) {
       <StyledHeader>
         <Header />
       </StyledHeader>
-      <StyledMain className='container'>{children}</StyledMain>
+      <main className='container mx-auto'>{children}</main>
       <StyledFooter>@Copyright Tonstudio-Kleinanzeigen 2022</StyledFooter>
     </div>
   );

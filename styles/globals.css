@@ -5,6 +5,7 @@
 :root {
   --primary-color: #0f3c69;
   --secondary-color: #1e90ff;
+  --secondary-color-hover: #277ed4fb;
 
   --site-bg: #edf0f5;
   --primary-bg: #0f3c69;
@@ -35,6 +36,9 @@
   .bg-secondary {
     @apply bg-[color:var(--secondary-bg)];
   }
+  .bg-secondary-hover {
+    @apply bg-[color:var(--secondary-color-hover)];
+  }
   .icon {
     @apply h-6 w-6 cursor-pointer rounded-sm text-[color:var(--primary-icon)] lg:h-9 lg:w-9 lg:p-1 lg:hover:bg-gray-100;
   }
@@ -44,9 +48,7 @@
   .icon-big {
     @apply h-12 w-8 transform cursor-pointer rounded-sm text-[color:var(--secondary-icon)] transition duration-100 active:text-black disabled:text-gray-400 lg:w-12 lg:p-1 lg:hover:text-opacity-80;
   }
-  .login-button {
-    @apply rounded bg-amber-300 py-2 px-4 shadow outline-none hover:bg-amber-400 active:bg-red-100;
-  }
+
   .button-active {
     @apply flex max-h-8 transform cursor-pointer items-center rounded-full  border bg-[#1e90ff] px-4 py-2 text-white transition duration-100 ease-out  hover:shadow-lg active:scale-95 active:bg-gray-100;
   }
@@ -58,13 +60,30 @@
   textarea {
     @apply rounded border p-2 outline-none ring-indigo-300;
   }
+  .errormessage {
+    @apply block pl-5 text-xs text-red-500 sm:text-sm;
+  }
+  input:invalid[data-focused='true'] {
+    @apply border-2 border-red-500;
+  }
+  /* login */
+  .form-login {
+    @apply mx-auto flex w-full max-w-[400px] flex-col items-center rounded-lg bg-white p-8 px-8;
+  }
+  .input-login {
+    @apply focus:bg-site mt-2 w-full rounded-lg bg-blue-200/70 p-2 pl-5 focus:border-blue-500 focus:outline-none;
+  }
+  .label-login {
+    @apply mb-1 mt-4 ml-5 block text-xs font-bold uppercase tracking-wide text-[color:var(--primary-text)] sm:text-sm;
+  }
+  .login-button {
+    @apply hover:bg-secondary-hover my-5 w-full  rounded-lg bg-secondary-color py-2 text-white outline-none active:bg-primary-color;
+  }
+  /* create listing */
   .input-form {
-    @apply w-full appearance-none  border-gray-500 bg-[#edf0f5] py-3 px-4  leading-tight text-gray-700 focus:border-gray-500/30 focus:bg-white focus:outline-none sm:w-2/3 lg:w-1/2;
+    @apply w-full appearance-none border-gray-500  bg-[#edf0f5] py-3 px-4 leading-tight  text-gray-700 focus:border-gray-500/30 focus:bg-white focus:outline-none sm:w-2/3 lg:w-1/2;
   }
 
-  /* input[data-focused='true'] {
-    @apply bg-black;
-  } */
   .priceInput-form {
     @apply w-12 outline-none disabled:bg-slate-300 disabled:text-black/20;
   }
@@ -76,7 +95,7 @@
     @apply flex gap-2;
   }
   .label-form {
-    @apply ml-5 mb-2 block text-xs font-bold uppercase tracking-wide text-[color:var(--primary-text)] lg:text-base;
+    @apply mb-2 ml-5 block text-xs font-bold uppercase tracking-wide text-[color:var(--primary-text)] lg:text-base;
   }
   .number-search {
     @apply mb-1 h-10 w-14 rounded-full border  bg-[#1e90ff] px-4  text-white outline-none disabled:text-white;

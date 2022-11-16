@@ -1,11 +1,11 @@
 import React from 'react';
-import SignInComponent from '../components/Forms/SignInForm';
+import SignUpComponent from '../components/Forms/SignUpForm';
 import { getCsrfToken, getSession, getProviders } from 'next-auth/react';
 
 export default function signin({ csrfToken, providers }) {
   return (
     <div>
-      <SignInComponent csrfToken={csrfToken} providers={providers} />
+      <SignUpComponent csrfToken={csrfToken} providers={providers} />
     </div>
   );
 }

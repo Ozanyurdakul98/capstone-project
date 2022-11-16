@@ -9,13 +9,19 @@ import '../components/DatePicker/styles.css';
 import '../components/DatePicker/default.css';
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
+  const isSignIn = ['signup', 'signin'].indexOf(Component.name) !== -1;
+
   return (
     <>
       <GlobalStyle />
       <SessionProvider session={session}>
-        <Layout>
+        {!isSignIn ? (
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        ) : (
           <Component {...pageProps} />
-        </Layout>
+        )}
       </SessionProvider>
     </>
   );

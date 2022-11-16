@@ -2,37 +2,9 @@ import React from 'react';
 import { useState } from 'react';
 import { unstable_getServerSession } from 'next-auth/next';
 import { authOptions } from '../../api/auth/[...nextauth].js';
-// import { useSession, getSession } from 'next-auth/react';
-
-function FormInput(props) {
-  const [focused, setFocused] = useState(false);
-  const { label, errorMessage, onChange, afterLabel, ...inputProps } = props;
-  const handleFocus = (event) => {
-    setFocused(true);
-  };
-  return (
-    <>
-      <input {...inputProps} onChange={onChange} onBlur={handleFocus} data-focused={focused.toString()} />
-      <label htmlFor={props.id} className={afterLabel ? 'mr-2 block' : 'hidden'}>
-        {afterLabel}
-      </label>
-      <span
-        className={
-          focused && errorMessage && props.type !== 'number'
-            ? 'block text-red-500 peer-valid:invisible peer-invalid:visible'
-            : props.type === 'number' && errorMessage && !props.disabled
-            ? 'text-red-500 peer-valid:invisible peer-enabled:block'
-            : 'hidden'
-        }>
-        {errorMessage}
-      </span>
-    </>
-  );
-}
-
+import { FormInput } from '../../../components/Forms/FormInput';
+import { ValidateCreateListing } from '../../../components/Forms/Services/Validate.js';
 function FormListings(session) {
-  // const { data: session } = useSession();
-  console.log(session);
   const [form, setForm] = useState({
     listingTitle: '',
     images: '',
@@ -40,7 +12,7 @@ function FormListings(session) {
     studiotype: 'Home Studio',
     services: [],
     locationFeatures: [],
-    soundengineer: '',
+    soundengineer: 'On Request',
     studioPricing: {},
     studioLocation: '',
   });
@@ -48,23 +20,31 @@ function FormListings(session) {
     soundengineer: false,
     studioPricing: [],
   });
+  const [formErrors, setFormErrors] = useState({});
+  const [isSubmit, setIsSubmit] = useState(false);
+
   const handleFormSubmit = async (event) => {
+    const passForm = form;
     event.preventDefault();
-    try {
-      const res = await fetch('/api/form', {
-        method: 'POST',
-        body: JSON.stringify(form),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      const result = await res.json();
-      if (!res.ok) {
-        throw new Error(res.status);
+    setFormErrors(ValidateCreateListing(passForm));
+    setIsSubmit(true);
+    if (Object.keys(formErrors).length === 0 && isSubmit) {
+      try {
+        const res = await fetch('/api/form', {
+          method: 'POST',
+          body: JSON.stringify(form),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        const result = await res.json();
+        if (!res.ok) {
+          throw new Error(res.status);
+        }
+        alert(`Is this your data: ${result}`);
+      } catch (error) {
+        console.error('Failed to add', error);
       }
-      alert(`Is this your data: ${result}`);
-    } catch (error) {
-      console.error('Failed to add', error);
     }
   };
 
@@ -124,13 +104,11 @@ function FormListings(session) {
     return (
       <div>
         <h1 className='text-primary mt-4 mb-2 text-center text-4xl font-bold leading-tight'>Add Studio Listing</h1>
-        <form className='text-primary w-full ' onSubmit={handleFormSubmit}>
+        <form noValidate className='text-primary w-full ' onSubmit={handleFormSubmit}>
           {/* title */}
           <fieldset className='w-full leading-tight'>
-            <label htmlFor='titel' className='label-form block '>
-              Listing Titel
-            </label>
             <FormInput
+              beforeLabel={{ string: 'Listing Title', css: 'label-form ' }}
               className='input-form peer block '
               type='text'
               id='titel'
@@ -141,6 +119,7 @@ function FormListings(session) {
               errorMessage={'Only 10-60 characters and (a-z, A-Z, 0-9, ! äöü ,-_) allowed!'}
               value={form.listingTitle}
               onChange={handleChange}></FormInput>
+            <span className='errormessage '>{formErrors.listingTitle}</span>
           </fieldset>
           {/* Mediafiles */}
           <fieldset className='w-full leading-tight'>
@@ -171,28 +150,26 @@ function FormListings(session) {
           {/* OpeningHours */}
           <fieldset className='flex w-full gap-3 leading-tight'>
             <legend className='label-form'>Opening hours</legend>
-            <div className='radio-form'>
-              <input
-                type='radio'
-                id='openingHours'
-                name='openingHours'
-                value='Always Available'
-                checked={form.openingHours.includes('Always Available')}
-                onChange={handleChange}
-              />
-              <label htmlFor='openingHours'>Always Available</label>
-            </div>
-            <div className='radio-form'>
-              <input
-                type='radio'
-                id='onRequest'
-                name='openingHours'
-                value='On Request'
-                checked={form.openingHours.includes('On Request')}
-                onChange={handleChange}
-              />
-              <label htmlFor='onRequest'>On Request</label>
-            </div>
+            <FormInput
+              divClass='radio-form'
+              type='radio'
+              id='openingHours'
+              name='openingHours'
+              value='Always Available'
+              checked={form.openingHours.includes('Always Available')}
+              onChange={handleChange}
+              afterLabel={'Always Available'}
+            />
+            <FormInput
+              divClass={'radio-form'}
+              type='radio'
+              id='onRequest'
+              name='openingHours'
+              value='On Request'
+              checked={form.openingHours.includes('On Request')}
+              onChange={handleChange}
+              afterLabel={'On Request'}
+            />
           </fieldset>
           {/* Studiotype */}
           <fieldset className='w-full leading-tight'>
@@ -248,149 +225,179 @@ function FormListings(session) {
           {/* services */}
           <fieldset className='w-full leading-tight'>
             <legend className='label-form'>Studio services</legend>
-            <div className='checkbox-form'>
-              <input
-                id='recording'
-                value='Recording'
-                name='services'
-                type='checkbox'
-                checked={form.services.includes('Recording')}
-                onChange={handleChange}
-              />
-              <label htmlFor='recording'>Recording</label>
-            </div>
-            <div className='checkbox-form'>
-              <input
-                id='mix'
-                value='Mix'
-                name='services'
-                type='checkbox'
-                checked={form.services.includes('Mix')}
-                onChange={handleChange}
-              />
-              <label htmlFor='mix'>Mix</label>
-            </div>
-            <div className=' checkbox-form'>
-              <input
-                id='master'
-                value='Master'
-                name='services'
-                type='checkbox'
-                checked={form.services.includes('Master')}
-                onChange={handleChange}
-              />
-              <label htmlFor='master'>Master</label>
-            </div>
-            <div className=' checkbox-form'>
-              <input
-                id='musicproduction'
-                value='Musicproduction'
-                name='services'
-                type='checkbox'
-                checked={form.services.includes('Musicproduction')}
-                onChange={handleChange}
-              />
-              <label htmlFor='musicproduction'>
-                Musicproduction <span className='text-sm'>(Recording, Mix & Master)</span>
-              </label>
-            </div>
-            <div className=' checkbox-form'>
-              <input
-                id='rentAStudio'
-                value='Rent Studio'
-                name='services'
-                type='checkbox'
-                checked={form.services.includes('Rent Studio')}
-                onChange={handleChange}
-              />
-              <label htmlFor='rentAStudio'>
-                Rent Studio <span className='text-sm'>(without Soundengineer)</span>
-              </label>
-            </div>
-            <div className=' checkbox-form'>
-              <input
-                id='podcastAndAudiobooks'
-                value='Podcast & Audiobooks'
-                name='services'
-                type='checkbox'
-                checked={form.services.includes('Podcast & Audiobooks')}
-                onChange={handleChange}
-              />
-              <label htmlFor='podcastAndAudiobooks'>Podcast & Audiobooks</label>
-            </div>
+            <FormInput
+              divClass={'checkbox-form'}
+              id='recording'
+              value='Recording'
+              name='services'
+              type='checkbox'
+              checked={form.services.includes('Recording')}
+              onChange={handleChange}
+              afterLabel={'Recording'}
+            />
+            <FormInput
+              divClass={'checkbox-form'}
+              id='mix'
+              value='Mix'
+              name='services'
+              type='checkbox'
+              checked={form.services.includes('Mix')}
+              onChange={handleChange}
+              afterLabel={'Mix'}
+            />
+            <FormInput
+              divClass={'checkbox-form'}
+              id='master'
+              value='Master'
+              name='services'
+              type='checkbox'
+              checked={form.services.includes('Master')}
+              onChange={handleChange}
+              afterLabel={'Master'}
+            />
+            <FormInput
+              divClass={'checkbox-form'}
+              id='musicproduction'
+              value='Musicproduction'
+              name='services'
+              type='checkbox'
+              checked={form.services.includes('Musicproduction')}
+              onChange={handleChange}
+              afterLabel={
+                <>
+                  Musicproduction <span className='text-sm'>(Recording, Mix & Master)</span>
+                </>
+              }
+            />
+            <FormInput
+              divClass={'checkbox-form'}
+              id='rentAStudio'
+              value='Rent Studio'
+              name='services'
+              type='checkbox'
+              checked={form.services.includes('Rent Studio')}
+              onChange={handleChange}
+              afterLabel={
+                <>
+                  Rent Studio <span className='text-sm'>(without Soundengineer)</span>
+                </>
+              }
+            />
+            <FormInput
+              divClass={'checkbox-form'}
+              id='podcastAndAudiobooks'
+              value='Podcast & Audiobooks'
+              name='services'
+              type='checkbox'
+              checked={form.services.includes('Podcast & Audiobooks')}
+              onChange={handleChange}
+              afterLabel={'Podcast & Audiobooks'}
+            />
+            <span className='errormessage'>{formErrors.listingTitle}</span>
           </fieldset>
           {/* location-features */}
           <fieldset className='flex  w-full flex-wrap gap-3 leading-tight'>
             <legend className='label-form'>Location Features</legend>
-            <div className='checkbox-form'>
-              <input type='checkbox' id='parking' value='Parking' name='locationFeatures' onChange={handleChange} />
-              <label htmlFor='parking'>Parking</label>
-            </div>
-            <div className='checkbox-form'>
-              <input type='checkbox' id='wifi' value='Wi-Fi' name='locationFeatures' onChange={handleChange} />
-              <label htmlFor='wifi'>Wi-Fi</label>
-            </div>
-            <div className='checkbox-form'>
-              <input type='checkbox' id='snacks' value='Snacks' name='locationFeatures' onChange={handleChange} />
-              <label htmlFor='snacks'>Snacks</label>
-            </div>
-            <div className='checkbox-form'>
-              <input type='checkbox' id='wc' value='WC' name='locationFeatures' onChange={handleChange} />
-              <label htmlFor='wc'>WC</label>
-            </div>
-            <div className='checkbox-form'>
-              <input type='checkbox' id='kitchen' value='Kitchen' name='locationFeatures' onChange={handleChange} />
-              <label htmlFor='kitchen'>Kitchen</label>
-            </div>
-            <div className='checkbox-form'>
-              <input type='checkbox' id='smoking' value='Smoking' name='locationFeatures' onChange={handleChange} />
-              <label htmlFor='smoking'>Smoking</label>
-            </div>
+            <FormInput
+              divClass={'checkbox-form'}
+              type='checkbox'
+              id='parking'
+              value='Parking'
+              name='locationFeatures'
+              onChange={handleChange}
+              afterLabel={'Parking'}
+            />
+            <FormInput
+              divClass={'checkbox-form'}
+              type='checkbox'
+              id='wifi'
+              value='Wi-Fi'
+              name='locationFeatures'
+              onChange={handleChange}
+              afterLabel={'Wi-Fi'}
+            />
+            <FormInput
+              divClass={'checkbox-form'}
+              type='checkbox'
+              id='snacks'
+              value='Snacks'
+              name='locationFeatures'
+              onChange={handleChange}
+              afterLabel={'Snacks'}
+            />
+            <FormInput
+              divClass={'checkbox-form'}
+              type='checkbox'
+              id='wc'
+              value='WC'
+              name='locationFeatures'
+              onChange={handleChange}
+              afterLabel={'WC'}
+            />
+            <FormInput
+              divClass={'checkbox-form'}
+              type='checkbox'
+              id='kitchen'
+              value='Kitchen'
+              name='locationFeatures'
+              onChange={handleChange}
+              afterLabel={'Kitchen'}
+            />
+            <FormInput
+              divClass={'checkbox-form'}
+              type='checkbox'
+              id='smoking'
+              value='Smoking'
+              name='locationFeatures'
+              onChange={handleChange}
+              afterLabel={'Smoking'}
+            />
           </fieldset>
+          <span className='errormessage block'>{formErrors.locationFeatures}</span>
           {/* Soundengineer */}
           <fieldset className='flex w-full flex-col gap-3 leading-tight'>
             <legend className='label-form'>Soundengineer</legend>
-            <div className='radio-form'>
-              <input
-                type='radio'
-                id='soundengineerNo'
-                name='soundengineer'
-                value='No Soundengineer'
-                onChange={(event) => {
-                  handleChange(event);
-                  handleCheck(event);
-                }}
-              />
-              <label htmlFor='soundengineerNo'>
-                No <span className='text-sm'>(Studio only for Rent)</span>
-              </label>
-            </div>
-            <div className='radio-form'>
-              <input
-                type='radio'
-                id='soundengineerOnRequest'
-                name='soundengineer'
-                value='On Request'
-                onChange={(event) => {
-                  handleChange(event);
-                  handleCheck(event);
-                }}
-              />
-              <label htmlFor='soundengineerOnRequest'>On Request</label>
-            </div>
-            <div className='radio-form'>
-              <input
-                type='radio'
-                id='soundengineerInclusive'
-                name='soundengineer'
-                value='Inclusive'
-                onChange={(event) => {
-                  handleChange(event);
-                  handleCheck(event);
-                }}
-              />
-              <label htmlFor='soundengineerInclusive'>Inclusive</label>
-            </div>
+            <FormInput
+              divClass={'radio-form'}
+              type='radio'
+              id='soundengineerNo'
+              name='soundengineer'
+              value='No Soundengineer'
+              onChange={(event) => {
+                handleChange(event);
+                handleCheck(event);
+              }}
+              afterLabel={
+                <>
+                  No <span className='text-sm'>(Studio just for Rent)</span>
+                </>
+              }
+            />
+            <FormInput
+              divClass={'radio-form'}
+              type='radio'
+              id='soundengineerOnRequest'
+              name='soundengineer'
+              value='On Request'
+              checked={form.soundengineer === 'On Request'}
+              onChange={(event) => {
+                handleChange(event);
+                handleCheck(event);
+              }}
+              afterLabel={'On Request'}
+            />
+            <FormInput
+              divClass={'radio-form'}
+              type='radio'
+              id='soundengineerInclusive'
+              name='soundengineer'
+              value='Inclusive'
+              onChange={(event) => {
+                handleChange(event);
+                handleCheck(event);
+              }}
+              afterLabel={'Inclusive'}
+            />
             <div className='radio-form flex items-center'>
               <FormInput
                 type='radio'
@@ -415,6 +422,7 @@ function FormListings(session) {
                 value={checked.soundengineer === 'soundengineerPrice' ? form.soundengineer.soundengineerPrice : 0}
                 onChange={handleChange}></FormInput>
             </div>
+            <span className='errormessage'>{formErrors.soundengineer}</span>
           </fieldset>
           {/* studio-price */}
           <fieldset className='flex w-full flex-col gap-3 leading-tight'>
@@ -427,8 +435,8 @@ function FormListings(session) {
                 onChange={(event) => {
                   handleCheck(event);
                 }}
+                afterLabel={'per Hour'}
               />
-              <label htmlFor='studioPricingHour'>per Hour</label>
               <FormInput
                 className='priceInput-form peer outline-none'
                 type='number'
@@ -437,7 +445,6 @@ function FormListings(session) {
                 required
                 min={1}
                 max={9999}
-                afterLabel={'€'}
                 errorMessage={'From 1 to 9999'}
                 disabled={!checked.studioPricing.includes('studioPricingHour')}
                 value={
@@ -447,7 +454,8 @@ function FormListings(session) {
                     ? ''
                     : form.studioPricing.studioPricingHour
                 }
-                onChange={handleChange}></FormInput>
+                onChange={handleChange}
+                afterLabel={'€'}></FormInput>
             </div>
             <div className='checkbox-form'>
               <FormInput
@@ -467,7 +475,6 @@ function FormListings(session) {
                 required
                 max={9999}
                 min={1}
-                afterLabel={'€'}
                 errorMessage={'From 1 to 9999'}
                 disabled={!checked.studioPricing.includes('studioPricingDay')}
                 value={
@@ -478,6 +485,7 @@ function FormListings(session) {
                     : form.studioPricing.studioPricingDay
                 }
                 onChange={handleChange}
+                afterLabel={'€'}
               />
             </div>
             <div className='checkbox-form'>
@@ -498,7 +506,6 @@ function FormListings(session) {
                 required
                 min={1}
                 max={9999}
-                afterLabel={'€'}
                 errorMessage={'From 1 to 9999'}
                 disabled={!checked.studioPricing.includes('studioPricingWeek')}
                 value={
@@ -509,6 +516,7 @@ function FormListings(session) {
                     : form.studioPricing.studioPricingWeek
                 }
                 onChange={handleChange}
+                afterLabel={'€'}
               />
             </div>
             <div className='checkbox-form'>
@@ -527,7 +535,6 @@ function FormListings(session) {
                 name='studioPricing'
                 id='studioPricingMonth'
                 required
-                afterLabel={'€'}
                 errorMessage={'From 1 to 9999'}
                 min={1}
                 max={9999}
@@ -540,13 +547,15 @@ function FormListings(session) {
                     : form.studioPricing.studioPricingMonth
                 }
                 onChange={handleChange}
+                afterLabel={'€'}
               />
             </div>
+            <span className='errormessage'>{formErrors.studioPricing}</span>
           </fieldset>
           {/* location */}
           <fieldset className='w-full leading-tight'>
-            <legend className='label-form'>Location</legend>
             <FormInput
+              beforeLabel={{ string: 'Location', css: 'label-form ' }}
               className='input-form peer'
               type='text'
               name='studioLocation'
@@ -558,6 +567,7 @@ function FormListings(session) {
               value={form.studioLocation}
               onChange={handleChange}
             />
+            <span className='errormessage'>{formErrors.studioLocation}</span>
           </fieldset>
           {/* Form-Buttons */}
           <fieldset className='flex justify-between'>
@@ -579,7 +589,6 @@ export default FormListings;
 
 export async function getServerSideProps(context) {
   const session = await unstable_getServerSession(context.req, context.res, authOptions);
-  console.log('form', session);
   if (!session) {
     return {
       redirect: {
