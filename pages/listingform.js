@@ -155,7 +155,7 @@ function FormListings(session) {
     const data = await res.json();
     data
       ? setForm({ ...form, images: data.secure_url })
-      : setForm({ ...form, images: '/images/Thumbnail-Default.png' });
+      : setForm({ ...form, images: '/images/Thumbnail-default.png' });
   };
 
   if (session) {
@@ -685,7 +685,7 @@ function FormListings(session) {
                           <h3 className='h3 ml-5'>Searchpage preview</h3>
                           <ListingCardWide
                             listingTitle={form.listingTitle}
-                            images={form.images ? form.images : '/images/Thumbnail-Default.png'}
+                            images={form.images ? form.images : '/images/Thumbnail-default.png'}
                             studiotype={form.studiotype}
                             services={form.services}
                             soundengineer={form.soundengineer}
@@ -699,7 +699,7 @@ function FormListings(session) {
                           <div className='-ml-4'>
                             <ListingCardCarousell
                               listingTitle={form.listingTitle}
-                              images={form.images ? form.images : '/images/Thumbnail-Default.png'}
+                              images={form.images ? form.images : '/images/Thumbnail-default.png'}
                               studiotype={form.studiotype}
                               services={form.services}
                               soundengineer={form.soundengineer}

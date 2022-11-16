@@ -12,3 +12,4 @@ export const MyLink = forwardRef((props, ref) => {
     </Link>
   );
 });
+MyLink.displayName = 'MyComponent';
