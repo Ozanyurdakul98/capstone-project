@@ -26,13 +26,13 @@ export default function Success() {
       if (router.query.operation === 'signup') {
         setSignup(true);
         setContent(signupContent);
-        // callRedirect();
+        callRedirect();
       } else if (router.query.operation === 'createlisting') {
         setCreateListing(true);
         setContent(createListingContent);
-        // callRedirect();
+        callRedirect();
       } else {
-        // router.push('/');
+        router.push('/');
       }
     }
     return;
