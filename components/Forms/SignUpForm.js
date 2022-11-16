@@ -110,6 +110,7 @@ export default function SignUpComponent({ csrfToken }) {
             id='email'
             placeholder='Email'
             required
+            autoComplete='off'
             pattern='^([^\s@]+@[^\s@]+\.[^\s@]+$)'
             errorMessage={'Not a valid email adress'}
             onChange={handleChange}
@@ -123,6 +124,7 @@ export default function SignUpComponent({ csrfToken }) {
             name='password'
             id='password'
             placeholder='Password'
+            autoComplete='off'
             required
             pattern='^([a-zA-Z-0-9-!äöü#@.,-_]){8,60}$'
             errorMessage={'( a-z, A-Z, 0-9, äöü #!,-@._ ) min 8 max 60 characters allowed!'}
@@ -137,6 +139,7 @@ export default function SignUpComponent({ csrfToken }) {
             name='matchpassword'
             id='matchpassword'
             placeholder='Confirm Password'
+            autoComplete='off'
             required
             pattern={form.password}
             errorMessage={'Password is not matching!'}

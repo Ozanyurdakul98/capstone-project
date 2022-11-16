@@ -6,7 +6,7 @@ export default function Logo(props) {
       width={props.width}
       height={props.height}
       viewBox='0 0 408 429'
-      fill='none'
+      fill='white'
       xmlns='http://www.w3.org/2000/svg'
       xmlnsXlink='http://www.w3.org/1999/xlink'>
       <g filter='url(#filter0_d_30_14)'>

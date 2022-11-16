@@ -14,10 +14,8 @@ export function HeaderPagemenu() {
       <li className='flex-b1 ml-2 md:inline'>
         <Menu as='div' className='relative inline-block text-left outline-none'>
           <Menu.Button className='flex items-center gap-1'>
-            <Link href='/'>
-              <HomeIcon className='mb-1 h-5 w-5' />
-            </Link>
-            <p className='font-semibold'>Pages</p>
+            <HomeIcon className='mb-1 h-5 w-5' />
+            <p className='hidden font-semibold sm:inline-flex'>Pages</p>
             <ChevronDownIcon className='h-5 w-5' />
           </Menu.Button>
           <Transition
@@ -45,7 +43,7 @@ export function HeaderPagemenu() {
                 <Menu.Item>
                   {({ active }) => (
                     <MyLink
-                      href='#'
+                      href='/search/recording'
                       className={classNames(
                         active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                         'block px-4 py-2 text-sm'
@@ -57,7 +55,7 @@ export function HeaderPagemenu() {
                 <Menu.Item>
                   {({ active }) => (
                     <MyLink
-                      href='#'
+                      href='/search/mixandmaster'
                       className={classNames(
                         active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                         'block px-4 py-2 text-sm'
@@ -69,7 +67,7 @@ export function HeaderPagemenu() {
                 <Menu.Item>
                   {({ active }) => (
                     <MyLink
-                      href='#'
+                      href='/search/musicproduction'
                       className={classNames(
                         active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                         'block px-4 py-2 text-sm'
@@ -81,7 +79,7 @@ export function HeaderPagemenu() {
                 <Menu.Item>
                   {({ active }) => (
                     <MyLink
-                      href='#'
+                      href='/search/rentstudio'
                       className={classNames(
                         active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                         'block px-4 py-2 text-sm'

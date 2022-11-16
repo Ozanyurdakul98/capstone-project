@@ -16,7 +16,6 @@ export default async function handler(req, res) {
   } else if (req.method === 'POST') {
     if (session) {
       await db.connect();
-
       try {
         const listing = await StudioListing.create(req.body); /* create a new model in the database */
         return res.status(201).json({ success: true, data: listing });

@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import LogoWhite from '../LogoWhite';
-
+import Image from 'next/image';
 export function Footer() {
   return (
     <footer aria-label='Site Footer' className='bg-primary'>
@@ -22,7 +22,7 @@ export function Footer() {
         <div className='lg:flex lg:items-end lg:justify-between'>
           <div>
             <div className='flex items-end justify-center lg:justify-start'>
-              <LogoWhite width={'80'} height={'80'} />
+              <Image width={'80'} height={'80'} quality={100} alt='logo white' src='/images/LogoWhite.png' />
               <h2 className='label-form text-xl text-white underline'>Tonstudio-Kleinanzeigen</h2>
             </div>
 
@@ -36,22 +36,22 @@ export function Footer() {
             <ul className='flex flex-wrap justify-center gap-6 md:gap-8 lg:justify-end lg:gap-12'>
               <li>
                 <Link href='/'>
-                  <a className='text-white transition hover:text-gray-200/75'>About</a>
+                  <a className='text-white transition hover:text-gray-200/75'>Home</a>
                 </Link>
               </li>
               <li>
-                <Link href='/'>
-                  <a className='text-white transition hover:text-gray-200/75'>Services</a>
+                <Link href='/signin'>
+                  <a className='text-white transition hover:text-gray-200/75'>Signin</a>
                 </Link>
               </li>
               <li>
-                <Link href='/'>
-                  <a className='text-white transition hover:text-gray-200/75'>Projects</a>
+                <Link href='/signup'>
+                  <a className='text-white transition hover:text-gray-200/75'>Signup</a>
                 </Link>
               </li>
               <li>
-                <Link href='/'>
-                  <a className='text-white transition hover:text-gray-200/75'>Blog</a>
+                <Link href='/search/all'>
+                  <a className='text-white transition hover:text-gray-200/75'>Studios</a>
                 </Link>
               </li>
             </ul>

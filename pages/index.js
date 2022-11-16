@@ -13,7 +13,7 @@ import Link from 'next/link';
 export default function Home({ latestListings, totalUsers, totalListings }) {
   const { data: session, status } = useSession();
   return (
-    <>
+    <div className='mb-20'>
       <Head>
         <title>Tonstudio-Kleinanzeigen</title>
       </Head>
@@ -21,39 +21,7 @@ export default function Home({ latestListings, totalUsers, totalListings }) {
       <HomepageStatsCounter totalUsers={totalUsers} totalListings={totalListings}></HomepageStatsCounter>
       <Latest10Listings latestListings={latestListings} />
       <HomepageBanner />
-      <div className=' mt-10 w-60 border-4 border-red-300'>
-        {session ? (
-          <>
-            <p>Signed in as {session.user.email}</p>
-            <button className='text-blue-500' onClick={() => signOut()}>
-              Sign out
-            </button>
-          </>
-        ) : (
-          <>
-            <p>Not signed in</p>
-            <button className='text-blue-500' onClick={() => signIn()}>
-              Sign in
-            </button>
-            <br />
-          </>
-        )}
-      </div>
-      <div className=' mt-10 w-80 border-4 border-red-300'>
-        {session ? (
-          <Link href={`/forms/listings`}>
-            <a className='text-blue-500'> Produkt hinzufügen (loggedIn=allowed)</a>
-          </Link>
-        ) : (
-          <button className='block text-blue-500' onClick={() => signIn(Github, { callbackUrl: '/forms/listings' })}>
-            <a>Produkt hinzufügen (AuthRequire)</a>
-          </button>
-        )}
-        <Link href={`/forms/listings`}>
-          <a className='text-blue-500'> Produkt hinzufügen (SSR check/redirect)</a>
-        </Link>
-      </div>
-    </>
+    </div>
   );
 }
 

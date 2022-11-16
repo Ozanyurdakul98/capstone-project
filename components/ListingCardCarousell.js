@@ -31,24 +31,15 @@ function ListingCard({
         </div>
         <div className='mb-3 flex w-full flex-grow flex-col justify-between pl-2'>
           <div className='flex flex-col gap-[6px] md:gap-2'>
-            <div className='flex items-center justify-between'>
+            <div className='flex items-center justify-between py-2'>
               <p className='truncate text-xs text-gray-400'>{studioLocation}</p>
-              <button>
-                <FiHeart className='icon-bookmark mt-1' />
-              </button>
             </div>
             <div className='-mt-1 flex  gap-2'>
               <p className='bg-primary truncate rounded border border-slate-700 px-1 text-xs text-white  md:text-sm'>
                 {studiotype}
               </p>
-              <p className='flex truncate rounded border border-slate-700 px-1 text-xs  md:text-sm'>
-                {soundengineer ? (
-                  <>
-                    Soundengineer <TiTick className='text-green-500' />
-                  </>
-                ) : (
-                  '❌'
-                )}
+              <p className='flex truncate rounded border border-slate-700 pr-6 pl-1 text-xs  md:text-sm'>
+                {soundengineer ? <>Soundengineer</> : '❌'}
               </p>
             </div>
           </div>
