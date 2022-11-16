@@ -21,14 +21,14 @@ function ListingCard({
   locationFeatures,
   studioLocation,
 }) {
-  const ref = useRef(null);
+  // const ref = useRef(null);
   const slicedServices = services.slice(0, 3);
 
-  const [width, setWidth] = useState(0);
+  // const [width, setWidth] = useState(0);
 
-  useEffect(() => {
-    setWidth(ref.current.offsetWidth);
-  }, []);
+  // useEffect(() => {
+  //   setWidth(ref.current.offsetWidth);
+  // }, []);
 
   return (
     <article>
@@ -46,9 +46,7 @@ function ListingCard({
         <div className='flex w-full flex-col justify-between pl-2 sm:pl-5'>
           <div className='flex flex-col md:gap-2'>
             <div className='flex items-center justify-between'>
-              <p className='text-xs text-gray-400'>
-                {studioLocation.length > 30 ? studioLocation.substring(0, 30) + '...' : studioLocation}
-              </p>
+              <p className='truncate text-xs text-gray-400'>{studioLocation}</p>
               <button>
                 <FiHeart className='icon-sm' />
               </button>
@@ -67,28 +65,15 @@ function ListingCard({
             </div>
           </div>
           <h4 className='text-sm sm:text-xl md:text-2xl'>{listingTitle}</h4>
-          <ul className='flex items-center gap-2' ref={ref}>
-            {width <= 400 && services.length > 3 ? (
-              <>
-                {slicedServices.map((service) => (
-                  <li
-                    key={service}
-                    className='rounded-full bg-red-200 px-[9px] text-xs sm:text-xs md:text-sm lg:text-base xl:text-lg'>
-                    {service}
-                  </li>
-                ))}
-                ...
-              </>
-            ) : (
-              services.map((service) => (
-                <li
-                  key={service}
-                  className=' rounded-full bg-red-200 px-[9px] text-xs sm:text-xs md:text-sm lg:text-base xl:text-lg'>
-                  {service}
-                </li>
-              ))
-            )}
-          </ul>
+          <div className='flex items-center gap-2  '>
+            {slicedServices.map((service) => (
+              <p
+                key={service}
+                className='max-w-full rounded-full bg-red-200 px-[9px] text-xs line-clamp-1 sm:text-sm md:text-sm lg:text-base xl:text-lg'>
+                {service}
+              </p>
+            ))}
+          </div>
           <div className='flex items-center justify-between'>
             <div className='flex gap-2'>
               {locationFeatures.wifi ? <IoIosWifi className='icon' /> : null}

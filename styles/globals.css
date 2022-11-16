@@ -4,6 +4,7 @@
 
 :root {
   --primary-color: #0f3c69;
+  --primary-color-hover: #0f3c6957;
   --secondary-color: #1e90ff;
   --secondary-color-hover: #277ed4fb;
 
@@ -41,6 +42,12 @@
   }
   .icon {
     @apply h-6 w-6 cursor-pointer rounded-sm text-[color:var(--primary-icon)] lg:h-9 lg:w-9 lg:p-1 lg:hover:bg-gray-100;
+  }
+  .icon-carousell {
+    @apply h-6 w-6 cursor-pointer rounded-md  border border-slate-800 text-[color:var(--primary-icon)] lg:h-7 lg:w-7  lg:hover:bg-gray-100;
+  }
+  .icon-bookmark {
+    @apply h-6 w-6 cursor-pointer  text-[color:var(--primary-icon)] lg:h-7 lg:w-7  lg:hover:bg-gray-100;
   }
   .icon-sm {
     @apply h-9 w-6 cursor-pointer rounded-sm  lg:w-9 lg:p-1 lg:hover:bg-gray-100;
@@ -105,6 +112,10 @@
   }
   .date-search {
     @apply mb-2 cursor-pointer rounded-full text-center outline-none;
+  }
+  /* carousell */
+  .container-padding-bottom {
+    @apply pt-14 pb-2;
   }
   .h4 {
     @apply text-lg font-semibold;
