@@ -7,9 +7,10 @@ import GlobalStyle from '../components/GlobalStyle';
 import '../styles/globals.css';
 import '../components/DatePicker/styles.css';
 import '../components/DatePicker/default.css';
+import { Footer } from '../components/Homepage/Footer';
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
-  const isSignIn = ['signup', 'signin'].indexOf(Component.name) !== -1;
+  const isSignIn = ['Signup', 'Signin'].indexOf(Component.name) !== -1;
 
   return (
     <>
@@ -20,7 +21,10 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
             <Component {...pageProps} />
           </Layout>
         ) : (
-          <Component {...pageProps} />
+          <>
+            <Component {...pageProps} />
+            <Footer />
+          </>
         )}
       </SessionProvider>
     </>

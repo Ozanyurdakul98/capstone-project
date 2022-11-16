@@ -138,6 +138,9 @@
     @apply pt-14 pb-2;
   }
   /* Headers */
+  .h1 {
+    @apply block text-2xl font-bold uppercase tracking-wide  text-[color:var(--primary-text)] md:text-xl lg:text-2xl;
+  }
   .h2 {
     @apply block text-lg font-bold uppercase tracking-wide  text-[color:var(--primary-text)] md:text-xl lg:text-2xl;
   }
