@@ -17,7 +17,6 @@ Key tech:
 - TailwindCSS
 - Styled-Components
 
-Below you will see my scetches i have already finished to implement as code in this project. Please look at my projects board in this Repo for a better look into which steps I took and how I worked on them.
 
 ## Step 1
 
