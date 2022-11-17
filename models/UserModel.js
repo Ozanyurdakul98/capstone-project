@@ -7,8 +7,8 @@ const userSchema = new mongoose.Schema(
     password: { type: String },
     avatar: {
       type: String,
-      default: '/images/Thumbnail-Default.png',
-      set: (v) => (v === '' || undefined || null ? '/images/Thumbnail-Default.png' : v),
+      default: '/images/Thumbnail-default.png',
+      set: (v) => (v === '' || undefined || null ? '/images/Thumbnail-default.png' : v),
     },
   },
   { timestamps: true }
