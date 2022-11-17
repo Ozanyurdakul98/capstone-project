@@ -5,38 +5,31 @@ I want to serve a platform for music service-provider and let them create digita
 Key features:
 
 - search and filter
-- User Authentication (login)
-- create listings
+- User Authentication (sign in, sign up)
+- add listings form (with image uplaod)
+- Listing Carousel
 - Serverside Rendering
 
-Key tech:
+Tech-Stack:
 
-- Next 12
-- React
+- Next.js 12+
+- React.js 18+
 - MongoDB, mongoose
+- NextAuth.js
 - TailwindCSS
-- Styled-Components
+- Cloudinary
 
+For a live preview please click the vercel link on the top right or go with this link <a href="http://capstone-project-lime-ten.vercel.app/">Tonstudio-Kleinanzeigen<a>
 
-## Step 1
+## day to day web dev experience - Kanban
 
-Create Listings with fake data
+Most of the time at Neuefische Traineeship, as well as in this capstone-project, we worked with user-stories, code-reviews, QA and Kanban board. The Image below shows the board for this project.
 
-![Getting Started](/docs/images/step1.png)
+![kanban board](/docs/images/kanbanBoard.png)
 
-## Step 2
+## Check the responsiveness
 
-Create the search bar with search options to filter the listings
-![Getting Started](/docs/images/step2.png)
+This project is fully responsive
 
-## Step 3
-
-Includes the MongoDB setup/connection and SSR, as well as creating the create-a-listing form itself
-
-![Getting Started](/docs/images/step3.png)
-![Getting Started](/docs/images/step3-2.png)
-
-## Step 4
-
-Add User Authentication via Credentials(email & password) and Github Auth. SignIn and SignUp using NextAuth.js
-![Image](https://user-images.githubusercontent.com/68496958/197496267-ca80b7f9-9bd1-4f6b-b93a-efe16b6be158.png)
+![kanban board](/docs/images/homepageWide.png)
+![kanban board](/docs/images/homepageMobile.png)
