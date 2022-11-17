@@ -1,16 +1,13 @@
-import Head from 'next/head';
 import React from 'react';
-//components
-//styles
-import Header from './Header';
+import Header from '../Header';
+import { Footer } from '../Footer';
+import Head from 'next/head';
 
-import { Footer } from './Footer';
-
-export default function Layout({ children }) {
+export default function DashboardLayout({ children }) {
   return (
     <div className='bg-site relative overflow-x-hidden'>
       <Head>
-        <title>Tonstudio-Kleinanzeigen</title>
+        <title>Dashboard</title>
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <Header />
