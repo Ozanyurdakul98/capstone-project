@@ -27,3 +27,9 @@ Most of the time at Neuefische Traineeship, as well as in this capstone-project,
 
 ![kanban board](/docs/images/kanbanBoard.png)
 
+## Check the responsiveness
+
+This project is fully responsive
+
+![kanban board](/docs/images/homepageWide.png)
+![kanban board](/docs/images/homepageMobile.png)
