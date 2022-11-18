@@ -30,11 +30,11 @@ function DashboardAddStudio(session) {
   };
   const [form, setForm] = useState(defaultForm);
   const [checked, setChecked] = useState(defaultChecked);
-  const [preview, setPreview] = useState(false);
-  const [formErrors, setFormErrors] = useState({});
-  const [isSubmit, setIsSubmit] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmit, setIsSubmit] = useState(false);
   const [submissionFailed, setSubmissionFailed] = useState(false);
+  const [formErrors, setFormErrors] = useState({});
+  const [preview, setPreview] = useState(false);
   const router = useRouter();
 
   const handlePreview = (event) => {
@@ -161,7 +161,7 @@ function DashboardAddStudio(session) {
   if (session) {
     return (
       <>
-        <div className=' px-2 sm:px-0'>
+        <div className='sm:px-0'>
           <h1 className='text-primary mt-4 mb-2 text-center text-4xl font-bold leading-tight'>Add Studio Listing</h1>
           <form noValidate className='text-primary w-full' onSubmit={handleFormSubmit}>
             {/* title */}
@@ -186,7 +186,7 @@ function DashboardAddStudio(session) {
               <legend htmlFor='image' className=' label-form'>
                 Mediafiles
               </legend>
-              <div className=' relative flex flex-col items-center justify-between md:flex-row '>
+              <div className='relative flex max-w-[1000px] flex-col items-center justify-between md:flex-row '>
                 <label className=' cursor-pointer' htmlFor='images'>
                   <input
                     className='hidden'
@@ -224,7 +224,7 @@ function DashboardAddStudio(session) {
                     {checked.imageName ? checked.imageName : 'Please select a picture'}
                   </p>
                 </label>
-                <ul className='border-primary text-primary bg-primary py h-44 w-60 list-disc rounded-xl border-4 p-2 pl-8 text-sm text-white md:absolute md:right-10 md:h-56 md:w-64 md:text-base lg:left-2/4 lg:h-60 lg:w-80 xl:text-lg '>
+                <ul className='border-primary text-primary bg-primary py h-44 w-60 list-disc rounded-xl border-4 p-2 pl-8 text-sm text-white md:mb-4 md:h-56 md:w-64 md:text-base lg:h-60 lg:w-80 xl:text-lg '>
                   <li className='h3 list-none pb-2  text-white'>Tips for good photos:</li>
                   <li className='font-thin'>Different perspectives of the studio setup</li>
                   <li className='font-thin'>Show your equipment and instruments</li>
@@ -780,7 +780,7 @@ function DashboardAddStudio(session) {
               ) : null}
             </fieldset>
             {/* Form-Buttons */}
-            <fieldset className='flex max-w-6xl justify-between gap-3 sm:gap-20 md:gap-80 lg:gap-[600px] '>
+            <fieldset className='flex max-w-6xl justify-between gap-3 sm:gap-20 md:gap-80 '>
               <button
                 type='button'
                 className='form-button bg-black text-white hover:bg-black'
