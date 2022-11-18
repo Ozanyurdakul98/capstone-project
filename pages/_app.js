@@ -12,7 +12,8 @@ import '../components/DatePicker/default.css';
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   const isSignIn = ['Signup', 'Signin'].indexOf(Component.name) !== -1;
-  const isDashboard = ['Dashboard'].indexOf(Component.name) !== -1;
+  const isDashboard = Component.name.includes('Dashboard');
+  console.log(isDashboard);
 
   return (
     <>

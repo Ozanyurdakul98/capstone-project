@@ -1,18 +1,18 @@
 import React from 'react';
 import { useState } from 'react';
 import { unstable_getServerSession } from 'next-auth/next';
-import { authOptions } from './api/auth/[...nextauth].js';
-import { FormInput } from '../components/Forms/FormInput';
-import { ValidateCreateListing } from '../helpers/Validate.js';
-import ListingCardWide from '../components/ListingCardWide';
-import ListingCardCarousell from '../components/ListingCardCarousell';
+import { authOptions } from '../api/auth/[...nextauth].js';
+import { FormInput } from '../../components/Forms/FormInput';
+import { ValidateCreateListing } from '../../helpers/Validate.js';
+import ListingCardWide from '../../components/ListingCardWide';
+import ListingCardCarousell from '../../components/ListingCardCarousell';
 import Image from 'next/image.js';
 import { TbHandClick } from 'react-icons/tb';
-import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../components/BackgroundOverlay';
+import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../../components/BackgroundOverlay';
 import Link from 'next/link.js';
 import { useRouter } from 'next/router';
 
-function FormListings(session) {
+function DashboardAddStudio(session) {
   const defaultForm = {
     listingTitle: '',
     images: '',
@@ -813,7 +813,7 @@ function FormListings(session) {
   return <p>Access Denied</p>;
 }
 
-export default FormListings;
+export default DashboardAddStudio;
 
 export async function getServerSideProps(context) {
   const session = await unstable_getServerSession(context.req, context.res, authOptions);

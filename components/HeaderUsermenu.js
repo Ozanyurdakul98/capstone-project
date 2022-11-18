@@ -61,12 +61,12 @@ export function HeaderUsermenu(props) {
                     <Menu.Item>
                       {({ active }) => (
                         <MyLink
-                          href='/listingform'
+                          href='/dashboard/addstudio'
                           className={classNames(
                             active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                             'block px-4 py-3 text-sm'
                           )}>
-                          Add Studio-Listing
+                          Add Studio
                         </MyLink>
                       )}
                     </Menu.Item>

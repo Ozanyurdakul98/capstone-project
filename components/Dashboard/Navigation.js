@@ -48,8 +48,8 @@ export default function Navigation() {
       ),
     },
     {
-      url: '/products',
-      label: 'Products',
+      url: '/dashboard/addstudio',
+      label: 'Add Studio',
       icon: (
         <svg
           xmlns='http://www.w3.org/2000/svg'
