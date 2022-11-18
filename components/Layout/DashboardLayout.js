@@ -6,17 +6,17 @@ import Navigation from '../Dashboard/Navigation';
 
 export default function DashboardLayout({ children }) {
   return (
-    <>
+    <div className='bg-primary'>
       <Head>
         <title>Dashboard</title>
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <Header />
-      <div className='bg-primary relative flex min-h-screen  overflow-x-hidden'>
+      <div className='bg-primary relative flex min-h-screen 2xl:container  2xl:mx-auto'>
         <Navigation />
-        <main className='my-2 mr-2 grow rounded-3xl bg-white px-5 2xl:mr-[175px]'>{children}</main>
+        <main className='my-2 mr-2 grow rounded-3xl bg-white p-5 2xl:mr-[175px]'>{children}</main>
       </div>
       <Footer />
-    </>
+    </div>
   );
 }

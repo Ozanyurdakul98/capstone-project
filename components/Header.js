@@ -18,7 +18,7 @@ function Header() {
   const { data: session, status } = useSession();
 
   return (
-    <header id='top'>
+    <header id='top' className='relative z-50'>
       <nav className='grid grid-cols-sm3 bg-white py-2 px-2 shadow-md md:py-4 md:px-4 lg:grid-cols-3'>
         {/* Left */}
         <div className='mt-2 flex flex-auto'>
@@ -39,7 +39,7 @@ function Header() {
               <GlobeAsiaAustraliaIcon className='icon' />
             </Link>
             <hr className='h-10 border border-gray-100' />
-            <MyLink href='/listingform' className=''>
+            <MyLink href='/dashboard/addstudio' className=''>
               <PlusIcon className='icon' />
             </MyLink>
           </div>
