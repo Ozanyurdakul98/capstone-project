@@ -137,6 +137,20 @@
   .container-padding-bottom {
     @apply pt-24 pb-2;
   }
+  /* Tables */
+
+  .thead {
+    @apply p-2;
+  }
+  .tr {
+    @apply border-2 border-green-200;
+  }
+  .th {
+    @apply border-2 border-green-200;
+  }
+  .td {
+    @apply border-2 border-green-300 p-5;
+  }
   /* Headers */
   .h1 {
     @apply block text-2xl font-bold uppercase tracking-wide  text-[color:var(--primary-text)] md:text-xl lg:text-2xl;
