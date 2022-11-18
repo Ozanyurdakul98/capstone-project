@@ -1,7 +1,7 @@
 export default function DashboardStats(props) {
   return (
-    <section className='mb-20 text-secondary-color'>
-      <div className=' border-primary  flex flex-col rounded-xl border-b-4 bg-white/60 py-2 '>
+    <section className='mb-20'>
+      <div className=' border-secondary  flex flex-col rounded-full border-b-4 py-2 '>
         <div className='flex items-center justify-evenly '>
           <div className='border-secondary bg-secondary relative flex h-40 w-36 flex-col items-center justify-center rounded-full border-4 text-white shadow-inner xl:w-48'>
             <div className='flex flex-col '>

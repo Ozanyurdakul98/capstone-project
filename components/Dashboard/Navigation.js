@@ -107,7 +107,7 @@ export default function Navigation() {
     },
   ];
   return (
-    <aside className='bg-primary z-0 p-1 py-12 pr-0 text-white md:p-5 md:pr-0'>
+    <aside className='bg-secondary z-0 p-1 py-12 pr-0 text-white md:p-5 md:pr-0'>
       <a href='' className='mb-8 mt-6 mr-2 hidden justify-center gap-2 text-center md:flex'>
         <svg
           xmlns='http://www.w3.org/2000/svg'

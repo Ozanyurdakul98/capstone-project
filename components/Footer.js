@@ -2,9 +2,10 @@ import React from 'react';
 import Link from 'next/link';
 import LogoWhite from './LogoWhite';
 import Image from 'next/image';
-export function Footer() {
+export function Footer({ dashboard }) {
+  console.log(dashboard);
   return (
-    <footer aria-label='Site Footer' className='bg-primary'>
+    <footer aria-label='Site Footer' className={dashboard ? 'bg-secondary' : 'bg-primary'}>
       <div className='relative mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8 lg:pt-24'>
         <div className='absolute top-4 right-4 sm:top-6 sm:right-6 lg:top-8 lg:right-8'>
           <a
@@ -23,10 +24,10 @@ export function Footer() {
           <div>
             <div className='flex items-end justify-center lg:justify-start'>
               <Image width={'80'} height={'80'} quality={100} alt='logo white' src='/images/LogoWhite.png' />
-              <h2 className='label-form text-xl text-white underline'>Tonstudio-Kleinanzeigen</h2>
+              <h2 className='label-form text-xl text-white'>Tonstudio-Kleinanzeigen</h2>
             </div>
 
-            <p className='mx-auto mt-6 max-w-md text-center leading-relaxed text-gray-400 lg:text-left'>
+            <p className='mx-auto mt-6 max-w-md text-center leading-relaxed text-white lg:text-left'>
               Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt consequuntur amet culpa cum itaque
               neque.
             </p>
@@ -58,7 +59,7 @@ export function Footer() {
           </nav>
         </div>
 
-        <p className='mt-12 text-center text-sm text-gray-400 lg:text-right'>
+        <p className='mt-12 text-center text-sm text-white lg:text-right'>
           Copyright @ 2022 Tonstudio-Kleinanzeigen. All rights reserved
         </p>
       </div>
