@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import LogoWhite from '../LogoWhite';
+import LogoWhite from './LogoWhite';
 import Image from 'next/image';
 export function Footer() {
   return (

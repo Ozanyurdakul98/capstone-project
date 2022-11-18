@@ -18,7 +18,7 @@ function Header() {
   const { data: session, status } = useSession();
 
   return (
-    <header id='top' className='mb-14'>
+    <header id='top'>
       <nav className='grid grid-cols-sm3 bg-white py-2 px-2 shadow-md md:py-4 md:px-4 lg:grid-cols-3'>
         {/* Left */}
         <div className='mt-2 flex flex-auto'>

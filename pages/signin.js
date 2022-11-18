@@ -21,9 +21,11 @@ export async function getServerSideProps(context) {
       },
     };
   }
-  const csrfToken = await getCsrfToken(context);
+  const csrfToken = (await getCsrfToken(context)) || null;
   const providers = await getProviders();
-
+  console.log('LOGIN', csrfToken);
+  console.log('session', session);
+  console.log('providers', providers);
   return {
     props: { csrfToken, providers },
   };

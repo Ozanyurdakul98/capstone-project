@@ -1,5 +1,7 @@
 //pages & components
 import Layout from '../components/Layout';
+import DashboardLayout from '../components/Layout/DashboardLayout';
+import { Footer } from '../components/Footer';
 //tools
 import { SessionProvider } from 'next-auth/react';
 //styles
@@ -7,7 +9,6 @@ import GlobalStyle from '../components/GlobalStyle';
 import '../styles/globals.css';
 import '../components/DatePicker/styles.css';
 import '../components/DatePicker/default.css';
-import { Footer } from '../components/Homepage/Footer';
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   const isSignIn = ['Signup', 'Signin'].indexOf(Component.name) !== -1;
@@ -37,6 +38,10 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
             <Component {...pageProps} />
             <Footer />
           </>
+        ) : isDashboard ? (
+          <DashboardLayout>
+            <Component {...pageProps} />
+          </DashboardLayout>
         ) : (
           <Layout>
             <Component {...pageProps} />
