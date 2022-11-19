@@ -37,6 +37,7 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
     setFormErrors(ValidateCreateListing(passForm));
     setIsSubmit(true);
     if (Object.keys(formErrors).length === 0 && isSubmit) {
+      setLoading(true);
       try {
         if (imageChanged) {
           const image = await handleUploadInput(event);
@@ -53,9 +54,12 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
         const result = await res.json();
         if (!res.ok) {
           throw new Error('error', res.status);
+          setLoading(false);
         }
         if (res.ok) {
-          console.log('ok', result); // setPreview(false);
+          console.log('ok', result);
+          setLoading(false);
+          // setPreview(false);
           // setSubmitted(true);
           // router.push({
           //   pathname: '/success',
@@ -65,6 +69,7 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
           // });
         }
       } catch (error) {
+        setLoading(false);
         setFormErrors(error);
         setSubmissionFailed(true);
         console.error('Failed to update data', error);
