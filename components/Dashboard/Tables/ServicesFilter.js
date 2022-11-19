@@ -1,14 +1,22 @@
 import React, { useState } from 'react';
 import { useAsyncDebounce } from 'react-table';
 
-export default function ServicesFilter({ preGlobalFilteredRows, globalFilter, setGlobalFilter }) {
-  const count = preGlobalFilteredRows.length;
-  const [value, setValue] = useState(globalFilter);
+export default function ServicesFilter({
+  preGlobalFilteredRows,
+  globalFilter,
+  state,
+  Filter,
+  setFilter,
+  setGlobalFilter,
+}) {
+  const [value, setValue] = useState('none');
   const onChange = useAsyncDebounce((value) => {
-    setGlobalFilter(value || undefined);
+    setFilter('services', value || undefined);
   }, 300);
-  console.log(globalFilter);
-  console.log(value);
+  console.log('stateserv', state);
+  console.log('ser', value);
+  console.log('setfilter', setFilter);
+  console.log('Filter', state.filters);
   return (
     <div>
       <h2>Services:</h2>
@@ -18,8 +26,10 @@ export default function ServicesFilter({ preGlobalFilteredRows, globalFilter, se
         onChange={(e) => {
           setValue(e.target.value);
           onChange(e.target.value);
-        }}
-        placeholder={`${count} records...`}>
+        }}>
+        <option value='none' hidden disabled>
+          Select an Option
+        </option>
         <option value='recording'>Recording</option>
         <option value='mix'>Mix</option>
         <option value='master'>Master</option>

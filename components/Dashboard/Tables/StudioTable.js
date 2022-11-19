@@ -1,8 +1,56 @@
 import Image from 'next/image';
 import React, { useEffect, useMemo, useState } from 'react';
-import { useTable, useSortBy, useGlobalFilter } from 'react-table';
+import { useTable, useSortBy, useGlobalFilter, useFilters, usePagination } from 'react-table';
 import AllColumnsFilter from './AllColumnsFilter';
 import ServicesFilter from './ServicesFilter';
+import StudioTypeFilter from './StudioTypeFilter';
+import styled from 'styled-components';
+
+const Styles = styled.div`
+  /* This is required to make the table full-width */
+  display: block;
+  max-width: 100%;
+  /* This will make the table scrollable when it gets too small */
+  .tableWrap {
+    display: block;
+    max-width: 100%;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    border-bottom: 1px solid black;
+  }
+  table {
+    /* Make sure the inner table is always as wide as needed */
+    width: 100%;
+    border-spacing: 0;
+    tr {
+      :last-child {
+        td {
+          border-bottom: 0;
+        }
+      }
+    }
+    th,
+    td {
+      margin: 0;
+      padding: 0.5rem;
+      border-bottom: 1px solid black;
+      border-right: 1px solid black;
+      /* The secret sauce */
+      /* Each cell should grow equally */
+      width: 1%;
+      /* But "collapsed" cells should be as small as possible */
+      &.collapse {
+        width: 0.0000000001%;
+      }
+      :last-child {
+        border-right: 0;
+      }
+    }
+  }
+  .pagination {
+    padding: 0.5rem;
+  }
+`;
 
 export default function StudioTable({ fetchedStudios }) {
   const [studios, setStudios] = useState([]);
@@ -37,11 +85,32 @@ export default function StudioTable({ fetchedStudios }) {
         Header: 'Id',
         accessor: '_id',
         disableSortBy: true,
+        collapse: true,
       },
       {
-        Header: 'Price hour',
-        accessor: 'studioPricing.studioPricingHour',
-        disableSortBy: false,
+        Header: 'Pricing',
+        columns: [
+          {
+            Header: 'Hourly',
+            accessor: 'studioPricing.studioPricingHour',
+            disableSortBy: false,
+          },
+          {
+            Header: 'Daily',
+            accessor: 'studioPricing.studioPricingDay',
+            disableSortBy: false,
+          },
+          {
+            Header: 'Weekly',
+            accessor: 'studioPricing.studioPricingWeek',
+            disableSortBy: false,
+          },
+          {
+            Header: 'Monthly',
+            accessor: 'studioPricing.studioPricingMonth',
+            disableSortBy: false,
+          },
+        ],
       },
       {
         Header: 'Location',
@@ -85,8 +154,16 @@ export default function StudioTable({ fetchedStudios }) {
       },
     ]);
   };
-  const tableInstance = useTable({ columns: studioColumns, data: studioData }, useGlobalFilter, tableHooks, useSortBy);
+  const tableInstance = useTable(
+    { columns: studioColumns, data: studioData, disableMultiSort: true, initialState: { pageSize: 3 } },
+    useGlobalFilter,
+    useFilters,
+    tableHooks,
+    useSortBy,
+    usePagination
+  );
   const {
+    page,
     getTableProps,
     getTableBodyProps,
     headerGroups,
@@ -94,48 +171,126 @@ export default function StudioTable({ fetchedStudios }) {
     prepareRow,
     preGlobalFilteredRows,
     setGlobalFilter,
+    setFilter,
     state,
+    canPreviousPage,
+    canNextPage,
+    pageOptions,
+    pageCount,
+    gotoPage,
+    nextPage,
+    previousPage,
+    setPageSize,
   } = tableInstance;
+  console.log('');
+  console.log('setGlobalFilter', setGlobalFilter);
+  console.log('preGlobalFilterRows', preGlobalFilteredRows);
+  console.log('state', state);
+
   return (
-    <>
-      <AllColumnsFilter
-        preGlobalFilteredRows={preGlobalFilteredRows}
-        setGlobalFilter={setGlobalFilter}
-        state={state.globalFilter}
-      />
-      <ServicesFilter
-        preGlobalFilteredRows={preGlobalFilteredRows}
-        setGlobalFilter={setGlobalFilter}
-        state={state.globalFilter}
-      />
-      <table className='table' {...getTableProps()}>
-        <thead className='thead'>
-          {headerGroups.map((headerGroup) => (
-            <tr key={headerGroup._id} className='tr' {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column, idx) => (
-                <th key={idx} className='th' {...column.getHeaderProps(column.getSortByToggleProps())}>
-                  {column.render('Header')}
-                  {column.canSort ? (column.isSorted ? (column.isSortedDesc ? '↑' : '↓') : ' ↓↑') : null}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody className='tbody' {...getTableBodyProps()}>
-          {rows.map((row, idx) => {
-            prepareRow(row);
-            return (
-              <tr key={idx} {...row.getRowProps()} className={isEven(idx) ? 'bg-blue-600/20' : null}>
-                {row.cells.map((cell, idx) => (
-                  <td key={idx} className='td' {...cell.getCellProps()}>
-                    {cell.render('Cell')}
-                  </td>
+    <Styles>
+      <div className='tableWrap'>
+        <div className='flex gap-4'>
+          <AllColumnsFilter
+            preGlobalFilteredRows={preGlobalFilteredRows}
+            setGlobalFilter={setGlobalFilter}
+            state={state.globalFilter}
+          />
+          <ServicesFilter
+            preGlobalFilteredRows={preGlobalFilteredRows}
+            setGlobalFilter={setGlobalFilter}
+            setFilter={setFilter}
+            state={state}
+          />
+          <StudioTypeFilter
+            preGlobalFilteredRows={preGlobalFilteredRows}
+            setGlobalFilter={setGlobalFilter}
+            setFilter={setFilter}
+            state={state}
+          />
+        </div>
+        <table className='table' {...getTableProps()}>
+          <thead className='thead'>
+            {headerGroups.map((headerGroup) => (
+              <tr key={headerGroup._id} className='tr' {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map((column, idx) => (
+                  <th
+                    key={idx}
+                    className='th'
+                    {...column.getHeaderProps(column.getSortByToggleProps(), {
+                      className: column.collapse ? 'collapse' : '',
+                    })}>
+                    {column.render('Header')}
+                    {column.canSort ? (column.isSorted ? (column.isSortedDesc ? '↑' : '↓') : ' ↓↑') : null}
+                  </th>
                 ))}
               </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </>
+            ))}
+          </thead>
+          <tbody className='tbody' {...getTableBodyProps()}>
+            {page.map((row, idx) => {
+              prepareRow(row);
+              return (
+                <tr key={idx} {...row.getRowProps()} className={isEven(idx) ? 'bg-blue-600/20' : null}>
+                  {row.cells.map((cell, idx) => (
+                    <td
+                      key={idx}
+                      className='td'
+                      {...cell.getCellProps({
+                        className: cell.column.collapse ? 'collapse' : '',
+                      })}>
+                      {cell.render('Cell')}
+                    </td>
+                  ))}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+      <div className='pagination'>
+        <button className='button' onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+          {'<<'}
+        </button>
+        <button className='button' onClick={() => previousPage()} disabled={!canPreviousPage}>
+          {'<'}
+        </button>
+        <button className='button' onClick={() => nextPage()} disabled={!canNextPage}>
+          {'>'}
+        </button>
+        <button className='button' onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+          {'>>'}
+        </button>
+        <span>
+          Page
+          <strong>
+            {state.pageIndex + 1} of {pageOptions.length}
+          </strong>
+        </span>
+        <span>
+          | Go to page:
+          <input
+            type='number'
+            defaultValue={state.pageIndex + 1}
+            onChange={(e) => {
+              const page = e.target.value ? Number(e.target.value) - 1 : 0;
+              gotoPage(page);
+            }}
+            style={{ width: '100px' }}
+          />
+        </span>
+        <select
+          value={state.pageSize}
+          onChange={(e) => {
+            setPageSize(Number(e.target.value));
+          }}>
+          {[5, 20, 30, 40, 50].map((pageSize) => (
+            <option key={pageSize} value={pageSize}>
+              Show {pageSize}
+            </option>
+          ))}
+        </select>
+      </div>
+    </Styles>
   );
 }

@@ -138,21 +138,20 @@
     @apply pt-24 pb-2;
   }
   /* Tables */
-
   .thead {
     @apply p-2;
   }
   .tr {
-    @apply border-secondary border-4;
+    @apply border-secondary border-2;
   }
   .th {
-    @apply border-secondary border-4;
+    @apply border-secondary border-2;
   }
   .td {
     @apply border-secondary border px-2;
   }
   .select-table {
-    @apply top-1 mb-1 h-10 max-w-min cursor-pointer  rounded-full bg-[#1e90ff] pl-5  text-white after:absolute after:h-5 after:w-5;
+    @apply top-1 mb-1 h-10 max-w-min cursor-pointer  rounded-full bg-[#1e90ff] pl-5 pr-8 text-white after:absolute after:h-5 after:w-5;
   }
   /* Headers */
   .h1 {
