@@ -183,12 +183,9 @@
   .pagination-input {
     @apply text-primary text-center outline-none;
   }
-  /* .tr {
-    @apply border-secondary border-2;
-  } */
-
-  /* 
- */
+  .editModal {
+    @apply fixed top-0 left-0 z-30 h-screen w-screen cursor-default;
+  }
 
   /* Headers */
   .h1 {
