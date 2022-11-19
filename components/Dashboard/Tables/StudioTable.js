@@ -9,14 +9,12 @@ import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../../Background
 
 export default function StudioTable({ fetchedStudios }) {
   const [toUpdateStudio, setToUpdateStudio] = useState();
+  const [studioID, setStudioID] = useState();
   const [openEditView, setOpenEditView] = useState(false);
   const [studios, setStudios] = useState([]);
   const studioData = useMemo(() => [...studios], [studios]);
   const isEven = (idx) => idx % 2 !== 0;
 
-  const handleClickToCloseSearch = () => {
-    setOpenEditView(false);
-  };
   async function handleEdit(table, values) {
     if (table === 'adminStudioTable') {
       if (values) {
@@ -29,15 +27,31 @@ export default function StudioTable({ fetchedStudios }) {
             },
           });
           const result = await res.json();
-          const studio = result.data;
+          const rawStudio = result.data[0];
           console.log('result', result);
-          console.log('result', studio);
+          console.log('rawstudio result', rawStudio);
+          const studio = {
+            maxGuests: rawStudio.maxGuests,
+            listingTitle: rawStudio.listingTitle,
+            images: rawStudio.images,
+            openingHours: rawStudio.openingHours,
+            studiotype: rawStudio.studiotype,
+            services: rawStudio.services,
+            locationFeatures: rawStudio.locationFeatures,
+            soundengineer: rawStudio.soundengineer,
+            studioPricing: rawStudio.studioPricing,
+            studioLocation: rawStudio.studioLocation,
+          };
+          const studioID = rawStudio._id;
+
           if (!res.ok || !result.success) {
             throw new Error(res.status);
           }
           if (res.ok) {
             setToUpdateStudio(studio);
+            setStudioID(studioID);
             setOpenEditView(true);
+
             // setSubmitted(true);
             // router.push({
             //   pathname: '/success',
@@ -181,10 +195,6 @@ export default function StudioTable({ fetchedStudios }) {
     previousPage,
     setPageSize,
   } = tableInstance;
-  console.log('');
-  console.log('setGlobalFilter', setGlobalFilter);
-  console.log('preGlobalFilterRows', preGlobalFilteredRows);
-  console.log('state', state);
 
   return (
     <>
@@ -295,36 +305,7 @@ export default function StudioTable({ fetchedStudios }) {
         </div>
       </div>
       {openEditView ? (
-        <>
-          <div className='searchFadein fixed inset-x-0 inset-y-0 top-0 left-0 right-0 z-50 my-auto mx-auto flex h-4/6   w-full  flex-col gap-5 rounded-2xl bg-white pb-5 pt-5 shadow-xxl  md:min-h-72 md:w-11/12 xl:w-6/12'>
-            <div className='overflow-y-scroll px-2 sm:px-0'>
-              <div className='flex flex-col gap-4'>
-                <h2 className='h2 ml-5 text-2xl'>Edit Studio</h2>
-                <p className='text-center '>Keep it nice and smooth!</p>
-              </div>
-              <div className='sm:ml-5 md:mr-5'>
-                <EditStudio toUpdateStudio={toUpdateStudio} />
-              </div>
-              {/* Buttons */}
-              <div className=' absolute bottom-0 z-40 flex h-16 w-full items-center  justify-between gap-3  rounded-b-xl border-t-2 bg-white px-2 pb-1 pt-5 '>
-                <button
-                  onClick={() => setOpenEditView(false)}
-                  className='form-button max-w-[250px]  flex-grow justify-center border-none bg-black text-white'>
-                  Cancel
-                </button>
-                <button
-                  onClick={''}
-                  className='form-button bg-primary max-w-[250px] flex-grow justify-center border-none text-white'>
-                  Update Studio
-                </button>
-              </div>
-            </div>
-          </div>
-          <ClickToCloseMax
-            style={'bg-black/50 editModal  z-40 h-full'}
-            onClick={(event) => handleClickToCloseSearch(event)}
-          />
-        </>
+        <EditStudio toUpdateStudio={toUpdateStudio} studioID={studioID} setOpenEditView={setOpenEditView}></EditStudio>
       ) : null}
     </>
   );

@@ -13,10 +13,6 @@ export default function ServicesFilter({
   const onChange = useAsyncDebounce((value) => {
     setFilter('services', value || undefined);
   }, 300);
-  console.log('stateserv', state);
-  console.log('ser', value);
-  console.log('setfilter', setFilter);
-  console.log('Filter', state.filters);
   return (
     <div>
       <h2>Services:</h2>

@@ -30,8 +30,6 @@ export default function AllColumnsFilter({ preGlobalFilteredRows, globalFilter, 
   const onChange = useAsyncDebounce((value) => {
     setGlobalFilter(value || undefined);
   }, 300);
-  console.log(globalFilter);
-  console.log(value);
   return (
     <div>
       <h2>Search:</h2>

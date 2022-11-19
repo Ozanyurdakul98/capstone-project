@@ -8,8 +8,6 @@ export default function StudioTypeFilter({ preGlobalFilteredRows, state, setFilt
     setFilter('studiotype', value || undefined);
   }, 300);
 
-  console.log('ty', value);
-  console.log('tystate', state.filters);
   return (
     <div>
       <h2>Studio Type:</h2>

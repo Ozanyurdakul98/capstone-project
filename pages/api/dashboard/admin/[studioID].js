@@ -1,11 +1,9 @@
 import db from '../../../../lib/dbConnect';
 import StudioListing from '../../../../models/StudioListing';
-import { unstable_getServerSession } from 'next-auth/next';
-import { authOptions } from '../../auth/[...nextauth]';
 
 export default async function handler(req, res) {
   // const session = await unstable_getServerSession(req, res, authOptions);
-
+  //MAKE ACCESS ONLY TO ADMIN
   if (req.method === 'GET') {
     try {
       const { studioID } = req.query;
@@ -14,15 +12,18 @@ export default async function handler(req, res) {
     } catch (error) {
       return res.status(400).json({ success: false, message: 'Studio not found' });
     }
-  } else if (req.method === 'POST') {
-    if (session) {
-      await db.connect();
-      try {
-        const listing = await StudioListing.create(req.body); /* create a new model in the database */
-        return res.status(201).json({ success: true, data: listing });
-      } catch (error) {
-        return res.status(400).json({ success: false, message: 'Unauthorized' });
-      }
+  } else if (req.method === 'PATCH') {
+    console.log('1');
+    await db.connect();
+    console.log('2');
+    try {
+      const { studioID } = req.query;
+      console.log('studioidRoute', studioID);
+      const listing = await StudioListing.findByIdAndUpdate(studioID, req.body);
+      console.log(listing);
+      return res.status(201).json({ success: true, data: listing });
+    } catch (error) {
+      return res.status(400).json({ success: false, message: 'Unauthorized', error });
     }
   }
   return res.status(400).json({ success: false, message: 'HTTP method is not allowed, Unauthorized' });
