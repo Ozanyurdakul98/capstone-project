@@ -143,13 +143,16 @@
     @apply p-2;
   }
   .tr {
-    @apply border-2 border-green-200;
+    @apply border-secondary border-4;
   }
   .th {
-    @apply border-2 border-green-200;
+    @apply border-secondary border-4;
   }
   .td {
-    @apply relative border-2 border-green-300 p-5;
+    @apply border-secondary border px-2;
+  }
+  .select-table {
+    @apply top-1 mb-1 h-10 max-w-min cursor-pointer  rounded-full bg-[#1e90ff] pl-5  text-white after:absolute after:h-5 after:w-5;
   }
   /* Headers */
   .h1 {
