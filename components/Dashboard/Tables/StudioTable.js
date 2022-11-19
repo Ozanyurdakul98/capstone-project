@@ -6,52 +6,6 @@ import ServicesFilter from './ServicesFilter';
 import StudioTypeFilter from './StudioTypeFilter';
 import styled from 'styled-components';
 
-const Styles = styled.div`
-  /* This is required to make the table full-width */
-  display: block;
-  max-width: 100%;
-  /* This will make the table scrollable when it gets too small */
-  .tableWrap {
-    display: block;
-    max-width: 100%;
-    overflow-x: scroll;
-    overflow-y: hidden;
-    border-bottom: 1px solid black;
-  }
-  table {
-    /* Make sure the inner table is always as wide as needed */
-    width: 100%;
-    border-spacing: 0;
-    tr {
-      :last-child {
-        td {
-          border-bottom: 0;
-        }
-      }
-    }
-    th,
-    td {
-      margin: 0;
-      padding: 0.5rem;
-      border-bottom: 1px solid black;
-      border-right: 1px solid black;
-      /* The secret sauce */
-      /* Each cell should grow equally */
-      width: 1%;
-      /* But "collapsed" cells should be as small as possible */
-      &.collapse {
-        width: 0.0000000001%;
-      }
-      :last-child {
-        border-right: 0;
-      }
-    }
-  }
-  .pagination {
-    padding: 0.5rem;
-  }
-`;
-
 export default function StudioTable({ fetchedStudios }) {
   const [studios, setStudios] = useState([]);
 
@@ -60,7 +14,7 @@ export default function StudioTable({ fetchedStudios }) {
       setStudios(fetchedStudios);
     }
   };
-  const isEven = (idx) => idx % 2 === 0;
+  const isEven = (idx) => idx % 2 !== 0;
 
   useEffect(() => {
     handleFetchedStudios();
@@ -76,7 +30,7 @@ export default function StudioTable({ fetchedStudios }) {
         maxHeight: 100,
         disableSortBy: true,
         Cell: ({ value }) => (
-          <div className='relative -mx-2 h-8 w-8 sm:h-24 sm:w-32'>
+          <div className='relative -mx-2 h-12 w-14 sm:h-16 sm:w-24 md:h-24 md:w-32'>
             <Image src={value} layout='fill' className='bg-secondary rounded-lg ' objectFit='cover' alt='avatar' />
           </div>
         ),
@@ -188,9 +142,9 @@ export default function StudioTable({ fetchedStudios }) {
   console.log('state', state);
 
   return (
-    <Styles>
+    <div className='mt-20 block max-w-full'>
       <div className='tableWrap'>
-        <div className='flex gap-4'>
+        <div className='filter-table'>
           <AllColumnsFilter
             preGlobalFilteredRows={preGlobalFilteredRows}
             setGlobalFilter={setGlobalFilter}
@@ -216,10 +170,8 @@ export default function StudioTable({ fetchedStudios }) {
                 {headerGroup.headers.map((column, idx) => (
                   <th
                     key={idx}
-                    className='th'
-                    {...column.getHeaderProps(column.getSortByToggleProps(), {
-                      className: column.collapse ? 'collapse' : '',
-                    })}>
+                    {...column.getHeaderProps(column.getSortByToggleProps())}
+                    {...column.getHeaderProps({ className: column.collapse ? 'collapse th' : 'th' })}>
                     {column.render('Header')}
                     {column.canSort ? (column.isSorted ? (column.isSortedDesc ? '↑' : '↓') : ' ↓↑') : null}
                   </th>
@@ -231,13 +183,12 @@ export default function StudioTable({ fetchedStudios }) {
             {page.map((row, idx) => {
               prepareRow(row);
               return (
-                <tr key={idx} {...row.getRowProps()} className={isEven(idx) ? 'bg-blue-600/20' : null}>
+                <tr key={idx} {...row.getRowProps()} className={isEven(idx) ? 'evenRow' : null}>
                   {row.cells.map((cell, idx) => (
                     <td
                       key={idx}
-                      className='td'
                       {...cell.getCellProps({
-                        className: cell.column.collapse ? 'collapse' : '',
+                        className: cell.column.collapse ? 'collapse td' : 'td',
                       })}>
                       {cell.render('Cell')}
                     </td>
@@ -247,50 +198,55 @@ export default function StudioTable({ fetchedStudios }) {
             })}
           </tbody>
         </table>
-      </div>
-      <div className='pagination'>
-        <button className='button' onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-          {'<<'}
-        </button>
-        <button className='button' onClick={() => previousPage()} disabled={!canPreviousPage}>
-          {'<'}
-        </button>
-        <button className='button' onClick={() => nextPage()} disabled={!canNextPage}>
-          {'>'}
-        </button>
-        <button className='button' onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-          {'>>'}
-        </button>
-        <span>
-          Page
-          <strong>
-            {state.pageIndex + 1} of {pageOptions.length}
-          </strong>
-        </span>
-        <span>
-          | Go to page:
-          <input
-            type='number'
-            defaultValue={state.pageIndex + 1}
+        <div className='pagination'>
+          <div className='pagination-buttons'>
+            <button className='pagination-button' onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+              {'<<'}
+            </button>
+            <button className='pagination-button' onClick={() => previousPage()} disabled={!canPreviousPage}>
+              {'<'}
+            </button>
+            <button className='pagination-button' onClick={() => nextPage()} disabled={!canNextPage}>
+              {'>'}
+            </button>
+            <button className='pagination-button' onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+              {'>>'}
+            </button>
+          </div>
+          <span>
+            Page
+            <strong className='pl-1'>
+              {state.pageIndex + 1} of {pageOptions.length}
+            </strong>
+          </span>
+          <span>|</span>
+          <span className='flex items-center gap-1'>
+            Go to page:
+            <input
+              className='pagination-input'
+              type='number'
+              defaultValue={state.pageIndex + 1}
+              onChange={(e) => {
+                const page = e.target.value ? Number(e.target.value) - 1 : 0;
+                gotoPage(page);
+              }}
+              style={{ width: '100px' }}
+            />
+          </span>
+          <select
+            className='select-table'
+            value={state.pageSize}
             onChange={(e) => {
-              const page = e.target.value ? Number(e.target.value) - 1 : 0;
-              gotoPage(page);
-            }}
-            style={{ width: '100px' }}
-          />
-        </span>
-        <select
-          value={state.pageSize}
-          onChange={(e) => {
-            setPageSize(Number(e.target.value));
-          }}>
-          {[5, 20, 30, 40, 50].map((pageSize) => (
-            <option key={pageSize} value={pageSize}>
-              Show {pageSize}
-            </option>
-          ))}
-        </select>
+              setPageSize(Number(e.target.value));
+            }}>
+            {[5, 20, 30, 40, 50].map((pageSize) => (
+              <option key={pageSize} value={pageSize}>
+                Show {pageSize}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
-    </Styles>
+    </div>
   );
 }

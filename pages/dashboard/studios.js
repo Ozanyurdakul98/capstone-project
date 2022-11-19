@@ -4,11 +4,7 @@ import db from '../../lib/dbConnect';
 import StudioListing from '../../models/StudioListing';
 
 export default function DashboardStudios({ fetchedStudios }) {
-  return (
-    <div>
-      <StudioTable fetchedStudios={fetchedStudios} />
-    </div>
-  );
+  return <StudioTable fetchedStudios={fetchedStudios} />;
 }
 
 export async function getServerSideProps(context) {
