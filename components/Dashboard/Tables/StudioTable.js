@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import React, { useEffect, useMemo, useState } from 'react';
-import { useTable, usePagination, useFilters, useGroupBy, useExpanded, useRowSelect, useSortBy } from 'react-table';
+import { useTable, useSortBy, useGlobalFilter } from 'react-table';
+import AllColumnsFilter from './AllColumnsFilter';
 
 export default function StudioTable({ fetchedStudios }) {
   const [studios, setStudios] = useState([]);
@@ -84,37 +85,53 @@ export default function StudioTable({ fetchedStudios }) {
       },
     ]);
   };
-  const tableInstance = useTable({ columns: studioColumns, data: studioData }, tableHooks, useSortBy);
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = tableInstance;
+  const tableInstance = useTable({ columns: studioColumns, data: studioData }, useGlobalFilter, tableHooks, useSortBy);
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+    preGlobalFilteredRows,
+    setGlobalFilter,
+    state,
+  } = tableInstance;
   return (
-    <table className='table' {...getTableProps()}>
-      <thead className='thead'>
-        {headerGroups.map((headerGroup) => (
-          <tr key={headerGroup._id} className='tr' {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map((column, idx) => (
-              <th key={idx} className='th' {...column.getHeaderProps(column.getSortByToggleProps())}>
-                {column.render('Header')}
-                {column.canSort ? (column.isSorted ? (column.isSortedDesc ? '↑' : '↓') : ' ↓↑') : null}
-                {console.log(column)}
-              </th>
-            ))}
-          </tr>
-        ))}
-      </thead>
-      <tbody className='tbody' {...getTableBodyProps()}>
-        {rows.map((row, idx) => {
-          prepareRow(row);
-          return (
-            <tr key={idx} {...row.getRowProps()} className={isEven(idx) ? 'bg-blue-600/20' : null}>
-              {row.cells.map((cell, idx) => (
-                <td key={idx} className='td' {...cell.getCellProps()}>
-                  {cell.render('Cell')}
-                </td>
+    <>
+      <AllColumnsFilter
+        preGlobalFilteredRows={preGlobalFilteredRows}
+        setGlobalFilter={setGlobalFilter}
+        state={state.globalFilter}
+      />
+      <table className='table' {...getTableProps()}>
+        <thead className='thead'>
+          {headerGroups.map((headerGroup) => (
+            <tr key={headerGroup._id} className='tr' {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map((column, idx) => (
+                <th key={idx} className='th' {...column.getHeaderProps(column.getSortByToggleProps())}>
+                  {column.render('Header')}
+                  {column.canSort ? (column.isSorted ? (column.isSortedDesc ? '↑' : '↓') : ' ↓↑') : null}
+                  {console.log(column)}
+                </th>
               ))}
             </tr>
-          );
-        })}
-      </tbody>
-    </table>
+          ))}
+        </thead>
+        <tbody className='tbody' {...getTableBodyProps()}>
+          {rows.map((row, idx) => {
+            prepareRow(row);
+            return (
+              <tr key={idx} {...row.getRowProps()} className={isEven(idx) ? 'bg-blue-600/20' : null}>
+                {row.cells.map((cell, idx) => (
+                  <td key={idx} className='td' {...cell.getCellProps()}>
+                    {cell.render('Cell')}
+                  </td>
+                ))}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </>
   );
 }
