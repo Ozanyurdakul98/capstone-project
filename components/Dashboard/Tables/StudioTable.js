@@ -7,9 +7,8 @@ import StudioTypeFilter from './StudioTypeFilter';
 import EditStudio from '../../Forms/EditStudio';
 import { TbEdit } from 'react-icons/tb';
 import { MdDeleteForever } from 'react-icons/md';
-import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../../BackgroundOverlay';
 import { useRouter } from 'next/router';
-import { Spinner } from '../../Spinner';
+import { DeleteModal } from '../../Modals/DeleteModal';
 
 export default function StudioTable({ fetchedStudios }) {
   const [toUpdateStudio, setToUpdateStudio] = useState();
@@ -24,9 +23,10 @@ export default function StudioTable({ fetchedStudios }) {
     error: '',
   });
   const [studios, setStudios] = useState([]);
+  const router = useRouter();
   const studioData = useMemo(() => [...studios], [studios]);
   const isEven = (idx) => idx % 2 !== 0;
-  const router = useRouter();
+
   async function handleEdit(table, values) {
     if (table === 'adminStudioTable') {
       if (values) {
@@ -40,8 +40,6 @@ export default function StudioTable({ fetchedStudios }) {
           });
           const result = await res.json();
           const rawStudio = result.data[0];
-          console.log('result', result);
-          console.log('rawstudio result', rawStudio);
           const studio = {
             maxGuests: rawStudio.maxGuests,
             listingTitle: rawStudio.listingTitle,
@@ -54,27 +52,23 @@ export default function StudioTable({ fetchedStudios }) {
             studioPricing: rawStudio.studioPricing,
             studioLocation: rawStudio.studioLocation,
           };
-          const studioID = rawStudio._id;
-
           if (!res.ok || !result.success) {
             throw new Error(res.status);
           }
           if (res.ok) {
             setToUpdateStudio(studio);
-            setStudioID(studioID);
+            setStudioID(rawStudio._id);
             setOpenEditView(true);
           }
         } catch (error) {
+          alert('Something went wrong, Contact us if you need help!', error);
           console.error('Failed to find Studio', error);
         }
       }
     }
   }
-
   async function handleDelete(table, ID) {
-    console.log('1', table, ID);
     if (table === 'adminStudioTable') {
-      console.log('2');
       if (ID) {
         setLoading((prev) => !prev);
         try {
@@ -88,44 +82,35 @@ export default function StudioTable({ fetchedStudios }) {
             throw new Error(res.status);
           }
           if (res.ok) {
-            setLoading(false);
             setDeleteModalStrings({ ...deleteModalStrings, message: `successfully deleted...`, studioID: '' });
             setTimeout(() => {
+              setLoading(false);
               router.reload();
             }, 1500);
           }
         } catch (error) {
           setDeleteModalStrings({ ...deleteModalStrings, message: "It didn't work", error: error });
-          console.error('Failed to find Studio', error);
           setLoading(false);
+          console.error('Failed to find Studio', error);
         }
       }
     }
   }
-  const handleDeleteModal = (values) => {
+  function openDeleteModal(values) {
     setStudioID(values._id);
     setDeleteModalStrings({ ...deleteModalStrings, studioID: values._id });
     setDeleteModal(true);
-  };
-  const handleFetchedStudios = () => {
+  }
+  useEffect(() => {
     if (fetchedStudios) {
       setStudios(fetchedStudios);
     }
-  };
-  const handleClickToCloseDeleteModal = () => {
-    setDeleteModal(false);
-  };
-  useEffect(() => {
-    handleFetchedStudios();
   }, []);
-
   const studioColumns = useMemo(
     () => [
       {
         Header: 'Image',
         accessor: 'images',
-        maxWidth: 100,
-        maxHeight: 100,
         disableSortBy: true,
         Cell: ({ value }) => (
           <div className='relative -mx-2 h-12 w-14 sm:h-16 sm:w-24 md:h-24 md:w-32'>
@@ -194,7 +179,7 @@ export default function StudioTable({ fetchedStudios }) {
         id: 'Edit',
         Header: 'Edit',
         Cell: ({ row }) => (
-          <div className='flex sm:flex-col'>
+          <div className='flex flex-col gap-2'>
             <button
               className=''
               onClick={() => {
@@ -206,7 +191,7 @@ export default function StudioTable({ fetchedStudios }) {
             <button
               className=''
               onClick={() => {
-                handleDeleteModal(row.values);
+                openDeleteModal(row.values);
                 console.log('values', row.values);
               }}>
               <MdDeleteForever className='table-icon' />
@@ -229,7 +214,6 @@ export default function StudioTable({ fetchedStudios }) {
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    rows,
     prepareRow,
     preGlobalFilteredRows,
     setGlobalFilter,
@@ -273,10 +257,7 @@ export default function StudioTable({ fetchedStudios }) {
               {headerGroups.map((headerGroup) => (
                 <tr key={headerGroup._id} className='tr' {...headerGroup.getHeaderGroupProps()}>
                   {headerGroup.headers.map((column, idx) => (
-                    <th
-                      key={idx}
-                      {...column.getHeaderProps(column.getSortByToggleProps())}
-                      {...column.getHeaderProps({ className: column.collapse ? 'collapse th' : 'th' })}>
+                    <th key={idx} className='th' {...column.getHeaderProps(column.getSortByToggleProps())}>
                       {column.render('Header')}
                       {column.canSort ? (column.isSorted ? (column.isSortedDesc ? '↑' : '↓') : ' ↓↑') : null}
                     </th>
@@ -290,11 +271,7 @@ export default function StudioTable({ fetchedStudios }) {
                 return (
                   <tr key={idx} {...row.getRowProps()} className={isEven(idx) ? 'evenRow' : null}>
                     {row.cells.map((cell, idx) => (
-                      <td
-                        key={idx}
-                        {...cell.getCellProps({
-                          className: cell.column.collapse ? 'collapse td' : 'td',
-                        })}>
+                      <td key={idx} className=' td' {...cell.getCellProps()}>
                         {cell.render('Cell')}
                       </td>
                     ))}
@@ -358,42 +335,12 @@ export default function StudioTable({ fetchedStudios }) {
       ) : null}
       {deleteModal ? (
         <>
-          <div className='searchFadein fixed inset-x-0 inset-y-0 top-0 left-0 right-0 z-50 my-auto mx-auto h-48 max-w-md rounded-2xl  bg-white shadow-xxl lg:h-56  '>
-            <div className='flex h-full flex-col items-center justify-between gap-2 pt-5'>
-              <h2 className='h3 lg ml-5'>{deleteModalStrings.header}</h2>
-              <div className='flex w-full flex-col gap-1 px-5 text-center '>
-                <p>
-                  {deleteModalStrings.message}
-                  {deleteModalStrings.error}
-                </p>
-                <p>StudioID: {deleteModalStrings.studioID ? deleteModalStrings.studioID : 'no ID'}</p>
-              </div>
-              <div className=' flex h-16 w-full items-center  justify-between gap-3 px-2 pb-1  md:px-20 '>
-                <button
-                  className='form-button my-0 max-w-[250px] flex-grow justify-center border-none bg-black text-white'
-                  onClick={() => {
-                    setDeleteModal(false);
-                  }}>
-                  Cancel
-                </button>
-                {loading ? (
-                  <div className=' flex-shrink-0'>
-                    <Spinner />
-                  </div>
-                ) : null}
-                <button
-                  onClick={() => handleDelete('adminStudioTable', studioID)}
-                  disabled={loading ? true : false}
-                  className='form-button bg-primary my-0 max-w-[250px] flex-grow justify-center border-none text-white'>
-                  Delete
-                </button>
-              </div>
-            </div>
-          </div>
-          <ClickToCloseMax
-            style={'bg-black/50 editModal  z-40 h-full'}
-            onClick={(event) => handleClickToCloseDeleteModal(event)}
-          />
+          <DeleteModal
+            studioID={studioID}
+            loading={loading}
+            setDeleteModal={setDeleteModal}
+            deleteModalStrings={deleteModalStrings}
+            deleteFunction={handleDelete}></DeleteModal>
         </>
       ) : null}
     </>
