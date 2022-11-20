@@ -20,7 +20,7 @@ export default async function handler(req, res) {
       const { studioID } = req.query;
       console.log('studioidRoute', studioID);
       const listing = await StudioListing.findByIdAndUpdate(studioID, req.body);
-      console.log(listing);
+      console.log(req.body);
       return res.status(201).json({ success: true, data: listing });
     } catch (error) {
       return res.status(400).json({ success: false, message: 'Unauthorized', error });

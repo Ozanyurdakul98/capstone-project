@@ -4,6 +4,7 @@ import DashboardLayout from '../components/Layout/DashboardLayout';
 import { Footer } from '../components/Footer';
 //tools
 import { SessionProvider } from 'next-auth/react';
+import { useEffect } from 'react';
 //styles
 import GlobalStyle from '../components/GlobalStyle';
 import '../styles/globals.css';
@@ -14,6 +15,13 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   const isSignIn = ['Signup', 'Signin'].indexOf(Component.name) !== -1;
   const isDashboard = Component.name.includes('Dashboard');
   console.log(isDashboard);
+
+  useEffect(() => {
+    const use = async () => {
+      (await import('tw-elements')).default;
+    };
+    use();
+  }, []);
 
   return (
     <>
@@ -32,6 +40,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
         )}
       </SessionProvider>
     </>     */}
+
       <GlobalStyle />
       <SessionProvider session={session}>
         {isSignIn ? (

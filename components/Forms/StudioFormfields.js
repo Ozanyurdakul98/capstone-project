@@ -52,9 +52,15 @@ export function StudioFormfields(props) {
                   ? 'bg-site border-primary  relative  flex h-56 w-48 flex-shrink-0 flex-col items-center justify-center gap-2 rounded-xl border-2 border-dotted text-white transition duration-75 ease-out  active:scale-95 sm:h-60 sm:w-48 md:h-60 md:w-56 md:px-2 lg:h-72 lg:w-64'
                   : 'bg-primary relative  flex  h-56 w-48 flex-shrink-0 flex-col items-center justify-center gap-2 rounded-xl border-2 border-dotted border-white text-white transition duration-75 ease-out  active:scale-95 sm:h-60 sm:w-48 md:h-60 md:w-56 md:px-2 lg:h-72 lg:w-64'
               }>
-              {props.form.images || props.checked.imagesPreview ? (
+              {props.form.images || props.checked.imagesPreview || props.checked.images ? (
                 <Image
-                  src={props.checked.imagesPreview ? props.checked.imagesPreview : props.form.images}
+                  src={
+                    props.checked.imagesPreview
+                      ? props.checked.imagesPreview
+                      : props.form.images
+                      ? props.form.images
+                      : props.checked.images
+                  }
                   layout='fill'
                   alt='Thumbnail'
                   objectFit='contain'

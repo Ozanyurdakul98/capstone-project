@@ -5,6 +5,7 @@ import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../BackgroundOve
 import Link from 'next/link.js';
 import { useRouter } from 'next/router';
 import { StudioFormfields } from './StudioFormfields';
+import { Spinner } from '../Spinner';
 
 function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
   const data = toUpdateStudio;
@@ -16,11 +17,10 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
   const [form, setForm] = useState(defaultForm);
   const [checked, setChecked] = useState(defaultChecked);
   const [imageChanged, setImageChanged] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [submissionFailed, setSubmissionFailed] = useState(false);
   const [formErrors, setFormErrors] = useState({});
-  const [preview, setPreview] = useState(false);
   const router = useRouter();
 
   const handleClickToCloseModal = () => {
@@ -38,34 +38,30 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
     setIsSubmit(true);
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       setLoading(true);
+      if (imageChanged) {
+        console.log('changing SRATTED');
+      }
       try {
-        if (imageChanged) {
-          const image = await handleUploadInput(event);
-        }
-        // console.log(JSON.stringify(form));
-        // console.log(form);
+        const resImage = await handleUploadInput(form.images);
         const res = await fetch(`/api/dashboard/admin/${studioID}`, {
           method: 'PATCH',
-          body: JSON.stringify(form),
+          body: JSON.stringify({ ...form, images: resImage }),
           headers: {
             'Content-Type': 'application/json',
           },
         });
+        console.log('changed form', form);
         const result = await res.json();
+
         if (!res.ok) {
-          throw new Error('error', res.status);
           setLoading(false);
+          throw new Error('error', res.status);
         }
         if (res.ok) {
           console.log('ok', result);
           setLoading(false);
-          // setPreview(false);
-          // setSubmitted(true);
-          // router.push({
-          //   pathname: '/success',
-          //   query: {
-          //     operation: 'createlisting',
-          //   },
+          setOpenEditView(false);
+          // router.reload();
           // });
         }
       } catch (error) {
@@ -119,16 +115,18 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
         return newArray;
       }
       if (name === 'images') {
-        let wertImage = target.files[0];
         setImageChanged(true);
+        let wertImage = target.files[0];
         setChecked({ ...checked, imagesPreview: URL.createObjectURL(wertImage), images: wertImage });
-        return;
+        console.log('wert', wertImage);
+        return wertImage;
       } else {
+        console.log('im here');
         return wert;
       }
     };
   }
-
+  console.log('formrender', form, 'checkrender', checked);
   const handleCheck = (event) => {
     const target = event.target;
     const name = target.name;
@@ -154,20 +152,21 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
     setChecked({ ...checked, [name]: isChecked() });
   };
 
-  const handleUploadInput = async (event) => {
+  const handleUploadInput = async (wertImage) => {
+    if (!imageChanged) {
+      return;
+    }
     const formData = new FormData();
     const preset = 'cy1wyxej';
     const url = 'https://api.cloudinary.com/v1_1/drt9lfnfg/image/upload';
-    formData.append('file', checked.images);
+    formData.append('file', wertImage);
     formData.append('upload_preset', preset);
     const res = await fetch(url, {
       method: 'POST',
       body: formData,
     });
     const data = await res.json();
-    data
-      ? setForm({ ...form, images: data.secure_url })
-      : setForm({ ...form, images: '/images/Thumbnail-default.png' });
+    return data.secure_url;
   };
   return (
     <>
@@ -249,11 +248,15 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
               className='form-button max-w-[250px]  flex-grow justify-center border-none bg-black text-white'>
               Cancel
             </button>
-            <button
-              onClick={handleFormSubmit}
-              className='form-button bg-primary max-w-[250px] flex-grow justify-center border-none text-white'>
-              Update Studio
-            </button>
+            <div className='flex items-center justify-center space-x-2'>
+              {loading ? <Spinner /> : null}
+              <button
+                onClick={(event) => handleFormSubmit(event)}
+                disabled={loading ? true : false}
+                className='form-button bg-primary max-w-[250px] flex-grow justify-center border-none text-white'>
+                {Object.keys(formErrors).length === 0 && isSubmit ? 'Update Studio' : 'Check'}
+              </button>
+            </div>
           </div>
         </div>
       </div>
