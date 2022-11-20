@@ -25,13 +25,14 @@ export default function Dashboard({ latestListings, totalUsers, totalListings })
 
 export async function getServerSideProps(context) {
   await db.connect();
-  const latestAddedListings = await StudioListing.find().sort({ $natural: -1 }).limit(10);
-  const serializedLatestAddedListings = JSON.parse(JSON.stringify(latestAddedListings));
+  // const latestAddedListings = await StudioListing.find().sort({ $natural: -1 }).limit(10);
+  // const serializedLatestAddedListings = JSON.parse(JSON.stringify(latestAddedListings));
+
   const totalListingsCount = await StudioListing.find().count();
   const totalUsersCount = await User.find().count();
   return {
     props: {
-      latestListings: serializedLatestAddedListings || null,
+      // latestListings: serializedLatestAddedListings || null,
       totalListings: totalListingsCount || null,
       totalUsers: totalUsersCount || null,
     },

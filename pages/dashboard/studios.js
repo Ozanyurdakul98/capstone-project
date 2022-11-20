@@ -6,10 +6,8 @@ import StudioListing from '../../models/StudioListing';
 export default function DashboardStudios({ fetchedStudios }) {
   return <StudioTable fetchedStudios={fetchedStudios} />;
 }
-
 export async function getServerSideProps(context) {
   await db.connect();
-
   const fetchingStudios = await StudioListing.find();
   const fetchedStudios = JSON.parse(JSON.stringify(fetchingStudios));
 

@@ -1,21 +1,23 @@
 import React from 'react';
-import StudioTable from '../../components/Dashboard/Tables/StudioTable';
+import UserTable from '../../components/Dashboard/Tables/UserTable';
 import db from '../../lib/dbConnect';
-import StudioListing from '../../models/StudioListing';
+import User from '../../models/UserModel';
 
-export default function DashboardStudios({ fetchedStudios }) {
-  return <StudioTable fetchedStudios={fetchedStudios} />;
+export default function DashboardUsers({ fetchedUsers }) {
+  return <UserTable fetchedUsers={fetchedUsers} />;
 }
-
 export async function getServerSideProps(context) {
   await db.connect();
-
-  const fetchingStudios = await StudioListing.find();
-  const fetchedStudios = JSON.parse(JSON.stringify(fetchingStudios));
-
+  const fetchedUser = await User.find();
+  const serializing = {
+    _id: fetchedUser._id,
+  };
+  const serializedFetchedUser = JSON.parse(JSON.stringify(fetchedUser));
+  console.log('fetched', fetchedUser);
+  console.log(serializing);
   return {
     props: {
-      fetchedStudios: fetchedStudios || null,
+      fetchedUsers: serializedFetchedUser || null,
     },
   };
 }
