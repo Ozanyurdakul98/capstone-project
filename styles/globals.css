@@ -148,11 +148,11 @@
     @apply bg-primary top-1 mb-1 h-10 max-w-min cursor-pointer rounded-xl pl-5 pr-8 text-white after:absolute after:h-5 after:w-5;
   }
   .input-table {
-    @apply mt-2 w-full rounded-lg bg-white p-2 pl-5 focus:border-blue-500  focus:outline-none;
+    @apply w-full rounded-lg bg-white p-2 pl-5 focus:border-blue-500  focus:outline-none;
   }
 
   .tableWrap {
-    @apply block max-w-full overflow-y-hidden overflow-x-scroll text-xs sm:text-sm md:text-base;
+    @apply block max-w-full overflow-y-hidden overflow-x-scroll text-xs font-thin sm:text-sm;
   }
   .table {
     @apply w-full border-spacing-0 [&_tr:last-child]:border-b-0;

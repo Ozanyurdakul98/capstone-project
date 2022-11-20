@@ -7,15 +7,26 @@ import StudioTypeFilter from './StudioTypeFilter';
 import EditStudio from '../../Forms/EditStudio';
 import { TbEdit } from 'react-icons/tb';
 import { MdDeleteForever } from 'react-icons/md';
+import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../../BackgroundOverlay';
+import { useRouter } from 'next/router';
+import { Spinner } from '../../Spinner';
 
 export default function StudioTable({ fetchedStudios }) {
   const [toUpdateStudio, setToUpdateStudio] = useState();
-  const [studioID, setStudioID] = useState();
+  const [studioID, setStudioID] = useState('');
   const [openEditView, setOpenEditView] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [deleteModalStrings, setDeleteModalStrings] = useState({
+    header: 'Are you sure you want to delete this Studio?',
+    message: 'This Studio will be permanently deleted! If you want to delete this Studio, click on Delete.',
+    studioID: '',
+    error: '',
+  });
   const [studios, setStudios] = useState([]);
   const studioData = useMemo(() => [...studios], [studios]);
   const isEven = (idx) => idx % 2 !== 0;
-
+  const router = useRouter();
   async function handleEdit(table, values) {
     if (table === 'adminStudioTable') {
       if (values) {
@@ -60,10 +71,49 @@ export default function StudioTable({ fetchedStudios }) {
     }
   }
 
+  async function handleDelete(table, ID) {
+    console.log('1', table, ID);
+    if (table === 'adminStudioTable') {
+      console.log('2');
+      if (ID) {
+        setLoading((prev) => !prev);
+        try {
+          const res = await fetch(`/api/dashboard/admin/${ID}`, {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+          if (!res.ok) {
+            throw new Error(res.status);
+          }
+          if (res.ok) {
+            setLoading(false);
+            setDeleteModalStrings({ ...deleteModalStrings, message: `successfully deleted...`, studioID: '' });
+            setTimeout(() => {
+              router.reload();
+            }, 1500);
+          }
+        } catch (error) {
+          setDeleteModalStrings({ ...deleteModalStrings, message: "It didn't work", error: error });
+          console.error('Failed to find Studio', error);
+          setLoading(false);
+        }
+      }
+    }
+  }
+  const handleDeleteModal = (values) => {
+    setStudioID(values._id);
+    setDeleteModalStrings({ ...deleteModalStrings, studioID: values._id });
+    setDeleteModal(true);
+  };
   const handleFetchedStudios = () => {
     if (fetchedStudios) {
       setStudios(fetchedStudios);
     }
+  };
+  const handleClickToCloseDeleteModal = () => {
+    setDeleteModal(false);
   };
   useEffect(() => {
     handleFetchedStudios();
@@ -148,7 +198,6 @@ export default function StudioTable({ fetchedStudios }) {
             <button
               className=''
               onClick={() => {
-                // alert('Editing: ' + JSON.stringify(row.values));
                 handleEdit('adminStudioTable', row.values);
                 console.log('values', row.values);
               }}>
@@ -157,8 +206,7 @@ export default function StudioTable({ fetchedStudios }) {
             <button
               className=''
               onClick={() => {
-                // alert('Editing: ' + JSON.stringify(row.values));
-                handleEdit('adminStudioTable', row.values);
+                handleDeleteModal(row.values);
                 console.log('values', row.values);
               }}>
               <MdDeleteForever className='table-icon' />
@@ -307,6 +355,46 @@ export default function StudioTable({ fetchedStudios }) {
       </div>
       {openEditView ? (
         <EditStudio toUpdateStudio={toUpdateStudio} studioID={studioID} setOpenEditView={setOpenEditView}></EditStudio>
+      ) : null}
+      {deleteModal ? (
+        <>
+          <div className='searchFadein fixed inset-x-0 inset-y-0 top-0 left-0 right-0 z-50 my-auto mx-auto h-48 max-w-md rounded-2xl  bg-white shadow-xxl lg:h-56  '>
+            <div className='flex h-full flex-col items-center justify-between gap-2 pt-5'>
+              <h2 className='h3 lg ml-5'>{deleteModalStrings.header}</h2>
+              <div className='flex w-full flex-col gap-1 px-5 text-center '>
+                <p>
+                  {deleteModalStrings.message}
+                  {deleteModalStrings.error}
+                </p>
+                <p>StudioID: {deleteModalStrings.studioID ? deleteModalStrings.studioID : 'no ID'}</p>
+              </div>
+              <div className=' flex h-16 w-full items-center  justify-between gap-3 px-2 pb-1  md:px-20 '>
+                <button
+                  className='form-button my-0 max-w-[250px] flex-grow justify-center border-none bg-black text-white'
+                  onClick={() => {
+                    setDeleteModal(false);
+                  }}>
+                  Cancel
+                </button>
+                {loading ? (
+                  <div className=' flex-shrink-0'>
+                    <Spinner />
+                  </div>
+                ) : null}
+                <button
+                  onClick={() => handleDelete('adminStudioTable', studioID)}
+                  disabled={loading ? true : false}
+                  className='form-button bg-primary my-0 max-w-[250px] flex-grow justify-center border-none text-white'>
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+          <ClickToCloseMax
+            style={'bg-black/50 editModal  z-40 h-full'}
+            onClick={(event) => handleClickToCloseDeleteModal(event)}
+          />
+        </>
       ) : null}
     </>
   );

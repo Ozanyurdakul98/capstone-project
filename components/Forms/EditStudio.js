@@ -90,7 +90,6 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
   function MatchDataWithChecked() {
     const pricing = data.studioPricing;
     const engineer = data.soundengineer;
-
     return () => {
       if (pricing) {
         let pricingArray = [];
