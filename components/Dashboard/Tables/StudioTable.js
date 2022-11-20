@@ -5,7 +5,8 @@ import AllColumnsFilter from './AllColumnsFilter';
 import ServicesFilter from './ServicesFilter';
 import StudioTypeFilter from './StudioTypeFilter';
 import EditStudio from '../../Forms/EditStudio';
-import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../../BackgroundOverlay';
+import { TbEdit } from 'react-icons/tb';
+import { MdDeleteForever } from 'react-icons/md';
 
 export default function StudioTable({ fetchedStudios }) {
   const [toUpdateStudio, setToUpdateStudio] = useState();
@@ -154,15 +155,26 @@ export default function StudioTable({ fetchedStudios }) {
         id: 'Edit',
         Header: 'Edit',
         Cell: ({ row }) => (
-          <button
-            className='button'
-            onClick={() => {
-              // alert('Editing: ' + JSON.stringify(row.values));
-              handleEdit('adminStudioTable', row.values);
-              console.log('values', row.values);
-            }}>
-            edit
-          </button>
+          <div className='flex sm:flex-col'>
+            <button
+              className=''
+              onClick={() => {
+                // alert('Editing: ' + JSON.stringify(row.values));
+                handleEdit('adminStudioTable', row.values);
+                console.log('values', row.values);
+              }}>
+              <TbEdit className='table-icon' />
+            </button>
+            <button
+              className=''
+              onClick={() => {
+                // alert('Editing: ' + JSON.stringify(row.values));
+                handleEdit('adminStudioTable', row.values);
+                console.log('values', row.values);
+              }}>
+              <MdDeleteForever className='table-icon' />
+            </button>
+          </div>
         ),
       },
     ]);

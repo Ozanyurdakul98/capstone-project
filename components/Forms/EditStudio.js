@@ -248,20 +248,18 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
               className='form-button max-w-[250px]  flex-grow justify-center border-none bg-black text-white'>
               Cancel
             </button>
-            <div className='flex items-center justify-center space-x-2'>
-              {loading ? <Spinner /> : null}
-              <button
-                onClick={(event) => handleFormSubmit(event)}
-                disabled={loading ? true : false}
-                className='form-button bg-primary max-w-[250px] flex-grow justify-center border-none text-white'>
-                {Object.keys(formErrors).length === 0 && isSubmit ? 'Update Studio' : 'Check'}
-              </button>
-            </div>
+            <div className='ml-auto flex items-center justify-center space-x-2'>{loading ? <Spinner /> : null}</div>
+            <button
+              onClick={(event) => handleFormSubmit(event)}
+              disabled={loading ? true : false}
+              className='form-button bg-primary max-w-[250px] flex-grow justify-center border-none text-white'>
+              {Object.keys(formErrors).length === 0 && isSubmit ? 'Update Studio' : 'Check'}
+            </button>
           </div>
         </div>
       </div>
       <ClickToCloseMax
-        style={'bg-black/50 editModal  z-40 h-full'}
+        style={'bg-black/50 editModal   z-40 h-full'}
         onClick={(event) => handleClickToCloseModal(event)}
       />
     </>

@@ -43,6 +43,9 @@
   .icon {
     @apply h-6 w-6 cursor-pointer rounded-sm text-[color:var(--primary-icon)] lg:h-9 lg:w-9 lg:p-1 lg:hover:bg-gray-100;
   }
+  .table-icon {
+    @apply h-4 w-4 cursor-pointer rounded-sm text-white sm:h-6 sm:w-6 lg:h-9 lg:w-9 lg:p-1 lg:hover:bg-gray-100/20;
+  }
   .icon-carousell {
     @apply h-6 w-6 cursor-pointer rounded-md  border border-slate-800 text-[color:var(--primary-icon)] lg:h-7 lg:w-7  lg:hover:bg-gray-100;
   }
@@ -95,7 +98,7 @@
     @apply my-10 w-full leading-tight xl:my-20;
   }
   .form-button {
-    @apply my-5 w-full rounded-lg bg-secondary-color py-2 text-white outline-none  xl:w-[250px];
+    @apply my-5 w-full rounded-full bg-secondary-color py-2 text-xs uppercase text-white outline-none  xl:w-[250px];
   }
   .input-form {
     @apply w-full appearance-none border-gray-500  bg-[#edf0f5] py-3 px-5 leading-tight  text-gray-700 focus:border-gray-500/30 focus:bg-white focus:outline-none sm:w-2/3 lg:w-1/2;
@@ -160,7 +163,7 @@
     @apply bg-slate-100/10;
   }
   .tbody {
-    @apply bg-primary text-white;
+    @apply bg-primary [&_td:last-child]:bg-secondary  text-white;
   }
   .td {
     @apply border border-white p-4 text-center;
@@ -203,6 +206,9 @@
   .searchFadein {
     animation: fadeInAnimation 250ms;
   }
+  .modalIn {
+    animation: modalAnimation 250ms;
+  }
 
   @keyframes fadeInAnimation {
     from {
@@ -210,6 +216,14 @@
     }
     to {
       transform: translateY(0) translateX(0) rotate(0deg);
+    }
+  }
+  @keyframes modalAnimation {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
     }
   }
 

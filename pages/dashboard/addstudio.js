@@ -229,7 +229,7 @@ function DashboardAddStudio(session) {
                         <button
                           onClick={handleFormSubmit}
                           className='form-button bg-primary max-w-[250px] flex-grow justify-center border-none text-white'>
-                          List Studio
+                          {Object.keys(formErrors).length === 0 && isSubmit ? 'List Studio' : 'Check'}
                         </button>
                       </div>
                     </div>
@@ -304,7 +304,7 @@ function DashboardAddStudio(session) {
                   handlePreview(event);
                 }}
                 className='form-button hover:bg-secondary-hover text-white'>
-                Next
+                {Object.keys(formErrors).length === 0 && isSubmit ? 'Next' : 'Check'}
               </button>
             </fieldset>
           </form>
