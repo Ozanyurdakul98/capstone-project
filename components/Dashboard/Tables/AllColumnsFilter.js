@@ -34,12 +34,13 @@ export default function AllColumnsFilter({ preGlobalFilteredRows, globalFilter, 
     <div>
       <h2>Search:</h2>
       <input
+        className='input-table'
         value={value || ''}
         onChange={(e) => {
           setValue(e.target.value);
           onChange(e.target.value);
         }}
-        placeholder={`${count} records...`}
+        placeholder={`${count} studios...`}
       />
     </div>
   );

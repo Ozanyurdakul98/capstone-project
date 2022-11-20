@@ -4,8 +4,7 @@ import ListingCardWide from '../../components/ListingCardWide';
 import ListingCardCarousell from '../../components/ListingCardCarousell';
 import Image from 'next/image.js';
 import { TbHandClick } from 'react-icons/tb';
-import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../../components/BackgroundOverlay';
-import Link from 'next/link.js';
+import { MdDeleteForever } from 'react-icons/md';
 
 export function StudioFormfields(props) {
   return (
@@ -53,18 +52,23 @@ export function StudioFormfields(props) {
                   : 'bg-primary relative  flex  h-56 w-48 flex-shrink-0 flex-col items-center justify-center gap-2 rounded-xl border-2 border-dotted border-white text-white transition duration-75 ease-out  active:scale-95 sm:h-60 sm:w-48 md:h-60 md:w-56 md:px-2 lg:h-72 lg:w-64'
               }>
               {props.form.images || props.checked.imagesPreview || props.checked.images ? (
-                <Image
-                  src={
-                    props.checked.imagesPreview
-                      ? props.checked.imagesPreview
-                      : props.form.images
-                      ? props.form.images
-                      : props.checked.images
-                  }
-                  layout='fill'
-                  alt='Thumbnail'
-                  objectFit='contain'
-                />
+                <>
+                  <Image
+                    src={
+                      props.checked.imagesPreview
+                        ? props.checked.imagesPreview
+                        : props.form.images
+                        ? props.form.images
+                        : props.checked.images
+                    }
+                    layout='fill'
+                    alt='Thumbnail'
+                    objectFit='contain'
+                  />
+                  <button onClick={props.handleDeleteImage} className='absolute top-0 right-0'>
+                    <MdDeleteForever className='h-8 w-8 text-red-500 hover:text-red-400' />
+                  </button>
+                </>
               ) : (
                 <>
                   <p className='text-center text-lg'>No picture selected</p>

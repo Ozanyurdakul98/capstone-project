@@ -52,19 +52,8 @@ export default function StudioTable({ fetchedStudios }) {
             setToUpdateStudio(studio);
             setStudioID(studioID);
             setOpenEditView(true);
-
-            // setSubmitted(true);
-            // router.push({
-            //   pathname: '/success',
-            //   query: {
-            //     operation: 'createlisting',
-            //   },
-            // });
           }
         } catch (error) {
-          // setFormErrors(error);
-          // setPreview(false);
-          // setSubmissionFailed(true);
           console.error('Failed to find Studio', error);
         }
       }
@@ -98,7 +87,7 @@ export default function StudioTable({ fetchedStudios }) {
         Header: 'Id',
         accessor: '_id',
         disableSortBy: true,
-        collapse: true,
+        collapse: false,
       },
       {
         Header: 'Pricing',

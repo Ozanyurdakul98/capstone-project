@@ -10,6 +10,7 @@ import { Spinner } from '../Spinner';
 function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
   const data = toUpdateStudio;
   const defaultForm = data;
+  const defaultPic = '/images/Thumbnail-default.png';
   const defaultChecked = {
     soundengineer: '',
     studioPricing: [],
@@ -26,6 +27,12 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
   const handleClickToCloseModal = () => {
     setOpenEditView(false);
   };
+  const handleDeleteImage = () => {
+    setImageChanged(true);
+    setForm({ ...form, images: defaultPic });
+    setChecked({ ...checked, imagesPreview: defaultPic });
+    setChecked((prev) => ({ ...prev, images: defaultPic }));
+  };
   const handleClickToCloseErrorModal = () => {};
   useEffect(() => {
     return MatchDataWithChecked();
@@ -38,11 +45,9 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
     setIsSubmit(true);
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       setLoading(true);
-      if (imageChanged) {
-        console.log('changing SRATTED');
-      }
       try {
         const resImage = await handleUploadInput(form.images);
+        console.log('resuimage', resImage);
         const res = await fetch(`/api/dashboard/admin/${studioID}`, {
           method: 'PATCH',
           body: JSON.stringify({ ...form, images: resImage }),
@@ -61,8 +66,7 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
           console.log('ok', result);
           setLoading(false);
           setOpenEditView(false);
-          // router.reload();
-          // });
+          router.reload();
         }
       } catch (error) {
         setLoading(false);
@@ -118,10 +122,8 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
         setImageChanged(true);
         let wertImage = target.files[0];
         setChecked({ ...checked, imagesPreview: URL.createObjectURL(wertImage), images: wertImage });
-        console.log('wert', wertImage);
         return wertImage;
       } else {
-        console.log('im here');
         return wert;
       }
     };
@@ -153,8 +155,15 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
   };
 
   const handleUploadInput = async (wertImage) => {
+    console.log('handleinput');
     if (!imageChanged) {
+      console.log('notchanged');
       return;
+    }
+    console.log('compare', wertImage, defaultPic, wertImage === defaultPic);
+    if (wertImage === defaultPic) {
+      console.log('returnDefaukt', defaultPic);
+      return defaultPic;
     }
     const formData = new FormData();
     const preset = 'cy1wyxej';
@@ -190,6 +199,7 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
                   length={Object.keys(formErrors).length}
                   formErrors={formErrors}
                   router={router}
+                  handleDeleteImage={handleDeleteImage}
                   handleFormSubmit={handleFormSubmit}
                   handleChange={handleChange}
                   handleCheck={handleCheck}></StudioFormfields>

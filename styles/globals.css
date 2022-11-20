@@ -147,6 +147,10 @@
   .select-table {
     @apply bg-primary top-1 mb-1 h-10 max-w-min cursor-pointer rounded-xl pl-5 pr-8 text-white after:absolute after:h-5 after:w-5;
   }
+  .input-table {
+    @apply mt-2 w-full rounded-lg bg-white p-2 pl-5 focus:border-blue-500  focus:outline-none;
+  }
+
   .tableWrap {
     @apply block max-w-full overflow-y-hidden overflow-x-scroll text-xs sm:text-sm md:text-base;
   }
@@ -154,7 +158,7 @@
     @apply w-full border-spacing-0 [&_tr:last-child]:border-b-0;
   }
   .th {
-    @apply border-secondary m-0 w-[1%] border-b border-r p-2 [&:last-child]:border-r-0;
+    @apply border-secondary m-0 w-[1%] border-b border-r p-2 [&:last-child]:border-0;
   }
   .collapse {
     @apply w-[0.0000000001%];
@@ -184,7 +188,7 @@
     @apply bg-primary flex max-h-8 transform cursor-pointer items-center rounded-md  border border-black px-3  py-2 text-white transition duration-100 ease-out active:scale-95 active:bg-gray-100;
   }
   .pagination-input {
-    @apply text-primary text-center outline-none;
+    @apply text-primary h-10 rounded-lg text-center focus:border-blue-500  focus:outline-none;
   }
   .editModal {
     @apply fixed top-0 left-0 z-30 h-screen w-screen cursor-default;
