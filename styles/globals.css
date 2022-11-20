@@ -47,7 +47,7 @@
     @apply h-6 w-6 cursor-pointer rounded-sm text-[color:var(--primary-icon)] lg:h-9 lg:w-9 lg:p-1 lg:hover:bg-gray-100;
   }
   .table-icon {
-    @apply h-4 w-4 cursor-pointer rounded-sm text-white active:bg-gray-100/20 sm:h-6 sm:w-6 md:hover:bg-gray-100/20 md:active:bg-none lg:h-9 lg:w-9 lg:p-1;
+    @apply h-4 w-4 cursor-pointer rounded-sm text-white active:bg-gray-100/20 md:h-6 md:w-6 md:hover:bg-gray-100/20 md:active:bg-none lg:h-8 lg:w-8 lg:p-1;
   }
   .icon-carousell {
     @apply h-6 w-6 cursor-pointer rounded-md  border border-slate-800 text-[color:var(--primary-icon)] lg:h-7 lg:w-7  lg:hover:bg-gray-100;
@@ -62,11 +62,25 @@
     @apply h-12 w-8 transform cursor-pointer rounded-sm text-[color:var(--secondary-icon)] transition duration-100 active:text-black disabled:text-gray-400 lg:w-12 lg:p-1 lg:hover:text-opacity-80;
   }
 
+  /* Buttons */
+
+  .modal-deleteButton {
+    @apply bg-primary my-0 w-full flex-grow justify-center rounded-full border-none  bg-secondary-color py-2 text-xs uppercase text-white  outline-none xl:w-[250px];
+  }
+  .tablePagination-button {
+    @apply bg-primary flex h-5 transform cursor-pointer items-center rounded-md border border-black px-3  py-2 text-white transition  duration-100 ease-out active:scale-95 active:bg-gray-100 sm:h-6 lg:h-7;
+  }
   .button-active {
     @apply flex max-h-8 transform cursor-pointer items-center rounded-full  border bg-[#1e90ff] px-4 py-2 text-white transition duration-100 ease-out  hover:shadow-lg active:scale-95 active:bg-gray-100;
   }
   .button {
     @apply flex max-h-8 transform cursor-pointer items-center rounded-full  border border-black  px-4 py-2 transition duration-100 ease-out  hover:shadow-lg active:scale-95 active:bg-gray-100;
+  }
+
+  /* SelectInputs */
+
+  .select-table {
+    @apply bg-primary top-1 h-5 max-w-min cursor-pointer rounded-xl py-0 pl-5 pr-6 text-white after:absolute after:h-5 after:w-5 sm:h-6 lg:h-7;
   }
   .searchBarModal {
     @apply absolute top-0 left-0 z-30 h-screen w-screen cursor-default;
@@ -147,9 +161,7 @@
   .filter-table {
     @apply mb-2 flex min-w-fit gap-4 rounded-lg bg-gray-100 py-2 px-5 [&_div]:flex [&_div]:items-center [&_div]:gap-2;
   }
-  .select-table {
-    @apply bg-primary top-1 mb-1 h-10 max-w-min cursor-pointer rounded-xl pl-5 pr-8 text-white after:absolute after:h-5 after:w-5;
-  }
+
   .input-table {
     @apply w-28 rounded-lg bg-white p-2 pl-5 focus:border-blue-500 focus:outline-none sm:w-36 md:w-40;
   }
@@ -183,9 +195,7 @@
   .pagination-buttons {
     @apply flex gap-1;
   }
-  .pagination-button {
-    @apply bg-primary flex h-6 transform cursor-pointer items-center rounded-md border  border-black px-3 py-2  text-white transition duration-100 ease-out active:scale-95 active:bg-gray-100 lg:h-8;
-  }
+
   .pagination-input {
     @apply text-primary h-10 rounded-lg text-center focus:border-blue-500  focus:outline-none;
   }
@@ -193,10 +203,7 @@
     @apply fixed top-0 left-0 z-30 h-screen w-screen cursor-default;
   }
   /* Modals */
-  /* Buttons */
-  .modal-deleteButton {
-    @apply bg-primary my-0 w-full flex-grow justify-center rounded-full border-none  bg-secondary-color py-2 text-xs uppercase text-white  outline-none xl:w-[250px];
-  }
+
   /* Headers */
   .h1 {
     @apply block text-2xl font-bold uppercase tracking-wide  text-[color:var(--primary-text)] md:text-xl lg:text-2xl;

@@ -282,16 +282,19 @@ export default function StudioTable({ fetchedStudios }) {
           </table>
           <div className='pagination'>
             <div className='pagination-buttons'>
-              <button className='pagination-button' onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+              <button className='tablePagination-button' onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
                 {'<<'}
               </button>
-              <button className='pagination-button' onClick={() => previousPage()} disabled={!canPreviousPage}>
+              <button className='tablePagination-button' onClick={() => previousPage()} disabled={!canPreviousPage}>
                 {'<'}
               </button>
-              <button className='pagination-button' onClick={() => nextPage()} disabled={!canNextPage}>
+              <button className='tablePagination-button' onClick={() => nextPage()} disabled={!canNextPage}>
                 {'>'}
               </button>
-              <button className='pagination-button' onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+              <button
+                className='tablePagination-button'
+                onClick={() => gotoPage(pageCount - 1)}
+                disabled={!canNextPage}>
                 {'>>'}
               </button>
             </div>
