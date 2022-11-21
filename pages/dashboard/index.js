@@ -4,6 +4,7 @@ import DashboardStats from '../../components/Dashboard/DashboardStatsTotal';
 import db from '../../lib/dbConnect';
 import StudioListing from '../../models/StudioListing';
 import User from '../../models/UserModel';
+import DashboardLayout from '../../components/Layout/DashboardLayout';
 // import SalesStats from './SalesStats';
 // import TopSellingProducts from './TopSellingProducts';
 
@@ -22,6 +23,10 @@ export default function Dashboard({ latestListings, totalUsers, totalListings })
     </>
   );
 }
+
+Dashboard.getLayout = function getLayout(page) {
+  return <DashboardLayout>{page}</DashboardLayout>;
+};
 
 export async function getServerSideProps(context) {
   await db.connect();

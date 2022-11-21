@@ -1,5 +1,5 @@
 //pages & components
-import Layout from '../components/Layout';
+import Layout from '../components/Layout/Layout';
 import DashboardLayout from '../components/Layout/DashboardLayout';
 import { Footer } from '../components/Footer';
 //tools
@@ -12,9 +12,7 @@ import '../components/DatePicker/styles.css';
 import '../components/DatePicker/default.css';
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
-  const isSignIn = ['Signup', 'Signin'].indexOf(Component.name) !== -1;
-  const isDashboard = Component.name.includes('Dashboard');
-  console.log(isDashboard);
+  const getLayout = Component.getLayout || ((page) => page);
 
   useEffect(() => {
     const use = async () => {
@@ -25,39 +23,8 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
 
   return (
     <>
-      {/* <>
       <GlobalStyle />
-      <SessionProvider session={session}>
-        {isSignIn ? (
-          <>
-            <Component {...pageProps} />
-            <Footer />
-          </>
-        ) : (
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        )}
-      </SessionProvider>
-    </>     */}
-
-      <GlobalStyle />
-      <SessionProvider session={session}>
-        {isSignIn ? (
-          <>
-            <Component {...pageProps} />
-            <Footer />
-          </>
-        ) : isDashboard ? (
-          <DashboardLayout>
-            <Component {...pageProps} />
-          </DashboardLayout>
-        ) : (
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        )}
-      </SessionProvider>
+      <SessionProvider session={session}>{getLayout(<Component {...pageProps} />)}</SessionProvider>
     </>
   );
 }

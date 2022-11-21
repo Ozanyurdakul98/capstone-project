@@ -3,10 +3,16 @@ import UserTable from '../../components/Dashboard/Tables/UserTable';
 import db from '../../lib/dbConnect';
 import User from '../../models/UserModel';
 import format from 'date-fns/format';
+import DashboardLayout from '../../components/Layout/DashboardLayout';
 
 export default function DashboardUsers({ fetchedUsers }) {
   return <UserTable fetchedUsers={fetchedUsers} />;
 }
+
+DashboardUsers.getLayout = function getLayout(page) {
+  return <DashboardLayout>{page}</DashboardLayout>;
+};
+
 export async function getServerSideProps(context) {
   await db.connect();
   let fetchedUser = await User.find();

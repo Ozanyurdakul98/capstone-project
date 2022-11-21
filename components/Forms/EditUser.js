@@ -4,20 +4,16 @@ import { ValidateCreateListing } from '../../helpers/Validate.js';
 import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../BackgroundOverlay';
 import Link from 'next/link.js';
 import { useRouter } from 'next/router';
-import { StudioFormfields } from './StudioFormfields';
+import { UserFormfields } from './UserFormfields';
 import { Spinner } from '../Spinner';
 
-function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
-  const data = toUpdateStudio;
-  const defaultForm = data;
+function EditStudio({ toUpdateUser, setOpenEditView, studioID }) {
+  const data = toUpdateUser;
   const defaultPic = '/images/Thumbnail-default.png';
-  const defaultChecked = {
-    soundengineer: '',
-    studioPricing: [],
-  };
-  const [form, setForm] = useState(defaultForm);
-  const [checked, setChecked] = useState(defaultChecked);
-  const [imageChanged, setImageChanged] = useState(false);
+  const [form, setForm] = useState(data);
+  console.log('form', data);
+  const [checked, setChecked] = useState();
+  const [avatarChanged, setAvatarChanged] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
   const [loading, setLoading] = useState(false);
   const [submissionFailed, setSubmissionFailed] = useState(false);
@@ -28,15 +24,12 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
     setOpenEditView(false);
   };
   const handleDeleteImage = () => {
-    setImageChanged(true);
+    setAvatarChanged(true);
     setForm({ ...form, images: defaultPic });
     setChecked({ ...checked, imagesPreview: defaultPic });
     setChecked((prev) => ({ ...prev, images: defaultPic }));
   };
   const handleClickToCloseErrorModal = () => {};
-  useEffect(() => {
-    return MatchDataWithChecked();
-  }, []);
 
   const handleFormSubmit = async (event) => {
     const passForm = form;
@@ -79,49 +72,20 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
 
   const handleChange = (event) => {
     const target = event.target;
-    const type = target.type;
     const name = target.name;
     const wert = target.value;
-    const id = target.id;
-    const value = checkValues(type, form, name, wert, id, target);
+    const value = checkValues(name, wert, target);
     setForm({ ...form, [name]: value() });
   };
 
-  function MatchDataWithChecked() {
-    const pricing = data.studioPricing;
-    const engineer = data.soundengineer;
+  function checkValues(name, wert, target) {
     return () => {
-      if (pricing) {
-        let pricingArray = [];
-        Object.keys(pricing).map((price) => (pricingArray = [...pricingArray, price]));
-        setChecked({ ...checked, studioPricing: pricingArray });
-      }
-      if (typeof engineer === 'object') {
-        const string = 'soundengineerPrice';
-        setChecked((prev) => ({ ...prev, soundengineer: string }));
-      }
-    };
-  }
-
-  function checkValues(type, form, name, wert, id, target) {
-    return () => {
-      if (name === 'studioPricing' || id === 'soundengineerPrice') {
-        const currentForm = { ...form?.[name === 'studioPricing' ? name : id], [id]: wert };
-        const deleteUndefined = Object.fromEntries(Object.entries(currentForm).filter(([k, v]) => v));
-        return deleteUndefined;
-      }
-      if (type === 'checkbox') {
-        let newArray = [...form?.[name], wert];
-        if (form?.[name].includes(wert)) {
-          newArray = newArray.filter((service) => service !== wert);
-        }
-        return newArray;
-      }
-      if (name === 'images') {
-        setImageChanged(true);
+      if (name === 'avatar') {
+        setAvatarChanged(true);
         let wertImage = target.files[0];
+        const avatar = URL.createObjectURL(wertImage);
         setChecked({ ...checked, imagesPreview: URL.createObjectURL(wertImage), images: wertImage });
-        return wertImage;
+        return URL.createObjectURL(wertImage);
       } else {
         return wert;
       }
@@ -155,7 +119,7 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
 
   const handleUploadInput = async (wertImage) => {
     console.log('handleinput');
-    if (!imageChanged) {
+    if (!avatarChanged) {
       console.log('notchanged');
       return;
     }
@@ -181,27 +145,22 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
       <div className='searchFadein fixed inset-x-0 inset-y-0 top-0 left-0 right-0 z-50 my-auto mx-auto flex h-4/6   w-full  flex-col gap-5 rounded-2xl bg-white pb-5 shadow-xxl  md:min-h-72 md:w-11/12 xl:w-6/12'>
         <div className=' overflow-y-scroll sm:px-0'>
           <div className='mt-4 flex flex-col gap-4'>
-            <h2 className='h2 ml-5 text-2xl'>Edit Studio</h2>
-            <p className='text-center '>Keep it nice and smooth!</p>
+            <h2 className='h2 ml-5 text-2xl'>Edit Profile</h2>
           </div>
           <div className=' px-2 sm:ml-5 md:mr-5'>
             <div className='sm:px-0'>
               <form noValidate className='text-primary w-full' onSubmit={handleFormSubmit}>
-                <StudioFormfields
-                  defaultForm={defaultForm}
-                  defaultChecked={defaultChecked}
+                <UserFormfields
                   form={form}
                   setForm={setForm}
                   checked={checked}
                   setChecked={setChecked}
-                  imageChanged={setImageChanged}
                   length={Object.keys(formErrors).length}
                   formErrors={formErrors}
-                  router={router}
                   handleDeleteImage={handleDeleteImage}
                   handleFormSubmit={handleFormSubmit}
                   handleChange={handleChange}
-                  handleCheck={handleCheck}></StudioFormfields>
+                  handleCheck={handleCheck}></UserFormfields>
                 {/* ErrorModal */}
                 <fieldset>
                   {submissionFailed ? (

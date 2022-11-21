@@ -82,6 +82,13 @@
   .select-table {
     @apply bg-primary top-1 h-5 max-w-min cursor-pointer rounded-xl py-0 pl-5 pr-6 text-white after:absolute after:h-5 after:w-5 sm:h-6 lg:h-7;
   }
+
+  /* TextInputs */
+
+  .input-editUser {
+    @apply w-full appearance-none rounded-full border-gray-500  bg-[#edf0f5] py-3 px-5 leading-tight  text-gray-700 focus:border-gray-500/30 focus:bg-white focus:outline-none sm:w-2/3 lg:w-1/2;
+  }
+
   .searchBarModal {
     @apply absolute top-0 left-0 z-30 h-screen w-screen cursor-default;
   }
@@ -97,6 +104,7 @@
   input:invalid[data-focused='true'] {
     @apply border-2 border-red-500;
   }
+
   /* login */
   .form-login {
     @apply mx-auto flex w-full max-w-[400px] flex-col items-center rounded-lg bg-white p-8 px-8;

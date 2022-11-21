@@ -1,7 +1,5 @@
 import React from 'react';
 import { FormInput } from '../../components/Forms/FormInput';
-import ListingCardWide from '../../components/ListingCardWide';
-import ListingCardCarousell from '../../components/ListingCardCarousell';
 import Image from 'next/image.js';
 import { TbHandClick } from 'react-icons/tb';
 import { MdDeleteForever } from 'react-icons/md';

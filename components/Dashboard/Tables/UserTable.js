@@ -4,15 +4,15 @@ import { useTable, useSortBy, useGlobalFilter, useFilters, usePagination } from 
 import AllColumnsFilter from './AllColumnsFilter';
 import ServicesFilter from './ServicesFilter';
 import StudioTypeFilter from './StudioTypeFilter';
-import EditUser from '../../Forms/EditStudio';
+import EditUser from '../../Forms/EditUser';
 import { TbEdit } from 'react-icons/tb';
 import { MdDeleteForever } from 'react-icons/md';
 import { useRouter } from 'next/router';
 import { DeleteModal } from '../../Modals/DeleteModal';
 
 export default function UserTable({ fetchedUsers }) {
-  const [toUpdateStudio, setToUpdateStudio] = useState();
-  const [studioID, setStudioID] = useState('');
+  const [toUpdateUser, setToUpdateUser] = useState();
+  const [userID, setUserID] = useState('');
   const [openEditView, setOpenEditView] = useState(false);
   const [loading, setLoading] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
@@ -27,45 +27,39 @@ export default function UserTable({ fetchedUsers }) {
   const userData = useMemo(() => [...users], [users]);
   const isEven = (idx) => idx % 2 !== 0;
   async function handleEdit(table, values) {
-    if (table === 'adminStudioTable') {
+    if (table === 'adminUserTable') {
       if (values) {
         const id = values._id;
         try {
-          const res = await fetch(`/api/dashboard/admin/${id}`, {
+          const res = await fetch(`/api/dashboard/admin/user/${id}`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
             },
           });
           const result = await res.json();
-          const rawStudio = result.data[0];
-          const studio = {
-            maxGuests: rawStudio.maxGuests,
-            listingTitle: rawStudio.listingTitle,
-            images: rawStudio.images,
-            openingHours: rawStudio.openingHours,
-            studiotype: rawStudio.studiotype,
-            services: rawStudio.services,
-            locationFeatures: rawStudio.locationFeatures,
-            soundengineer: rawStudio.soundengineer,
-            studioPricing: rawStudio.studioPricing,
-            studioLocation: rawStudio.studioLocation,
+          const rawUser = result.data[0];
+          const user = {
+            avatar: rawUser.avatar,
+            email: rawUser.email,
+            name: rawUser.name,
           };
           if (!res.ok || !result.success) {
             throw new Error(res.status);
           }
           if (res.ok) {
-            setToUpdateStudio(studio);
-            setStudioID(rawStudio._id);
+            setToUpdateUser(user);
+            setUserID(rawUser._id);
             setOpenEditView(true);
           }
         } catch (error) {
           alert('Something went wrong, Contact us if you need help!', error);
-          console.error('Failed to find Studio', error);
+          console.error('Failed to find User', error);
         }
       }
     }
   }
+  console.log('toUpdateUser', toUpdateUser);
   async function handleDelete(table, ID) {
     if (table === 'adminStudioTable') {
       if (ID) {
@@ -175,7 +169,7 @@ export default function UserTable({ fetchedUsers }) {
             <button
               className=''
               onClick={() => {
-                handleEdit('adminStudioTable', row.values);
+                handleEdit('adminUserTable', row.values);
                 console.log('values', row.values);
               }}>
               <TbEdit className='table-icon' />
@@ -315,7 +309,7 @@ export default function UserTable({ fetchedUsers }) {
         </div>
       </div>
       {openEditView ? (
-        <EditUser toUpdateStudio={toUpdateStudio} studioID={studioID} setOpenEditView={setOpenEditView}></EditUser>
+        <EditUser toUpdateUser={toUpdateUser} userID={userID} setOpenEditView={setOpenEditView}></EditUser>
       ) : null}
       {deleteModal ? (
         <>

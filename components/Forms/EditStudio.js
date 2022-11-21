@@ -9,13 +9,12 @@ import { Spinner } from '../Spinner';
 
 function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
   const data = toUpdateStudio;
-  const defaultForm = data;
   const defaultPic = '/images/Thumbnail-default.png';
   const defaultChecked = {
     soundengineer: '',
     studioPricing: [],
   };
-  const [form, setForm] = useState(defaultForm);
+  const [form, setForm] = useState(data);
   const [checked, setChecked] = useState(defaultChecked);
   const [imageChanged, setImageChanged] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
@@ -188,16 +187,13 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
             <div className='sm:px-0'>
               <form noValidate className='text-primary w-full' onSubmit={handleFormSubmit}>
                 <StudioFormfields
-                  defaultForm={defaultForm}
                   defaultChecked={defaultChecked}
                   form={form}
                   setForm={setForm}
                   checked={checked}
                   setChecked={setChecked}
-                  imageChanged={setImageChanged}
                   length={Object.keys(formErrors).length}
                   formErrors={formErrors}
-                  router={router}
                   handleDeleteImage={handleDeleteImage}
                   handleFormSubmit={handleFormSubmit}
                   handleChange={handleChange}

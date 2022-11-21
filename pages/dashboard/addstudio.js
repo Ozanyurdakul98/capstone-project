@@ -9,6 +9,7 @@ import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../../components
 import Link from 'next/link.js';
 import { useRouter } from 'next/router';
 import { StudioFormfields } from '../../components/Forms/StudioFormfields';
+import DashboardLayout from '../../components/Layout/DashboardLayout.js';
 
 function DashboardAddStudio(session) {
   const defaultForm = {
@@ -316,6 +317,10 @@ function DashboardAddStudio(session) {
 }
 
 export default DashboardAddStudio;
+
+DashboardAddStudio.getLayout = function getLayout(page) {
+  return <DashboardLayout>{page}</DashboardLayout>;
+};
 
 export async function getServerSideProps(context) {
   const session = await unstable_getServerSession(context.req, context.res, authOptions);
