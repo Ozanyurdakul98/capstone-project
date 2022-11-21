@@ -7,6 +7,7 @@ import StudioListing from '../../models/StudioListing';
 import format from 'date-fns/format';
 //components
 import ListingCard from '../../components/ListingCardWide';
+import Layout from '../../components/Layout/Layout';
 
 function Search({ listings, query }) {
   const [searchFilter, setSearchFilter] = useState(query);
@@ -75,6 +76,10 @@ function Search({ listings, query }) {
   );
 }
 export default Search;
+
+Search.getLayout = function getLayout(page) {
+  return <Layout>{page}</Layout>;
+};
 
 export async function getServerSideProps(context) {
   const query = context.query;

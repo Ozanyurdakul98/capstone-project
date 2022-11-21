@@ -4,8 +4,9 @@ import db from '../../lib/dbConnect';
 import StudioListing from '../../models/StudioListing';
 //components
 import ListingCards from '../../components/ListingCardWide';
+import Layout from '../../components/Layout/Layout';
 
-function Search({ listings }) {
+function Rentstudio({ listings }) {
   return (
     <div className='mb-20'>
       <h1>Rent Studios</h1>
@@ -40,6 +41,10 @@ function Search({ listings }) {
 }
 
 export default Search;
+
+Rentstudio.getLayout = function getLayout(page) {
+  return <Layout>{page}</Layout>;
+};
 
 export async function getServerSideProps(context) {
   await db.connect();
