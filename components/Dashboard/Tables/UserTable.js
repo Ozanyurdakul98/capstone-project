@@ -184,7 +184,7 @@ export default function UserTable({ fetchedUsers }) {
     ]);
   };
   const tableInstance = useTable(
-    { columns: userColumns, data: userData, disableMultiSort: true, initialState: { pageSize: 10 } },
+    { columns: userColumns, data: userData, disableMultiSort: false, initialState: { pageSize: 10 } },
     useGlobalFilter,
     useFilters,
     tableHooks,

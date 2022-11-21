@@ -54,7 +54,7 @@ export default function Navigation() {
       icon: <FaUsers />,
     },
     {
-      url: '/mylistings',
+      url: '/dashboard/mylistings',
       label: 'My Listings',
       icon: (
         <svg

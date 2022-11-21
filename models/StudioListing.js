@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+mongoose.set('debug', true);
 
 const studioListingSchema = new mongoose.Schema(
   {
@@ -20,6 +21,7 @@ const studioListingSchema = new mongoose.Schema(
     soundengineer: { type: Object, required: true },
     studioPricing: { type: Object, required: true },
     studioLocation: { type: String, required: true },
+    email: { type: String, default: 'false' },
   },
   {
     timestamps: true,

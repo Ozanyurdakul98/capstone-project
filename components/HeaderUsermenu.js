@@ -103,7 +103,7 @@ export function HeaderUsermenu(props) {
                     <Menu.Item>
                       {({ active }) => (
                         <MyLink
-                          href='/dashboard/addstudio'
+                          href='/dashboard/mylistings'
                           title='see your added listings'
                           className={classNames(
                             active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
