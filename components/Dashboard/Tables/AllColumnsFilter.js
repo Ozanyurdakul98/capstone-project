@@ -24,7 +24,7 @@ import { useAsyncDebounce } from 'react-table';
 //   rounded-lg
 // `;
 
-export default function AllColumnsFilter({ preGlobalFilteredRows, globalFilter, setGlobalFilter }) {
+export default function AllColumnsFilter({ preGlobalFilteredRows, globalFilter, setGlobalFilter, tableName }) {
   const count = preGlobalFilteredRows.length;
   const [value, setValue] = useState(globalFilter);
   const onChange = useAsyncDebounce((value) => {
@@ -40,7 +40,7 @@ export default function AllColumnsFilter({ preGlobalFilteredRows, globalFilter, 
           setValue(e.target.value);
           onChange(e.target.value);
         }}
-        placeholder={`${count} studios...`}
+        placeholder={`${count} ${tableName}...`}
       />
     </div>
   );

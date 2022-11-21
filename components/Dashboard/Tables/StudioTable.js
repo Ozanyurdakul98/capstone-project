@@ -32,7 +32,7 @@ export default function StudioTable({ fetchedStudios }) {
       if (values) {
         const id = values._id;
         try {
-          const res = await fetch(`/api/dashboard/admin/${id}`, {
+          const res = await fetch(`/api/dashboard/admin/studio/${id}`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
@@ -72,7 +72,7 @@ export default function StudioTable({ fetchedStudios }) {
       if (ID) {
         setLoading((prev) => !prev);
         try {
-          const res = await fetch(`/api/dashboard/admin/${ID}`, {
+          const res = await fetch(`/api/dashboard/admin/studio/${ID}`, {
             method: 'DELETE',
             headers: {
               'Content-Type': 'application/json',
@@ -238,6 +238,7 @@ export default function StudioTable({ fetchedStudios }) {
               preGlobalFilteredRows={preGlobalFilteredRows}
               setGlobalFilter={setGlobalFilter}
               state={state.globalFilter}
+              tableName={'studios'}
             />
             <ServicesFilter
               preGlobalFilteredRows={preGlobalFilteredRows}

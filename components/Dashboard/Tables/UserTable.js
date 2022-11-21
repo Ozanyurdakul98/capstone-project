@@ -4,7 +4,7 @@ import { useTable, useSortBy, useGlobalFilter, useFilters, usePagination } from 
 import AllColumnsFilter from './AllColumnsFilter';
 import ServicesFilter from './ServicesFilter';
 import StudioTypeFilter from './StudioTypeFilter';
-import EditStudio from '../../Forms/EditStudio';
+import EditUser from '../../Forms/EditStudio';
 import { TbEdit } from 'react-icons/tb';
 import { MdDeleteForever } from 'react-icons/md';
 import { useRouter } from 'next/router';
@@ -125,6 +125,12 @@ export default function UserTable({ fetchedUsers }) {
         collapse: false,
       },
       {
+        Header: 'Name',
+        accessor: 'name',
+        disableSortBy: false,
+        collapse: false,
+      },
+      {
         Header: 'Email',
         accessor: 'email',
         disableSortBy: false,
@@ -154,26 +160,6 @@ export default function UserTable({ fetchedUsers }) {
             disableSortBy: false,
           },
         ],
-      },
-      {
-        Header: 'Location',
-        accessor: 'studioLocation',
-        disableSortBy: true,
-      },
-      {
-        Header: 'Services',
-        accessor: 'services',
-        disableSortBy: true,
-      },
-      {
-        Header: 'Studio Type',
-        accessor: 'studiotype',
-        disableSortBy: false,
-      },
-      {
-        Header: 'Created at',
-        accessor: 'createdAt',
-        disableSortBy: false,
       },
     ],
     []
@@ -244,18 +230,7 @@ export default function UserTable({ fetchedUsers }) {
               preGlobalFilteredRows={preGlobalFilteredRows}
               setGlobalFilter={setGlobalFilter}
               state={state.globalFilter}
-            />
-            <ServicesFilter
-              preGlobalFilteredRows={preGlobalFilteredRows}
-              setGlobalFilter={setGlobalFilter}
-              setFilter={setFilter}
-              state={state}
-            />
-            <StudioTypeFilter
-              preGlobalFilteredRows={preGlobalFilteredRows}
-              setGlobalFilter={setGlobalFilter}
-              setFilter={setFilter}
-              state={state}
+              tableName={'users'}
             />
           </div>
           <table className='table' {...getTableProps()}>
@@ -330,7 +305,7 @@ export default function UserTable({ fetchedUsers }) {
               onChange={(e) => {
                 setPageSize(Number(e.target.value));
               }}>
-              {[5, 20, 30, 40, 50].map((pageSize) => (
+              {[10, 20, 30, 40, 50].map((pageSize) => (
                 <option key={pageSize} value={pageSize}>
                   Show {pageSize}
                 </option>
@@ -340,7 +315,7 @@ export default function UserTable({ fetchedUsers }) {
         </div>
       </div>
       {openEditView ? (
-        <EditStudio toUpdateStudio={toUpdateStudio} studioID={studioID} setOpenEditView={setOpenEditView}></EditStudio>
+        <EditUser toUpdateStudio={toUpdateStudio} studioID={studioID} setOpenEditView={setOpenEditView}></EditUser>
       ) : null}
       {deleteModal ? (
         <>
