@@ -10,7 +10,7 @@ import { MdDeleteForever } from 'react-icons/md';
 import { useRouter } from 'next/router';
 import { DeleteModal } from '../../Modals/DeleteModal';
 
-export default function StudioTable({ fetchedStudios }) {
+export default function MyStudiosTable({ fetchedStudios }) {
   const [toUpdateStudio, setToUpdateStudio] = useState();
   const [studioID, setStudioID] = useState('');
   const [openEditView, setOpenEditView] = useState(false);
@@ -103,8 +103,8 @@ export default function StudioTable({ fetchedStudios }) {
   }
   useEffect(() => {
     if (fetchedStudios) {
-      console.log(fetchedStudios);
       setStudios(fetchedStudios);
+      console.log(fetchedStudios);
     }
   }, []);
   const studioColumns = useMemo(

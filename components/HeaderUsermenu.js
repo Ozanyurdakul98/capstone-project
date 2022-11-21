@@ -50,11 +50,13 @@ export function HeaderUsermenu(props) {
                         alt='avatar'
                       />
                     </div>
-                    <div className=' col-span-2 flex flex-col items-start justify-center pl-1'>
+                    <div className=' col-span-2 flex w-full flex-col items-start justify-center pl-1'>
                       <p className='block text-sm'>
                         Welcome <strong>{name}</strong>
                       </p>
-                      <p className='block text-xs sm:text-sm'>{email}</p>
+                      <div className='w-full'>
+                        <p className='block truncate text-xs sm:text-sm'>{email}</p>
+                      </div>
                     </div>
                   </div>
                   <div>
@@ -103,13 +105,13 @@ export function HeaderUsermenu(props) {
                     <Menu.Item>
                       {({ active }) => (
                         <MyLink
-                          href='/dashboard/mylistings'
+                          href='/dashboard/mystudios'
                           title='see your added listings'
                           className={classNames(
                             active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                             'block px-4 py-3 text-sm'
                           )}>
-                          My Listings
+                          My Studios
                         </MyLink>
                       )}
                     </Menu.Item>

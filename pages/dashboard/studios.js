@@ -16,7 +16,7 @@ export async function getServerSideProps(context) {
   await db.connect();
   const fetchingStudios = await StudioListing.find();
   const fetchedStudios = JSON.parse(JSON.stringify(fetchingStudios));
-
+  console.log(fetchedStudios);
   return {
     props: {
       fetchedStudios: fetchedStudios || null,
