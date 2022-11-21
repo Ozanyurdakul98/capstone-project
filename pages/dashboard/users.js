@@ -24,7 +24,7 @@ export async function getServerSideProps(context) {
     updatedAtDate: format(new Date(user.updatedAt), ' dd/MM/yyyy'),
     updatedAtTime: format(new Date(user.updatedAt), ' kk:mm:ss'),
   }));
-  console.log('test', serializedAndUpdatedUsers);
+
   return {
     props: {
       fetchedUsers: serializedAndUpdatedUsers || null,

@@ -23,6 +23,23 @@ export function ValidateSignUp(form) {
   return errors;
 }
 
+export function ValidateEditUser(form) {
+  const errors = {};
+  const patternEmail = /^([^\s@]+@[^\s@]+\.[^\s@]+$)$/i;
+  const nameRegex = /^([a-zA-Z-])([a-zA-Z-äöü_\s]){0,25}$/i;
+
+  if (!nameRegex.test(form.name)) {
+    errors.name = 'Your name is not valid!';
+  }
+  if (!form.email) {
+    errors.email = 'Email adress is required!';
+  } else if (!patternEmail.test(form.email)) {
+    errors.email = 'Email format is invalid!';
+  }
+
+  return errors;
+}
+
 export function ValidateCreateListing(form) {
   const errors = {};
   const regex = /^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){9,60}$/i;

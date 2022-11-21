@@ -207,10 +207,7 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
                         <div className='flex flex-col gap-7 overflow-y-scroll pb-20'>
                           <h2 className='h2 ml-5'>The operation has failed!</h2>
                           <div className='flex w-full flex-col gap-5 px-5 text-center '>
-                            <p>
-                              Your Studio listing could not submitted! Feel free to contact us with a screenshot of the
-                              error message, or try again and see if the problem is resolved.
-                            </p>
+                            <p>The Studio could not be changed, Submission failed!</p>
                             <p>This is the Error message: </p>
                             <p className='text-red-500'>{Object.entries(formErrors)}</p>
                           </div>

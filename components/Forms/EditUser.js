@@ -1,18 +1,17 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { ValidateCreateListing } from '../../helpers/Validate.js';
 import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../BackgroundOverlay';
 import Link from 'next/link.js';
 import { useRouter } from 'next/router';
 import { UserFormfields } from './UserFormfields';
 import { Spinner } from '../Spinner';
+import { ValidateEditUser } from '../../helpers/Validate';
 
-function EditStudio({ toUpdateUser, setOpenEditView, studioID }) {
+function EditUser({ toUpdateUser, setOpenEditView, userID }) {
   const data = toUpdateUser;
   const defaultPic = '/images/Thumbnail-default.png';
   const [form, setForm] = useState(data);
-  console.log('form', data);
-  const [checked, setChecked] = useState();
+  const [checked, setChecked] = useState('');
   const [avatarChanged, setAvatarChanged] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -25,30 +24,26 @@ function EditStudio({ toUpdateUser, setOpenEditView, studioID }) {
   };
   const handleDeleteImage = () => {
     setAvatarChanged(true);
-    setForm({ ...form, images: defaultPic });
-    setChecked({ ...checked, imagesPreview: defaultPic });
-    setChecked((prev) => ({ ...prev, images: defaultPic }));
+    setForm({ ...form, avatar: defaultPic });
   };
   const handleClickToCloseErrorModal = () => {};
 
   const handleFormSubmit = async (event) => {
     const passForm = form;
     event.preventDefault();
-    setFormErrors(ValidateCreateListing(passForm));
+    setFormErrors(ValidateEditUser(passForm));
     setIsSubmit(true);
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       setLoading(true);
       try {
-        const resImage = await handleUploadInput(form.images);
-        console.log('resuimage', resImage);
-        const res = await fetch(`/api/dashboard/admin/studio/${studioID}`, {
+        const resAvatar = await handleUploadInput(form.avatar);
+        const res = await fetch(`/api/dashboard/admin/user/${userID}`, {
           method: 'PATCH',
-          body: JSON.stringify({ ...form, images: resImage }),
+          body: JSON.stringify({ ...form, avatar: resAvatar }),
           headers: {
             'Content-Type': 'application/json',
           },
         });
-        console.log('changed form', form);
         const result = await res.json();
 
         if (!res.ok) {
@@ -56,7 +51,6 @@ function EditStudio({ toUpdateUser, setOpenEditView, studioID }) {
           throw new Error('error', res.status);
         }
         if (res.ok) {
-          console.log('ok', result);
           setLoading(false);
           setOpenEditView(false);
           router.reload();
@@ -82,16 +76,16 @@ function EditStudio({ toUpdateUser, setOpenEditView, studioID }) {
     return () => {
       if (name === 'avatar') {
         setAvatarChanged(true);
-        let wertImage = target.files[0];
-        const avatar = URL.createObjectURL(wertImage);
-        setChecked({ ...checked, imagesPreview: URL.createObjectURL(wertImage), images: wertImage });
-        return URL.createObjectURL(wertImage);
+        const wertImage = target.files[0];
+        const avatarName = wertImage.name;
+        setChecked({ ...checked, avatarPreview: URL.createObjectURL(wertImage), avatarName: avatarName });
+        return wertImage;
       } else {
         return wert;
       }
     };
   }
-  console.log('formrender', form, 'checkrender', checked);
+
   const handleCheck = (event) => {
     const target = event.target;
     const name = target.name;
@@ -117,21 +111,20 @@ function EditStudio({ toUpdateUser, setOpenEditView, studioID }) {
     setChecked({ ...checked, [name]: isChecked() });
   };
 
-  const handleUploadInput = async (wertImage) => {
-    console.log('handleinput');
+  const handleUploadInput = async (avatar) => {
+    console.log('form.avatar', form.avatar);
     if (!avatarChanged) {
-      console.log('notchanged');
+      console.log('avatarChanged', avatarChanged);
       return;
     }
-    console.log('compare', wertImage, defaultPic, wertImage === defaultPic);
-    if (wertImage === defaultPic) {
-      console.log('returnDefaukt', defaultPic);
+    if (avatar === defaultPic) {
+      console.log('check default pic', avatar === defaultPic);
       return defaultPic;
     }
     const formData = new FormData();
     const preset = 'cy1wyxej';
     const url = 'https://api.cloudinary.com/v1_1/drt9lfnfg/image/upload';
-    formData.append('file', wertImage);
+    formData.append('file', avatar);
     formData.append('upload_preset', preset);
     const res = await fetch(url, {
       method: 'POST',
@@ -170,10 +163,7 @@ function EditStudio({ toUpdateUser, setOpenEditView, studioID }) {
                         <div className='flex flex-col gap-7 overflow-y-scroll pb-20'>
                           <h2 className='h2 ml-5'>The operation has failed!</h2>
                           <div className='flex w-full flex-col gap-5 px-5 text-center '>
-                            <p>
-                              Your Studio listing could not submitted! Feel free to contact us with a screenshot of the
-                              error message, or try again and see if the problem is resolved.
-                            </p>
+                            <p>User could not be updated, Submission failed!</p>
                             <p>This is the Error message: </p>
                             <p className='text-red-500'>{Object.entries(formErrors)}</p>
                           </div>
@@ -221,7 +211,7 @@ function EditStudio({ toUpdateUser, setOpenEditView, studioID }) {
               onClick={(event) => handleFormSubmit(event)}
               disabled={loading ? true : false}
               className='form-button bg-primary max-w-[250px] flex-grow justify-center border-none text-white'>
-              {Object.keys(formErrors).length === 0 && isSubmit ? 'Update Studio' : 'Check'}
+              {Object.keys(formErrors).length === 0 && isSubmit ? 'Update User' : 'Check'}
             </button>
           </div>
         </div>
@@ -234,4 +224,4 @@ function EditStudio({ toUpdateUser, setOpenEditView, studioID }) {
   );
 }
 
-export default EditStudio;
+export default EditUser;

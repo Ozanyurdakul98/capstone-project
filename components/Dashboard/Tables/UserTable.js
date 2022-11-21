@@ -59,7 +59,6 @@ export default function UserTable({ fetchedUsers }) {
       }
     }
   }
-  console.log('toUpdateUser', toUpdateUser);
   async function handleDelete(table, ID) {
     if (table === 'adminStudioTable') {
       if (ID) {
@@ -98,7 +97,6 @@ export default function UserTable({ fetchedUsers }) {
     if (fetchedUsers) {
       setUsers(fetchedUsers);
     }
-    console.log(fetchedUsers);
   }, [fetchedUsers]);
   const userColumns = useMemo(
     () => [
@@ -170,7 +168,6 @@ export default function UserTable({ fetchedUsers }) {
               className=''
               onClick={() => {
                 handleEdit('adminUserTable', row.values);
-                console.log('values', row.values);
               }}>
               <TbEdit className='table-icon' />
             </button>
@@ -178,7 +175,6 @@ export default function UserTable({ fetchedUsers }) {
               className=''
               onClick={() => {
                 openDeleteModal(row.values);
-                console.log('values', row.values);
               }}>
               <MdDeleteForever className='table-icon' />
             </button>

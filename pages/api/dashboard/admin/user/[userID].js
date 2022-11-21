@@ -15,9 +15,9 @@ export default async function handler(req, res) {
   } else if (req.method === 'PATCH') {
     await db.connect();
     try {
-      const { studioID } = req.query;
-      const listing = await StudioListing.findByIdAndUpdate(studioID, req.body);
-      return res.status(201).json({ success: true, data: listing });
+      const { userID } = req.query;
+      const user = await User.findByIdAndUpdate(userID, req.body);
+      return res.status(201).json({ success: true, data: user });
     } catch (error) {
       return res.status(400).json({ success: false, message: 'Unauthorized', error });
     }

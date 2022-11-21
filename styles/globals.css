@@ -86,9 +86,16 @@
   /* TextInputs */
 
   .input-editUser {
-    @apply w-full appearance-none rounded-full border-gray-500  bg-[#edf0f5] py-3 px-5 leading-tight  text-gray-700 focus:border-gray-500/30 focus:bg-white focus:outline-none sm:w-2/3 lg:w-1/2;
+    @apply w-full appearance-none rounded-full border-gray-500  bg-[#edf0f5] py-3 px-5 leading-tight  text-gray-700 focus:border-gray-500/30 focus:bg-white focus:outline-none   lg:w-1/2;
+  }
+  .input-editUserName {
+    @apply w-full appearance-none rounded-full border-gray-500  bg-[#edf0f5] py-3 px-5 leading-tight  text-gray-700 focus:border-gray-500/30 focus:bg-white focus:outline-none    lg:w-2/3;
   }
 
+  /* Fieldsets */
+  .fset-editUser {
+    @apply my-8 w-full leading-tight;
+  }
   .searchBarModal {
     @apply fixed top-0 left-0 z-30 h-screen w-screen cursor-default;
   }

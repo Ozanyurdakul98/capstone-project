@@ -184,7 +184,6 @@ export default function StudioTable({ fetchedStudios }) {
               className=''
               onClick={() => {
                 handleEdit('adminStudioTable', row.values);
-                console.log('values', row.values);
               }}>
               <TbEdit className='table-icon' />
             </button>
@@ -192,7 +191,6 @@ export default function StudioTable({ fetchedStudios }) {
               className=''
               onClick={() => {
                 openDeleteModal(row.values);
-                console.log('values', row.values);
               }}>
               <MdDeleteForever className='table-icon' />
             </button>
