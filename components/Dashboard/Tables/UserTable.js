@@ -125,26 +125,32 @@ export default function UserTable({ fetchedUsers }) {
         collapse: false,
       },
       {
-        Header: 'Pricing',
+        Header: 'Email',
+        accessor: 'email',
+        disableSortBy: false,
+        collapse: false,
+      },
+      {
+        Header: 'Created / Updated',
         columns: [
           {
-            Header: 'Hourly',
-            accessor: 'studioPricing.studioPricingHour',
+            Header: 'Date',
+            accessor: 'createdAtDate',
             disableSortBy: false,
           },
           {
-            Header: 'Daily',
-            accessor: 'studioPricing.studioPricingDay',
+            Header: 'Time',
+            accessor: 'createdAtTime',
             disableSortBy: false,
           },
           {
-            Header: 'Weekly',
-            accessor: 'studioPricing.studioPricingWeek',
+            Header: 'Date',
+            accessor: 'updatedAtDate',
             disableSortBy: false,
           },
           {
-            Header: 'Monthly',
-            accessor: 'studioPricing.studioPricingMonth',
+            Header: 'Time',
+            accessor: 'updatedAtTime',
             disableSortBy: false,
           },
         ],
