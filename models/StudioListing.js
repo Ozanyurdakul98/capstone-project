@@ -21,7 +21,7 @@ const studioListingSchema = new mongoose.Schema(
     soundengineer: { type: Object, required: true },
     studioPricing: { type: Object, required: true },
     studioLocation: { type: String, required: true },
-    email: { type: String, default: 'false' },
+    userEmail: { type: String, required: true },
   },
   {
     timestamps: true,

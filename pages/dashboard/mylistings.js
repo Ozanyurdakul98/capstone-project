@@ -16,13 +16,11 @@ DashboardMyListings.getLayout = function getLayout(page) {
 
 export async function getServerSideProps(context) {
   await db.connect();
-
   const session = await unstable_getServerSession(context.req, context.res, authOptions);
-  console.log('SESSION', typeof session.user.email);
   const email = session.user.email;
-  const fetchingStudios = await StudioListing.find({ email: 'hayvanadi99@gmail.com' });
+  const fetchingStudios = await StudioListing.findOne({ userEmail: email });
   const fetchedStudios = JSON.parse(JSON.stringify(fetchingStudios));
-  console.log(fetchingStudios);
+
   return {
     props: {
       fetchedStudios: fetchedStudios || null,

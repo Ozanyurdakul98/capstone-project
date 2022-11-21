@@ -17,7 +17,9 @@ export default async function handler(req, res) {
     if (session) {
       await db.connect();
       try {
+        console.log('body', req.body);
         const listing = await StudioListing.create(req.body); /* create a new model in the database */
+        console.log('listing', listing);
         return res.status(201).json({ success: true, data: listing });
       } catch (error) {
         return res.status(400).json({ success: false, message: 'Unauthorized' });

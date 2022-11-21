@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { unstable_getServerSession } from 'next-auth/next';
 import { authOptions } from '../api/auth/[...nextauth].js';
@@ -21,6 +21,7 @@ function DashboardAddStudio(session) {
     locationFeatures: [],
     soundengineer: 'On Request',
     studioPricing: {},
+    userEmail: '',
     studioLocation: '',
   };
   const defaultChecked = {
@@ -35,6 +36,13 @@ function DashboardAddStudio(session) {
   const [formErrors, setFormErrors] = useState({});
   const [preview, setPreview] = useState(false);
   const router = useRouter();
+  useEffect(() => {
+    const userEmail = session.user.email;
+    setForm({ ...form, userEmail: userEmail });
+    if (!userEmail) {
+      alert('no user session registered!');
+    }
+  }, []);
 
   const handlePreview = (event) => {
     const passForm = form;
@@ -44,7 +52,6 @@ function DashboardAddStudio(session) {
       setPreview(true);
     }
   };
-
   const handleFormSubmit = async (event) => {
     const passForm = form;
     event.preventDefault();
@@ -52,6 +59,9 @@ function DashboardAddStudio(session) {
     setIsSubmit(true);
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       try {
+        console.log('email', session.user.email);
+        console.log('form', form);
+
         const res = await fetch('/api/form', {
           method: 'POST',
           body: JSON.stringify(form),
@@ -60,6 +70,7 @@ function DashboardAddStudio(session) {
           },
         });
         const result = await res.json();
+        console.log('result', result);
         if (!res.ok) {
           throw new Error(res.status);
         }
