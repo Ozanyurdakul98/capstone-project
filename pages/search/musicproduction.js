@@ -40,7 +40,7 @@ function Musicproduction({ listings }) {
   );
 }
 
-export default Search;
+export default Musicproduction;
 
 Musicproduction.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;

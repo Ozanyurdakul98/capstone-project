@@ -40,7 +40,7 @@ function All({ listings }) {
   );
 }
 
-export default Search;
+export default All;
 
 All.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;

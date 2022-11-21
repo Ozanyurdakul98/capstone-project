@@ -90,7 +90,7 @@
   }
 
   .searchBarModal {
-    @apply absolute top-0 left-0 z-30 h-screen w-screen cursor-default;
+    @apply fixed top-0 left-0 z-30 h-screen w-screen cursor-default;
   }
   input,
   select,

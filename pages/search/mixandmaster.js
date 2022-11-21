@@ -40,7 +40,7 @@ function MixAndMaster({ listings }) {
   );
 }
 
-export default Search;
+export default MixAndMaster;
 
 MixAndMaster.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;

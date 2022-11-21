@@ -40,7 +40,7 @@ function Rentstudio({ listings }) {
   );
 }
 
-export default Search;
+export default Rentstudio;
 
 Rentstudio.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;

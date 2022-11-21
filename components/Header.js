@@ -24,7 +24,7 @@ function Header() {
         <div className='mt-2 flex flex-auto'>
           {/* Logo */}
           <Link href='/'>
-            <div className='relative hidden cursor-pointer sm:inline  sm:w-12'>
+            <div title='Go to Home' className='relative hidden cursor-pointer sm:inline  sm:w-12'>
               <Logo width={'45px'} height={'45px'} />
             </div>
           </Link>
@@ -36,11 +36,11 @@ function Header() {
         <div className='flex flex-1 items-center justify-end'>
           <div className='mx-2 hidden items-center space-x-2 text-gray-500 lg:inline-flex xl:mx-6'>
             <Link href='/search/all'>
-              <GlobeAsiaAustraliaIcon className='icon' />
+              <GlobeAsiaAustraliaIcon title='show all studios' className='icon' />
             </Link>
             <hr className='h-10 border border-gray-100' />
             <MyLink href='/dashboard/addstudio' className=''>
-              <PlusIcon className='icon' />
+              <PlusIcon title='add a studio' className='icon' />
             </MyLink>
           </div>
           <HeaderUsermenu session={session} />

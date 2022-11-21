@@ -40,7 +40,7 @@ function Recording({ listings }) {
   );
 }
 
-export default Search;
+export default Recording;
 
 Recording.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;

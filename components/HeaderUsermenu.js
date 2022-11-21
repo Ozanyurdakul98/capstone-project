@@ -75,7 +75,36 @@ export function HeaderUsermenu(props) {
                     <Menu.Item>
                       {({ active }) => (
                         <MyLink
+                          href='/dashboard/studios'
+                          title='studios table'
+                          className={classNames(
+                            active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                            'block px-4 py-3 text-sm'
+                          )}>
+                          Studios
+                        </MyLink>
+                      )}
+                    </Menu.Item>
+                    <Menu.Item>
+                      {({ active }) => (
+                        <MyLink
+                          href='/dashboard/users'
+                          title='users table'
+                          className={classNames(
+                            active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                            'block px-4 py-3 text-sm'
+                          )}>
+                          Users
+                        </MyLink>
+                      )}
+                    </Menu.Item>
+                  </div>
+                  <div>
+                    <Menu.Item>
+                      {({ active }) => (
+                        <MyLink
                           href='/dashboard/addstudio'
+                          title='see your added listings'
                           className={classNames(
                             active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                             'block px-4 py-3 text-sm'
@@ -88,6 +117,7 @@ export function HeaderUsermenu(props) {
                       {({ active }) => (
                         <MyLink
                           href='/dashboard/addstudio'
+                          title='add a studio'
                           className={classNames(
                             active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                             'block px-4 py-3 text-sm'
