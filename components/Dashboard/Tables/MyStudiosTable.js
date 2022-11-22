@@ -156,29 +156,31 @@ export default function MyStudiosTable({ fetchedStudios }) {
         columns: [
           {
             Header: 'Hourly',
-            accessor: 'studioPricing.studioPricingHour',
+            accessor: (row) => (row.studioPricing.studioPricingHour ? row.studioPricing.studioPricingHour + ' €' : ''),
             disableSortBy: false,
           },
           {
             Header: 'Daily',
-            accessor: 'studioPricing.studioPricingDay',
+            accessor: (row) => (row.studioPricing.studioPricingDay ? row.studioPricing.studioPricingDay + ' €' : ''),
             disableSortBy: false,
           },
           {
             Header: 'Weekly',
-            accessor: 'studioPricing.studioPricingWeek',
+            accessor: (row) => (row.studioPricing.studioPricingWeek ? row.studioPricing.studioPricingWeek + ' €' : ''),
             disableSortBy: false,
           },
           {
             Header: 'Monthly',
-            accessor: 'studioPricing.studioPricingMonth',
+            accessor: (row) =>
+              row.studioPricing.studioPricingMonth ? row.studioPricing.studioPricingMonth + ' €' : '',
             disableSortBy: false,
           },
         ],
       },
       {
         Header: 'Soundengineer',
-        accessor: 'soundengineer',
+        accessor: (row) =>
+          row.soundengineer.soundengineerPrice ? row.soundengineer.soundengineerPrice + ' €' : row.soundengineer,
         disableSortBy: false,
       },
       {
@@ -224,33 +226,56 @@ export default function MyStudiosTable({ fetchedStudios }) {
       },
       {
         Header: 'Location',
-        accessor: 'studioLocation',
-        disableSortBy: true,
         collapse: true,
+        columns: [
+          {
+            Header: 'Location',
+            accessor: 'studioLocation',
+            disableSortBy: true,
+            collapse: true,
+          },
+        ],
       },
       {
         Header: 'Services',
-        accessor: 'services',
         collapse: true,
-        disableSortBy: true,
+        columns: [{ Header: 'Services', accessor: 'services', collapse: true, disableSortBy: true }],
       },
       {
         Header: 'ID',
-        accessor: '_id',
-        disableSortBy: true,
         collapse: true,
+        columns: [
+          {
+            Header: 'ID',
+            accessor: '_id',
+            disableSortBy: true,
+            collapse: true,
+          },
+        ],
       },
       {
         Header: 'max guests',
-        accessor: 'maxGuests',
-        disableSortBy: true,
         collapse: true,
+        columns: [
+          {
+            Header: 'max guests',
+            accessor: 'maxGuests',
+            disableSortBy: true,
+            collapse: true,
+          },
+        ],
       },
       {
         Header: 'Publisher Email',
-        accessor: 'userEmail',
-        disableSortBy: true,
         collapse: true,
+        columns: [
+          {
+            Header: 'Publisher Email',
+            accessor: 'userEmail',
+            disableSortBy: true,
+            collapse: true,
+          },
+        ],
       },
     ],
     []
@@ -291,7 +316,7 @@ export default function MyStudiosTable({ fetchedStudios }) {
     ]);
   };
   const tableInstance = useTable(
-    { columns: studioColumns, data: studioData, disableMultiSort: true, initialState: { pageSize: 3 } },
+    { columns: studioColumns, data: studioData, disableMultiSort: true, initialState: { pageSize: 10 } },
     useGlobalFilter,
     useFilters,
     tableHooks,
@@ -350,7 +375,9 @@ export default function MyStudiosTable({ fetchedStudios }) {
                     <th
                       key={idx}
                       {...column.getHeaderProps(column.getSortByToggleProps())}
-                      {...column.getHeaderProps({ className: column.collapse ? 'collapse th' : 'th' })}>
+                      {...column.getHeaderProps({
+                        className: column.collapse ? 'collapse  bg-black th' : 'th',
+                      })}>
                       {column.render('Header')}
                       {column.canSort ? (column.isSorted ? (column.isSortedDesc ? '↑' : '↓') : ' ↓↑') : null}
                     </th>
@@ -358,7 +385,7 @@ export default function MyStudiosTable({ fetchedStudios }) {
                 </tr>
               ))}
             </thead>
-            <tbody className='tbody' {...getTableBodyProps()}>
+            <tbody className='tbody ' {...getTableBodyProps()}>
               {page.map((row, idx) => {
                 prepareRow(row);
                 return (

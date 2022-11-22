@@ -188,9 +188,11 @@
     @apply w-full border-spacing-0 [&_tr:last-child]:border-b-0;
   }
   .th {
-    @apply border-secondary m-0 border-b border-r p-2 [&:last-child]:border-r-0;
+    @apply border-secondary m-0   border-b  border-r p-2 [&:last-child]:border-r-0;
   }
-
+  .collapse {
+    @apply w-[0.0000000001%];
+  }
   .thead {
     @apply bg-slate-100/10;
   }
@@ -198,7 +200,7 @@
     @apply bg-primary [&_td:last-child]:bg-secondary  text-white;
   }
   .td {
-    @apply border border-white py-1 px-3 text-center xl:break-all;
+    @apply py-1 px-3 text-center xl:break-all;
   }
   .evenRow {
     @apply bg-blue-200/20;
