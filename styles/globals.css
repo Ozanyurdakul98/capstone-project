@@ -180,7 +180,7 @@
   }
   /* Tables */
   .filter-table {
-    @apply mb-2 flex min-w-fit gap-4 rounded-lg bg-gray-100 py-2 px-5 [&_div]:flex [&_div]:items-center [&_div]:gap-2;
+    @apply mb-2 flex min-w-fit gap-4 rounded-lg bg-white py-2 px-5 [&_div]:flex [&_div]:items-center [&_div]:gap-2;
   }
 
   .input-table {

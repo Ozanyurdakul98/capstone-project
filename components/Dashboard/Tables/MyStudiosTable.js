@@ -1,9 +1,9 @@
 import Image from 'next/image';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTable, useSortBy, useGlobalFilter, useFilters, usePagination } from 'react-table';
-import AllColumnsFilter from './AllColumnsFilter';
-import ServicesFilter from './ServicesFilter';
-import StudioTypeFilter from './StudioTypeFilter';
+import AllColumnsFilter from '../TableComponents/AllColumnsFilter';
+import ServicesFilter from '../TableComponents/ServicesFilter';
+import StudioTypeFilter from '../TableComponents/StudioTypeFilter';
 import EditStudio from '../../Forms/EditStudio';
 import { TbEdit } from 'react-icons/tb';
 import { MdDeleteForever, MdInfo } from 'react-icons/md';
