@@ -12,14 +12,20 @@ import startOfDay from 'date-fns/startOfDay';
 import moment from 'moment';
 import { RiContrastDropLine } from 'react-icons/ri';
 import { startTransition } from 'react';
-export default function Dashboard({ latestListings, totalUsers, totalListings, listingsCreatedToday }) {
+export default function Dashboard({
+  latestListings,
+  totalUsers,
+  totalListings,
+  studiosCreatedToday,
+  usersCreatedToday,
+}) {
   return (
     <>
       <WelcomeRow />
       <div className='gap-10 md:flex'>
         <div className='grow md:w-8/12'>
           <DashboardAdminStatsTotal totalUsers={totalUsers} totalListings={totalListings}></DashboardAdminStatsTotal>
-          <DashboardAdminBoxes listingsCreatedToday={listingsCreatedToday} />
+          <DashboardAdminBoxes studiosCreatedToday={studiosCreatedToday} usersCreatedToday={usersCreatedToday} />
           {/*   <SalesStats /> */}
         </div>
         <div className='grow md:w-4/12'>{/* <TopSellingProducts /> */}</div>
@@ -38,13 +44,20 @@ export async function getServerSideProps(context) {
   const endToday = new Date(new Date().setUTCHours(23, 59, 59, 999));
   // const latestAddedListings = await StudioListing.find().sort({ $natural: -1 }).limit(10);
   // const serializedLatestAddedListings = JSON.parse(JSON.stringify(latestAddedListings));
-  const listingsCreatedToday = await StudioListing.find({
+  const studiosCreatedToday = await StudioListing.find({
     createdAt: {
       $gte: startToday,
       $lte: endToday,
     },
   }).count();
-  const serializedListingsCreatedToday = JSON.parse(JSON.stringify(listingsCreatedToday));
+  const serializedStudiosCreatedToday = JSON.parse(JSON.stringify(studiosCreatedToday));
+  const UsersCreatedToday = await User.find({
+    createdAt: {
+      $gte: startToday,
+      $lte: endToday,
+    },
+  }).count();
+  const serializedUsersCreatedToday = JSON.parse(JSON.stringify(UsersCreatedToday));
   const totalListingsCount = await StudioListing.find().count();
   const totalUsersCount = await User.find().count();
 
@@ -53,7 +66,8 @@ export async function getServerSideProps(context) {
       // latestListings: serializedLatestAddedListings || null,
       totalListings: totalListingsCount || null,
       totalUsers: totalUsersCount || null,
-      listingsCreatedToday: serializedListingsCreatedToday || null,
+      studiosCreatedToday: serializedStudiosCreatedToday || null,
+      usersCreatedToday: serializedUsersCreatedToday || null,
     },
   };
 }
