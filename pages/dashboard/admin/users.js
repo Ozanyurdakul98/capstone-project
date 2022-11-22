@@ -4,6 +4,7 @@ import db from '../../../lib/dbConnect';
 import User from '../../../models/UserModel';
 import format from 'date-fns/format';
 import DashboardLayout from '../../../components/Layout/DashboardLayout';
+import moment from 'moment';
 
 export default function DashboardUsers({ fetchedUsers }) {
   return (
@@ -24,10 +25,10 @@ export async function getServerSideProps(context) {
   const serializing = JSON.parse(JSON.stringify(fetchedUser));
   const serializedAndUpdatedUsers = serializing.map((user) => ({
     ...user,
-    createdAtDate: format(new Date(user.createdAt), ' dd/MM/yyyy'),
-    createdAtTime: format(new Date(user.createdAt), ' kk:mm:ss'),
-    updatedAtDate: format(new Date(user.updatedAt), ' dd/MM/yyyy'),
-    updatedAtTime: format(new Date(user.updatedAt), ' kk:mm:ss'),
+    createdAtDate: moment.utc(user.createdAt).format('DD/MM/yyyy'),
+    createdAtTime: moment.utc(user.createdAt).format('kk:mm'),
+    updatedAtDate: moment.utc(user.updatedAt).format('DD/MM/yyyy'),
+    updatedAtTime: moment.utc(user.updatedAt).format('kk:mm'),
   }));
 
   return {

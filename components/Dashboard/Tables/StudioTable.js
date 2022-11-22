@@ -164,9 +164,39 @@ export default function StudioTable({ fetchedStudios }) {
         disableSortBy: false,
       },
       {
-        Header: 'Created at',
-        accessor: 'createdAt',
-        disableSortBy: false,
+        Header: 'Created',
+        columns: [
+          {
+            Header: 'Date',
+            accessor: 'createdAtDate',
+            collapse: true,
+            disableSortBy: false,
+          },
+          {
+            Header: 'Time',
+            accessor: 'createdAtTime',
+            collapse: true,
+            disableSortBy: false,
+          },
+        ],
+      },
+
+      {
+        Header: 'Updated',
+        columns: [
+          {
+            Header: 'Date',
+            accessor: 'updatedAtDate',
+            collapse: true,
+            disableSortBy: false,
+          },
+          {
+            Header: 'Time',
+            accessor: 'updatedAtTime',
+            collapse: true,
+            disableSortBy: false,
+          },
+        ],
       },
     ],
     []

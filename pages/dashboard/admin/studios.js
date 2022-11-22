@@ -3,7 +3,7 @@ import StudioTable from '../../../components/Dashboard/Tables/StudioTable';
 import DashboardLayout from '../../../components/Layout/DashboardLayout';
 import db from '../../../lib/dbConnect';
 import StudioListing from '../../../models/StudioListing';
-
+import moment from 'moment';
 export default function DashboardStudios({ fetchedStudios }) {
   return (
     <>
@@ -20,10 +20,17 @@ DashboardStudios.getLayout = function getLayout(page) {
 export async function getServerSideProps(context) {
   await db.connect();
   const fetchingStudios = await StudioListing.find();
-  const fetchedStudios = JSON.parse(JSON.stringify(fetchingStudios));
+  const serializing = JSON.parse(JSON.stringify(fetchingStudios));
+  const serializedAndUpdatedStudios = serializing.map((studio) => ({
+    ...studio,
+    createdAtDate: moment.utc(studio.createdAt).format('DD/MM/yyyy'),
+    createdAtTime: moment.utc(studio.createdAt).format('kk:mm'),
+    updatedAtDate: moment.utc(studio.updatedAt).format('DD/MM/yyyy'),
+    updatedAtTime: moment.utc(studio.updatedAt).format('kk:mm'),
+  }));
   return {
     props: {
-      fetchedStudios: fetchedStudios || null,
+      fetchedStudios: serializedAndUpdatedStudios || null,
     },
   };
 }

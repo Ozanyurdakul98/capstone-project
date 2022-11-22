@@ -5,7 +5,7 @@ import StudioListing from '../../models/StudioListing';
 import { unstable_getServerSession } from 'next-auth/next';
 import { authOptions } from '../api/auth/[...nextauth].js';
 import MyStudiosTable from '../../components/Dashboard/Tables/MyStudiosTable';
-import format from 'date-fns/format';
+import moment from 'moment';
 
 export default function DashboardMyStudiosTable({ fetchedStudios }) {
   return (
@@ -37,10 +37,10 @@ export async function getServerSideProps(context) {
 
   const serializedAndUpdatedStudios = serializing.map((studio) => ({
     ...studio,
-    createdAtDate: format(new Date(studio.createdAt), 'dd/MM/yyyy'),
-    createdAtTime: format(new Date(studio.createdAt), 'kk:mm'),
-    updatedAtDate: format(new Date(studio.updatedAt), 'dd/MM/yyyy'),
-    updatedAtTime: format(new Date(studio.updatedAt), 'kk:mm'),
+    createdAtDate: moment.utc(studio.createdAt).format('DD/MM/yyyy'),
+    createdAtTime: moment.utc(studio.createdAt).format('kk:mm'),
+    updatedAtDate: moment.utc(studio.updatedAt).format('DD/MM/yyyy'),
+    updatedAtTime: moment.utc(studio.updatedAt).format('kk:mm'),
   }));
 
   return {
