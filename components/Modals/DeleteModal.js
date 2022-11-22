@@ -11,7 +11,7 @@ export function DeleteModal(props) {
   const handleClickToCloseDeleteModal = () => {
     props.setDeleteModal(false);
   };
-  console.log('props', props);
+
   return (
     <>
       <div className='searchFadein fixed inset-x-0 inset-y-0 top-0 left-0 right-0 z-50 my-auto mx-auto h-48 max-w-md rounded-2xl  bg-white shadow-xxl lg:h-56  '>

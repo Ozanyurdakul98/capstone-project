@@ -41,7 +41,6 @@ export default function SignUpComponent({ csrfToken }) {
       });
       let user = await res.json();
       if (user.message) {
-        console.log(user);
         setForm({ ...form, message: user.message });
         setLoading(false);
         setIsSubmit(false);
@@ -50,12 +49,12 @@ export default function SignUpComponent({ csrfToken }) {
         let options = { redirect: false, email, password };
         setLoading(false);
         const res = await signIn('credentials', options);
-        // router.push({
-        //   pathname: '/success',
-        //   query: {
-        //     operation: 'signup',
-        //   },
-        // });
+        router.push({
+          pathname: '/success',
+          query: {
+            operation: 'signup',
+          },
+        });
         return;
       }
     }

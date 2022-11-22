@@ -52,8 +52,7 @@ export default function DashboardSettings({ userData }) {
         console.error('Failed to find Studio', error);
       }
     }
-  } // console.log('useradata', userData);
-  console.log('sess', userData);
+  }
   useEffect(() => {
     if (userData) {
       setData({ username: userData.username, name: userData.name, lastname: userData.lastname });

@@ -33,9 +33,6 @@ export default function WelcomeRow() {
       return 'Good evening for the night';
     }
   }
-
-  // format(date, 'dd/MM/yyyy');
-  // console.log(time);
   return (
     <div className='mb-6 flex items-center text-secondary-color'>
       <div className='w-1/2 grow'>

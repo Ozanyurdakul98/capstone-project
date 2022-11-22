@@ -1,7 +1,6 @@
 import { FaUsers } from 'react-icons/fa';
 import { BsViewList } from 'react-icons/bs';
 export default function DashboardBoxes({ studiosCreatedToday, usersCreatedToday }) {
-  console.log(usersCreatedToday);
   return (
     <div className='flex gap-5'>
       <div className='text-primary flex w-1/2 grow items-center gap-3 rounded-tl-3xl rounded-br-3xl rounded-tr-md rounded-bl-md bg-blue-200 p-5'>
