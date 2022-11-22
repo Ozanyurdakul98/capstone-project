@@ -1,14 +1,7 @@
 import React, { useState } from 'react';
 import { useAsyncDebounce } from 'react-table';
 
-export default function ServicesFilter({
-  preGlobalFilteredRows,
-  globalFilter,
-  state,
-  Filter,
-  setFilter,
-  setGlobalFilter,
-}) {
+export default function ServicesFilter({ setFilter }) {
   const [value, setValue] = useState('none');
   const onChange = useAsyncDebounce((value) => {
     setFilter('services', value || undefined);

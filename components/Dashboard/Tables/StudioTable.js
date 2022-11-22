@@ -237,12 +237,7 @@ export default function StudioTable({ fetchedStudios }) {
               state={state.globalFilter}
               tableName={'studios'}
             />
-            <ServicesFilter
-              preGlobalFilteredRows={preGlobalFilteredRows}
-              setGlobalFilter={setGlobalFilter}
-              setFilter={setFilter}
-              state={state}
-            />
+            <ServicesFilter setFilter={setFilter} />
             <StudioTypeFilter
               preGlobalFilteredRows={preGlobalFilteredRows}
               setGlobalFilter={setGlobalFilter}
