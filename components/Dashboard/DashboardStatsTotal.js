@@ -1,4 +1,4 @@
-export default function DashboardStats(props) {
+export default function DashboardStatsTotal(props) {
   return (
     <section className='mb-20'>
       <div className=' border-secondary  flex flex-col rounded-full border-b-4 py-2 '>
