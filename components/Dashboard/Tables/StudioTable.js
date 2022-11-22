@@ -28,43 +28,41 @@ export default function StudioTable({ fetchedStudios }) {
   const studioData = useMemo(() => [...studios], [studios]);
   const isEven = (idx) => idx % 2 !== 0;
 
-  async function handleEdit(table, values) {
-    if (table === 'adminStudioTable') {
-      if (values) {
-        const id = values._id;
-        try {
-          const res = await fetch(`/api/dashboard/admin/studio/${id}`, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          });
-          const result = await res.json();
-          const rawStudio = result.data[0];
-          const studio = {
-            maxGuests: rawStudio.maxGuests,
-            listingTitle: rawStudio.listingTitle,
-            images: rawStudio.images,
-            openingHours: rawStudio.openingHours,
-            studiotype: rawStudio.studiotype,
-            services: rawStudio.services,
-            locationFeatures: rawStudio.locationFeatures,
-            soundengineer: rawStudio.soundengineer,
-            studioPricing: rawStudio.studioPricing,
-            studioLocation: rawStudio.studioLocation,
-          };
-          if (!res.ok || !result.success) {
-            throw new Error(res.status);
-          }
-          if (res.ok) {
-            setToUpdateStudio(studio);
-            setStudioID(rawStudio._id);
-            setOpenEditView(true);
-          }
-        } catch (error) {
-          alert('Something went wrong, Contact us if you need help!', error);
-          console.error('Failed to find Studio', error);
+  async function handleEdit(values) {
+    if (values) {
+      const id = values._id;
+      try {
+        const res = await fetch(`/api/dashboard/admin/studio/${id}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        const result = await res.json();
+        const rawStudio = result.data[0];
+        const studio = {
+          maxGuests: rawStudio.maxGuests,
+          listingTitle: rawStudio.listingTitle,
+          images: rawStudio.images,
+          openingHours: rawStudio.openingHours,
+          studiotype: rawStudio.studiotype,
+          services: rawStudio.services,
+          locationFeatures: rawStudio.locationFeatures,
+          soundengineer: rawStudio.soundengineer,
+          studioPricing: rawStudio.studioPricing,
+          studioLocation: rawStudio.studioLocation,
+        };
+        if (!res.ok || !result.success) {
+          throw new Error(res.status);
         }
+        if (res.ok) {
+          setToUpdateStudio(studio);
+          setStudioID(rawStudio._id);
+          setOpenEditView(true);
+        }
+      } catch (error) {
+        alert('Something went wrong, Contact us if you need help!', error);
+        console.error('Failed to find Studio', error);
       }
     }
   }
