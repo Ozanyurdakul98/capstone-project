@@ -68,7 +68,7 @@
     @apply bg-primary my-0 w-full flex-grow justify-center rounded-full border-none  bg-secondary-color py-2 text-xs uppercase text-white  outline-none xl:w-[250px];
   }
   .tablePagination-button {
-    @apply bg-primary flex h-5 transform cursor-pointer items-center rounded-md border border-black px-3  py-2 text-white transition  duration-100 ease-out active:scale-95 active:bg-gray-100 sm:h-6 lg:h-7;
+    @apply bg-primary flex h-4 transform cursor-pointer items-center rounded-md border border-black px-3  py-2 text-white transition  duration-100 ease-out active:scale-95 active:bg-gray-100 sm:h-5 lg:h-6;
   }
   .button-active {
     @apply flex max-h-8 transform cursor-pointer items-center rounded-full  border bg-[#1e90ff] px-4 py-2 text-white transition duration-100 ease-out  hover:shadow-lg active:scale-95 active:bg-gray-100;
@@ -197,13 +197,13 @@
     @apply bg-slate-100/10;
   }
   .tbody {
-    @apply bg-primary [&_td:last-child]:bg-secondary  text-white;
+    @apply bg-secondary [&_td:last-child]:bg-secondary  text-white;
   }
   .td {
     @apply py-1 px-3 text-center xl:break-all;
   }
   .evenRow {
-    @apply bg-blue-200/20;
+    @apply bg-blue-200/30;
     /*@apply bg-blue-600/30;*/
   }
   .pagination {

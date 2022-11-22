@@ -139,7 +139,6 @@ export default function MyStudiosTable({ fetchedStudios }) {
           </div>
         ),
       },
-
       {
         Header: 'Title',
         accessor: 'listingTitle',
@@ -152,30 +151,24 @@ export default function MyStudiosTable({ fetchedStudios }) {
         disableSortBy: false,
       },
       {
-        Header: 'Pricing',
-        columns: [
-          {
-            Header: 'Hourly',
-            accessor: (row) => (row.studioPricing.studioPricingHour ? row.studioPricing.studioPricingHour + ' €' : ''),
-            disableSortBy: false,
-          },
-          {
-            Header: 'Daily',
-            accessor: (row) => (row.studioPricing.studioPricingDay ? row.studioPricing.studioPricingDay + ' €' : ''),
-            disableSortBy: false,
-          },
-          {
-            Header: 'Weekly',
-            accessor: (row) => (row.studioPricing.studioPricingWeek ? row.studioPricing.studioPricingWeek + ' €' : ''),
-            disableSortBy: false,
-          },
-          {
-            Header: 'Monthly',
-            accessor: (row) =>
-              row.studioPricing.studioPricingMonth ? row.studioPricing.studioPricingMonth + ' €' : '',
-            disableSortBy: false,
-          },
-        ],
+        Header: 'Hourly',
+        accessor: (row) => (row.studioPricing.studioPricingHour ? row.studioPricing.studioPricingHour + ' €' : ''),
+        disableSortBy: false,
+      },
+      {
+        Header: 'Daily',
+        accessor: (row) => (row.studioPricing.studioPricingDay ? row.studioPricing.studioPricingDay + ' €' : ''),
+        disableSortBy: false,
+      },
+      {
+        Header: 'Weekly',
+        accessor: (row) => (row.studioPricing.studioPricingWeek ? row.studioPricing.studioPricingWeek + ' €' : ''),
+        disableSortBy: false,
+      },
+      {
+        Header: 'Monthly',
+        accessor: (row) => (row.studioPricing.studioPricingMonth ? row.studioPricing.studioPricingMonth + ' €' : ''),
+        disableSortBy: false,
       },
       {
         Header: 'Soundengineer',
@@ -189,93 +182,53 @@ export default function MyStudiosTable({ fetchedStudios }) {
         disableSortBy: false,
       },
       {
-        Header: 'Created',
+        Header: 'Date',
+        accessor: 'createdAtDate',
         collapse: true,
-        columns: [
-          {
-            Header: 'Date',
-            accessor: 'createdAtDate',
-            collapse: true,
-            disableSortBy: false,
-          },
-          {
-            Header: 'Time',
-            accessor: 'createdAtTime',
-            collapse: true,
-            disableSortBy: false,
-          },
-        ],
+        disableSortBy: false,
       },
       {
-        Header: 'Updated',
+        Header: 'Time',
+        accessor: 'createdAtTime',
         collapse: true,
-        columns: [
-          {
-            Header: 'Date',
-            accessor: 'updatedAtDate',
-            collapse: true,
-            disableSortBy: false,
-          },
-          {
-            Header: 'Time',
-            accessor: 'updatedAtTime',
-            collapse: true,
-            disableSortBy: false,
-          },
-        ],
+        disableSortBy: false,
+      },
+      {
+        Header: 'Date',
+        accessor: 'updatedAtDate',
+        collapse: true,
+        disableSortBy: false,
+      },
+      {
+        Header: 'Time',
+        accessor: 'updatedAtTime',
+        collapse: true,
+        disableSortBy: false,
       },
       {
         Header: 'Location',
+        accessor: 'studioLocation',
+        disableSortBy: true,
         collapse: true,
-        columns: [
-          {
-            Header: 'Location',
-            accessor: 'studioLocation',
-            disableSortBy: true,
-            collapse: true,
-          },
-        ],
       },
-      {
-        Header: 'Services',
-        collapse: true,
-        columns: [{ Header: 'Services', accessor: 'services', collapse: true, disableSortBy: true }],
-      },
+      { Header: 'Services', accessor: 'services', collapse: true, disableSortBy: true },
       {
         Header: 'ID',
+        accessor: '_id',
+        disableSortBy: true,
         collapse: true,
-        columns: [
-          {
-            Header: 'ID',
-            accessor: '_id',
-            disableSortBy: true,
-            collapse: true,
-          },
-        ],
       },
       {
         Header: 'max guests',
+        accessor: 'maxGuests',
+        disableSortBy: true,
         collapse: true,
-        columns: [
-          {
-            Header: 'max guests',
-            accessor: 'maxGuests',
-            disableSortBy: true,
-            collapse: true,
-          },
-        ],
       },
       {
         Header: 'Publisher Email',
+        accessor: 'userEmail',
+        disableSortBy: true,
         collapse: true,
-        columns: [
-          {
-            Header: 'Publisher Email',
-            accessor: 'userEmail',
-            disableSortBy: true,
-            collapse: true,
-          },
-        ],
       },
     ],
     []
