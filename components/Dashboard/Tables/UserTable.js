@@ -17,9 +17,10 @@ export default function UserTable({ fetchedUsers }) {
   const [loading, setLoading] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [deleteModalStrings, setDeleteModalStrings] = useState({
-    header: 'Are you sure you want to delete this Studio?',
-    message: 'This Studio will be permanently deleted! If you want to delete this Studio, click on Delete.',
-    studioID: '',
+    header: 'Delte User Account?',
+    type: 'User',
+    message: 'This User will be permanently deleted! If you want to delete this User, click on Delete.',
+    ID: '',
     error: '',
   });
   const [users, setUsers] = useState([]);
@@ -59,38 +60,40 @@ export default function UserTable({ fetchedUsers }) {
       }
     }
   }
-  async function handleDelete(table, ID) {
-    if (table === 'adminStudioTable') {
-      if (ID) {
-        setLoading((prev) => !prev);
-        try {
-          const res = await fetch(`/api/dashboard/admin/${ID}`, {
-            method: 'DELETE',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          });
-          if (!res.ok) {
-            throw new Error(res.status);
-          }
-          if (res.ok) {
-            setDeleteModalStrings({ ...deleteModalStrings, message: `successfully deleted...`, studioID: '' });
-            setTimeout(() => {
-              setLoading(false);
-              router.reload();
-            }, 1500);
-          }
-        } catch (error) {
-          setDeleteModalStrings({ ...deleteModalStrings, message: "It didn't work", error: error });
-          setLoading(false);
-          console.error('Failed to find Studio', error);
+  async function handleDelete(ID) {
+    if (ID) {
+      setLoading((prev) => !prev);
+      try {
+        const res = await fetch(`/api/dashboard/admin/user/${ID}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        if (!res.ok) {
+          throw new Error(res.status);
         }
+        if (res.ok) {
+          setDeleteModalStrings({ ...deleteModalStrings, message: `successfully deleted...`, studioID: '' });
+          setTimeout(() => {
+            setLoading(false);
+            router.reload();
+          }, 1500);
+        }
+      } catch (error) {
+        setDeleteModalStrings({
+          ...deleteModalStrings,
+          message: "It didn't work! ",
+          error: error.message,
+        });
+        setLoading(false);
+        console.error('Failed to find User', error);
       }
     }
   }
   function openDeleteModal(values) {
-    setStudioID(values._id);
-    setDeleteModalStrings({ ...deleteModalStrings, studioID: values._id });
+    setUserID(values._id);
+    setDeleteModalStrings({ ...deleteModalStrings, ID: values._id });
     setDeleteModal(true);
   }
   useEffect(() => {
@@ -310,7 +313,7 @@ export default function UserTable({ fetchedUsers }) {
       {deleteModal ? (
         <>
           <DeleteModal
-            studioID={studioID}
+            ID={userID}
             loading={loading}
             setDeleteModal={setDeleteModal}
             deleteModalStrings={deleteModalStrings}

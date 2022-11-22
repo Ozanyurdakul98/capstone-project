@@ -17,9 +17,10 @@ export default function StudioTable({ fetchedStudios }) {
   const [loading, setLoading] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [deleteModalStrings, setDeleteModalStrings] = useState({
-    header: 'Are you sure you want to delete this Studio?',
+    header: 'Delete Studio?',
+    type: 'Studio',
     message: 'This Studio will be permanently deleted! If you want to delete this Studio, click on Delete.',
-    studioID: '',
+    ID: '',
     error: '',
   });
   const [studios, setStudios] = useState([]);
@@ -67,38 +68,36 @@ export default function StudioTable({ fetchedStudios }) {
       }
     }
   }
-  async function handleDelete(table, ID) {
-    if (table === 'adminStudioTable') {
-      if (ID) {
-        setLoading((prev) => !prev);
-        try {
-          const res = await fetch(`/api/dashboard/admin/studio/${ID}`, {
-            method: 'DELETE',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          });
-          if (!res.ok) {
-            throw new Error(res.status);
-          }
-          if (res.ok) {
-            setDeleteModalStrings({ ...deleteModalStrings, message: `successfully deleted...`, studioID: '' });
-            setTimeout(() => {
-              setLoading(false);
-              router.reload();
-            }, 1500);
-          }
-        } catch (error) {
-          setDeleteModalStrings({ ...deleteModalStrings, message: "It didn't work", error: error });
-          setLoading(false);
-          console.error('Failed to find Studio', error);
+  async function handleDelete(ID) {
+    if (ID) {
+      setLoading((prev) => !prev);
+      try {
+        const res = await fetch(`/api/dashboard/admin/studio/${ID}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        if (!res.ok) {
+          throw new Error(res.status);
         }
+        if (res.ok) {
+          setDeleteModalStrings({ ...deleteModalStrings, message: `successfully deleted...`, studioID: '' });
+          setTimeout(() => {
+            setLoading(false);
+            router.reload();
+          }, 1500);
+        }
+      } catch (error) {
+        setDeleteModalStrings({ ...deleteModalStrings, message: "It didn't work", error: error });
+        setLoading(false);
+        console.error('Failed to find Studio', error);
       }
     }
   }
   function openDeleteModal(values) {
     setStudioID(values._id);
-    setDeleteModalStrings({ ...deleteModalStrings, studioID: values._id });
+    setDeleteModalStrings({ ...deleteModalStrings, ID: values._id });
     setDeleteModal(true);
   }
   useEffect(() => {
@@ -200,7 +199,7 @@ export default function StudioTable({ fetchedStudios }) {
     ]);
   };
   const tableInstance = useTable(
-    { columns: studioColumns, data: studioData, disableMultiSort: true, initialState: { pageSize: 3 } },
+    { columns: studioColumns, data: studioData, disableMultiSort: true, initialState: { pageSize: 10 } },
     useGlobalFilter,
     useFilters,
     tableHooks,
@@ -323,7 +322,7 @@ export default function StudioTable({ fetchedStudios }) {
               onChange={(e) => {
                 setPageSize(Number(e.target.value));
               }}>
-              {[5, 20, 30, 40, 50].map((pageSize) => (
+              {[10, 20, 30, 40, 50].map((pageSize) => (
                 <option key={pageSize} value={pageSize}>
                   Show {pageSize}
                 </option>
@@ -338,7 +337,7 @@ export default function StudioTable({ fetchedStudios }) {
       {deleteModal ? (
         <>
           <DeleteModal
-            studioID={studioID}
+            ID={studioID}
             loading={loading}
             setDeleteModal={setDeleteModal}
             deleteModalStrings={deleteModalStrings}

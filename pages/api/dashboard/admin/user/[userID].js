@@ -24,8 +24,8 @@ export default async function handler(req, res) {
   } else if (req.method === 'DELETE') {
     await db.connect();
     try {
-      const { studioID } = req.query;
-      const status = await StudioListing.findByIdAndDelete(studioID);
+      const { userID } = req.query;
+      const status = await User.findByIdAndDelete(userID);
       return res.status(201).json({ success: true, status });
     } catch (error) {
       return res.status(400).json({ success: false, message: 'Unauthorized', error });
