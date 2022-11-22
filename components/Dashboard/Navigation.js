@@ -56,7 +56,7 @@ export default function Navigation() {
       icon: <MdAddToPhotos />,
     },
     {
-      url: '/settings',
+      url: '/dashboard/settings',
       label: 'Settings',
       icon: (
         <svg

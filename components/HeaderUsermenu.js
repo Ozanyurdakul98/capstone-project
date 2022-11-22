@@ -6,6 +6,7 @@ import { Menu, Transition } from '@headlessui/react';
 import { signOut } from 'next-auth/react';
 import { MyLink } from './MyLink';
 import Image from 'next/image';
+import { RiAdminLine } from 'react-icons/ri';
 
 export function HeaderUsermenu(props) {
   const { session } = props;
@@ -63,6 +64,48 @@ export function HeaderUsermenu(props) {
                     <Menu.Item>
                       {({ active }) => (
                         <MyLink
+                          href='/dashboard/admin'
+                          className={classNames(
+                            active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                            'flex gap-2 px-4 py-3 text-sm'
+                          )}>
+                          <RiAdminLine className='h-4 w-4' /> Admin Dashboard
+                        </MyLink>
+                      )}
+                    </Menu.Item>
+                  </div>
+                  <div>
+                    <Menu.Item>
+                      {({ active }) => (
+                        <MyLink
+                          href='/dashboard/admin/studios'
+                          title='studios table'
+                          className={classNames(
+                            active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                            'flex gap-2 px-4 py-3 text-sm'
+                          )}>
+                          <RiAdminLine className='h-4 w-4' /> Studios
+                        </MyLink>
+                      )}
+                    </Menu.Item>
+                    <Menu.Item>
+                      {({ active }) => (
+                        <MyLink
+                          href='/dashboard/admin/users'
+                          title='users table'
+                          className={classNames(
+                            active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                            'flex gap-2 px-4 py-3 text-sm'
+                          )}>
+                          <RiAdminLine className='h-4 w-4' /> Users
+                        </MyLink>
+                      )}
+                    </Menu.Item>
+                  </div>
+                  <div>
+                    <Menu.Item>
+                      {({ active }) => (
+                        <MyLink
                           href='/dashboard'
                           className={classNames(
                             active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
@@ -77,36 +120,8 @@ export function HeaderUsermenu(props) {
                     <Menu.Item>
                       {({ active }) => (
                         <MyLink
-                          href='/dashboard/studios'
-                          title='studios table'
-                          className={classNames(
-                            active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                            'block px-4 py-3 text-sm'
-                          )}>
-                          Studios
-                        </MyLink>
-                      )}
-                    </Menu.Item>
-                    <Menu.Item>
-                      {({ active }) => (
-                        <MyLink
-                          href='/dashboard/users'
-                          title='users table'
-                          className={classNames(
-                            active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                            'block px-4 py-3 text-sm'
-                          )}>
-                          Users
-                        </MyLink>
-                      )}
-                    </Menu.Item>
-                  </div>
-                  <div>
-                    <Menu.Item>
-                      {({ active }) => (
-                        <MyLink
                           href='/dashboard/mystudios'
-                          title='see your added listings'
+                          title='see all your studios'
                           className={classNames(
                             active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                             'block px-4 py-3 text-sm'
@@ -125,6 +140,21 @@ export function HeaderUsermenu(props) {
                             'block px-4 py-3 text-sm'
                           )}>
                           Add Studio
+                        </MyLink>
+                      )}
+                    </Menu.Item>
+                  </div>
+                  <div>
+                    <Menu.Item>
+                      {({ active }) => (
+                        <MyLink
+                          href='/dashboard/settings'
+                          title='see all your studios'
+                          className={classNames(
+                            active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                            'block px-4 py-3 text-sm'
+                          )}>
+                          Settings
                         </MyLink>
                       )}
                     </Menu.Item>

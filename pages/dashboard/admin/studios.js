@@ -5,7 +5,12 @@ import db from '../../../lib/dbConnect';
 import StudioListing from '../../../models/StudioListing';
 
 export default function DashboardStudios({ fetchedStudios }) {
-  return <StudioTable fetchedStudios={fetchedStudios} />;
+  return (
+    <>
+      <h1 className='mt-4 mb-2 text-center text-4xl font-bold leading-tight text-secondary-color'>Studios</h1>
+      <StudioTable fetchedStudios={fetchedStudios} />
+    </>
+  );
 }
 
 DashboardStudios.getLayout = function getLayout(page) {

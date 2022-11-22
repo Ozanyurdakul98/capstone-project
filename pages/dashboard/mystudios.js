@@ -8,7 +8,12 @@ import MyStudiosTable from '../../components/Dashboard/Tables/MyStudiosTable';
 import format from 'date-fns/format';
 
 export default function DashboardMyStudiosTable({ fetchedStudios }) {
-  return <MyStudiosTable fetchedStudios={fetchedStudios} />;
+  return (
+    <>
+      <h1 className='mt-4 mb-2 text-center text-4xl font-bold leading-tight text-secondary-color'>My Studios</h1>
+      <MyStudiosTable fetchedStudios={fetchedStudios} />
+    </>
+  );
 }
 
 DashboardMyStudiosTable.getLayout = function getLayout(page) {

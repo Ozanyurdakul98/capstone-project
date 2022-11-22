@@ -6,7 +6,12 @@ import format from 'date-fns/format';
 import DashboardLayout from '../../../components/Layout/DashboardLayout';
 
 export default function DashboardUsers({ fetchedUsers }) {
-  return <UserTable fetchedUsers={fetchedUsers} />;
+  return (
+    <>
+      <h1 className='mt-4 mb-2 text-center text-4xl font-bold leading-tight text-secondary-color'>Users</h1>
+      <UserTable fetchedUsers={fetchedUsers} />
+    </>
+  );
 }
 
 DashboardUsers.getLayout = function getLayout(page) {

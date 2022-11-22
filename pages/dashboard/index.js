@@ -1,4 +1,3 @@
-import DashboardBoxes from '../../components/Dashboard/DashboardStatsToday';
 import WelcomeRow from '../../components/Dashboard/WelcomeRow';
 import DashboardStats from '../../components/Dashboard/DashboardStatsTotal';
 import db from '../../lib/dbConnect';
@@ -10,8 +9,11 @@ import DashboardLayout from '../../components/Layout/DashboardLayout';
 
 export default function Dashboard({ latestListings, totalUsers, totalListings }) {
   return (
-    <>
-      <WelcomeRow />
+    <div className='flex flex-col gap-14'>
+      <div>
+        <h1 className='mt-4 mb-2 text-center text-4xl font-bold leading-tight text-secondary-color'>Dashboard</h1>
+        <WelcomeRow />
+      </div>
       <div className='gap-10 md:flex'>
         <div className='grow md:w-8/12'>
           <DashboardStats totalUsers={totalUsers} totalListings={totalListings}></DashboardStats>
@@ -19,7 +21,7 @@ export default function Dashboard({ latestListings, totalUsers, totalListings })
         </div>
         <div className='grow md:w-4/12'>{/* <TopSellingProducts /> */}</div>
       </div>
-    </>
+    </div>
   );
 }
 

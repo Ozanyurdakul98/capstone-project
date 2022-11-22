@@ -7,7 +7,6 @@ export default async function handler(req, res) {
   const password = body.password;
   const matchpassword = body.matchpassword;
   const isMatch = password === matchpassword;
-  const user = await User.findOne({ email: body.email });
   const patternEmail = /^([^\s@]+@[^\s@]+\.[^\s@]+$)$/i;
   const patternPassword = /^([a-zA-Z-0-9-!äöü#@.,-_]){8,60}$/i;
   if (!email) {
@@ -22,6 +21,7 @@ export default async function handler(req, res) {
   if (!patternEmail.test(email)) {
     throw new Error('Email format is not valid!');
   }
+  const user = await User.findOne({ email: body.email });
   if (user) {
     res.status(200).json({ message: 'already registered' });
     return;
@@ -36,9 +36,13 @@ export default async function handler(req, res) {
   } else if (!isMatch) {
     throw new Error('Password not matching!');
   }
-  const salt = await bcrypt.genSalt(10);
-  const hashPass = await bcrypt.hash(body.password, salt);
-  const newUser = new User({ email: body.email, password: hashPass });
-  await newUser.save();
-  res.status(200).json({ message: 'success' });
+  try {
+    const salt = await bcrypt.genSalt(10);
+    const hashPass = await bcrypt.hash(body.password, salt);
+    const newUser = new User({ email: body.email, password: hashPass });
+    await newUser.save();
+    res.status(200).json({ message: 'success' });
+  } catch (error) {
+    return res.status(400).json({ success: false, message: 'Unauthorized', error });
+  }
 }

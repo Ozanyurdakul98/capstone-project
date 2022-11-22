@@ -10,6 +10,7 @@ import Link from 'next/link.js';
 import { useRouter } from 'next/router';
 import { StudioFormfields } from '../../components/Forms/StudioFormfields';
 import DashboardLayout from '../../components/Layout/DashboardLayout.js';
+import db from '../../lib/dbConnect.js';
 
 function DashboardAddStudio(session) {
   const defaultForm = {
@@ -330,6 +331,8 @@ DashboardAddStudio.getLayout = function getLayout(page) {
 };
 
 export async function getServerSideProps(context) {
+  await db.connect();
+
   const session = await unstable_getServerSession(context.req, context.res, authOptions);
   if (!session) {
     return {

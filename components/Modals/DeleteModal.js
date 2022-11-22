@@ -2,10 +2,16 @@ import React from 'react';
 import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../BackgroundOverlay';
 import { Spinner } from '../Spinner';
 
+//expects deleteModalStrings (= header, message, error, studioID)
+//expects setDeleteModal(false) prop
+//deleteFunction
+//studioID
+
 export function DeleteModal(props) {
   const handleClickToCloseDeleteModal = () => {
     props.setDeleteModal(false);
   };
+  console.log('props', props);
   return (
     <>
       <div className='searchFadein fixed inset-x-0 inset-y-0 top-0 left-0 right-0 z-50 my-auto mx-auto h-48 max-w-md rounded-2xl  bg-white shadow-xxl lg:h-56  '>
@@ -16,7 +22,14 @@ export function DeleteModal(props) {
               {props.deleteModalStrings.message}
               {props.deleteModalStrings.error}
             </p>
-            <p>StudioID: {props.deleteModalStrings.studioID ? props.deleteModalStrings.studioID : 'no ID'}</p>
+
+            {props.deleteModalStrings.ID ? (
+              <p>
+                {props.deleteModalStrings.type}: {props.deleteModalStrings.ID}
+              </p>
+            ) : props.deleteModalStrings.type !== 'User' ? (
+              ' no ID'
+            ) : null}
           </div>
           <div className=' flex h-16 w-full items-center  justify-between gap-3 px-2 pb-1  md:px-5 '>
             <button
@@ -32,7 +45,7 @@ export function DeleteModal(props) {
               </div>
             ) : null}
             <button
-              onClick={() => props.deleteFunction('adminStudioTable', props.studioID)}
+              onClick={() => props.deleteFunction(props.ID)}
               disabled={props.loading ? true : false}
               className='modal-deleteButton bg-red-600'>
               Delete
