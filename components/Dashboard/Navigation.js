@@ -41,7 +41,7 @@ export default function Navigation() {
           viewBox='0 0 24 24'
           strokeWidth={1.5}
           stroke='currentColor'
-          className='h-4 w-4'>
+          className='icon-dashboard'>
           <path
             strokeLinecap='round'
             strokeLinejoin='round'
@@ -53,7 +53,7 @@ export default function Navigation() {
     {
       url: '/dashboard/addstudio',
       label: 'Add Studio',
-      icon: <MdAddToPhotos />,
+      icon: <MdAddToPhotos className='icon-dashboard' />,
     },
     {
       url: '/dashboard/settings',
@@ -65,7 +65,7 @@ export default function Navigation() {
           viewBox='0 0 24 24'
           strokeWidth={1.5}
           stroke='currentColor'
-          className='h-4 w-4'>
+          className='icon-dashboard'>
           <path
             strokeLinecap='round'
             strokeLinejoin='round'
@@ -85,7 +85,7 @@ export default function Navigation() {
     {
       url: '/dashboard/admin/users',
       label: 'Users',
-      icon: <FaUsers />,
+      icon: <FaUsers className='icon-dashboard' />,
     },
     {
       url: '/dashboard/admin/studios',
@@ -97,7 +97,7 @@ export default function Navigation() {
           viewBox='0 0 24 24'
           strokeWidth={1.5}
           stroke='currentColor'
-          className='h-4 w-4'>
+          className='icon-dashboard'>
           <path
             strokeLinecap='round'
             strokeLinejoin='round'
