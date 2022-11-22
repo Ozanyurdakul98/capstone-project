@@ -1,9 +1,9 @@
 import React from 'react';
-import UserTable from '../../components/Dashboard/Tables/UserTable';
-import db from '../../lib/dbConnect';
-import User from '../../models/UserModel';
+import UserTable from '../../../components/Dashboard/Tables/UserTable';
+import db from '../../../lib/dbConnect';
+import User from '../../../models/UserModel';
 import format from 'date-fns/format';
-import DashboardLayout from '../../components/Layout/DashboardLayout';
+import DashboardLayout from '../../../components/Layout/DashboardLayout';
 
 export default function DashboardUsers({ fetchedUsers }) {
   return <UserTable fetchedUsers={fetchedUsers} />;

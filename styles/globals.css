@@ -210,7 +210,7 @@
     /*@apply bg-blue-600/30;*/
   }
   .pagination {
-    @apply mt-2 flex min-w-fit items-center gap-4  whitespace-nowrap rounded-lg bg-gray-100 py-2 px-5;
+    @apply mt-2 flex min-w-fit items-center gap-4  whitespace-nowrap rounded-lg bg-white py-2 px-5;
   }
   .pagination-buttons {
     @apply flex gap-1;

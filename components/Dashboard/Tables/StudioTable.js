@@ -103,7 +103,6 @@ export default function StudioTable({ fetchedStudios }) {
   }
   useEffect(() => {
     if (fetchedStudios) {
-      console.log(fetchedStudios);
       setStudios(fetchedStudios);
     }
   }, []);

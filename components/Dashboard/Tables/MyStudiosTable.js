@@ -124,7 +124,6 @@ export default function MyStudiosTable({ fetchedStudios }) {
   useEffect(() => {
     if (fetchedStudios) {
       setStudios(fetchedStudios);
-      console.log('fetched studio', fetchedStudios);
     }
   }, []);
   const studioColumns = useMemo(
@@ -245,7 +244,6 @@ export default function MyStudiosTable({ fetchedStudios }) {
               className=''
               onClick={() => {
                 openInfoModal(row.values);
-                console.log('row values', row.values);
               }}>
               <MdInfo className='table-icon' />
             </button>

@@ -46,7 +46,6 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
       setLoading(true);
       try {
         const resImage = await handleUploadInput(form.images);
-        console.log('resuimage', resImage);
         const res = await fetch(`/api/dashboard/admin/studio/${studioID}`, {
           method: 'PATCH',
           body: JSON.stringify({ ...form, images: resImage }),
@@ -54,7 +53,6 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
             'Content-Type': 'application/json',
           },
         });
-        console.log('changed form', form);
         const result = await res.json();
 
         if (!res.ok) {
@@ -62,7 +60,6 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
           throw new Error('error', res.status);
         }
         if (res.ok) {
-          console.log('ok', result);
           setLoading(false);
           setOpenEditView(false);
           router.reload();
@@ -126,7 +123,6 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
       }
     };
   }
-  console.log('formrender', form, 'checkrender', checked);
   const handleCheck = (event) => {
     const target = event.target;
     const name = target.name;
@@ -153,14 +149,10 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
   };
 
   const handleUploadInput = async (wertImage) => {
-    console.log('handleinput');
     if (!imageChanged) {
-      console.log('notchanged');
       return;
     }
-    console.log('compare', wertImage, defaultPic, wertImage === defaultPic);
     if (wertImage === defaultPic) {
-      console.log('returnDefaukt', defaultPic);
       return defaultPic;
     }
     const formData = new FormData();

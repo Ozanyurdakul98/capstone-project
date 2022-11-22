@@ -112,13 +112,10 @@ function EditUser({ toUpdateUser, setOpenEditView, userID }) {
   };
 
   const handleUploadInput = async (avatar) => {
-    console.log('form.avatar', form.avatar);
     if (!avatarChanged) {
-      console.log('avatarChanged', avatarChanged);
       return;
     }
     if (avatar === defaultPic) {
-      console.log('check default pic', avatar === defaultPic);
       return defaultPic;
     }
     const formData = new FormData();

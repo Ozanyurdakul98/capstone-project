@@ -3,7 +3,6 @@ import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../BackgroundOve
 import { Spinner } from '../Spinner';
 
 export function MoreInfoModal(props) {
-  console.log(props.moreInfoModalStrings);
   const handleClickToCloseInfoModal = () => {
     props.setInfoModal(false);
   };

@@ -3,7 +3,6 @@ import Link from 'next/link';
 import LogoWhite from './LogoWhite';
 import Image from 'next/image';
 export function Footer({ dashboard }) {
-  console.log(dashboard);
   return (
     <footer aria-label='Site Footer' className={dashboard ? 'bg-secondary' : 'bg-primary'}>
       <div className='relative mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8 lg:pt-24'>

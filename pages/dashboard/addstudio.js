@@ -59,9 +59,6 @@ function DashboardAddStudio(session) {
     setIsSubmit(true);
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       try {
-        console.log('email', session.user.email);
-        console.log('form', form);
-
         const res = await fetch('/api/form', {
           method: 'POST',
           body: JSON.stringify(form),
@@ -70,7 +67,6 @@ function DashboardAddStudio(session) {
           },
         });
         const result = await res.json();
-        console.log('result', result);
         if (!res.ok) {
           throw new Error(res.status);
         }
