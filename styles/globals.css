@@ -49,6 +49,9 @@
   .table-icon {
     @apply h-4 w-4 cursor-pointer rounded-sm text-white active:bg-gray-100/20 md:h-6 md:w-6 md:hover:bg-gray-100/20 md:active:bg-none lg:h-8 lg:w-8 lg:p-1;
   }
+  .icon-dashboard-primary {
+    @apply h-4 w-4 cursor-pointer rounded-sm  active:bg-gray-100/20 md:h-6 md:w-6 md:hover:bg-gray-100/20 md:active:bg-none lg:h-8 lg:w-8 lg:p-1;
+  }
   .icon-carousell {
     @apply h-6 w-6 cursor-pointer rounded-md  border border-slate-800 text-[color:var(--primary-icon)] lg:h-7 lg:w-7  lg:hover:bg-gray-100;
   }
