@@ -75,32 +75,30 @@ export default function MyStudiosTable({ fetchedStudios }) {
       }
     }
   }
-  async function handleDelete(table, ID) {
-    if (table === 'adminStudioTable') {
-      if (ID) {
-        setLoading((prev) => !prev);
-        try {
-          const res = await fetch(`/api/dashboard/admin/studio/${ID}`, {
-            method: 'DELETE',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          });
-          if (!res.ok) {
-            throw new Error(res.status);
-          }
-          if (res.ok) {
-            setDeleteModalStrings({ ...deleteModalStrings, message: `successfully deleted...`, studioID: '' });
-            setTimeout(() => {
-              setLoading(false);
-              router.reload();
-            }, 1500);
-          }
-        } catch (error) {
-          setDeleteModalStrings({ ...deleteModalStrings, message: "It didn't work", error: error });
-          setLoading(false);
-          console.error('Failed to find Studio', error);
+  async function handleDelete(ID) {
+    if (ID) {
+      setLoading((prev) => !prev);
+      try {
+        const res = await fetch(`/api/dashboard/admin/studio/${ID}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        if (!res.ok) {
+          throw new Error(res.status);
         }
+        if (res.ok) {
+          setDeleteModalStrings({ ...deleteModalStrings, message: `successfully deleted...`, studioID: '' });
+          setTimeout(() => {
+            setLoading(false);
+            router.reload();
+          }, 1500);
+        }
+      } catch (error) {
+        setDeleteModalStrings({ ...deleteModalStrings, message: "It didn't work", error: error });
+        setLoading(false);
+        console.error('Failed to find Studio', error);
       }
     }
   }
