@@ -6,9 +6,10 @@ import ServicesFilter from './ServicesFilter';
 import StudioTypeFilter from './StudioTypeFilter';
 import EditStudio from '../../Forms/EditStudio';
 import { TbEdit } from 'react-icons/tb';
-import { MdDeleteForever } from 'react-icons/md';
+import { MdDeleteForever, MdInfo } from 'react-icons/md';
 import { useRouter } from 'next/router';
 import { DeleteModal } from '../../Modals/DeleteModal';
+import { MoreInfoModal } from '../../Modals/MoreInfoModal';
 
 export default function MyStudiosTable({ fetchedStudios }) {
   const [toUpdateStudio, setToUpdateStudio] = useState();
@@ -16,10 +17,19 @@ export default function MyStudiosTable({ fetchedStudios }) {
   const [openEditView, setOpenEditView] = useState(false);
   const [loading, setLoading] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
+  const [infoModal, setInfoModal] = useState(false);
   const [deleteModalStrings, setDeleteModalStrings] = useState({
     header: 'Are you sure you want to delete this Studio?',
     message: 'This Studio will be permanently deleted! If you want to delete this Studio, click on Delete.',
     studioID: '',
+    error: '',
+  });
+  const [moreInfoModalStrings, setMoreInfoModalStrings] = useState({
+    header: 'More information about this Studio',
+    message: 'You can use the ID for customer support!',
+    studioID: '',
+    publisherEmail: '',
+    others: [],
     error: '',
   });
   const [studios, setStudios] = useState([]);
@@ -101,10 +111,20 @@ export default function MyStudiosTable({ fetchedStudios }) {
     setDeleteModalStrings({ ...deleteModalStrings, studioID: values._id });
     setDeleteModal(true);
   }
+  function openInfoModal(values) {
+    setStudioID(values._id);
+    setMoreInfoModalStrings({
+      ...moreInfoModalStrings,
+      studioID: values._id,
+      publisherEmail: values.userEmail,
+      others: values,
+    });
+    setInfoModal(true);
+  }
   useEffect(() => {
     if (fetchedStudios) {
       setStudios(fetchedStudios);
-      console.log(fetchedStudios);
+      console.log('fetched studio', fetchedStudios);
     }
   }, []);
   const studioColumns = useMemo(
@@ -119,11 +139,17 @@ export default function MyStudiosTable({ fetchedStudios }) {
           </div>
         ),
       },
+
       {
-        Header: 'Id',
-        accessor: '_id',
+        Header: 'Title',
+        accessor: 'listingTitle',
         disableSortBy: true,
         collapse: false,
+      },
+      {
+        Header: 'Studio Type',
+        accessor: 'studiotype',
+        disableSortBy: false,
       },
       {
         Header: 'Pricing',
@@ -151,24 +177,80 @@ export default function MyStudiosTable({ fetchedStudios }) {
         ],
       },
       {
+        Header: 'Soundengineer',
+        accessor: 'soundengineer',
+        disableSortBy: false,
+      },
+      {
+        Header: 'Opening Hours',
+        accessor: 'openingHours',
+        disableSortBy: false,
+      },
+      {
+        Header: 'Created',
+        collapse: true,
+        columns: [
+          {
+            Header: 'Date',
+            accessor: 'createdAtDate',
+            collapse: true,
+            disableSortBy: false,
+          },
+          {
+            Header: 'Time',
+            accessor: 'createdAtTime',
+            collapse: true,
+            disableSortBy: false,
+          },
+        ],
+      },
+      {
+        Header: 'Updated',
+        collapse: true,
+        columns: [
+          {
+            Header: 'Date',
+            accessor: 'updatedAtDate',
+            collapse: true,
+            disableSortBy: false,
+          },
+          {
+            Header: 'Time',
+            accessor: 'updatedAtTime',
+            collapse: true,
+            disableSortBy: false,
+          },
+        ],
+      },
+      {
         Header: 'Location',
         accessor: 'studioLocation',
         disableSortBy: true,
+        collapse: true,
       },
       {
         Header: 'Services',
         accessor: 'services',
+        collapse: true,
         disableSortBy: true,
       },
       {
-        Header: 'Studio Type',
-        accessor: 'studiotype',
-        disableSortBy: false,
+        Header: 'ID',
+        accessor: '_id',
+        disableSortBy: true,
+        collapse: true,
       },
       {
-        Header: 'Created at',
-        accessor: 'createdAt',
-        disableSortBy: false,
+        Header: 'max guests',
+        accessor: 'maxGuests',
+        disableSortBy: true,
+        collapse: true,
+      },
+      {
+        Header: 'Publisher Email',
+        accessor: 'userEmail',
+        disableSortBy: true,
+        collapse: true,
       },
     ],
     []
@@ -181,6 +263,14 @@ export default function MyStudiosTable({ fetchedStudios }) {
         Header: 'Edit',
         Cell: ({ row }) => (
           <div className='flex flex-col gap-2'>
+            <button
+              className=''
+              onClick={() => {
+                openInfoModal(row.values);
+                console.log('row values', row.values);
+              }}>
+              <MdInfo className='table-icon' />
+            </button>
             <button
               className=''
               onClick={() => {
@@ -257,7 +347,10 @@ export default function MyStudiosTable({ fetchedStudios }) {
               {headerGroups.map((headerGroup) => (
                 <tr key={headerGroup._id} className='tr' {...headerGroup.getHeaderGroupProps()}>
                   {headerGroup.headers.map((column, idx) => (
-                    <th key={idx} className='th' {...column.getHeaderProps(column.getSortByToggleProps())}>
+                    <th
+                      key={idx}
+                      {...column.getHeaderProps(column.getSortByToggleProps())}
+                      {...column.getHeaderProps({ className: column.collapse ? 'collapse th' : 'th' })}>
                       {column.render('Header')}
                       {column.canSort ? (column.isSorted ? (column.isSortedDesc ? '↑' : '↓') : ' ↓↑') : null}
                     </th>
@@ -271,7 +364,11 @@ export default function MyStudiosTable({ fetchedStudios }) {
                 return (
                   <tr key={idx} {...row.getRowProps()} className={isEven(idx) ? 'evenRow' : null}>
                     {row.cells.map((cell, idx) => (
-                      <td key={idx} className=' td' {...cell.getCellProps()}>
+                      <td
+                        key={idx}
+                        {...cell.getCellProps({
+                          className: cell.column.collapse ? 'collapse td' : 'td',
+                        })}>
                         {cell.render('Cell')}
                       </td>
                     ))}
@@ -344,6 +441,15 @@ export default function MyStudiosTable({ fetchedStudios }) {
             setDeleteModal={setDeleteModal}
             deleteModalStrings={deleteModalStrings}
             deleteFunction={handleDelete}></DeleteModal>
+        </>
+      ) : null}
+      {infoModal ? (
+        <>
+          <MoreInfoModal
+            studioID={studioID}
+            loading={loading}
+            setInfoModal={setInfoModal}
+            moreInfoModalStrings={moreInfoModalStrings}></MoreInfoModal>
         </>
       ) : null}
     </>

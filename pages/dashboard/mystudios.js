@@ -5,6 +5,7 @@ import StudioListing from '../../models/StudioListing';
 import { unstable_getServerSession } from 'next-auth/next';
 import { authOptions } from '../api/auth/[...nextauth].js';
 import MyStudiosTable from '../../components/Dashboard/Tables/MyStudiosTable';
+import format from 'date-fns/format';
 
 export default function DashboardMyStudiosTable({ fetchedStudios }) {
   return <MyStudiosTable fetchedStudios={fetchedStudios} />;
@@ -27,11 +28,19 @@ export async function getServerSideProps(context) {
   }
   const email = session.user.email;
   const fetchingStudios = await StudioListing.find({ userEmail: email });
-  const fetchedStudios = JSON.parse(JSON.stringify(fetchingStudios));
-  console.log(fetchedStudios);
+  const serializing = JSON.parse(JSON.stringify(fetchingStudios));
+
+  const serializedAndUpdatedStudios = serializing.map((studio) => ({
+    ...studio,
+    createdAtDate: format(new Date(studio.createdAt), 'dd/MM/yyyy'),
+    createdAtTime: format(new Date(studio.createdAt), 'kk:mm'),
+    updatedAtDate: format(new Date(studio.updatedAt), 'dd/MM/yyyy'),
+    updatedAtTime: format(new Date(studio.updatedAt), 'kk:mm'),
+  }));
+
   return {
     props: {
-      fetchedStudios: fetchedStudios || null,
+      fetchedStudios: serializedAndUpdatedStudios || null,
     },
   };
 }
