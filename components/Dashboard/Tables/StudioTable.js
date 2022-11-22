@@ -242,7 +242,6 @@ export default function StudioTable({ fetchedStudios }) {
               preGlobalFilteredRows={preGlobalFilteredRows}
               setGlobalFilter={setGlobalFilter}
               setFilter={setFilter}
-              state={state}
             />
           </div>
           <table className='table' {...getTableProps()}>

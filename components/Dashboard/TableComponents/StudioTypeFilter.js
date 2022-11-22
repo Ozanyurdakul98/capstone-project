@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAsyncDebounce } from 'react-table';
 
-export default function StudioTypeFilter({ preGlobalFilteredRows, state, setFilter }) {
+export default function StudioTypeFilter({ preGlobalFilteredRows, setFilter }) {
   const count = preGlobalFilteredRows.length;
   const [value, setValue] = useState('none');
   const onChange = useAsyncDebounce((value) => {
