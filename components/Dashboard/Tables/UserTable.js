@@ -25,36 +25,34 @@ export default function UserTable({ fetchedUsers }) {
   const router = useRouter();
   const userData = useMemo(() => [...users], [users]);
   const isEven = (idx) => idx % 2 !== 0;
-  async function handleEdit(table, values) {
-    if (table === 'adminUserTable') {
-      if (values) {
-        const id = values._id;
-        try {
-          const res = await fetch(`/api/dashboard/admin/user/${id}`, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          });
-          const result = await res.json();
-          const rawUser = result.data[0];
-          const user = {
-            avatar: rawUser.avatar,
-            email: rawUser.email,
-            name: rawUser.name,
-          };
-          if (!res.ok || !result.success) {
-            throw new Error(res.status);
-          }
-          if (res.ok) {
-            setToUpdateUser(user);
-            setUserID(rawUser._id);
-            setOpenEditView(true);
-          }
-        } catch (error) {
-          alert('Something went wrong, Contact us if you need help!', error);
-          console.error('Failed to find User', error);
+  async function handleEdit(values) {
+    if (values) {
+      const id = values._id;
+      try {
+        const res = await fetch(`/api/dashboard/admin/user/${id}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        const result = await res.json();
+        const rawUser = result.data[0];
+        const user = {
+          avatar: rawUser.avatar,
+          email: rawUser.email,
+          name: rawUser.name,
+        };
+        if (!res.ok || !result.success) {
+          throw new Error(res.status);
         }
+        if (res.ok) {
+          setToUpdateUser(user);
+          setUserID(rawUser._id);
+          setOpenEditView(true);
+        }
+      } catch (error) {
+        alert('Something went wrong!', error);
+        console.error('Failed to find User', error);
       }
     }
   }
@@ -168,7 +166,7 @@ export default function UserTable({ fetchedUsers }) {
             <button
               className=''
               onClick={() => {
-                handleEdit('adminUserTable', row.values);
+                handleEdit(row.values);
               }}>
               <TbEdit className='table-icon' />
             </button>

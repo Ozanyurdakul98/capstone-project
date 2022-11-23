@@ -210,7 +210,7 @@ export default function StudioTable({ fetchedStudios }) {
             <button
               className=''
               onClick={() => {
-                handleEdit('adminStudioTable', row.values);
+                handleEdit(row.values);
               }}>
               <TbEdit className='table-icon' />
             </button>

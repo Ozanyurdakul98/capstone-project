@@ -5,6 +5,7 @@ export default async function handler(req, res) {
   // const session = await unstable_getServerSession(req, res, authOptions);
   //MAKE ACCESS ONLY TO ADMIN, ALLE METHODS USED
   if (req.method === 'GET') {
+    await db.connect();
     try {
       const { userID } = req.query;
       const fetchedUser = await User.find({ _id: userID });
