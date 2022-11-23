@@ -142,13 +142,10 @@ function EditUser({ toUpdateUser, setOpenEditView, userID }) {
               <form noValidate className='text-primary w-full' onSubmit={handleFormSubmit}>
                 <UserFormfields
                   form={form}
-                  setForm={setForm}
                   checked={checked}
-                  setChecked={setChecked}
                   length={Object.keys(formErrors).length}
                   formErrors={formErrors}
                   handleDeleteImage={handleDeleteImage}
-                  handleFormSubmit={handleFormSubmit}
                   handleChange={handleChange}
                   handleCheck={handleCheck}></UserFormfields>
                 {/* ErrorModal */}
