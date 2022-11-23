@@ -179,15 +179,12 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
             <div className='sm:px-0'>
               <form noValidate className='text-primary w-full' onSubmit={handleFormSubmit}>
                 <StudioFormfields
-                  defaultChecked={defaultChecked}
                   form={form}
                   setForm={setForm}
                   checked={checked}
-                  setChecked={setChecked}
                   length={Object.keys(formErrors).length}
                   formErrors={formErrors}
                   handleDeleteImage={handleDeleteImage}
-                  handleFormSubmit={handleFormSubmit}
                   handleChange={handleChange}
                   handleCheck={handleCheck}></StudioFormfields>
                 {/* ErrorModal */}
