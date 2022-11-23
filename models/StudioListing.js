@@ -28,7 +28,5 @@ const studioListingSchema = new mongoose.Schema(
   }
 );
 
-// openingCustom: { type: Boolean, required: true, default: false },
-//Usermodel
 const StudioListing = mongoose.models.StudioListing || mongoose.model('StudioListing', studioListingSchema);
 export default StudioListing;

@@ -23,17 +23,6 @@ export default async function handler(req, res) {
         return res.status(400).json({ success: false, message: 'Unauthorized' });
       }
     }
-  } else if (req.method === 'UPDATE') {
-    //check if its the owner of studio
-    if (session) {
-      await db.connect();
-      try {
-        const listing = await StudioListing.findByIdAndUpdate(req.body); /* create a new model in the database */
-        return res.status(201).json({ success: true, data: listing });
-      } catch (error) {
-        return res.status(400).json({ success: false, message: 'Unauthorized' });
-      }
-    }
   }
   return res.status(400).json({ success: false, message: 'HTTP method is not allowed, Unauthorized' });
 }

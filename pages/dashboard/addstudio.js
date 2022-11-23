@@ -41,7 +41,7 @@ function DashboardAddStudio(session) {
     const userEmail = session.user.email;
     setForm({ ...form, userEmail: userEmail });
     if (!userEmail) {
-      alert('no user session registered!');
+      alert('Your user session is invalid, contact us please with this error message!');
     }
   }, []);
 

@@ -1,7 +1,3 @@
-//pages & components
-import Layout from '../components/Layout/Layout';
-import DashboardLayout from '../components/Layout/DashboardLayout';
-import { Footer } from '../components/Footer';
 //tools
 import { SessionProvider } from 'next-auth/react';
 import { useEffect } from 'react';

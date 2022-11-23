@@ -1,5 +1,5 @@
-import db from '../../../../../lib/dbConnect';
-import StudioListing from '../../../../../models/StudioListing';
+import db from '../../../../lib/dbConnect';
+import StudioListing from '../../../../models/StudioListing';
 
 export default async function handler(req, res) {
   // const session = await unstable_getServerSession(req, res, authOptions);
