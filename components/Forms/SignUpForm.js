@@ -31,7 +31,6 @@ export default function SignUpComponent({ csrfToken }) {
     setIsSubmit(true);
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       setLoading(true);
-
       const res = await fetch('/api/register', {
         method: 'POST',
         headers: {
@@ -159,7 +158,7 @@ export default function SignUpComponent({ csrfToken }) {
               <Spinner />
             </div>
           ) : (
-            <button className={loading ? 'hidden' : 'login-button'} disabled={loading ? true : false} type='submit'>
+            <button className='login-button' disabled={loading} type='submit'>
               Sign Up
             </button>
           )}
