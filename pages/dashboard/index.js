@@ -4,10 +4,7 @@ import db from '../../lib/dbConnect';
 import StudioListing from '../../models/StudioListing';
 import User from '../../models/UserModel';
 import DashboardLayout from '../../components/Layout/DashboardLayout';
-// import SalesStats from './SalesStats';
-// import TopSellingProducts from './TopSellingProducts';
-
-export default function Dashboard({ latestListings, totalUsers, totalListings }) {
+export default function Dashboard({ totalUsers, totalListings }) {
   return (
     <div className='flex flex-col gap-14'>
       <div>
@@ -31,14 +28,10 @@ Dashboard.getLayout = function getLayout(page) {
 
 export async function getServerSideProps(context) {
   await db.connect();
-  // const latestAddedListings = await StudioListing.find().sort({ $natural: -1 }).limit(10);
-  // const serializedLatestAddedListings = JSON.parse(JSON.stringify(latestAddedListings));
-
   const totalListingsCount = await StudioListing.find().count();
   const totalUsersCount = await User.find().count();
   return {
     props: {
-      // latestListings: serializedLatestAddedListings || null,
       totalListings: totalListingsCount || null,
       totalUsers: totalUsersCount || null,
     },

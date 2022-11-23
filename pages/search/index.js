@@ -84,10 +84,8 @@ Search.getLayout = function getLayout(page) {
 export async function getServerSideProps(context) {
   const query = context.query;
   await db.connect();
-
   const fetchingListings = await StudioListing.find();
   const fetchedListings = JSON.parse(JSON.stringify(fetchingListings));
-
   return {
     props: {
       listings: fetchedListings || null,

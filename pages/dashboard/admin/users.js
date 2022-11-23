@@ -2,7 +2,6 @@ import React from 'react';
 import UserTable from '../../../components/Dashboard/Tables/UserTable';
 import db from '../../../lib/dbConnect';
 import User from '../../../models/UserModel';
-import format from 'date-fns/format';
 import DashboardLayout from '../../../components/Layout/DashboardLayout';
 import moment from 'moment';
 

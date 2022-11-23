@@ -2,13 +2,9 @@ import db from '../../lib/dbConnect';
 import DashboardLayout from '../../components/Layout/DashboardLayout';
 import { unstable_getServerSession } from 'next-auth';
 import { authOptions } from '../api/auth/[...nextauth]';
-// import SalesStats from './SalesStats';
-// import TopSellingProducts from './TopSellingProducts';
 import { DeleteModal } from '../../components/Modals/DeleteModal';
 import { useEffect, useState } from 'react';
 import User from '../../models/UserModel';
-import { useRouter } from 'next/router';
-//expects deleteModalStrings (= header, message, error, studioID)
 import { signOut } from 'next-auth/react';
 
 export default function DashboardSettings({ userData }) {
@@ -16,7 +12,6 @@ export default function DashboardSettings({ userData }) {
   const [data, setData] = useState('');
   const [userID, setUserID] = useState('');
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
   const [deleteModalStrings, setDeleteModalStrings] = useState({
     header: 'Delete Account',
     type: 'User',

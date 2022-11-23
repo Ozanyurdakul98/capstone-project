@@ -1,8 +1,6 @@
 import React from 'react';
-//db
 import db from '../../lib/dbConnect';
 import StudioListing from '../../models/StudioListing';
-//components
 import ListingCards from '../../components/ListingCardWide';
 import Layout from '../../components/Layout/Layout';
 

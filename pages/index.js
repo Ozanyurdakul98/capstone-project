@@ -1,4 +1,4 @@
-import { useSession, signIn, signOut } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import db from '../lib/dbConnect';
 import StudioListing from '../models/StudioListing';
 import User from '../models/UserModel';
@@ -10,7 +10,6 @@ import { HomepageBanner } from '../components/Homepage/HomepageBanner';
 import { HomepageStatsCounter } from '../components/Homepage/HomepageStatsCounter';
 import Layout from '../components/Layout/Layout';
 export default function Home({ latestListings, totalUsers, totalListings }) {
-  const { data: session, status } = useSession();
   return (
     <div className='mb-20'>
       <Head>

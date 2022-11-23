@@ -5,20 +5,7 @@ import db from '../../../lib/dbConnect';
 import StudioListing from '../../../models/StudioListing';
 import User from '../../../models/UserModel';
 import DashboardLayout from '../../../components/Layout/DashboardLayout';
-// import SalesStats from './SalesStats';
-// import TopSellingProducts from './TopSellingProducts';
-import endOfDay from 'date-fns/endOfDay';
-import startOfDay from 'date-fns/startOfDay';
-import moment from 'moment';
-import { RiContrastDropLine } from 'react-icons/ri';
-import { startTransition } from 'react';
-export default function Dashboard({
-  latestListings,
-  totalUsers,
-  totalListings,
-  studiosCreatedToday,
-  usersCreatedToday,
-}) {
+export default function AdminDashboard({ totalUsers, totalListings, studiosCreatedToday, usersCreatedToday }) {
   return (
     <div className='flex flex-col gap-14'>
       <div>
@@ -37,7 +24,7 @@ export default function Dashboard({
   );
 }
 
-Dashboard.getLayout = function getLayout(page) {
+AdminDashboard.getLayout = function getLayout(page) {
   return <DashboardLayout>{page}</DashboardLayout>;
 };
 
@@ -45,8 +32,6 @@ export async function getServerSideProps(context) {
   await db.connect();
   const startToday = new Date(new Date().setUTCHours(0, 0, 0, 0));
   const endToday = new Date(new Date().setUTCHours(23, 59, 59, 999));
-  // const latestAddedListings = await StudioListing.find().sort({ $natural: -1 }).limit(10);
-  // const serializedLatestAddedListings = JSON.parse(JSON.stringify(latestAddedListings));
   const studiosCreatedToday = await StudioListing.find({
     createdAt: {
       $gte: startToday,
@@ -66,7 +51,6 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
-      // latestListings: serializedLatestAddedListings || null,
       totalListings: totalListingsCount || null,
       totalUsers: totalUsersCount || null,
       studiosCreatedToday: serializedStudiosCreatedToday || null,

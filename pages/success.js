@@ -10,7 +10,7 @@ export default function Success() {
   const [isRedirecting, setIsRedirecting] = useState(false);
   const [content, setContent] = useState();
   const signupContent = { header: 'Signing up', for: 'Signup' };
-  const createListingContent = { header: 'Signing up', for: 'Submitting' };
+  const createListingContent = { header: 'adding your Studio', for: 'Submitting' };
 
   function callRedirect() {
     setTimeout(() => {

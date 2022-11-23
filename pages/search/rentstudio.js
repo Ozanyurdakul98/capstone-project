@@ -50,7 +50,6 @@ export async function getServerSideProps(context) {
   await db.connect();
   const fetchingListings = await StudioListing.find({ services: 'Rent Studio' });
   const fetchedListings = JSON.parse(JSON.stringify(fetchingListings));
-
   return {
     props: {
       listings: fetchedListings || null,
