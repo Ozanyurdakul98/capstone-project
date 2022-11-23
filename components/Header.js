@@ -1,11 +1,6 @@
 import React from 'react';
 import SearchBar from './SearchBar';
-import {
-  GlobeAsiaAustraliaIcon,
-  BuildingOfficeIcon,
-  ChatBubbleBottomCenterTextIcon,
-  PlusIcon,
-} from '@heroicons/react/24/outline';
+import { GlobeAsiaAustraliaIcon, PlusIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import Logo from './Logo';
 import { useSession } from 'next-auth/react';
@@ -16,7 +11,7 @@ import { HeaderSignupButton } from './HeaderSignupButton';
 
 function Header() {
   const { data: session, status } = useSession();
-
+  console.log(status);
   return (
     <header id='top' className='relative z-50'>
       <nav className='grid grid-cols-sm3 bg-white py-2 px-2 shadow-md md:py-4 md:px-4 lg:grid-cols-3'>
@@ -44,7 +39,7 @@ function Header() {
             </MyLink>
           </div>
           <HeaderUsermenu session={session} />
-          {session ? null : (
+          {session || status === 'loading' ? null : (
             <div className='hidden 2xl:block'>
               <HeaderSignupButton />
             </div>
