@@ -1,6 +1,5 @@
 import React from 'react';
 import Link from 'next/link';
-import LogoWhite from './LogoWhite';
 import Image from 'next/image';
 export function Footer({ dashboard }) {
   return (
@@ -25,13 +24,11 @@ export function Footer({ dashboard }) {
               <Image width={'80'} height={'80'} quality={100} alt='logo white' src='/images/LogoWhite.png' />
               <h2 className='label-form text-xl text-white'>Tonstudio-Kleinanzeigen</h2>
             </div>
-
             <p className='mx-auto mt-6 max-w-md text-center leading-relaxed text-white lg:text-left'>
               Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt consequuntur amet culpa cum itaque
               neque.
             </p>
           </div>
-
           <nav aria-label='Footer Nav' className='mt-12 lg:mt-0'>
             <ul className='flex flex-wrap justify-center gap-6 md:gap-8 lg:justify-end lg:gap-12'>
               <li>
