@@ -4,11 +4,13 @@ I want to serve a platform for music service-provider and let them create digita
 
 Key features:
 
-- search and filter
-- User Authentication (sign in, sign up)
-- add listings form (with image uplaod)
-- Listing Carousel
+- Search and filter
+- User Authentication (sign in, sign up) with MongoDB and NextAuth
+- Add studios (with image uplaod)
+- Studio Carousel
 - Serverside Rendering
+- User Dashboard (studio's table CRUD)
+- Admin Dashboard (with addition tables CRUD)
 
 Tech-Stack:
 
@@ -18,6 +20,7 @@ Tech-Stack:
 - NextAuth.js
 - TailwindCSS
 - Cloudinary
+- React-table
 
 For a live preview please click the vercel link on the top right or go with this link <a href="http://capstone-project-lime-ten.vercel.app/">Tonstudio-Kleinanzeigen<a>
 
