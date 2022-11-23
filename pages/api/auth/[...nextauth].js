@@ -1,16 +1,14 @@
 import bcrypt from 'bcrypt';
 import NextAuth from 'next-auth';
-import GithubProvider from 'next-auth/providers/github';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import User from '../../../models/UserModel';
 import db from '../../../lib/dbConnect';
-
-db.connect();
 
 export const authOptions = {
   providers: [
     CredentialsProvider({
       async authorize(credentials, req) {
+        await db.connect();
         // Add logic here to look up the user from the credentials supplied
         const email = credentials.email;
         const password = credentials.password;
@@ -33,10 +31,6 @@ export const authOptions = {
         // If you return null then an error will be displayed advising the user to check their details.
         // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
       },
-    }),
-    GithubProvider({
-      clientId: process.env.GITHUB_ID,
-      clientSecret: process.env.GITHUB_SECRET,
     }),
     // ...add more providers here
   ],

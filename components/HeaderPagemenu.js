@@ -1,6 +1,5 @@
 import React from 'react';
 import { ChevronDownIcon, HomeIcon } from '@heroicons/react/24/solid';
-import Link from 'next/link';
 import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { MyLink } from './MyLink';
@@ -13,7 +12,7 @@ export function HeaderPagemenu() {
     <ul className='mx-2 flex cursor-pointer items-center md:mx-5 xl:min-w-[300px]'>
       <li className='flex-b1 ml-2 md:inline'>
         <Menu as='div' className='relative inline-block text-left outline-none'>
-          <Menu.Button className='flex items-center gap-1'>
+          <Menu.Button title='Go to page' className='flex items-center gap-1'>
             <HomeIcon className='mb-1 h-5 w-5' />
             <p className='hidden font-semibold sm:inline-flex'>Pages</p>
             <ChevronDownIcon className='h-5 w-5' />

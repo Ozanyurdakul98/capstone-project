@@ -27,7 +27,7 @@ export default class MyDocument extends Document {
     return (
       <Html className='scroll-smooth'>
         <Head></Head>
-        <body>
+        <body className='overflow-x-hidden'>
           <Main />
           <NextScript />
         </body>

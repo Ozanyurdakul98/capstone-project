@@ -4,8 +4,9 @@ import db from '../../lib/dbConnect';
 import StudioListing from '../../models/StudioListing';
 //components
 import ListingCards from '../../components/ListingCardWide';
+import Layout from '../../components/Layout/Layout';
 
-function Search({ listings }) {
+function Musicproduction({ listings }) {
   return (
     <div className='mb-20'>
       <h1>Musicproduction Studios</h1>
@@ -39,13 +40,16 @@ function Search({ listings }) {
   );
 }
 
-export default Search;
+export default Musicproduction;
+
+Musicproduction.getLayout = function getLayout(page) {
+  return <Layout>{page}</Layout>;
+};
 
 export async function getServerSideProps(context) {
   await db.connect();
   const fetchingListings = await StudioListing.find({ services: 'Musicproduction' });
   const fetchedListings = JSON.parse(JSON.stringify(fetchingListings));
-
   return {
     props: {
       listings: fetchedListings || null,

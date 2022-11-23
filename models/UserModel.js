@@ -2,9 +2,11 @@ import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema(
   {
-    name: { type: String, default: 'guest' },
-    email: { type: String },
-    password: { type: String },
+    username: { type: String, default: 'guest' },
+    name: { type: String, default: 'Guest' },
+    lastname: { type: String, default: 'guest' },
+    email: { type: String, required: true },
+    password: { type: String, required: true },
     avatar: {
       type: String,
       default: '/images/Thumbnail-default.png',

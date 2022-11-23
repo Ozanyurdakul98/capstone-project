@@ -6,6 +6,7 @@ import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { FormInput } from './FormInput';
 import { ValidateSignUp } from '../../helpers/Validate';
+import { Spinner } from '../Spinner';
 export default function SignUpComponent({ csrfToken }) {
   const router = useRouter();
   const [form, setForm] = useState({
@@ -16,6 +17,7 @@ export default function SignUpComponent({ csrfToken }) {
   });
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const email = form.email;
   const password = form.password;
@@ -28,6 +30,7 @@ export default function SignUpComponent({ csrfToken }) {
     setFormErrors(ValidateSignUp(passForm));
     setIsSubmit(true);
     if (Object.keys(formErrors).length === 0 && isSubmit) {
+      setLoading(true);
       const res = await fetch('/api/register', {
         method: 'POST',
         headers: {
@@ -38,9 +41,12 @@ export default function SignUpComponent({ csrfToken }) {
       let user = await res.json();
       if (user.message) {
         setForm({ ...form, message: user.message });
+        setLoading(false);
+        setIsSubmit(false);
       }
       if (user.message == 'success') {
         let options = { redirect: false, email, password };
+        setLoading(false);
         const res = await signIn('credentials', options);
         router.push({
           pathname: '/success',
@@ -147,18 +153,21 @@ export default function SignUpComponent({ csrfToken }) {
           />
           <span className='errormessage'>{formErrors.matchpassword}</span>
           <p>{form.message}</p>
-          <button className='login-button' type='submit'>
-            Sign Up
-          </button>
+          {loading ? (
+            <div className='mt-4'>
+              <Spinner />
+            </div>
+          ) : (
+            <button className='login-button' disabled={loading} type='submit'>
+              Sign Up
+            </button>
+          )}
           <div className='flex'>
             <span className='pr-2 text-sm text-black'>Already have an account?</span>
             <Link href='/signin'>
               <a className='text-sm underline'>Log in right here</a>
             </Link>
           </div>
-          <button onClick={(event) => signupUser(event)} className='button hidden'>
-            Sign up
-          </button>
         </form>
       </div>
     </div>

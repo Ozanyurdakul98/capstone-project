@@ -1,11 +1,6 @@
 import React from 'react';
 import SearchBar from './SearchBar';
-import {
-  GlobeAsiaAustraliaIcon,
-  BuildingOfficeIcon,
-  ChatBubbleBottomCenterTextIcon,
-  PlusIcon,
-} from '@heroicons/react/24/outline';
+import { GlobeAsiaAustraliaIcon, PlusIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import Logo from './Logo';
 import { useSession } from 'next-auth/react';
@@ -16,15 +11,15 @@ import { HeaderSignupButton } from './HeaderSignupButton';
 
 function Header() {
   const { data: session, status } = useSession();
-
+  console.log(status);
   return (
-    <header id='top' className='mb-14'>
+    <header id='top' className='relative z-50'>
       <nav className='grid grid-cols-sm3 bg-white py-2 px-2 shadow-md md:py-4 md:px-4 lg:grid-cols-3'>
         {/* Left */}
         <div className='mt-2 flex flex-auto'>
           {/* Logo */}
           <Link href='/'>
-            <div className='relative hidden cursor-pointer sm:inline  sm:w-12'>
+            <div title='Go to Home' className='relative hidden cursor-pointer sm:inline  sm:w-12'>
               <Logo width={'45px'} height={'45px'} />
             </div>
           </Link>
@@ -36,15 +31,15 @@ function Header() {
         <div className='flex flex-1 items-center justify-end'>
           <div className='mx-2 hidden items-center space-x-2 text-gray-500 lg:inline-flex xl:mx-6'>
             <Link href='/search/all'>
-              <GlobeAsiaAustraliaIcon className='icon' />
+              <GlobeAsiaAustraliaIcon title='show all studios' className='icon' />
             </Link>
             <hr className='h-10 border border-gray-100' />
-            <MyLink href='/listingform' className=''>
-              <PlusIcon className='icon' />
+            <MyLink href='/dashboard/addstudio' className=''>
+              <PlusIcon title='add a studio' className='icon' />
             </MyLink>
           </div>
           <HeaderUsermenu session={session} />
-          {session ? null : (
+          {session || status === 'loading' ? null : (
             <div className='hidden 2xl:block'>
               <HeaderSignupButton />
             </div>

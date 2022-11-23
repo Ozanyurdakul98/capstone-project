@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { redirect } from 'next/dist/server/api-utils';
 import { useEffect } from 'react';
 import Lottie from 'lottie-react';
 import success from '../public/animations/success.json';
+import Layout from '../components/Layout/Layout';
 
 export default function Success() {
   const router = useRouter();
-  const [createListing, setCreateListing] = useState(false);
-  const [signup, setSignup] = useState(false);
   const [isRedirecting, setIsRedirecting] = useState(false);
   const [content, setContent] = useState();
   const signupContent = { header: 'Signing up', for: 'Signup' };
-  const createListingContent = { header: 'Signing up', for: 'Submitting' };
+  const createListingContent = { header: 'adding your Studio', for: 'Submitting' };
 
   function callRedirect() {
     setTimeout(() => {
@@ -24,11 +22,9 @@ export default function Success() {
     setIsRedirecting(true);
     if (isRedirecting) {
       if (router.query.operation === 'signup') {
-        setSignup(true);
         setContent(signupContent);
         callRedirect();
       } else if (router.query.operation === 'createlisting') {
-        setCreateListing(true);
         setContent(createListingContent);
         callRedirect();
       } else {
@@ -54,3 +50,7 @@ export default function Success() {
     </div>
   );
 }
+
+Success.getLayout = function getLayout(page) {
+  return <Layout>{page}</Layout>;
+};

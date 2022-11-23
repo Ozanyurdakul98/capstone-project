@@ -1,4 +1,4 @@
-import { useSession, signIn, signOut } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import db from '../lib/dbConnect';
 import StudioListing from '../models/StudioListing';
 import User from '../models/UserModel';
@@ -8,10 +8,8 @@ import { Latest10Listings } from '../components/Homepage/Latest10Listings';
 import { HomepageHero } from '../components/Homepage/HomepageHero';
 import { HomepageBanner } from '../components/Homepage/HomepageBanner';
 import { HomepageStatsCounter } from '../components/Homepage/HomepageStatsCounter';
-import Link from 'next/link';
-
+import Layout from '../components/Layout/Layout';
 export default function Home({ latestListings, totalUsers, totalListings }) {
-  const { data: session, status } = useSession();
   return (
     <div className='mb-20'>
       <Head>
@@ -24,6 +22,10 @@ export default function Home({ latestListings, totalUsers, totalListings }) {
     </div>
   );
 }
+
+Home.getLayout = function getLayout(page) {
+  return <Layout>{page}</Layout>;
+};
 
 export async function getServerSideProps(context) {
   await db.connect();
