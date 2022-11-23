@@ -12,6 +12,7 @@ const userSchema = new mongoose.Schema(
       default: '/images/Thumbnail-default.png',
       set: (v) => (v === '' || undefined || null ? '/images/Thumbnail-default.png' : v),
     },
+    role:{type: String, required: true}
   },
   { timestamps: true }
 );
