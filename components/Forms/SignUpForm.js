@@ -31,6 +31,7 @@ export default function SignUpComponent({ csrfToken }) {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Accept: "application/json",
           },
           body: JSON.stringify({
             username: form.username,
