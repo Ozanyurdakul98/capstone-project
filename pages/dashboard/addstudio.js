@@ -31,7 +31,7 @@ function DashboardAddStudio() {
   const [checked, setChecked] = useState(defaultChecked);
   const [submitted, setSubmitted] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
-  const [submissionFailed, setSubmissionFailed] = useState(true);
+  const [submissionFailed, setSubmissionFailed] = useState(false);
   const [formErrors, setFormErrors] = useState({});
   const [preview, setPreview] = useState(false);
   const router = useRouter();
@@ -40,7 +40,6 @@ function DashboardAddStudio() {
       const session = await getSession();
       const userEmail = session.user.email;
       try {
-        console.log("CLOENT", userEmail);
         setForm({ ...form, userEmail: userEmail });
         return;
       } catch (error) {

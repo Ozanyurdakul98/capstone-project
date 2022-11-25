@@ -5,7 +5,6 @@ import { authOptions } from "../auth/[...nextauth]";
 
 export default async function handler(req, res) {
   const session = await unstable_getServerSession(req, res, authOptions);
-  console.log(session);
   if (req.method === "GET") {
     try {
       const listing = await StudioListing.find(
@@ -30,10 +29,8 @@ export default async function handler(req, res) {
       }
     }
   }
-  return res
-    .status(400)
-    .json({
-      success: false,
-      message: "HTTP method is not allowed, Unauthorized",
-    });
+  return res.status(400).json({
+    success: false,
+    message: "HTTP method is not allowed, Unauthorized",
+  });
 }
