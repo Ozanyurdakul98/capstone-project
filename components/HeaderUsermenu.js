@@ -10,7 +10,7 @@ import { RiAdminLine } from "react-icons/ri";
 
 export function HeaderUsermenu(props) {
   const { session } = props;
-  const username = session?.user.name;
+  const username = session?.user.username;
   const email = session?.user.email;
   const avatar = session?.user.image;
 

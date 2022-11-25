@@ -3,8 +3,6 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import User from "../../../models/UserModel";
 import db from "../../../lib/dbConnect";
-import { RiNurseFill } from "react-icons/ri";
-import { TbPokeball } from "react-icons/tb";
 
 export const authOptions = {
   providers: [
