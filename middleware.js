@@ -10,10 +10,17 @@ export async function middleware(req) {
   //   }
 
   const session = await getToken({ req, secret: process.env.SECRET });
-  console.log("sessionM", session);
+  console.log("sessionM", req.nextUrl.pathname.startsWith("/dashboard/admin"));
   // You could also check for any property on the session object,
   // like role === "admin" or name === "John Doe", etc.
   if (!session) return NextResponse.rewrite(new URL("/signin", req.url));
+  console.log("URL", session.role);
+  if (
+    session.role !== "admin" &&
+    req.nextUrl.pathname.startsWith("/dashboard/admin")
+  ) {
+    return NextResponse.rewrite(new URL("/dashboard", req.url));
+  }
   //   if (!session) return NextResponse.redirect("/api/auth/signin");
 
   // If user is authenticated, continue.
@@ -21,5 +28,5 @@ export async function middleware(req) {
 }
 
 export const config = {
-  matcher: "/dashboard/:path*",
+  matcher: ["/dashboard/:path*", "/api/form"],
 };
