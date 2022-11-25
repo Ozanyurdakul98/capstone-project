@@ -1,17 +1,17 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
-import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../BackgroundOverlay';
-import Link from 'next/link.js';
-import { useRouter } from 'next/router';
-import { UserFormfields } from './UserFormfields';
-import { Spinner } from '../Spinner';
-import { ValidateEditUser } from '../../helpers/Validate';
+import React from "react";
+import { useState, useEffect } from "react";
+import { BackgroundOverlayFullscreen as ClickToCloseMax } from "../BackgroundOverlay";
+import Link from "next/link.js";
+import { useRouter } from "next/router";
+import { UserFormfields } from "./UserFormfields";
+import { Spinner } from "../Spinner";
+import { ValidateEditUser } from "../../helpers/Validate";
 
 function EditUser({ toUpdateUser, setOpenEditView, userID }) {
   const data = toUpdateUser;
-  const defaultPic = '/images/Thumbnail-default.png';
+  const defaultPic = "/images/Thumbnail-default.png";
   const [form, setForm] = useState(data);
-  const [checked, setChecked] = useState('');
+  const [checked, setChecked] = useState("");
   const [avatarChanged, setAvatarChanged] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -38,17 +38,17 @@ function EditUser({ toUpdateUser, setOpenEditView, userID }) {
       try {
         const resAvatar = await handleUploadInput(form.avatar);
         const res = await fetch(`/api/dashboard/admin/user/${userID}`, {
-          method: 'PATCH',
+          method: "PATCH",
           body: JSON.stringify({ ...form, avatar: resAvatar }),
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
         });
         const result = await res.json();
 
         if (!res.ok) {
           setLoading(false);
-          throw new Error('error', res.status);
+          throw new Error("error", res.status);
         }
         if (res.ok) {
           setLoading(false);
@@ -59,7 +59,7 @@ function EditUser({ toUpdateUser, setOpenEditView, userID }) {
         setLoading(false);
         setFormErrors(error);
         setSubmissionFailed(true);
-        console.error('Failed to update data', error);
+        console.error("Failed to update data", error);
       }
     }
   };
@@ -74,11 +74,15 @@ function EditUser({ toUpdateUser, setOpenEditView, userID }) {
 
   function checkValues(name, wert, target) {
     return () => {
-      if (name === 'avatar') {
+      if (name === "avatar") {
         setAvatarChanged(true);
         const wertImage = target.files[0];
         const avatarName = wertImage.name;
-        setChecked({ ...checked, avatarPreview: URL.createObjectURL(wertImage), avatarName: avatarName });
+        setChecked({
+          ...checked,
+          avatarPreview: URL.createObjectURL(wertImage),
+          avatarName: avatarName,
+        });
         return wertImage;
       } else {
         return wert;
@@ -92,16 +96,18 @@ function EditUser({ toUpdateUser, setOpenEditView, userID }) {
     const id = target.id;
     const wert = target.value;
     const isChecked = () => {
-      if (name === 'soundengineer') {
+      if (name === "soundengineer") {
         return id;
       }
-      if (name === 'studioPricing') {
+      if (name === "studioPricing") {
         let newArray = [...checked?.[name], id];
         if (checked?.[name].includes(id)) {
           newArray = newArray.filter((pricing) => pricing !== id);
           const currentForm = { ...form?.[name], [id]: wert };
           const deleteUnchecked = Object.fromEntries(
-            Object.entries(currentForm).filter((pricing) => !pricing.includes(id))
+            Object.entries(currentForm).filter(
+              (pricing) => !pricing.includes(id)
+            )
           );
           setForm({ ...form, [name]: deleteUnchecked });
         }
@@ -119,12 +125,12 @@ function EditUser({ toUpdateUser, setOpenEditView, userID }) {
       return defaultPic;
     }
     const formData = new FormData();
-    const preset = 'cy1wyxej';
-    const url = 'https://api.cloudinary.com/v1_1/drt9lfnfg/image/upload';
-    formData.append('file', avatar);
-    formData.append('upload_preset', preset);
+    const preset = "cy1wyxej";
+    const url = "https://api.cloudinary.com/v1_1/drt9lfnfg/image/upload";
+    formData.append("file", avatar);
+    formData.append("upload_preset", preset);
     const res = await fetch(url, {
-      method: 'POST',
+      method: "POST",
       body: formData,
     });
     const data = await res.json();
@@ -139,7 +145,10 @@ function EditUser({ toUpdateUser, setOpenEditView, userID }) {
           </div>
           <div className=' px-2 sm:ml-5 md:mr-5'>
             <div className='sm:px-0'>
-              <form noValidate className='text-primary w-full' onSubmit={handleFormSubmit}>
+              <form
+                noValidate
+                className='text-primary w-full'
+                onSubmit={handleFormSubmit}>
                 <UserFormfields
                   form={form}
                   checked={checked}
@@ -159,23 +168,24 @@ function EditUser({ toUpdateUser, setOpenEditView, userID }) {
                           <div className='flex w-full flex-col gap-5 px-5 text-center '>
                             <p>User could not be updated, Submission failed!</p>
                             <p>This is the Error message: </p>
-                            <p className='text-red-500'>{Object.entries(formErrors)}</p>
+                            <p className='text-red-500'>
+                              {Object.entries(formErrors)}
+                            </p>
                           </div>
                         </div>
                         {/* Buttons */}
                         <div className=' absolute bottom-0 z-40 flex h-16 w-full items-center  justify-between gap-3 rounded-b-xl border-t-2 bg-white px-2 pb-1 pt-5 md:px-20 '>
-                          <Link href='/listingform'>
-                            <button
-                              className='form-button max-w-[250px] flex-grow justify-center border-none bg-black text-white'
-                              onClick={() => {
-                                setSubmissionFailed(false);
-                                setTimeout(() => {
-                                  router.reload();
-                                }, 100);
-                              }}>
-                              Try again
-                            </button>
-                          </Link>
+                          <button
+                            type='button'
+                            className='form-button max-w-[250px] flex-grow justify-center border-none bg-black text-white'
+                            onClick={() => {
+                              setTimeout(() => {
+                                router.reload();
+                              }, 100);
+                            }}>
+                            Try again
+                          </button>
+
                           <Link href='/contact'>
                             <button className='form-button bg-primary max-w-[250px] flex-grow justify-center border-none text-white'>
                               Contact support
@@ -184,7 +194,7 @@ function EditUser({ toUpdateUser, setOpenEditView, userID }) {
                         </div>
                       </div>
                       <ClickToCloseMax
-                        style={'bg-black/50 editModal  z-40 h-full'}
+                        style={"bg-black/50 editModal  z-40 h-full"}
                         onClick={(event) => handleClickToCloseErrorModal(event)}
                       />
                     </>
@@ -200,18 +210,22 @@ function EditUser({ toUpdateUser, setOpenEditView, userID }) {
               className='form-button max-w-[250px]  flex-grow justify-center border-none bg-black text-white'>
               Cancel
             </button>
-            <div className='ml-auto flex items-center justify-center space-x-2'>{loading ? <Spinner /> : null}</div>
+            <div className='ml-auto flex items-center justify-center space-x-2'>
+              {loading ? <Spinner /> : null}
+            </div>
             <button
               onClick={(event) => handleFormSubmit(event)}
               disabled={loading ? true : false}
               className='form-button bg-primary max-w-[250px] flex-grow justify-center border-none text-white'>
-              {Object.keys(formErrors).length === 0 && isSubmit ? 'Update User' : 'Check'}
+              {Object.keys(formErrors).length === 0 && isSubmit
+                ? "Update User"
+                : "Check"}
             </button>
           </div>
         </div>
       </div>
       <ClickToCloseMax
-        style={'bg-black/50 editModal   z-40 h-full'}
+        style={"bg-black/50 editModal   z-40 h-full"}
         onClick={(event) => handleClickToCloseModal(event)}
       />
     </>
