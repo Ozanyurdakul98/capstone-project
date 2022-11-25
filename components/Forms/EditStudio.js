@@ -57,7 +57,7 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
 
         if (!res.ok) {
           setLoading(false);
-          throw new Error("error", res.status);
+          throw new Error(res.status);
         }
         if (res.ok) {
           setLoading(false);

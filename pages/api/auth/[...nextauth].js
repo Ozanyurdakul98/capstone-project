@@ -14,7 +14,7 @@ export const authOptions = {
         const password = credentials.password;
         const user = await User.findOne({ email });
         const patternEmail = /^([^\s@]+@[^\s@]+\.[^\s@]+$)$/i;
-        const patternPassword = /^([a-zA-Z-0-9-!äöü#@.,-_]){8,60}$/i;
+        const patternPassword = /^([a-zA-Z-0-9!äöü#@.,-_]){8,60}$/i;
         if (!email) {
           // Any object returned will be saved in `user` property of the JWT
           throw new Error("You need to enter a Email!");
