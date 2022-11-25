@@ -10,9 +10,9 @@ import { RiAdminLine } from "react-icons/ri";
 
 export function HeaderUsermenu(props) {
   const { session } = props;
-  const username = session?.user.username;
+  const username = session?.user.name;
   const email = session?.user.email;
-  const avatar = session?.user.avatar;
+  const avatar = session?.user.image;
 
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");

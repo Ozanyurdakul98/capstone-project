@@ -149,8 +149,8 @@ export default function SignUpComponent({ csrfToken }) {
             name='username'
             required
             autoComplete='off'
-            pattern='^([a-zA-Z-])([a-zA-Z-0-9!äöü.\s]){3,25}$'
-            errorMessage={"4-20 letters, (a-z,A-Z,0-9,!äöü,.-)!"}
+            pattern='^([a-zA-Z-])([a-zA-Z-0-9!äöü.\s]){3,14}$'
+            errorMessage={"4-15 letters, (a-z,A-Z,0-9,!äöü,.-)!"}
             value={form.username}
             onChange={handleChange}></FormInput>
           <span className='errormessage '>{formErrors.username}</span>

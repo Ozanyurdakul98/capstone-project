@@ -1,29 +1,29 @@
-import React, { useEffect } from 'react';
-import { useState } from 'react';
-import { unstable_getServerSession } from 'next-auth/next';
-import { authOptions } from '../api/auth/[...nextauth].js';
-import { ValidateCreateListing } from '../../helpers/Validate.js';
-import ListingCardWide from '../../components/ListingCardWide';
-import ListingCardCarousell from '../../components/ListingCardCarousell';
-import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../../components/BackgroundOverlay';
-import Link from 'next/link.js';
-import { useRouter } from 'next/router';
-import { StudioFormfields } from '../../components/Forms/StudioFormfields';
-import DashboardLayout from '../../components/Layout/DashboardLayout.js';
-import db from '../../lib/dbConnect.js';
+import React, { useEffect } from "react";
+import { useState } from "react";
+import { unstable_getServerSession } from "next-auth/next";
+import { authOptions } from "../api/auth/[...nextauth].js";
+import { ValidateCreateListing } from "../../helpers/Validate.js";
+import ListingCardWide from "../../components/ListingCardWide";
+import ListingCardCarousell from "../../components/ListingCardCarousell";
+import { BackgroundOverlayFullscreen as ClickToCloseMax } from "../../components/BackgroundOverlay";
+import Link from "next/link.js";
+import { useRouter } from "next/router";
+import { StudioFormfields } from "../../components/Forms/StudioFormfields";
+import DashboardLayout from "../../components/Layout/DashboardLayout.js";
+import db from "../../lib/dbConnect.js";
 
 function DashboardAddStudio(session) {
   const defaultForm = {
-    listingTitle: '',
-    images: '',
-    openingHours: 'Always Available',
-    studiotype: 'Home Studio',
+    listingTitle: "",
+    images: "",
+    openingHours: "Always Available",
+    studiotype: "Home Studio",
     services: [],
     locationFeatures: [],
-    soundengineer: 'On Request',
+    soundengineer: "On Request",
     studioPricing: {},
-    userEmail: '',
-    studioLocation: '',
+    userEmail: "",
+    studioLocation: "",
   };
   const defaultChecked = {
     soundengineer: false,
@@ -41,7 +41,9 @@ function DashboardAddStudio(session) {
     const userEmail = session.user.email;
     setForm({ ...form, userEmail: userEmail });
     if (!userEmail) {
-      alert('Your user session is invalid, contact us please with this error message!');
+      alert(
+        "Your user session is invalid, contact us please with this error message!"
+      );
     }
   }, []);
 
@@ -60,11 +62,11 @@ function DashboardAddStudio(session) {
     setIsSubmit(true);
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       try {
-        const res = await fetch('/api/form', {
-          method: 'POST',
+        const res = await fetch("/api/form", {
+          method: "POST",
           body: JSON.stringify(form),
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
         });
         const result = await res.json();
@@ -75,9 +77,9 @@ function DashboardAddStudio(session) {
           setPreview(false);
           setSubmitted(true);
           router.push({
-            pathname: '/success',
+            pathname: "/success",
             query: {
-              operation: 'createlisting',
+              operation: "createlisting",
             },
           });
         }
@@ -85,7 +87,7 @@ function DashboardAddStudio(session) {
         setFormErrors(error);
         setPreview(false);
         setSubmissionFailed(true);
-        console.error('Failed to add', error);
+        console.error("Failed to add", error);
       }
     }
   };
@@ -101,21 +103,30 @@ function DashboardAddStudio(session) {
   };
   function checkValues(type, form, name, wert, id, target) {
     return () => {
-      if (name === 'studioPricing' || id === 'soundengineerPrice') {
-        const currentForm = { ...form?.[name === 'studioPricing' ? name : id], [id]: wert };
-        const deleteUndefined = Object.fromEntries(Object.entries(currentForm).filter(([k, v]) => v));
+      if (name === "studioPricing" || id === "soundengineerPrice") {
+        const currentForm = {
+          ...form?.[name === "studioPricing" ? name : id],
+          [id]: wert,
+        };
+        const deleteUndefined = Object.fromEntries(
+          Object.entries(currentForm).filter(([k, v]) => v)
+        );
         return deleteUndefined;
       }
-      if (type === 'checkbox') {
+      if (type === "checkbox") {
         let newArray = [...form?.[name], wert];
         if (form?.[name].includes(wert)) {
           newArray = newArray.filter((service) => service !== wert);
         }
         return newArray;
       }
-      if (name === 'images') {
+      if (name === "images") {
         let wertImage = target.files[0];
-        setChecked({ ...checked, imagesPreview: URL.createObjectURL(wertImage), images: wertImage });
+        setChecked({
+          ...checked,
+          imagesPreview: URL.createObjectURL(wertImage),
+          images: wertImage,
+        });
         return;
       } else {
         return wert;
@@ -128,16 +139,18 @@ function DashboardAddStudio(session) {
     const id = target.id;
     const wert = target.value;
     const isChecked = () => {
-      if (name === 'soundengineer') {
+      if (name === "soundengineer") {
         return id;
       }
-      if (name === 'studioPricing') {
+      if (name === "studioPricing") {
         let newArray = [...checked?.[name], id];
         if (checked?.[name].includes(id)) {
           newArray = newArray.filter((pricing) => pricing !== id);
           const currentForm = { ...form?.[name], [id]: wert };
           const deleteUnchecked = Object.fromEntries(
-            Object.entries(currentForm).filter((pricing) => !pricing.includes(id))
+            Object.entries(currentForm).filter(
+              (pricing) => !pricing.includes(id)
+            )
           );
           setForm({ ...form, [name]: deleteUnchecked });
         }
@@ -151,26 +164,31 @@ function DashboardAddStudio(session) {
   };
   const handleUploadInput = async (event) => {
     const formData = new FormData();
-    const preset = 'cy1wyxej';
-    const url = 'https://api.cloudinary.com/v1_1/drt9lfnfg/image/upload';
-    formData.append('file', checked.images);
-    formData.append('upload_preset', preset);
+    const preset = "cy1wyxej";
+    const url = "https://api.cloudinary.com/v1_1/drt9lfnfg/image/upload";
+    formData.append("file", checked.images);
+    formData.append("upload_preset", preset);
     const res = await fetch(url, {
-      method: 'POST',
+      method: "POST",
       body: formData,
     });
     const data = await res.json();
     data
       ? setForm({ ...form, images: data.secure_url })
-      : setForm({ ...form, images: '/images/Thumbnail-default.png' });
+      : setForm({ ...form, images: "/images/Thumbnail-default.png" });
   };
 
   if (session) {
     return (
       <>
         <div className='sm:px-0'>
-          <h1 className='text-primary mt-4 mb-2 text-center text-4xl font-bold leading-tight'>Add Studio Listing</h1>
-          <form noValidate className='text-primary w-full' onSubmit={handleFormSubmit}>
+          <h1 className='text-primary mt-4 mb-2 text-center text-4xl font-bold leading-tight'>
+            Add Studio Listing
+          </h1>
+          <form
+            noValidate
+            className='text-primary w-full'
+            onSubmit={handleFormSubmit}>
             <StudioFormfields
               defaultForm={defaultForm}
               defaultChecked={defaultChecked}
@@ -185,7 +203,9 @@ function DashboardAddStudio(session) {
               handleFormSubmit={handleFormSubmit}
               handleChange={handleChange}
               handleCheck={handleCheck}
-              handleClickToCloseSearch={handleClickToCloseSearch}></StudioFormfields>
+              handleClickToCloseSearch={
+                handleClickToCloseSearch
+              }></StudioFormfields>
             {/* PreviewModal */}
             <fieldset>
               {preview && (
@@ -196,13 +216,20 @@ function DashboardAddStudio(session) {
                       <div className='flex flex-col gap-7 pb-20'>
                         <div className='flex flex-col gap-4'>
                           <h2 className='h2 ml-5'>Preview of your Listings</h2>
-                          <p className='text-center '>Thank you for beeing part of Tonstudio-Kleinanzeigen!</p>
+                          <p className='text-center '>
+                            Thank you for beeing part of
+                            Tonstudio-Kleinanzeigen!
+                          </p>
                         </div>
                         <div>
                           <h3 className='h3 ml-5'>Searchpage preview</h3>
                           <ListingCardWide
                             listingTitle={form.listingTitle}
-                            images={form.images ? form.images : '/images/Thumbnail-default.png'}
+                            images={
+                              form.images
+                                ? form.images
+                                : "/images/Thumbnail-default.png"
+                            }
                             studiotype={form.studiotype}
                             services={form.services}
                             soundengineer={form.soundengineer}
@@ -216,7 +243,11 @@ function DashboardAddStudio(session) {
                           <div className='-ml-4'>
                             <ListingCardCarousell
                               listingTitle={form.listingTitle}
-                              images={form.images ? form.images : '/images/Thumbnail-default.png'}
+                              images={
+                                form.images
+                                  ? form.images
+                                  : "/images/Thumbnail-default.png"
+                              }
                               studiotype={form.studiotype}
                               services={form.services}
                               soundengineer={form.soundengineer}
@@ -238,13 +269,15 @@ function DashboardAddStudio(session) {
                         <button
                           onClick={handleFormSubmit}
                           className='form-button bg-primary max-w-[250px] flex-grow justify-center border-none text-white'>
-                          {Object.keys(formErrors).length === 0 && isSubmit ? 'List Studio' : 'Check'}
+                          {Object.keys(formErrors).length === 0 && isSubmit
+                            ? "List Studio"
+                            : "Check"}
                         </button>
                       </div>
                     </div>
                   </div>
                   <ClickToCloseMax
-                    style={'bg-black/50 searchBarModal  z-40 h-full'}
+                    style={"bg-black/50 searchBarModal  z-40 h-full"}
                     onClick={(event) => handleClickToCloseSearch(event)}
                   />
                 </>
@@ -260,11 +293,14 @@ function DashboardAddStudio(session) {
                       <h2 className='h2 ml-5'>The operation has failed!</h2>
                       <div className='flex w-full flex-col gap-5 px-5 text-center '>
                         <p>
-                          Your Studio listing could not submitted! Feel free to contact us with a screenshot of the
-                          error message, or try again and see if the problem is resolved.
+                          Your Studio listing could not submitted! Feel free to
+                          contact us with a screenshot of the error message, or
+                          try again and see if the problem is resolved.
                         </p>
                         <p>This is the Error message: </p>
-                        <p className='text-red-500'>{Object.entries(formErrors)}</p>
+                        <p className='text-red-500'>
+                          {Object.entries(formErrors)}
+                        </p>
                       </div>
                     </div>
                     {/* Buttons */}
@@ -274,7 +310,7 @@ function DashboardAddStudio(session) {
                           className='form-button max-w-[250px] flex-grow justify-center border-none bg-black text-white'
                           onClick={() => {
                             setSubmissionFailed(false);
-                            router.push('/listingform');
+                            router.push("/listingform");
                             setTimeout(() => {
                               router.reload();
                             }, 100);
@@ -290,7 +326,7 @@ function DashboardAddStudio(session) {
                     </div>
                   </div>
                   <ClickToCloseMax
-                    style={'bg-black/50 searchBarModal  z-40 h-full'}
+                    style={"bg-black/50 searchBarModal  z-40 h-full"}
                     onClick={(event) => handleClickToCloseSearch(event)}
                   />
                 </>
@@ -313,7 +349,9 @@ function DashboardAddStudio(session) {
                   handlePreview(event);
                 }}
                 className='form-button hover:bg-secondary-hover text-white'>
-                {Object.keys(formErrors).length === 0 && isSubmit ? 'Next' : 'Check'}
+                {Object.keys(formErrors).length === 0 && isSubmit
+                  ? "Next"
+                  : "Check"}
               </button>
             </fieldset>
           </form>
@@ -333,15 +371,20 @@ DashboardAddStudio.getLayout = function getLayout(page) {
 export async function getServerSideProps(context) {
   await db.connect();
 
-  const session = await unstable_getServerSession(context.req, context.res, authOptions);
+  const session = await unstable_getServerSession(
+    context.req,
+    context.res,
+    authOptions
+  );
   if (!session) {
     return {
       redirect: {
-        destination: '/',
+        destination: "/",
         permanent: false,
       },
     };
   }
+  console.log(session);
   return {
     props: session || null,
   };

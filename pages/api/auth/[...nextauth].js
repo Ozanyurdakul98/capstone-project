@@ -3,6 +3,7 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import User from "../../../models/UserModel";
 import db from "../../../lib/dbConnect";
+import { RiNurseFill } from "react-icons/ri";
 
 export const authOptions = {
   providers: [
@@ -14,7 +15,7 @@ export const authOptions = {
         const password = credentials.password;
         const user = await User.findOne({ email });
         const patternEmail = /^([^\s@]+@[^\s@]+\.[^\s@]+$)$/i;
-
+        console.log("USERFINDONE", user);
         if (!email) {
           // Any object returned will be saved in `user` property of the JWT
           throw new Error("You need to enter a Email!");
@@ -27,7 +28,8 @@ export const authOptions = {
           // Any object returned will be saved in `user` property of the JWT
           throw new Error("Email not found!");
         }
-        if (user) return signinUser({ password, user });
+        if (user) signinUser({ password, user });
+        return user;
         // If you return null then an error will be displayed advising the user to check their details.
         // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
       },
@@ -42,23 +44,30 @@ export const authOptions = {
       // Persist the OAuth access_token and or the user id to the token right after signin
       if (user) {
         token.avatar = user.avatar;
+        token.username = user.username;
+        token.role = user.role;
       }
+      // console.log(token);
       return token;
     },
     async session({ session, token }) {
       // Send properties to the client, like an access_token and user id from a provider.
-      session.user.avatar = token.avatar
-        ? token.avatar
-        : token.picture
-        ? token.picture
-        : null;
-      session = {
-        user: {
-          username: token.username,
-          email: token.email,
-          avatar: session.user.avatar,
-        },
-      };
+
+      session.user.image = token.avatar;
+      session.user.name = token.username;
+      session.user.email = token.email;
+      session.user.role = token.role;
+
+      // console.log(token, "TOKEN", session, "SESSION");
+      // session = {
+      //   user: {
+      //     avatar: token.avatar,
+      //     username: token.username,
+      //     email: token.email,
+      //     role: token.role,
+      //   },
+      // };
+      // console.log("1", session, "2", session.user);
       return session;
     },
   },
@@ -83,5 +92,6 @@ const signinUser = async ({ password, user }) => {
   if (!isMatch) {
     throw new Error("Wrong Password! Please try again");
   }
+  console.log("SIGNINUSER", user);
   return user;
 };
