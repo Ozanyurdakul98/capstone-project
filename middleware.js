@@ -17,7 +17,8 @@ export async function middleware(req) {
   console.log("URL", session.role);
   if (
     session.role !== "admin" &&
-    req.nextUrl.pathname.startsWith("/dashboard/admin")
+    (req.nextUrl.pathname.startsWith("/dashboard/admin") ||
+      req.nextUrl.pathname.startsWith("/api/dashboard/admin:path*"))
   ) {
     return NextResponse.rewrite(new URL("/dashboard", req.url));
   }
@@ -28,5 +29,10 @@ export async function middleware(req) {
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/api/form"],
+  matcher: [
+    "/dashboard/:path*",
+    "/api/form",
+    "/api/dashboard/admin/:path*",
+    "/api/dashboard/user/:path*",
+  ],
 };
