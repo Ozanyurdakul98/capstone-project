@@ -4,17 +4,18 @@ import { getToken } from "next-auth/jwt";
 
 export async function middleware(req) {
   // return early if url isn't supposed to be protected
-  console.log("reqM", req);
+
   //   if (!req.url.includes("/dashboard/:path*")) {
   //     return NextResponse.next();
   //   }
-
+  console.log(
+    "TESTTTT",
+    req.nextUrl.pathname.startsWith("/api/dashboard/admin:path*")
+  );
   const session = await getToken({ req, secret: process.env.SECRET });
-  console.log("sessionM", req.nextUrl.pathname.startsWith("/dashboard/admin"));
   // You could also check for any property on the session object,
   // like role === "admin" or name === "John Doe", etc.
   if (!session) return NextResponse.rewrite(new URL("/signin", req.url));
-  console.log("URL", session.role);
   if (
     session.role !== "admin" &&
     (req.nextUrl.pathname.startsWith("/dashboard/admin") ||
@@ -29,10 +30,5 @@ export async function middleware(req) {
 }
 
 export const config = {
-  matcher: [
-    "/dashboard/:path*",
-    "/api/form",
-    "/api/dashboard/admin/:path*",
-    "/api/dashboard/user/:path*",
-  ],
+  matcher: ["/dashboard/:path*", "/api/form", "/api/dashboard/:path*"],
 };
