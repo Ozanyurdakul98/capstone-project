@@ -367,24 +367,3 @@ export default DashboardAddStudio;
 DashboardAddStudio.getLayout = function getLayout(page) {
   return <DashboardLayout>{page}</DashboardLayout>;
 };
-
-export async function getServerSideProps(context) {
-  await db.connect();
-
-  const session = await unstable_getServerSession(
-    context.req,
-    context.res,
-    authOptions
-  );
-  if (!session) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
-  return {
-    props: session || null,
-  };
-}
