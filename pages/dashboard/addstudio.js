@@ -8,7 +8,7 @@ import Link from "next/link.js";
 import { useRouter } from "next/router";
 import { StudioFormfields } from "../../components/Forms/StudioFormfields";
 import DashboardLayout from "../../components/Layout/DashboardLayout.js";
-import { useSession, getSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
 
 function DashboardAddStudio() {
   const defaultForm = {
