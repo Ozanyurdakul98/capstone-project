@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { FormInput } from "./FormInput";
 import { ValidateSignUp } from "../../helpers/Validate";
 import { Spinner } from "../Spinner";
+
 export default function SignUpComponent({ csrfToken }) {
   const router = useRouter();
   const [form, setForm] = useState({
@@ -62,8 +63,8 @@ export default function SignUpComponent({ csrfToken }) {
           });
         }
       } catch (error) {
-        console.error("failed", error);
         setLoading(false);
+        console.error("failed", error);
       }
       return;
     }
