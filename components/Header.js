@@ -1,17 +1,16 @@
-import React from 'react';
-import SearchBar from './SearchBar';
-import { GlobeAsiaAustraliaIcon, PlusIcon } from '@heroicons/react/24/outline';
-import Link from 'next/link';
-import Logo from './Logo';
-import { useSession } from 'next-auth/react';
-import { MyLink } from './MyLink';
-import { HeaderUsermenu } from './HeaderUsermenu';
-import { HeaderPagemenu } from './HeaderPagemenu';
-import { HeaderSignupButton } from './HeaderSignupButton';
+import React from "react";
+import SearchBar from "./SearchBar";
+import { GlobeAsiaAustraliaIcon, PlusIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
+import Logo from "./Logo";
+import { useSession } from "next-auth/react";
+import { MyLink } from "./MyLink";
+import { HeaderUsermenu } from "./HeaderUsermenu";
+import { HeaderPagemenu } from "./HeaderPagemenu";
+import { HeaderSignupButton } from "./HeaderSignupButton";
 
 function Header() {
   const { data: session, status } = useSession();
-  console.log(status);
   return (
     <header id='top' className='relative z-50'>
       <nav className='grid grid-cols-sm3 bg-white py-2 px-2 shadow-md md:py-4 md:px-4 lg:grid-cols-3'>
@@ -19,8 +18,10 @@ function Header() {
         <div className='mt-2 flex flex-auto'>
           {/* Logo */}
           <Link href='/'>
-            <div title='Go to Home' className='relative hidden cursor-pointer sm:inline  sm:w-12'>
-              <Logo width={'45px'} height={'45px'} />
+            <div
+              title='Go to Home'
+              className='relative hidden cursor-pointer sm:inline  sm:w-12'>
+              <Logo width={"45px"} height={"45px"} />
             </div>
           </Link>
           <HeaderPagemenu />
@@ -31,7 +32,10 @@ function Header() {
         <div className='flex flex-1 items-center justify-end'>
           <div className='mx-2 hidden items-center space-x-2 text-gray-500 lg:inline-flex xl:mx-6'>
             <Link href='/search/all'>
-              <GlobeAsiaAustraliaIcon title='show all studios' className='icon' />
+              <GlobeAsiaAustraliaIcon
+                title='show all studios'
+                className='icon'
+              />
             </Link>
             <hr className='h-10 border border-gray-100' />
             <MyLink href='/dashboard/addstudio' className=''>
@@ -39,7 +43,7 @@ function Header() {
             </MyLink>
           </div>
           <HeaderUsermenu session={session} />
-          {session || status === 'loading' ? null : (
+          {session || status === "loading" ? null : (
             <div className='hidden 2xl:block'>
               <HeaderSignupButton />
             </div>
