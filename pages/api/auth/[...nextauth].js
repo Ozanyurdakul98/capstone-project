@@ -15,7 +15,6 @@ export const authOptions = {
         const user = await User.findOne({ email });
         const patternEmail = /^([^\s@]+@[^\s@]+\.[^\s@]+$)$/i;
         const patternPassword = /^([a-zA-Z-0-9-!äöü#@.,-_]){8,60}$/i;
-        console.log("USERFINDONE", user);
         if (!email) {
           // Any object returned will be saved in `user` property of the JWT
           throw new Error("You need to enter a Email!");
@@ -61,7 +60,6 @@ export const authOptions = {
         token.role = user.role;
         token.name = user.name;
       }
-      // console.log(token);
       return token;
     },
     async session({ session, token }) {
@@ -72,17 +70,6 @@ export const authOptions = {
       session.user.username = token.username;
       session.user.email = token.email;
       session.user.role = token.role;
-
-      // console.log(token, "TOKEN", session, "SESSION");
-      // session = {
-      //   user: {
-      //     avatar: token.avatar,
-      //     username: token.username,
-      //     email: token.email,
-      //     role: token.role,
-      //   },
-      // };
-      // console.log("1", session, "2", session.user);
       return session;
     },
   },

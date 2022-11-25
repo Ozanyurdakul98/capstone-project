@@ -384,7 +384,6 @@ export async function getServerSideProps(context) {
       },
     };
   }
-  console.log(session);
   return {
     props: session || null,
   };
