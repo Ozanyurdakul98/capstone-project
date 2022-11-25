@@ -21,6 +21,16 @@ export default async function handler(req, res) {
         .status(400)
         .json({ success: false, message: "Studio not found" });
     }
+  } else if (req.method === "POST") {
+    await db.connect();
+    try {
+      const listing = await StudioListing.create(
+        req.body
+      ); /* create a new model in the database */
+      return res.status(201).json({ success: true, data: listing });
+    } catch (error) {
+      return res.status(400).json({ success: false, message: "Unauthorized" });
+    }
   } else if (req.method === "PATCH") {
     await db.connect();
     try {

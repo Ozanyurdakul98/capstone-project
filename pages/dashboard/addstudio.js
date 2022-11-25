@@ -64,7 +64,7 @@ function DashboardAddStudio() {
     setIsSubmit(true);
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       try {
-        const res = await fetch("/api/form", {
+        const res = await fetch("/api/dashboard/studio/1", {
           method: "POST",
           body: JSON.stringify(form),
           headers: {
