@@ -9,7 +9,7 @@ import { HeaderUsermenu } from "./HeaderUsermenu";
 import { HeaderPagemenu } from "./HeaderPagemenu";
 import { HeaderSignupButton } from "./HeaderSignupButton";
 import { getSession } from "next-auth/react";
-import SignUpComponent from "./Forms/SignUpForm";
+import SignUpComponent from "./Forms/SignUpFormModal";
 function Header() {
   const [previewSignup, setPreviewSignup] = useState(false);
   const { data: session, status } = useSession();
