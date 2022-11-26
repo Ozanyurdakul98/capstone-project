@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import SearchBar from "./SearchBar";
 import { GlobeAsiaAustraliaIcon, PlusIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
@@ -8,9 +8,23 @@ import { MyLink } from "./MyLink";
 import { HeaderUsermenu } from "./HeaderUsermenu";
 import { HeaderPagemenu } from "./HeaderPagemenu";
 import { HeaderSignupButton } from "./HeaderSignupButton";
+import { getSession } from "next-auth/react";
 
 function Header() {
   const { data: session, status } = useSession();
+  console.log(status);
+  useEffect(() => {
+    async function myFunction() {
+      const session = await getSession();
+      const userEmail = session;
+      try {
+        return;
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    // myFunction();
+  }, []);
   return (
     <header id='top' className='relative z-50'>
       <nav className='grid grid-cols-sm3 bg-white py-2 px-2 shadow-md md:py-4 md:px-4 lg:grid-cols-3'>
@@ -43,11 +57,11 @@ function Header() {
             </MyLink>
           </div>
           <HeaderUsermenu session={session} />
-          {session || status === "loading" ? null : (
+          {status === "unauthenticated" ? (
             <div className='hidden 2xl:block'>
               <HeaderSignupButton />
             </div>
-          )}
+          ) : null}
         </div>
       </nav>
     </header>
