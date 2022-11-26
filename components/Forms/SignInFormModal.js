@@ -60,7 +60,7 @@ export default function SignInComponent({ csrfToken, setPreviewSigning }) {
               alt='login-image'
             />
           </div>
-          <div className='bg-primary flex flex-col justify-center '>
+          <div className='flex flex-col justify-center bg-white '>
             <form
               action=''
               noValidate
@@ -104,13 +104,13 @@ export default function SignInComponent({ csrfToken, setPreviewSigning }) {
               <button className='login-button' type='submit'>
                 Sign In
               </button>
-              <div className='flex'>
-                <span className='pr-2 text-sm text-black'>
-                  Need an account?
-                </span>
-                <Link href='/signup'>
-                  <a className=' text-sm underline'>Sign up right here</a>
-                </Link>
+              <div className='flex text-xs'>
+                <span className='pr-2 text-black'>Need an account?</span>
+                <button
+                  className='  underline'
+                  onClick={() => setPreviewSigning("signup")}>
+                  Sign up here
+                </button>
               </div>
             </form>
           </div>

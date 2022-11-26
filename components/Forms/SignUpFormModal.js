@@ -251,11 +251,13 @@ export default function SignUpComponent({ csrfToken, setPreviewSigning }) {
               )}
               <div className='flex text-xs'>
                 <span className='pr-2 text-black'>
-                  Already have an account?
+                  Already have an Account?
                 </span>
-                <Link href='/signin'>
-                  <a className='underline'>Log in right here</a>
-                </Link>
+                <button
+                  className='  underline'
+                  onClick={() => setPreviewSigning("signin")}>
+                  Sign in here
+                </button>
               </div>
             </form>
           </div>
