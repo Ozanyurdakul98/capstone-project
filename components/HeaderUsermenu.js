@@ -9,19 +9,22 @@ import Image from "next/image";
 import { RiAdminLine } from "react-icons/ri";
 
 export function HeaderUsermenu(props) {
-  const { session } = props;
+  const { session, status } = props;
   const username = session?.user.username;
   const email = session?.user.email;
   const avatar = session?.user.image;
-
+  console.log("STATUS", status);
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }
   return (
-    <ul className='mr-2 flex cursor-pointer items-center md:mx-5 2xl:min-w-[200px]'>
+    <ul
+      className={`mr-2 flex cursor-pointer items-center md:mx-5 2xl:min-w-[200px] ${
+        status !== "authenticated" ? "md:hidden" : null
+      }`}>
       <li className='ml-2 md:inline'>
         <Menu as='div' className='relative inline-block text-left outline-none'>
-          <Menu.Button className='flex justify-center bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none sm:rounded-md sm:border sm:border-gray-300 '>
+          <Menu.Button className='flex justify-center bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:rounded-md sm:border sm:border-gray-300 '>
             <div className='hidden font-bold text-primary-color sm:inline-flex'>
               Account
               <ChevronDownIcon

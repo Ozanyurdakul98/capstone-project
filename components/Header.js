@@ -78,18 +78,11 @@ function Header() {
             </button>
           </div>
           {/* HeaderUsermenu */}
-          <div className='md:hidden'>
-            <HeaderUsermenu
-              setPreviewSigning={setPreviewSigning}
-              session={session}
-            />
-          </div>
-          {status === "authenticated" ? (
-            <HeaderUsermenu
-              setPreviewSigning={setPreviewSigning}
-              session={session}
-            />
-          ) : null}
+          <HeaderUsermenu
+            setPreviewSigning={setPreviewSigning}
+            session={session}
+            status={status}
+          />
           {/* SigninSignupButtons */}
           {status === "unauthenticated" ? (
             <div className='hidden gap-2 text-sm md:ml-3 md:flex lg:ml-0 lg:text-sm'>
