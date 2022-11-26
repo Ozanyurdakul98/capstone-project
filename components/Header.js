@@ -11,9 +11,11 @@ import { HeaderSignupButton } from "./HeaderSignupButton";
 import { getSession } from "next-auth/react";
 import SignUpComponent from "./Forms/SignUpFormModal";
 import SignInComponent from "./Forms/SignInFormModal";
+import { Router, useRouter } from "next/router";
 function Header() {
   const [previewSigning, setPreviewSigning] = useState("");
   const { data: session, status } = useSession();
+  const router = useRouter();
   console.log(status);
   useEffect(() => {
     async function myFunction() {
@@ -54,9 +56,17 @@ function Header() {
               />
             </Link>
             <hr className='h-10 border border-gray-100' />
-            <MyLink href='/dashboard/addstudio' className=''>
+            <button
+              className=''
+              onClick={() =>
+                status === "loading"
+                  ? null
+                  : status === "unauthenticated"
+                  ? setPreviewSigning("signin")
+                  : router.push("/dashboard/addstudio")
+              }>
               <PlusIcon title='add a studio' className='icon' />
-            </MyLink>
+            </button>
           </div>
           <HeaderUsermenu
             setPreviewSigning={setPreviewSigning}
