@@ -13,6 +13,7 @@ import { FaBuilding } from "react-icons/fa";
 import { HeaderUsermenu } from "./HeaderUsermenu";
 import { HeaderPagemenu } from "./HeaderPagemenu";
 import { HeaderSignupButton } from "./HeaderSignupButton";
+import { HeaderSigninButton } from "./HeaderSigninButton";
 import { getSession } from "next-auth/react";
 import SignUpComponent from "./Forms/SignUpFormModal";
 import SignInComponent from "./Forms/SignInFormModal";
@@ -38,12 +39,12 @@ function Header() {
     <header id='top' className='relative z-50'>
       <nav className='grid grid-cols-sm3 bg-white py-2 px-2 shadow-md md:py-4 md:px-4 lg:grid-cols-3'>
         {/* Left */}
-        <div className='mt-2 flex flex-auto'>
+        <div className='flex  flex-auto items-center'>
           {/* Logo */}
           <Link href='/'>
             <div
               title='Go to Home'
-              className='relative hidden cursor-pointer sm:inline  sm:w-12'>
+              className='relative hidden cursor-pointer sm:flex sm:items-center'>
               <Logo width={"45px"} height={"45px"} />
             </div>
           </Link>
@@ -53,7 +54,7 @@ function Header() {
         <SearchBar />
         {/* Righth */}
         <div className='flex flex-1 items-center justify-end'>
-          <div className='mx-2 hidden items-center space-x-2 text-gray-500 lg:inline-flex xl:mx-6'>
+          <div className='mx-6 hidden items-center space-x-2 text-gray-500 lg:inline-flex xl:mx-6'>
             <Link href='/search/all'>
               <GlobeAsiaAustraliaIcon
                 title='show all studios'
@@ -76,12 +77,21 @@ function Header() {
               <HomeIcon />
             </button>
           </div>
-          <HeaderUsermenu
-            setPreviewSigning={setPreviewSigning}
-            session={session}
-          />
+          <div className='md:hidden'>
+            <HeaderUsermenu
+              setPreviewSigning={setPreviewSigning}
+              session={session}
+            />
+          </div>
+          {status === "authenticated" ? (
+            <HeaderUsermenu
+              setPreviewSigning={setPreviewSigning}
+              session={session}
+            />
+          ) : null}
           {status === "unauthenticated" ? (
-            <div className='hidden 2xl:block'>
+            <div className='hidden gap-2 text-sm md:ml-3 md:flex lg:ml-0 lg:text-sm'>
+              <HeaderSigninButton />
               <HeaderSignupButton />
             </div>
           ) : null}

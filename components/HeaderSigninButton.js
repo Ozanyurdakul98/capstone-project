@@ -2,7 +2,7 @@ import React from "react";
 import { ArrowRightOnRectangleIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/router";
 
-export function HeaderSignupButton() {
+export function HeaderSigninButton() {
   const router = useRouter();
 
   return (
@@ -12,7 +12,7 @@ export function HeaderSignupButton() {
       <div className='h-5 w-5 flex-shrink-0'>
         <ArrowRightOnRectangleIcon className='text-white' />
       </div>
-      <p className='text-white'>Become Member</p>
+      <p className='text-white'>Sign in</p>
     </button>
   );
 }

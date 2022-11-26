@@ -1,28 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 //Components
 import {
   BackgroundOverlayFullscreen as ClickToCloseMax,
   BackgroundOverlay as ClickToCloseMin,
-} from './BackgroundOverlay';
+} from "./BackgroundOverlay";
 //tools
-import { DateRange } from 'react-date-range';
-import format from 'date-fns/format';
-import { useRouter } from 'next/router';
+import { DateRange } from "react-date-range";
+import format from "date-fns/format";
+import { useRouter } from "next/router";
 //styles
-import { MagnifyingGlassIcon, UsersIcon, PlusCircleIcon, MinusCircleIcon } from '@heroicons/react/24/solid';
+import {
+  MagnifyingGlassIcon,
+  UsersIcon,
+  PlusCircleIcon,
+  MinusCircleIcon,
+} from "@heroicons/react/24/solid";
 
 function SearchBar() {
   //search
-  const [searchInput, setSearchInput] = useState('');
-  const [activePanel, setActivePanel] = useState('calendar');
+  const [searchInput, setSearchInput] = useState("");
+  const [activePanel, setActivePanel] = useState("calendar");
   const router = useRouter();
   const handleSearch = (event) => {
     event.preventDefault();
-    if (searchInput !== '') {
+    if (searchInput !== "") {
       router.push({
-        pathname: '/search',
+        pathname: "/search",
         query: {
-          location: searchInput !== '' ? searchInput : '',
+          location: searchInput !== "" ? searchInput : "",
           startDate: startDate.toISOString(),
           endDate: endDate.toISOString(),
           noOfGuests,
@@ -30,14 +35,14 @@ function SearchBar() {
         },
       });
 
-      setSearchInput('');
-    } else if (searchInput === '') {
+      setSearchInput("");
+    } else if (searchInput === "") {
       router.push({
-        pathname: '/search/all',
+        pathname: "/search/all",
         query: {},
       });
     } else {
-      alert('please enter a location');
+      alert("please enter a location");
       return;
     }
   };
@@ -47,7 +52,7 @@ function SearchBar() {
   const [endDate, setEndDate] = useState(new Date());
 
   const handleClickToCloseSearch = () => {
-    setSearchInput('');
+    setSearchInput("");
   };
   const handleClickToCloseCalendar = () => {
     setCalenderOpen(false);
@@ -55,7 +60,7 @@ function SearchBar() {
   const selectionRange = {
     startDate: startDate,
     endDate: endDate,
-    key: 'selection',
+    key: "selection",
   };
   const handleSelect = (ranges) => {
     setStartDate(ranges.selection.startDate);
@@ -72,13 +77,13 @@ function SearchBar() {
     setNoOfGuest((counter) => counter - 1);
   };
   //services
-  const [servicesSelected, setServicesSelected] = useState('recording');
+  const [servicesSelected, setServicesSelected] = useState("recording");
   const handleServicesSelect = (event) => {
     setServicesSelected(event.target.value);
   };
 
   return (
-    <div className='flex w-full items-center justify-center'>
+    <div className='flex w-full items-center justify-center lg:pr-5 xl:pr-0'>
       {/* SearchInput */}
       <form
         onSubmit={handleSearch}
@@ -89,7 +94,9 @@ function SearchBar() {
           type='text'
           placeholder='type your location '
           value={searchInput}
-          onChange={(event) => setSearchInput(event.target.value.toLowerCase().trim())}
+          onChange={(event) =>
+            setSearchInput(event.target.value.toLowerCase().trim())
+          }
         />
       </form>
       {/* SearchInput-DropDown */}
@@ -98,29 +105,45 @@ function SearchBar() {
           <div className='searchFadein fixed top-16 z-40 mx-auto flex min-h-64 w-full flex-col  rounded-2xl  bg-white  pb-5 pt-5 shadow-xxl md:top-20 md:min-h-72 md:w-11/12 lg:inset-x-0 lg:w-10/12  xl:inset-x-auto  xl:w-6/12'>
             <div className='relative  flex min-h-20  items-center justify-center gap-2'>
               <button
-                onClick={() => setActivePanel('calendar')}
-                className={activePanel === 'calendar' ? 'button-active z-40' : 'button z-40'}>
+                onClick={() => setActivePanel("calendar")}
+                className={
+                  activePanel === "calendar"
+                    ? "button-active z-40"
+                    : "button z-40"
+                }>
                 When?
               </button>
 
               <button
-                onClick={() => setActivePanel('guests')}
-                className={activePanel === 'guests' ? 'button-active z-40' : 'button z-40'}>
+                onClick={() => setActivePanel("guests")}
+                className={
+                  activePanel === "guests"
+                    ? "button-active z-40"
+                    : "button z-40"
+                }>
                 Guests?
               </button>
 
               <button
-                onClick={() => setActivePanel('services')}
-                className={activePanel === 'services' ? 'button-active z-40' : 'button z-40'}>
+                onClick={() => setActivePanel("services")}
+                className={
+                  activePanel === "services"
+                    ? "button-active z-40"
+                    : "button z-40"
+                }>
                 Services?
               </button>
             </div>
             <div className=' flex min-h-28 w-full  flex-col items-center '>
-              {activePanel === 'calendar' && (
+              {activePanel === "calendar" && (
                 <div className='flex max-w-min flex-col items-center justify-center'>
                   <input
                     className='date-search '
-                    value={format(startDate, 'dd/MM/yy') + ' - ' + format(endDate, 'dd/MM/yy')}
+                    value={
+                      format(startDate, "dd/MM/yy") +
+                      " - " +
+                      format(endDate, "dd/MM/yy")
+                    }
                     readOnly
                     onClick={() => {
                       setCalenderOpen((previous) => !previous);
@@ -131,19 +154,21 @@ function SearchBar() {
                       <DateRange
                         className='relative z-40 max-w-min'
                         ranges={[selectionRange]}
-                        rangeColors={['#df1b1b']}
+                        rangeColors={["#df1b1b"]}
                         showMonthAndYearPickers={false}
                         onChange={handleSelect}
                         minDate={new Date()}
-                        calendarFocus={'forwards'}
+                        calendarFocus={"forwards"}
                         moveRangeOnFirstSelection={false}
                       />
-                      <ClickToCloseMin onClick={(event) => handleClickToCloseCalendar(event)} />
+                      <ClickToCloseMin
+                        onClick={(event) => handleClickToCloseCalendar(event)}
+                      />
                     </>
                   )}
                 </div>
               )}
-              {activePanel === 'guests' && (
+              {activePanel === "guests" && (
                 <div className='mb-4 flex items-center border-b'>
                   <h4 className='h4 flex-grow'>Number of Guests</h4>
                   <UsersIcon className='icon ml-5' />
@@ -162,13 +187,16 @@ function SearchBar() {
                       value={noOfGuests}
                       disabled
                     />
-                    <button className='icon-big' onClick={incrementNumberGuests} disabled={noOfGuests === 15}>
+                    <button
+                      className='icon-big'
+                      onClick={incrementNumberGuests}
+                      disabled={noOfGuests === 15}>
                       <PlusCircleIcon />
                     </button>
                   </div>
                 </div>
               )}
-              {activePanel === 'services' && (
+              {activePanel === "services" && (
                 <div className='mb-4 flex items-center border-b'>
                   <h4 className='h4 flex-grow'>Services</h4>
                   <select
@@ -180,7 +208,9 @@ function SearchBar() {
                     <option value='mix'>Mix</option>
                     <option value='master'>Master</option>
                     <option value='musicProduction'>Music Production</option>
-                    <option value='podcast & Audiobook'>Podcast & Audiobook</option>
+                    <option value='podcast & Audiobook'>
+                      Podcast & Audiobook
+                    </option>
                     <option value='rent Studio'>Rent a Studio</option>
                   </select>
                 </div>
@@ -188,7 +218,7 @@ function SearchBar() {
             </div>
             <div className='flex-end relative z-40 mx-5 flex h-16 items-center justify-between gap-2   border-t-2 pt-5'>
               <button
-                onClick={() => setSearchInput('')}
+                onClick={() => setSearchInput("")}
                 className='button flex-grow  justify-center border-none bg-red-500 text-white'>
                 Cancel
               </button>
@@ -199,7 +229,10 @@ function SearchBar() {
               </button>
             </div>
           </div>
-          <ClickToCloseMax style={'bg-black/50 searchBarModal'} onClick={(event) => handleClickToCloseSearch(event)} />
+          <ClickToCloseMax
+            style={"bg-black/50 searchBarModal"}
+            onClick={(event) => handleClickToCloseSearch(event)}
+          />
         </>
       )}
     </div>
