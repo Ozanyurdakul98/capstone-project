@@ -9,7 +9,7 @@ import { ValidateSignUp } from "../../helpers/Validate";
 import { Spinner } from "../Spinner";
 import { BackgroundOverlayFullscreen as ClickToCloseMax } from "../BackgroundOverlay";
 
-export default function SignUpComponent({ csrfToken, setPreviewSignup }) {
+export default function SignUpComponent({ csrfToken, setPreviewSigning }) {
   const router = useRouter();
   const [form, setForm] = useState({
     username: "",
@@ -72,7 +72,7 @@ export default function SignUpComponent({ csrfToken, setPreviewSignup }) {
     }
   };
   const handleClickToCloseModal = () => {
-    setPreviewSignup(false);
+    setPreviewSigning("");
   };
 
   const handleChange = (event) => {
@@ -110,7 +110,7 @@ export default function SignUpComponent({ csrfToken, setPreviewSignup }) {
   };
   return (
     <>
-      <div className='searchFadein fixed inset-x-0 inset-y-0 top-0 left-0 right-0 z-50 my-auto mx-auto flex h-4/6   w-full  flex-col gap-5 rounded-2xl bg-white shadow-xxl  md:min-h-72 md:w-11/12 xl:w-6/12'>
+      <div className='searchFadein fixed inset-x-0 inset-y-0 top-0 left-0 right-0 z-50 my-auto mx-auto flex h-4/6   w-full  flex-col gap-5 bg-white shadow-xxl  md:min-h-72 md:w-11/12 xl:w-6/12'>
         <div className=' signIn-form grid h-screen w-full grid-cols-1 overflow-y-hidden sm:grid-cols-2'>
           <div className='relative hidden sm:block'>
             <Image

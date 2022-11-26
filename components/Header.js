@@ -10,8 +10,9 @@ import { HeaderPagemenu } from "./HeaderPagemenu";
 import { HeaderSignupButton } from "./HeaderSignupButton";
 import { getSession } from "next-auth/react";
 import SignUpComponent from "./Forms/SignUpFormModal";
+import SignInComponent from "./Forms/SignInFormModal";
 function Header() {
-  const [previewSignup, setPreviewSignup] = useState(false);
+  const [previewSigning, setPreviewSigning] = useState("");
   const { data: session, status } = useSession();
   console.log(status);
   useEffect(() => {
@@ -58,7 +59,7 @@ function Header() {
             </MyLink>
           </div>
           <HeaderUsermenu
-            setPreviewSignup={setPreviewSignup}
+            setPreviewSigning={setPreviewSigning}
             session={session}
           />
           {status === "unauthenticated" ? (
@@ -68,8 +69,11 @@ function Header() {
           ) : null}
         </div>
       </nav>
-      {previewSignup ? (
-        <SignUpComponent setPreviewSignup={setPreviewSignup} />
+      {previewSigning === "signin" ? (
+        <SignInComponent setPreviewSigning={setPreviewSigning} />
+      ) : null}
+      {previewSigning === "signup" ? (
+        <SignUpComponent setPreviewSigning={setPreviewSigning} />
       ) : null}
     </header>
   );

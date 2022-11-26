@@ -197,14 +197,15 @@ export function HeaderUsermenu(props) {
                   <div className='bg-secondary flex justify-center rounded-t-lg '>
                     <Menu.Item>
                       {({ active }) => (
-                        <MyLink
-                          href='/signin'
+                        <button
+                          type='button'
+                          onClick={() => props.setPreviewSigning("signin")}
                           className={classNames(
                             active ? "bg-black text-white" : "text-white",
                             "block h-full w-full rounded-t-lg px-4 py-3 text-center text-base"
                           )}>
                           Sign in
-                        </MyLink>
+                        </button>
                       )}
                     </Menu.Item>
                   </div>
@@ -213,7 +214,7 @@ export function HeaderUsermenu(props) {
                       {({ active }) => (
                         <button
                           type='button'
-                          onClick={() => props.setPreviewSignup(true)}
+                          onClick={() => props.setPreviewSigning("signup")}
                           className={classNames(
                             active ? "bg-black text-white" : "text-white",
                             "block h-full w-full rounded-b-lg px-4 py-3 text-center text-base"
