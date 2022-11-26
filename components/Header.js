@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
 import SearchBar from "./SearchBar";
-import { GlobeAsiaAustraliaIcon, PlusIcon } from "@heroicons/react/24/outline";
+import {
+  GlobeAsiaAustraliaIcon,
+  PlusIcon,
+  HomeIcon,
+} from "@heroicons/react/24/outline";
 import Link from "next/link";
 import Logo from "./Logo";
 import { useSession } from "next-auth/react";
 import { MyLink } from "./MyLink";
+import { FaBuilding } from "react-icons/fa";
 import { HeaderUsermenu } from "./HeaderUsermenu";
 import { HeaderPagemenu } from "./HeaderPagemenu";
 import { HeaderSignupButton } from "./HeaderSignupButton";
@@ -57,15 +62,18 @@ function Header() {
             </Link>
             <hr className='h-10 border border-gray-100' />
             <button
-              className=''
-              onClick={() =>
-                status === "loading"
-                  ? null
-                  : status === "unauthenticated"
-                  ? setPreviewSigning("signin")
-                  : router.push("/dashboard/addstudio")
-              }>
-              <PlusIcon title='add a studio' className='icon' />
+              title='add a studio'
+              className='icon-header disabled:cursor-default disabled:text-gray-500/50'
+              disabled={status === "loading" || status === "unauthenticated"}
+              onClick={() => router.push("/dashboard/addstudio")}>
+              <PlusIcon />
+            </button>
+            <button
+              title='add a studio'
+              className='icon-header disabled:cursor-default disabled:text-gray-500/50'
+              disabled={status === "loading" || status === "unauthenticated"}
+              onClick={() => router.push("/dashboard")}>
+              <HomeIcon />
             </button>
           </div>
           <HeaderUsermenu

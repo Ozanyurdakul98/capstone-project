@@ -42,7 +42,9 @@
   }
 
   /* Icons */
-
+  .icon-header {
+    @apply h-6 w-6 cursor-pointer rounded-sm text-[color:var(--primary-icon)] md:hover:bg-gray-100 lg:h-9 lg:w-9 lg:p-1;
+  }
   .table-icon {
     @apply h-4 w-4 cursor-pointer rounded-sm text-white active:bg-gray-100/20 md:h-6 md:w-6 md:hover:bg-gray-100/20 md:active:bg-none lg:h-8 lg:w-8 lg:p-1;
   }
