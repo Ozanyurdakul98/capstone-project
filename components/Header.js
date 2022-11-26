@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import SearchBar from "./SearchBar";
 import { GlobeAsiaAustraliaIcon, PlusIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
@@ -9,8 +9,9 @@ import { HeaderUsermenu } from "./HeaderUsermenu";
 import { HeaderPagemenu } from "./HeaderPagemenu";
 import { HeaderSignupButton } from "./HeaderSignupButton";
 import { getSession } from "next-auth/react";
-
+import SignUpComponent from "./Forms/SignUpForm";
 function Header() {
+  const [previewSignup, setPreviewSignup] = useState(false);
   const { data: session, status } = useSession();
   console.log(status);
   useEffect(() => {
@@ -56,7 +57,10 @@ function Header() {
               <PlusIcon title='add a studio' className='icon' />
             </MyLink>
           </div>
-          <HeaderUsermenu session={session} />
+          <HeaderUsermenu
+            setPreviewSignup={setPreviewSignup}
+            session={session}
+          />
           {status === "unauthenticated" ? (
             <div className='hidden 2xl:block'>
               <HeaderSignupButton />
@@ -64,6 +68,9 @@ function Header() {
           ) : null}
         </div>
       </nav>
+      {previewSignup ? (
+        <SignUpComponent setPreviewSignup={setPreviewSignup} />
+      ) : null}
     </header>
   );
 }

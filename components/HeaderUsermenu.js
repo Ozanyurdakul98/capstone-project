@@ -211,14 +211,15 @@ export function HeaderUsermenu(props) {
                   <div className='bg-primary flex justify-center rounded-b-lg '>
                     <Menu.Item>
                       {({ active }) => (
-                        <MyLink
-                          href='/signup'
+                        <button
+                          type='button'
+                          onClick={() => props.setPreviewSignup(true)}
                           className={classNames(
                             active ? "bg-black text-white" : "text-white",
                             "block h-full w-full rounded-b-lg px-4 py-3 text-center text-base"
                           )}>
                           Become a Member
-                        </MyLink>
+                        </button>
                       )}
                     </Menu.Item>
                   </div>
