@@ -110,7 +110,7 @@ export default function SignUpComponent({ csrfToken, setPreviewSignup }) {
   };
   return (
     <>
-      <div className='searchFadein fixed inset-x-0 inset-y-0 top-0 left-0 right-0 z-50 my-auto mx-auto flex h-4/6   w-full  flex-col gap-5 rounded-2xl bg-white pb-5 shadow-xxl  md:min-h-72 md:w-11/12 xl:w-6/12'>
+      <div className='searchFadein fixed inset-x-0 inset-y-0 top-0 left-0 right-0 z-50 my-auto mx-auto flex h-4/6   w-full  flex-col gap-5 rounded-2xl bg-white shadow-xxl  md:min-h-72 md:w-11/12 xl:w-6/12'>
         <div className=' signIn-form grid h-screen w-full grid-cols-1 overflow-y-hidden sm:grid-cols-2'>
           <div className='relative hidden sm:block'>
             <Image
@@ -120,12 +120,12 @@ export default function SignUpComponent({ csrfToken, setPreviewSignup }) {
               objectFit='cover'
               alt='login-image'
             />
-            <div className='mt-32 flex h-full  items-center '>
-              <div className='relative mx-auto flex min-h-80 w-80 flex-col gap-4 rounded-md bg-white/90 py-10 px-5 text-xl'>
+            <div className='flex h-full  items-center '>
+              <div className='relative mx-auto flex w-64 flex-col gap-4 rounded-md bg-white/90 py-10 px-5 text-lg'>
                 <p>
-                  <span className=' text-2xl font-bold'> Sign up</span> and
-                  start looking for your needs. Compare recording studios that
-                  help you produce your music or podcasts.
+                  <span className=' text-xl font-bold'> Sign up</span> and start
+                  looking for your needs. Compare recording studios that help
+                  you produce your music or podcasts.
                 </p>
                 <p>
                   Or start listing your own studio or services to reach more
@@ -135,7 +135,7 @@ export default function SignUpComponent({ csrfToken, setPreviewSignup }) {
               </div>
             </div>
           </div>
-          <div className='bg-primary flex flex-col justify-center '>
+          <div className='flex flex-col justify-center bg-white '>
             <form
               action=''
               autoComplete='off'
@@ -147,7 +147,7 @@ export default function SignUpComponent({ csrfToken, setPreviewSignup }) {
                 name='csrfToken'
                 defaultValue={csrfToken}
               />
-              <legend className='label-form text-2xl '>Sign Up</legend>
+              <legend className='label-form text-xl '>Sign Up</legend>
               <FormInput
                 divClassAll={"w-full "}
                 beforeLabel={{
@@ -249,12 +249,12 @@ export default function SignUpComponent({ csrfToken, setPreviewSignup }) {
                   )}
                 </>
               )}
-              <div className='flex'>
-                <span className='pr-2 text-sm text-black'>
+              <div className='flex text-xs'>
+                <span className='pr-2 text-black'>
                   Already have an account?
                 </span>
                 <Link href='/signin'>
-                  <a className='text-sm underline'>Log in right here</a>
+                  <a className='underline'>Log in right here</a>
                 </Link>
               </div>
             </form>

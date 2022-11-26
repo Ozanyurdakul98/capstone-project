@@ -9,7 +9,7 @@ import { ValidateSignUp } from "../../helpers/Validate";
 import { Spinner } from "../Spinner";
 import { BackgroundOverlayFullscreen as ClickToCloseMax } from "../BackgroundOverlay";
 
-export default function SignUpComponent({ csrfToken, setPreviewSignup }) {
+export default function SignUpComponent({ csrfToken }) {
   const router = useRouter();
   const [form, setForm] = useState({
     username: "",
