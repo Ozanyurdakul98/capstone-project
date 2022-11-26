@@ -37,7 +37,7 @@ function Header() {
   }, []);
   return (
     <header id='top' className='relative z-50'>
-      <nav className='grid grid-cols-sm3 bg-white py-2 px-2 shadow-md md:py-4 md:px-4 lg:grid-cols-3'>
+      <nav className='grid grid-cols-sm3 bg-white py-2 px-2 shadow-md md:px-4 md:pt-4 md:pb-2 lg:grid-cols-3'>
         {/* Left */}
         <div className='flex  flex-auto items-center'>
           {/* Logo */}
