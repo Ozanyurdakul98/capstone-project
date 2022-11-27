@@ -43,7 +43,7 @@ export function ValidateEditUser(form) {
   return errors;
 }
 
-export function ValidateCreateListing(form) {
+export function ValidateCreateListing(form, checked) {
   const errors = {};
   const regex = /^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){9,60}$/i;
   const patternLocation = /^([a-zA-Z-])([a-zA-Z-0-9-,äöü\s]){4,60}$/i;
@@ -52,15 +52,44 @@ export function ValidateCreateListing(form) {
   } else if (!regex.test(form.listingTitle)) {
     errors.listingTitle = "Your input is not valid!";
   }
-  if (form.studioPricing.studioPricingHour?.length >= 5) {
+
+  if (
+    checked.studioPricing.indexOf("studioPricingHour") > -1 &&
+    !form.studioPricing.studioPricingHour
+  ) {
+    errors.studioPricing = "Enter your price!";
+  } else if (form.studioPricing.studioPricingHour?.length >= 5) {
     errors.studioPricing = "The max length is 4 numbers";
+  }
+
+  if (
+    checked.studioPricing.indexOf("studioPricingDay") > -1 &&
+    !form.studioPricing.studioPricingDay
+  ) {
+    errors.studioPricing = "Enter your price!";
   } else if (form.studioPricing.studioPricingDay?.length >= 5) {
     errors.studioPricing = "The max length is 4 numbers";
+  }
+
+  if (
+    checked.studioPricing.indexOf("studioPricingWeek") > -1 &&
+    !form.studioPricing.studioPricingWeek
+  ) {
+    errors.studioPricing = "Enter your price!";
   } else if (form.studioPricing.studioPricingWeek?.length >= 5) {
     errors.studioPricing = "The max length is 4 numbers";
+  }
+
+  if (
+    checked.studioPricing.indexOf("studioPricingMonth") > -1 &&
+    !form.studioPricing.studioPricingMonth
+  ) {
+    errors.studioPricing = "Enter your price!";
   } else if (form.studioPricing.studioPricingMonth?.length >= 5) {
     errors.studioPricing = "The max length is 4 numbers";
-  } else if (form.services.length === 0) {
+  }
+
+  if (form.services.length === 0) {
     errors.services = "Select at least 1 service!";
   }
   if (

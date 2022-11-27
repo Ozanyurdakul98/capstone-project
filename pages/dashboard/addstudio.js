@@ -35,6 +35,8 @@ function DashboardAddStudio() {
   const [formErrors, setFormErrors] = useState({});
   const [preview, setPreview] = useState(false);
   const router = useRouter();
+  console.log("form", form);
+  console.log("checked", checked);
   useEffect(() => {
     async function myFunction() {
       const session = await getSession();
@@ -60,7 +62,7 @@ function DashboardAddStudio() {
   const handleFormSubmit = async (event) => {
     const passForm = form;
     event.preventDefault();
-    setFormErrors(ValidateCreateListing(passForm));
+    setFormErrors(ValidateCreateListing(passForm, checked));
     setIsSubmit(true);
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       try {
