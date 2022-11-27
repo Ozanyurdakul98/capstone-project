@@ -1,5 +1,8 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
+import "./StudioService";
 // mongoose.set('debug', true);
+
+const { Schema } = mongoose;
 
 const studioListingSchema = new mongoose.Schema(
   {
@@ -7,8 +10,8 @@ const studioListingSchema = new mongoose.Schema(
     listingTitle: { type: String, required: true },
     images: {
       type: String,
-      default: '/images/Thumbnail-default.png',
-      set: (v) => (v === '' || undefined || null ? '/images/Thumbnail-default.png' : v),
+      default: "/images/Thumbnail-default.png",
+      set: (v) => (v === "" || undefined || null ? "/images/Thumbnail-default.png" : v),
       required: true,
     },
     openingHours: {
@@ -16,7 +19,11 @@ const studioListingSchema = new mongoose.Schema(
       required: true,
     },
     studiotype: { type: String, required: true },
-    services: { type: Array, required: true },
+    studioService: {
+      type: Schema.Types.ObjectId,
+      ref: "StudioService",
+      required: true,
+    },
     locationFeatures: { type: Array, required: true },
     soundengineer: { type: Object, required: true },
     studioPricing: { type: Object, required: true },
@@ -28,5 +35,6 @@ const studioListingSchema = new mongoose.Schema(
   }
 );
 
-const StudioListing = mongoose.models.StudioListing || mongoose.model('StudioListing', studioListingSchema);
+const StudioListing =
+  mongoose.models.StudioListing || mongoose.model("StudioListing", studioListingSchema);
 export default StudioListing;

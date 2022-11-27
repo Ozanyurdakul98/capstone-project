@@ -1,12 +1,13 @@
 import mongoose from "mongoose";
+
 const { Schema } = mongoose;
 
-const categorySchema = new Schema({
+const studioServiceSchema = new Schema({
   name: { type: String, required: true },
   description: { type: String, required: true },
 });
 
-const Category =
-  mongoose.models.Category || mongoose.model("Category", categorySchema);
+const StudioService =
+  mongoose.models.StudioService || mongoose.model("StudioService", studioServiceSchema);
 
-export default Category;
+export default StudioService;
