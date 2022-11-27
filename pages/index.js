@@ -29,16 +29,17 @@ Home.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
 };
 
-export async function getStatucProps(context) {
+export async function getStaticProps(context) {
   await db.connect();
+  const totalListingsCount = await StudioListing.find().count();
+  const totalUsersCount = await User.find().count();
   const latestAddedListings = await StudioListing.find()
     .sort({ $natural: -1 })
     .limit(10);
   const serializedLatestAddedListings = JSON.parse(
     JSON.stringify(latestAddedListings)
   );
-  const totalListingsCount = await StudioListing.find().count();
-  const totalUsersCount = await User.find().count();
+
   return {
     props: {
       latestListings: serializedLatestAddedListings || null,
