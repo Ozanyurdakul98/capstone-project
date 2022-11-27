@@ -13,7 +13,6 @@ export function HeaderUsermenu(props) {
   const username = session?.user.username;
   const email = session?.user.email;
   const avatar = session?.user.image;
-  console.log("STATUS", status);
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }
