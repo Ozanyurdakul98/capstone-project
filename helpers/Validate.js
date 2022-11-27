@@ -121,14 +121,14 @@ export function ValidateCreateStudioService(form) {
   const serviceDescription = /^([a-zA-Z-])([a-zA-Z-0-9-,.!äöü\s]){9,99}$/i;
 
   if (!form.name) {
-    errors.listingTitle = "A Servicename is required!";
+    errors.name = "A Servicename is required!";
   } else if (!serviceName.test(form.name)) {
-    errors.name = "Your input is not valid!";
+    errors.name = "Your service name input is not valid!";
   }
   if (!form.description) {
     errors.description = "A Servicedescription is required!";
   } else if (!serviceDescription.test(form.description)) {
-    errors.description = "Your input is not valid!";
+    errors.description = "Your service description input is not valid!";
   }
 
   return errors;

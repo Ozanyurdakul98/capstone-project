@@ -40,16 +40,18 @@ export default async function handler(req, res) {
     //   } catch (error) {
     //     return res.status(400).json({ success: false, message: "Unauthorized", error });
     //   }
-    // } else if (req.method === "DELETE") {
-    //   await db.connect();
-    //   try {
-    //     const { studioID } = req.query;
-    //     const status = await StudioListing.findByIdAndDelete(studioID);
-    //     return res.status(201).json({ success: true, status });
-    //   } catch (error) {
-    //     return res.status(400).json({ success: false, message: "Unauthorized", error });
-    //   }
     // }
+    else if (req.method === "DELETE") {
+      await db.connect();
+      try {
+        const ID = req.body;
+        console.log("IDDD", ID);
+        const status = await StudioService.findByIdAndDelete(ID);
+        return res.status(201).json({ success: true, status });
+      } catch (error) {
+        return res.status(400).json({ success: false, message: "Unauthorized", error });
+      }
+    }
   }
   return res.status(400).json({
     success: false,

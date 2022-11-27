@@ -1,6 +1,6 @@
-import React from 'react';
-import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../BackgroundOverlay';
-import { Spinner } from '../Spinner';
+import React from "react";
+import { BackgroundOverlayFullscreen as ClickToCloseMax } from "../BackgroundOverlay";
+import { Spinner } from "../Spinner";
 
 //expects deleteModalStrings (= header, message, error, studioID)
 //expects setDeleteModal(false) prop
@@ -27,8 +27,8 @@ export function DeleteModal(props) {
               <p>
                 {props.deleteModalStrings.type}: {props.deleteModalStrings.ID}
               </p>
-            ) : props.deleteModalStrings.type !== 'User' ? (
-              ' no ID'
+            ) : props.deleteModalStrings.type === "Studio" ? (
+              " no ID"
             ) : null}
           </div>
           <div className=' flex h-16 w-full items-center  justify-between gap-3 px-2 pb-1  md:px-5 '>
@@ -54,7 +54,7 @@ export function DeleteModal(props) {
         </div>
       </div>
       <ClickToCloseMax
-        style={'bg-black/50 editModal  z-40 h-full'}
+        style={"bg-black/50 editModal  z-40 h-full"}
         onClick={(event) => handleClickToCloseDeleteModal(event)}
       />
     </>
