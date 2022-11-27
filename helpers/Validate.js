@@ -47,8 +47,7 @@ export function ValidateCreateListing(form, checked) {
   const errors = {};
   const regex = /^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){9,60}$/i;
   const patternLocation = /^([a-zA-Z-])([a-zA-Z-0-9-,äöü\s]){4,60}$/i;
-  console.log("VALIDATION", checked);
-  console.log("VALIDATIONpricing", checked.studioPricing);
+
   if (!form.listingTitle) {
     errors.listingTitle = "A listing title is required!";
   } else if (!regex.test(form.listingTitle)) {

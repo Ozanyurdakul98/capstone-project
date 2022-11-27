@@ -35,8 +35,6 @@ function DashboardAddStudio() {
   const [formErrors, setFormErrors] = useState({});
   const [preview, setPreview] = useState(false);
   const router = useRouter();
-  console.log("form", form);
-  console.log("checked", checked);
   useEffect(() => {
     async function myFunction() {
       const session = await getSession();
