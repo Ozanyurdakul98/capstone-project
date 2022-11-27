@@ -14,6 +14,7 @@ export default async function handler(req, res) {
   }
 
   if (topic === "studioservice") {
+    //get for edit entries
     if (req.method === "GET") {
       try {
         const { studioID } = req.query;
@@ -30,25 +31,25 @@ export default async function handler(req, res) {
       } catch (error) {
         return res.status(400).json({ success: false, message: "Unauthorized", error });
       }
-    } else if (req.method === "PATCH") {
-      await db.connect();
-      try {
-        const { studioID } = req.query;
-        const listing = await StudioListing.findByIdAndUpdate(studioID, req.body);
-        return res.status(201).json({ success: true, data: listing });
-      } catch (error) {
-        return res.status(400).json({ success: false, message: "Unauthorized", error });
-      }
-    } else if (req.method === "DELETE") {
-      await db.connect();
-      try {
-        const { studioID } = req.query;
-        const status = await StudioListing.findByIdAndDelete(studioID);
-        return res.status(201).json({ success: true, status });
-      } catch (error) {
-        return res.status(400).json({ success: false, message: "Unauthorized", error });
-      }
-    }
+    } // else if (req.method === "PATCH") {
+    //   await db.connect();
+    //   try {
+    //     const { studioID } = req.query;
+    //     const listing = await StudioListing.findByIdAndUpdate(studioID, req.body);
+    //     return res.status(201).json({ success: true, data: listing });
+    //   } catch (error) {
+    //     return res.status(400).json({ success: false, message: "Unauthorized", error });
+    //   }
+    // } else if (req.method === "DELETE") {
+    //   await db.connect();
+    //   try {
+    //     const { studioID } = req.query;
+    //     const status = await StudioListing.findByIdAndDelete(studioID);
+    //     return res.status(201).json({ success: true, status });
+    //   } catch (error) {
+    //     return res.status(400).json({ success: false, message: "Unauthorized", error });
+    //   }
+    // }
   }
   return res.status(400).json({
     success: false,
