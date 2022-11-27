@@ -78,6 +78,9 @@
   .tablePagination-button {
     @apply bg-primary flex h-4 transform cursor-pointer items-center rounded-md border border-black px-3  py-2 text-white transition  duration-100 ease-out active:scale-95 active:bg-gray-100 sm:h-5 lg:h-6;
   }
+  .adminSettings-button {
+    @apply mb-5 w-full rounded-full bg-secondary-color py-2 text-xs uppercase text-white outline-none sm:w-60;
+  }
   .form-button {
     @apply my-5 w-full rounded-full bg-secondary-color py-2 text-xs uppercase text-white outline-none  xl:w-[250px];
   }
@@ -106,6 +109,12 @@
   /* Fieldsets */
   .fset-editUser {
     @apply my-8 w-full leading-tight;
+  }
+  .fset-adminsettings {
+    @apply mt-5 mb-5 w-full leading-tight;
+  }
+  .listingForm {
+    @apply my-10 w-full leading-tight xl:my-20;
   }
   .searchBarModal {
     @apply fixed top-0 left-0 z-30 h-screen w-screen cursor-default;
@@ -137,9 +146,7 @@
     @apply hover:bg-secondary-hover my-5 w-full  rounded-lg bg-secondary-color py-2 text-white outline-none active:bg-primary-color;
   }
   /* create listing */
-  .listingForm {
-    @apply my-10 w-full leading-tight xl:my-20;
-  }
+
   .form-button {
     @apply my-5 w-full rounded-full bg-secondary-color py-2 text-xs uppercase text-white outline-none  xl:w-[250px];
   }

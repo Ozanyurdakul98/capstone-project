@@ -14,7 +14,7 @@ export function DeleteModal(props) {
 
   return (
     <>
-      <div className='searchFadein fixed inset-x-0 inset-y-0 top-0 left-0 right-0 z-50 my-auto mx-auto h-48 max-w-md rounded-2xl  bg-white shadow-xxl lg:h-56  '>
+      <div className='searchFadein fixed inset-x-0 inset-y-0 top-0 left-0 right-0 z-50 my-auto mx-auto h-52 max-w-md rounded-2xl  bg-white shadow-xxl lg:h-56  '>
         <div className='flex h-full flex-col items-center justify-between gap-2 pt-5'>
           <h2 className='h3 ml-5'>{props.deleteModalStrings.header}</h2>
           <div className='flex w-full flex-col gap-1 px-5 text-center font-thin '>
@@ -40,16 +40,17 @@ export function DeleteModal(props) {
               Cancel
             </button>
             {props.loading ? (
-              <div className=' flex-shrink-0'>
+              <div className='flex w-full flex-grow justify-center'>
                 <Spinner />
               </div>
-            ) : null}
-            <button
-              onClick={() => props.deleteFunction(props.ID)}
-              disabled={props.loading ? true : false}
-              className='modal-deleteButton bg-red-600'>
-              Delete
-            </button>
+            ) : (
+              <button
+                onClick={() => props.deleteFunction(props.ID)}
+                disabled={props.loading ? true : false}
+                className='modal-deleteButton bg-red-600'>
+                Delete
+              </button>
+            )}
           </div>
         </div>
       </div>

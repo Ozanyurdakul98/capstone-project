@@ -48,7 +48,7 @@ export default function AdminDashboard({ studioServices }) {
         }
         if (res.ok) {
           setLoading("");
-          // router.reload();
+          router.reload();
         }
       } catch (error) {
         setLoading("");
@@ -72,7 +72,7 @@ export default function AdminDashboard({ studioServices }) {
 
   const handleStudioServiceDelete = async (ID) => {
     if (ID) {
-      setLoading("studioservice");
+      setLoading(true);
       try {
         const res = await fetch(`/api/dashboard/admin/settings/studioservice`, {
           method: "DELETE",
@@ -108,91 +108,99 @@ export default function AdminDashboard({ studioServices }) {
   }
   return (
     <div className='flex flex-col gap-14'>
+      {/* Header1 */}
       <div>
         <h1 className='mt-4 mb-2 text-center text-4xl font-bold leading-tight text-secondary-color'>
           Settings
         </h1>
       </div>
-      <form action='' className=''>
-        <fieldset className='listingForm '>
-          <FormInput
-            beforeLabel={{
-              string: "Add Studioservice",
-              css: "label-form ",
-            }}
-            className='input-form peer block '
-            type='text'
-            name='name'
-            id='name'
-            placeholder='Studioservice name here..'
-            required
-            autoComplete='off'
-            pattern='^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){2,29}$'
-            errorMessage={"3-30 characters and (a-z, A-Z, 0-9, ! äöü ,-_) allowed!"}
-            value={studioService.name}
-            onChange={handleStudioServiceChange}></FormInput>
-          <span className='errormessage'>{studioServiceErrors.name}</span>
-          <FormInput
-            beforeLabel={{ string: "Description", css: "label-login" }}
-            textarea={true}
-            className='input-form peer block'
-            name='description'
-            id='description'
-            placeholder='Studioservice description here..'
-            required
-            autoComplete='off'
-            pattern='^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){9,59}$'
-            errorMessage={"10-60 characters and (a-z, A-Z, 0-9, ! äöü ,-_) allowed!"}
-            value={studioService.description}
-            onChange={handleStudioServiceChange}
-          />
-          <span className='errormessage'>{studioServiceErrors.description}</span>{" "}
-        </fieldset>
-        {loading === "studioservice" ? (
-          <Spinner />
-        ) : (
-          <button
-            type='submit'
-            className='form-button'
-            onClick={(event) => handleAddStudioService(event)}>
-            Add Service
-          </button>
-        )}
-      </form>
-      <section className='flex flex-wrap gap-1'>
-        {studioServices.map((service) => (
-          <span
-            key={service._id}
-            className='align-center ease flex w-max cursor-pointer whitespace-nowrap rounded-full bg-gray-200 px-4 py-2 text-sm font-semibold text-gray-500 transition duration-300 active:bg-gray-300'>
-            {service.name}
+      {/* Add studioservice */}
+      <div>
+        <section className='flex flex-col gap-5'>
+          <h2 className='h2'>Studio services</h2>
+          <div className='flex flex-wrap gap-1'>
+            {studioServices.map((service) => (
+              <span
+                key={service._id}
+                className='align-center ease flex w-max cursor-pointer whitespace-nowrap rounded-full bg-gray-200 px-4 py-2 text-sm font-semibold text-gray-500 transition duration-300 active:bg-gray-300'>
+                {service.name}
+                <button
+                  className='hover bg-transparent focus:outline-none'
+                  onClick={() => openDeleteModal(service)}>
+                  <svg
+                    aria-hidden='true'
+                    focusable='false'
+                    data-prefix='fas'
+                    data-icon='times'
+                    className='ml-3 w-3'
+                    role='img'
+                    xmlns='http://www.w3.org/2000/svg'
+                    viewBox='0 0 352 512'>
+                    <path
+                      fill='currentColor'
+                      d='M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z'></path>
+                  </svg>
+                </button>
+              </span>
+            ))}
+            {deleteModal ? (
+              <DeleteModal
+                ID={ID}
+                loading={loading}
+                setDeleteModal={setDeleteModal}
+                deleteModalStrings={deleteModalStrings}
+                deleteFunction={handleStudioServiceDelete}></DeleteModal>
+            ) : null}
+          </div>
+          <div></div>
+        </section>
+        <form action='' className=''>
+          <fieldset className='fset-adminsettings '>
+            <FormInput
+              beforeLabel={{
+                string: "Add Studioservice",
+                css: "h3 ",
+              }}
+              className='input-form peer block '
+              type='text'
+              name='name'
+              id='name'
+              placeholder='Studioservice name here..'
+              required
+              autoComplete='off'
+              pattern='^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){2,29}$'
+              errorMessage={"3-30 characters and (a-z, A-Z, 0-9, ! äöü ,-_) allowed!"}
+              value={studioService.name}
+              onChange={handleStudioServiceChange}></FormInput>
+            <span className='errormessage'>{studioServiceErrors.name}</span>
+            <FormInput
+              beforeLabel={{ string: "Description", css: "label-login" }}
+              textarea={true}
+              className='input-form peer block'
+              name='description'
+              id='description'
+              placeholder='Studioservice description here..'
+              required
+              autoComplete='off'
+              pattern='^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){9,59}$'
+              errorMessage={"10-60 characters and (a-z, A-Z, 0-9, ! äöü ,-_) allowed!"}
+              value={studioService.description}
+              onChange={handleStudioServiceChange}
+            />
+            <span className='errormessage'>{studioServiceErrors.description}</span>{" "}
+          </fieldset>
+          {loading === "studioservice" ? (
+            <Spinner />
+          ) : (
             <button
-              className='hover bg-transparent focus:outline-none'
-              onClick={() => openDeleteModal(service)}>
-              <svg
-                aria-hidden='true'
-                focusable='false'
-                data-prefix='fas'
-                data-icon='times'
-                className='ml-3 w-3'
-                role='img'
-                xmlns='http://www.w3.org/2000/svg'
-                viewBox='0 0 352 512'>
-                <path
-                  fill='currentColor'
-                  d='M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z'></path>
-              </svg>
+              type='submit'
+              className='adminSettings-button'
+              onClick={(event) => handleAddStudioService(event)}>
+              Add Service
             </button>
-          </span>
-        ))}
-        {deleteModal ? (
-          <DeleteModal
-            ID={ID}
-            loading={loading}
-            setDeleteModal={setDeleteModal}
-            deleteModalStrings={deleteModalStrings}
-            deleteFunction={handleStudioServiceDelete}></DeleteModal>
-        ) : null}
-      </section>
+          )}
+        </form>
+      </div>
     </div>
   );
 }
