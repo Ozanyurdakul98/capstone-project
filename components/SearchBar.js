@@ -27,7 +27,7 @@ function SearchBar() {
       router.push({
         pathname: "/search",
         query: {
-          location: searchInput !== "" ? searchInput : "",
+          location: searchInput,
           startDate: startDate.toISOString(),
           endDate: endDate.toISOString(),
           noOfGuests,
@@ -36,14 +36,11 @@ function SearchBar() {
       });
 
       setSearchInput("");
-    } else if (searchInput === "") {
+    } else {
       router.push({
         pathname: "/search/all",
         query: {},
       });
-    } else {
-      alert("please enter a location");
-      return;
     }
   };
   //date
@@ -81,7 +78,6 @@ function SearchBar() {
   const handleServicesSelect = (event) => {
     setServicesSelected(event.target.value);
   };
-
   return (
     <div className='flex w-full items-center justify-center lg:pr-5 xl:pr-0'>
       {/* SearchInput */}
@@ -113,7 +109,6 @@ function SearchBar() {
                 }>
                 When?
               </button>
-
               <button
                 onClick={() => setActivePanel("guests")}
                 className={
@@ -123,7 +118,6 @@ function SearchBar() {
                 }>
                 Guests?
               </button>
-
               <button
                 onClick={() => setActivePanel("services")}
                 className={
@@ -162,7 +156,7 @@ function SearchBar() {
                         moveRangeOnFirstSelection={false}
                       />
                       <ClickToCloseMin
-                        onClick={(event) => handleClickToCloseCalendar(event)}
+                        onClick={() => handleClickToCloseCalendar()}
                       />
                     </>
                   )}
@@ -231,7 +225,7 @@ function SearchBar() {
           </div>
           <ClickToCloseMax
             style={"bg-black/50 searchBarModal"}
-            onClick={(event) => handleClickToCloseSearch(event)}
+            onClick={() => handleClickToCloseSearch()}
           />
         </>
       )}

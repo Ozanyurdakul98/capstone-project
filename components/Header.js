@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import SearchBar from "./SearchBar";
 import {
   GlobeAsiaAustraliaIcon,
@@ -8,33 +8,17 @@ import {
 import Link from "next/link";
 import Logo from "./Logo";
 import { useSession } from "next-auth/react";
-import { MyLink } from "./MyLink";
-import { FaBuilding } from "react-icons/fa";
 import { HeaderUsermenu } from "./HeaderUsermenu";
 import { HeaderPagemenu } from "./HeaderPagemenu";
 import { HeaderSignupButton } from "./HeaderSignupButton";
 import { HeaderSigninButton } from "./HeaderSigninButton";
-import { getSession } from "next-auth/react";
 import SignUpComponent from "./Forms/SignUpFormModal";
 import SignInComponent from "./Forms/SignInFormModal";
-import { Router, useRouter } from "next/router";
+import { useRouter } from "next/router";
 function Header() {
   const [previewSigning, setPreviewSigning] = useState("");
   const { data: session, status } = useSession();
   const router = useRouter();
-  console.log(status);
-  useEffect(() => {
-    async function myFunction() {
-      const session = await getSession();
-      const userEmail = session;
-      try {
-        return;
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    // myFunction();
-  }, []);
   return (
     <header id='top' className='relative z-50'>
       <nav className='grid grid-cols-sm3 bg-white py-2 px-2 shadow-md md:px-4 md:pt-4 md:pb-2 lg:grid-cols-3'>
@@ -92,6 +76,7 @@ function Header() {
           ) : null}
         </div>
       </nav>
+      {/* Modals */}
       {previewSigning === "signin" ? (
         <SignInComponent setPreviewSigning={setPreviewSigning} />
       ) : null}

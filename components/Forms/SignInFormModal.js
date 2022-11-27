@@ -4,7 +4,6 @@ import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { FormInput } from "./FormInput";
-import Link from "next/link";
 import { BackgroundOverlayFullscreen as ClickToCloseMax } from "../BackgroundOverlay";
 
 export default function SignInComponent({ csrfToken, setPreviewSigning }) {
@@ -118,7 +117,7 @@ export default function SignInComponent({ csrfToken, setPreviewSigning }) {
       </div>
       <ClickToCloseMax
         style={"bg-black/50 editModal z-40 h-full"}
-        onClick={(event) => handleClickToCloseModal(event)}
+        onClick={() => handleClickToCloseModal()}
       />
     </>
   );

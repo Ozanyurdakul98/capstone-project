@@ -1,10 +1,6 @@
 import React from "react";
 import { ArrowRightOnRectangleIcon } from "@heroicons/react/24/outline";
-import { useRouter } from "next/router";
-
 export function HeaderSignupButton({ setPreviewSigning }) {
-  const router = useRouter();
-
   return (
     <button
       onClick={() => setPreviewSigning("signup")}

@@ -7,7 +7,6 @@ import { useRouter } from "next/router";
 import { FormInput } from "./FormInput";
 import { ValidateSignUp } from "../../helpers/Validate";
 import { Spinner } from "../Spinner";
-import { BackgroundOverlayFullscreen as ClickToCloseMax } from "../BackgroundOverlay";
 
 export default function SignUpComponent({ csrfToken }) {
   const router = useRouter();
@@ -22,7 +21,6 @@ export default function SignUpComponent({ csrfToken }) {
   const [isSubmit, setIsSubmit] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isValidated, setIsValidated] = useState(false);
-
   const signupUser = async (event) => {
     const passForm = form;
     event.preventDefault();
@@ -71,10 +69,6 @@ export default function SignUpComponent({ csrfToken }) {
       return;
     }
   };
-  const handleClickToCloseModal = () => {
-    setPreviewSignup(false);
-  };
-
   const handleChange = (event) => {
     const t = event.target;
     const name = t.name;
@@ -82,7 +76,6 @@ export default function SignUpComponent({ csrfToken }) {
     const value = checkValues(name, wert);
     setForm({ ...form, [name]: value });
   };
-
   function checkValues(name, wert) {
     if (name === "email") {
       return wert;

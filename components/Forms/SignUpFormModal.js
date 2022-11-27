@@ -1,7 +1,6 @@
 import React from "react";
 import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import { FormInput } from "./FormInput";
@@ -56,7 +55,7 @@ export default function SignUpComponent({ csrfToken, setPreviewSigning }) {
             email: form.email,
             password: form.password,
           };
-          const res = await signIn("credentials", options);
+          await signIn("credentials", options);
           router.push({
             pathname: "/success",
             query: {
@@ -265,7 +264,7 @@ export default function SignUpComponent({ csrfToken, setPreviewSigning }) {
       </div>
       <ClickToCloseMax
         style={"bg-black/50 editModal   z-40 h-full"}
-        onClick={(event) => handleClickToCloseModal(event)}
+        onClick={() => handleClickToCloseModal()}
       />
     </>
   );
