@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import TextareaAutosize from "react-textarea-autosize";
 
 export function FormInput(props) {
   const [focused, setFocused] = useState(false);
@@ -13,6 +14,7 @@ export function FormInput(props) {
     divClassAll,
     submitErrors,
     labelWrap,
+    textarea,
     ...inputProps
   } = props;
 
@@ -20,6 +22,7 @@ export function FormInput(props) {
   //   -divClassAll = Div wrapping beforeLabel, input, afterLabel, span(errormessage) . provide String for css classes
   //   -divClass = Div wrapping only input and afterLabel
   //   -labelWarp = label Wrapping input, afterLbale, span
+  //   -textarea  = set true, to use textareaautoresize component from their importet library.
   //   -beforeLabel  = provide Object with css and a string key and inside ThemeConsumer, a string
   //   -afterLable = just a string
   //   -errormessage = errormessage dispalying if input is invalid due to pattern/required. peer class for input required
@@ -98,6 +101,22 @@ export function FormInput(props) {
                 <span>{submitErrors?.[name]}</span>
               </label>
             </>
+          ) : textarea ? (
+            <>
+              <TextareaAutosize
+                {...inputProps}
+                onChange={onChange}
+                onBlur={handleFocus}
+                data-focused={focused.toString()}
+              />
+              <Label id={props.id} afterLabel={afterLabel} />
+              <ErrorMessage
+                type={props.type}
+                disabled={props.disabled}
+                focused={focused}
+                errorMessage={errorMessage}></ErrorMessage>
+              <span>{submitErrors?.[name]}</span>
+            </>
           ) : (
             <>
               <input
@@ -146,10 +165,7 @@ function ErrorMessage(props) {
       className={
         props.focused && props.errorMessage && props.type !== "number"
           ? "block pl-5 text-xs text-red-500 peer-valid:hidden peer-invalid:visible sm:text-sm"
-          : props.type === "number" &&
-            props.errorMessage &&
-            !props.disabled &&
-            props.focused
+          : props.type === "number" && props.errorMessage && !props.disabled && props.focused
           ? "text-xs text-yellow-500 peer-valid:hidden peer-enabled:block sm:text-sm"
           : (props.type === "email" || props.type === "password") &&
             props.errorMessage &&

@@ -7,6 +7,7 @@ import StudioListing from "../../../models/StudioListing";
 import User from "../../../models/UserModel";
 import DashboardLayout from "../../../components/Layout/DashboardLayout";
 import { FormInput } from "../../../components/Forms/FormInput";
+import TextareaAutosize from "react-textarea-autosize";
 import { useState } from "react";
 import { Spinner } from "../../../components/Spinner";
 export default function AdminDashboard({ serialized }) {
@@ -81,23 +82,22 @@ export default function AdminDashboard({ serialized }) {
             errorMessage={"Only 10-60 characters and (a-z, A-Z, 0-9, ! äöü ,-_) allowed!"}
             value={form.studioService}
             onChange={handleChange}></FormInput>
+
           <FormInput
-            beforeLabel={{
-              string: "Description",
-              css: "label-form ",
-            }}
-            className='input-form peer block '
-            type='text'
+            beforeLabel={{ string: "Description", css: "label-login" }}
+            textarea={true}
+            className='input-form peer block'
             name='studioService'
             id='studioService'
-            placeholder='Studioservice here..'
+            placeholder='Studioservice description here..'
             required
             autoComplete='off'
             pattern='^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){9,60}$'
             errorMessage={"Only 10-60 characters and (a-z, A-Z, 0-9, ! äöü ,-_) allowed!"}
             value={form.studioService}
-            onChange={handleChange}></FormInput>
-          <span className='errormessage '>{formErrors.studioService}</span>
+            onChange={handleChange}
+          />
+          <span className='errormessage'>{formErrors.studioService}</span>
         </fieldset>
         <button type='submit' className='button' onClick={(event) => handleAddStudioService(event)}>
           Add Service
