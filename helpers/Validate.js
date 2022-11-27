@@ -47,6 +47,8 @@ export function ValidateCreateListing(form, checked) {
   const errors = {};
   const regex = /^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){9,60}$/i;
   const patternLocation = /^([a-zA-Z-])([a-zA-Z-0-9-,äöü\s]){4,60}$/i;
+  console.log("VALIDATION", checked);
+  console.log("VALIDATIONpricing", checked.studioPricing);
   if (!form.listingTitle) {
     errors.listingTitle = "A listing title is required!";
   } else if (!regex.test(form.listingTitle)) {
@@ -92,20 +94,24 @@ export function ValidateCreateListing(form, checked) {
   if (form.services.length === 0) {
     errors.services = "Select at least 1 service!";
   }
+
   if (
     Object.keys(form.studioPricing).length === 0 &&
     form.studioPricing.constructor === Object
   ) {
     errors.studioPricing = "Select at least 1 studio pricing option!";
   }
+
   if (form.locationFeatures.length === 0) {
     errors.locationFeatures = "Select at least 1 location feature!";
   }
+
   if (!form.soundengineer) {
     errors.soundengineer = "Select a option for Soundengineer!";
   } else if (form.soundengineer.soundengineerPrice?.length >= 5) {
     errors.soundengineer = "The max length is 4 numbers";
   }
+
   if (!form.studioLocation) {
     errors.studioLocation = "A studio location is required!";
   } else if (!patternLocation.test(form.studioLocation)) {

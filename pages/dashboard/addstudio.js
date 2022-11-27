@@ -53,14 +53,15 @@ function DashboardAddStudio() {
 
   const handlePreview = (event) => {
     const passForm = form;
-    setFormErrors(ValidateCreateListing(passForm));
-    if (Object.keys(ValidateCreateListing(passForm)).length === 0) {
+    setFormErrors(ValidateCreateListing(passForm, checked));
+    if (Object.keys(ValidateCreateListing(passForm, checked)).length === 0) {
       handleUploadInput(event);
       setPreview(true);
     }
   };
   const handleFormSubmit = async (event) => {
     const passForm = form;
+
     event.preventDefault();
     setFormErrors(ValidateCreateListing(passForm, checked));
     setIsSubmit(true);
