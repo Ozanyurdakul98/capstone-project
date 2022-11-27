@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { ValidateCreateListing } from "../../helpers/Validate.js";
+import { ValidateCreateStudioListing } from "../../helpers/Validate.js";
 import ListingCardWide from "../../components/ListingCardWide";
 import ListingCardCarousell from "../../components/ListingCardCarousell";
 import { BackgroundOverlayFullscreen as ClickToCloseMax } from "../../components/BackgroundOverlay";
@@ -51,8 +51,8 @@ function DashboardAddStudio() {
 
   const handlePreview = (event) => {
     const passForm = form;
-    setFormErrors(ValidateCreateListing(passForm, checked));
-    if (Object.keys(ValidateCreateListing(passForm, checked)).length === 0) {
+    setFormErrors(ValidateCreateStudioListing(passForm, checked));
+    if (Object.keys(ValidateCreateStudioListing(passForm, checked)).length === 0) {
       handleUploadInput(event);
       setPreview(true);
     }
@@ -61,7 +61,7 @@ function DashboardAddStudio() {
     const passForm = form;
 
     event.preventDefault();
-    setFormErrors(ValidateCreateListing(passForm, checked));
+    setFormErrors(ValidateCreateStudioListing(passForm, checked));
     setIsSubmit(true);
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       try {
@@ -151,9 +151,7 @@ function DashboardAddStudio() {
           newArray = newArray.filter((pricing) => pricing !== id);
           const currentForm = { ...form?.[name], [id]: wert };
           const deleteUnchecked = Object.fromEntries(
-            Object.entries(currentForm).filter(
-              (pricing) => !pricing.includes(id)
-            )
+            Object.entries(currentForm).filter((pricing) => !pricing.includes(id))
           );
           setForm({ ...form, [name]: deleteUnchecked });
         }
@@ -187,10 +185,7 @@ function DashboardAddStudio() {
         <h1 className='text-primary mt-4 mb-2 text-center text-4xl font-bold leading-tight'>
           Add Studio Listing
         </h1>
-        <form
-          noValidate
-          className='text-primary w-full'
-          onSubmit={handleFormSubmit}>
+        <form noValidate className='text-primary w-full' onSubmit={handleFormSubmit}>
           <StudioFormfields
             defaultForm={defaultForm}
             defaultChecked={defaultChecked}
@@ -205,9 +200,7 @@ function DashboardAddStudio() {
             handleFormSubmit={handleFormSubmit}
             handleChange={handleChange}
             handleCheck={handleCheck}
-            handleClickToCloseSearch={
-              handleClickToCloseSearch
-            }></StudioFormfields>
+            handleClickToCloseSearch={handleClickToCloseSearch}></StudioFormfields>
           {/* PreviewModal */}
           <fieldset>
             {preview && (
@@ -226,11 +219,7 @@ function DashboardAddStudio() {
                         <h3 className='h3 ml-5'>Searchpage preview</h3>
                         <ListingCardWide
                           listingTitle={form.listingTitle}
-                          images={
-                            form.images
-                              ? form.images
-                              : "/images/Thumbnail-default.png"
-                          }
+                          images={form.images ? form.images : "/images/Thumbnail-default.png"}
                           studiotype={form.studiotype}
                           services={form.services}
                           soundengineer={form.soundengineer}
@@ -244,11 +233,7 @@ function DashboardAddStudio() {
                         <div className='-ml-4'>
                           <ListingCardCarousell
                             listingTitle={form.listingTitle}
-                            images={
-                              form.images
-                                ? form.images
-                                : "/images/Thumbnail-default.png"
-                            }
+                            images={form.images ? form.images : "/images/Thumbnail-default.png"}
                             studiotype={form.studiotype}
                             services={form.services}
                             soundengineer={form.soundengineer}
@@ -270,9 +255,7 @@ function DashboardAddStudio() {
                       <button
                         onClick={handleFormSubmit}
                         className='form-button bg-primary max-w-[250px] flex-grow justify-center border-none text-white'>
-                        {Object.keys(formErrors).length === 0 && isSubmit
-                          ? "List Studio"
-                          : "Check"}
+                        {Object.keys(formErrors).length === 0 && isSubmit ? "List Studio" : "Check"}
                       </button>
                     </div>
                   </div>
@@ -294,14 +277,12 @@ function DashboardAddStudio() {
                     <h2 className='h2 ml-5'>The operation has failed!</h2>
                     <div className='flex w-full flex-col gap-5 px-5 text-center '>
                       <p>
-                        Your Studio listing could not submitted! Feel free to
-                        contact us with a screenshot of the error message, or
-                        try again and see if the problem is resolved.
+                        Your Studio listing could not submitted! Feel free to contact us with a
+                        screenshot of the error message, or try again and see if the problem is
+                        resolved.
                       </p>
                       <p>This is the Error message: </p>
-                      <p className='text-red-500'>
-                        {Object.entries(formErrors)}
-                      </p>
+                      <p className='text-red-500'>{Object.entries(formErrors)}</p>
                     </div>
                   </div>
                   {/* Buttons */}
@@ -346,9 +327,7 @@ function DashboardAddStudio() {
                 handlePreview(event);
               }}
               className='form-button hover:bg-secondary-hover text-white'>
-              {Object.keys(formErrors).length === 0 && isSubmit
-                ? "Next"
-                : "Check"}
+              {Object.keys(formErrors).length === 0 && isSubmit ? "Next" : "Check"}
             </button>
           </fieldset>
         </form>

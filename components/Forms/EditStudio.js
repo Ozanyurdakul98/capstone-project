@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { ValidateCreateListing } from "../../helpers/Validate.js";
+import { ValidateCreateStudioListing } from "../../helpers/Validate.js";
 import { BackgroundOverlayFullscreen as ClickToCloseMax } from "../BackgroundOverlay";
 import Link from "next/link.js";
 import { useRouter } from "next/router";
@@ -40,7 +40,7 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
   const handleFormSubmit = async (event) => {
     const passForm = form;
     event.preventDefault();
-    setFormErrors(ValidateCreateListing(passForm, checked));
+    setFormErrors(ValidateCreateStudioListing(passForm, checked));
     setIsSubmit(true);
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       setLoading(true);
@@ -89,9 +89,7 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
     return () => {
       if (pricing) {
         let pricingArray = [];
-        Object.keys(pricing).map(
-          (price) => (pricingArray = [...pricingArray, price])
-        );
+        Object.keys(pricing).map((price) => (pricingArray = [...pricingArray, price]));
         setChecked({ ...checked, studioPricing: pricingArray });
       }
       if (typeof engineer === "object") {
@@ -149,9 +147,7 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
           newArray = newArray.filter((pricing) => pricing !== id);
           const currentForm = { ...form?.[name], [id]: wert };
           const deleteUnchecked = Object.fromEntries(
-            Object.entries(currentForm).filter(
-              (pricing) => !pricing.includes(id)
-            )
+            Object.entries(currentForm).filter((pricing) => !pricing.includes(id))
           );
           setForm({ ...form, [name]: deleteUnchecked });
         }
@@ -190,10 +186,7 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
           </div>
           <div className=' px-2 sm:ml-5 md:mr-5'>
             <div className='sm:px-0'>
-              <form
-                noValidate
-                className='text-primary w-full'
-                onSubmit={handleFormSubmit}>
+              <form noValidate className='text-primary w-full' onSubmit={handleFormSubmit}>
                 <StudioFormfields
                   form={form}
                   setForm={setForm}
@@ -212,14 +205,9 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
                         <div className='flex flex-col gap-7 overflow-y-scroll pb-20'>
                           <h2 className='h2 ml-5'>The operation has failed!</h2>
                           <div className='flex w-full flex-col gap-5 px-5 text-center '>
-                            <p>
-                              The Studio could not be changed, Submission
-                              failed!
-                            </p>
+                            <p>The Studio could not be changed, Submission failed!</p>
                             <p>This is the Error message: </p>
-                            <p className='text-red-500'>
-                              {Object.entries(formErrors)}
-                            </p>
+                            <p className='text-red-500'>{Object.entries(formErrors)}</p>
                           </div>
                         </div>
                         {/* Buttons */}
@@ -264,9 +252,7 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
               onClick={(event) => handleFormSubmit(event)}
               disabled={loading ? true : false}
               className='form-button bg-primary max-w-[250px] flex-grow justify-center border-none text-white'>
-              {Object.keys(formErrors).length === 0 && isSubmit
-                ? "Update Studio"
-                : "Check"}
+              {Object.keys(formErrors).length === 0 && isSubmit ? "Update Studio" : "Check"}
             </button>
           </div>
         </div>

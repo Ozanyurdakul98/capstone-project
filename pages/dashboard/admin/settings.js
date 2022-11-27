@@ -1,31 +1,29 @@
-import DashboardAdminBoxes from "../../../components/Dashboard/DashboardAdminStatsToday";
-import WelcomeRow from "../../../components/Dashboard/WelcomeRow";
-import DashboardAdminStatsTotal from "../../../components/Dashboard/DashboardAdminStatsTotal";
 import StudioService from "../../../models/StudioService";
 import db from "../../../lib/dbConnect";
 import StudioListing from "../../../models/StudioListing";
 import User from "../../../models/UserModel";
 import DashboardLayout from "../../../components/Layout/DashboardLayout";
 import { FormInput } from "../../../components/Forms/FormInput";
-import TextareaAutosize from "react-textarea-autosize";
 import { useState } from "react";
 import { Spinner } from "../../../components/Spinner";
+import { ValidateCreateStudioService } from "../../../helpers/Validate";
 export default function AdminDashboard({ serialized }) {
-  const [form, setForm] = useState({ studioService: "" });
-  const [formErrors, setFormErrors] = useState({});
+  const [studioService, setStudioService] = useState({ name: "", description: "" });
+  const [studioServiceErrors, setStudioServiceErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [submissionFailed, setSubmissionFailed] = useState(false);
-  console.log("serialized", serialized);
+  console.log("serialized");
+
   const handleAddStudioService = async (event) => {
-    const passForm = form;
+    const passForm = studioService;
     event.preventDefault();
-    setFormErrors(ValidateCreateListing(passForm, checked));
-    if (Object.keys(formErrors).length === 0) {
+    setStudioServiceErrors(ValidateCreateStudioService(studioService));
+    if (Object.keys(studioServiceErrors).length === 0) {
       setLoading(true);
       try {
         const res = await fetch(`/api/dashboard/admin/settings/studioservice`, {
           method: "POST",
-          body: JSON.stringify(form),
+          body: JSON.stringify(studioService),
           headers: {
             "Content-Type": "application/json",
           },
@@ -42,24 +40,22 @@ export default function AdminDashboard({ serialized }) {
         }
       } catch (error) {
         setLoading(false);
-        setFormErrors(error);
+        setStudioServiceErrors(error);
         setSubmissionFailed(true);
         console.error("Failed to update data", error);
       }
     }
   };
 
-  const handleChange = (event) => {
+  const handleStudioServiceChange = (event) => {
     const target = event.target;
     const name = target.name;
     const wert = target.value;
     const value = checkValues(wert);
-    setForm({ ...form, [name]: value() });
+    setStudioService({ ...studioService, [name]: value });
   };
   function checkValues(wert) {
-    return () => {
-      return wert;
-    };
+    return wert;
   }
   return (
     <div>
@@ -73,31 +69,31 @@ export default function AdminDashboard({ serialized }) {
             }}
             className='input-form peer block '
             type='text'
-            name='studioService'
-            id='studioService'
+            name='name'
+            id='name'
             placeholder='Studioservice here..'
             required
             autoComplete='off'
-            pattern='^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){9,60}$'
-            errorMessage={"Only 10-60 characters and (a-z, A-Z, 0-9, ! äöü ,-_) allowed!"}
-            value={form.studioService}
-            onChange={handleChange}></FormInput>
-
+            pattern='^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){2,29}$'
+            errorMessage={"3-30 characters and (a-z, A-Z, 0-9, ! äöü ,-_) allowed!"}
+            value={studioService.name}
+            onChange={handleStudioServiceChange}></FormInput>
+          <span className='errormessage'>{studioServiceErrors.name}</span>
           <FormInput
             beforeLabel={{ string: "Description", css: "label-login" }}
             textarea={true}
             className='input-form peer block'
-            name='studioService'
-            id='studioService'
+            name='description'
+            id='description'
             placeholder='Studioservice description here..'
             required
             autoComplete='off'
-            pattern='^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){9,60}$'
-            errorMessage={"Only 10-60 characters and (a-z, A-Z, 0-9, ! äöü ,-_) allowed!"}
-            value={form.studioService}
-            onChange={handleChange}
+            pattern='^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){9,59}$'
+            errorMessage={"10-60 characters and (a-z, A-Z, 0-9, ! äöü ,-_) allowed!"}
+            value={studioService.description}
+            onChange={handleStudioServiceChange}
           />
-          <span className='errormessage'>{formErrors.studioService}</span>
+          <span className='errormessage'>{studioServiceErrors.description}</span>
         </fieldset>
         <button type='submit' className='button' onClick={(event) => handleAddStudioService(event)}>
           Add Service

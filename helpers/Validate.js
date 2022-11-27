@@ -14,8 +14,7 @@ export function ValidateSignUp(form) {
   if (!form.password) {
     errors.password = "Please enter password";
   } else if (!patternPassword.test(form.password)) {
-    errors.password =
-      "Incorrect format! Only (a-zA-Z-0-9-!äöü#@.,-_) and 8-20 characters";
+    errors.password = "Incorrect format! Only (a-zA-Z-0-9-!äöü#@.,-_) and 8-20 characters";
   }
   if (!form.matchpassword) {
     errors.matchpassword = "Enter your Password again!";
@@ -43,7 +42,7 @@ export function ValidateEditUser(form) {
   return errors;
 }
 
-export function ValidateCreateListing(form, checked) {
+export function ValidateCreateStudioListing(form, checked) {
   const errors = {};
   const regex = /^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){9,60}$/i;
   const patternLocation = /^([a-zA-Z-])([a-zA-Z-0-9-,äöü\s]){4,60}$/i;
@@ -94,10 +93,7 @@ export function ValidateCreateListing(form, checked) {
     errors.services = "Select at least 1 service!";
   }
 
-  if (
-    Object.keys(form.studioPricing).length === 0 &&
-    form.studioPricing.constructor === Object
-  ) {
+  if (Object.keys(form.studioPricing).length === 0 && form.studioPricing.constructor === Object) {
     errors.studioPricing = "Select at least 1 studio pricing option!";
   }
 
@@ -116,5 +112,24 @@ export function ValidateCreateListing(form, checked) {
   } else if (!patternLocation.test(form.studioLocation)) {
     errors.studioLocation = "Your input is not valid";
   }
+  return errors;
+}
+
+export function ValidateCreateStudioService(form) {
+  const errors = {};
+  const serviceName = /^([a-zA-Z-])([a-zA-Z-0-9-äöü\s]){2,60}$/i;
+  const serviceDescription = /^([a-zA-Z-])([a-zA-Z-0-9-,.!äöü\s]){9,99}$/i;
+
+  if (!form.name) {
+    errors.listingTitle = "A Servicename is required!";
+  } else if (!serviceName.test(form.name)) {
+    errors.name = "Your input is not valid!";
+  }
+  if (!form.description) {
+    errors.description = "A Servicedescription is required!";
+  } else if (!serviceDescription.test(form.description)) {
+    errors.description = "Your input is not valid!";
+  }
+
   return errors;
 }
