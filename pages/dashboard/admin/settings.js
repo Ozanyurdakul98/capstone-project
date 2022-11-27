@@ -107,9 +107,13 @@ export default function AdminDashboard({ studioServices }) {
     setDeleteModal(true);
   }
   return (
-    <div>
-      <h1>settings</h1>
-      <form action=''>
+    <div className='flex flex-col gap-14'>
+      <div>
+        <h1 className='mt-4 mb-2 text-center text-4xl font-bold leading-tight text-secondary-color'>
+          Settings
+        </h1>
+      </div>
+      <form action='' className=''>
         <fieldset className='listingForm '>
           <FormInput
             beforeLabel={{
@@ -149,46 +153,46 @@ export default function AdminDashboard({ studioServices }) {
         ) : (
           <button
             type='submit'
-            className='button'
+            className='form-button'
             onClick={(event) => handleAddStudioService(event)}>
             Add Service
           </button>
         )}
-        <section className='flex flex-wrap gap-1'>
-          {studioServices.map((service) => (
-            <span
-              key={service._id}
-              className='align-center ease flex w-max cursor-pointer whitespace-nowrap rounded-full bg-gray-200 px-4 py-2 text-sm font-semibold text-gray-500 transition duration-300 active:bg-gray-300'>
-              {service.name}
-              <button
-                className='hover bg-transparent focus:outline-none'
-                onClick={() => openDeleteModal(service)}>
-                <svg
-                  aria-hidden='true'
-                  focusable='false'
-                  data-prefix='fas'
-                  data-icon='times'
-                  className='ml-3 w-3'
-                  role='img'
-                  xmlns='http://www.w3.org/2000/svg'
-                  viewBox='0 0 352 512'>
-                  <path
-                    fill='currentColor'
-                    d='M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z'></path>
-                </svg>
-              </button>
-            </span>
-          ))}
-          {deleteModal ? (
-            <DeleteModal
-              ID={ID}
-              loading={loading}
-              setDeleteModal={setDeleteModal}
-              deleteModalStrings={deleteModalStrings}
-              deleteFunction={handleStudioServiceDelete}></DeleteModal>
-          ) : null}
-        </section>
       </form>
+      <section className='flex flex-wrap gap-1'>
+        {studioServices.map((service) => (
+          <span
+            key={service._id}
+            className='align-center ease flex w-max cursor-pointer whitespace-nowrap rounded-full bg-gray-200 px-4 py-2 text-sm font-semibold text-gray-500 transition duration-300 active:bg-gray-300'>
+            {service.name}
+            <button
+              className='hover bg-transparent focus:outline-none'
+              onClick={() => openDeleteModal(service)}>
+              <svg
+                aria-hidden='true'
+                focusable='false'
+                data-prefix='fas'
+                data-icon='times'
+                className='ml-3 w-3'
+                role='img'
+                xmlns='http://www.w3.org/2000/svg'
+                viewBox='0 0 352 512'>
+                <path
+                  fill='currentColor'
+                  d='M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z'></path>
+              </svg>
+            </button>
+          </span>
+        ))}
+        {deleteModal ? (
+          <DeleteModal
+            ID={ID}
+            loading={loading}
+            setDeleteModal={setDeleteModal}
+            deleteModalStrings={deleteModalStrings}
+            deleteFunction={handleStudioServiceDelete}></DeleteModal>
+        ) : null}
+      </section>
     </div>
   );
 }

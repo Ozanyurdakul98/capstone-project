@@ -78,6 +78,9 @@
   .tablePagination-button {
     @apply bg-primary flex h-4 transform cursor-pointer items-center rounded-md border border-black px-3  py-2 text-white transition  duration-100 ease-out active:scale-95 active:bg-gray-100 sm:h-5 lg:h-6;
   }
+  .form-button {
+    @apply my-5 w-full rounded-full bg-secondary-color py-2 text-xs uppercase text-white outline-none  xl:w-[250px];
+  }
   .button-active {
     @apply flex max-h-8 transform cursor-pointer items-center rounded-full  border bg-[#1e90ff] px-4 py-2 text-white transition duration-100 ease-out  hover:shadow-lg active:scale-95 active:bg-gray-100;
   }
