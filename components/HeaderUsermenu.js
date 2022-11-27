@@ -9,23 +9,25 @@ import Image from "next/image";
 import { RiAdminLine } from "react-icons/ri";
 
 export function HeaderUsermenu(props) {
-  const { session } = props;
+  const { session, status } = props;
   const username = session?.user.username;
   const email = session?.user.email;
   const avatar = session?.user.image;
-
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }
   return (
-    <ul className='mr-2 flex cursor-pointer items-center md:mx-5 2xl:min-w-[200px]'>
+    <ul
+      className={`mr-2 flex cursor-pointer items-center md:mx-5 2xl:min-w-[200px] ${
+        status !== "authenticated" ? "md:hidden" : null
+      }`}>
       <li className='ml-2 md:inline'>
         <Menu as='div' className='relative inline-block text-left outline-none'>
-          <Menu.Button className='flex   justify-center bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none sm:rounded-md sm:border sm:border-gray-300 '>
-            <div className='hidden sm:inline-flex'>
+          <Menu.Button className='flex justify-center bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:rounded-md sm:border sm:border-gray-300 '>
+            <div className='hidden font-bold text-primary-color sm:inline-flex'>
               Account
               <ChevronDownIcon
-                className='-mr-1    ml-2 h-5 w-5'
+                className='-mr-1 ml-2 h-5 w-5'
                 aria-hidden='true'
               />
             </div>
@@ -197,28 +199,30 @@ export function HeaderUsermenu(props) {
                   <div className='bg-secondary flex justify-center rounded-t-lg '>
                     <Menu.Item>
                       {({ active }) => (
-                        <MyLink
-                          href='/signin'
+                        <button
+                          type='button'
+                          onClick={() => props.setPreviewSigning("signin")}
                           className={classNames(
                             active ? "bg-black text-white" : "text-white",
                             "block h-full w-full rounded-t-lg px-4 py-3 text-center text-base"
                           )}>
                           Sign in
-                        </MyLink>
+                        </button>
                       )}
                     </Menu.Item>
                   </div>
                   <div className='bg-primary flex justify-center rounded-b-lg '>
                     <Menu.Item>
                       {({ active }) => (
-                        <MyLink
-                          href='/signup'
+                        <button
+                          type='button'
+                          onClick={() => props.setPreviewSigning("signup")}
                           className={classNames(
                             active ? "bg-black text-white" : "text-white",
                             "block h-full w-full rounded-b-lg px-4 py-3 text-center text-base"
                           )}>
                           Become a Member
-                        </MyLink>
+                        </button>
                       )}
                     </Menu.Item>
                   </div>

@@ -69,7 +69,6 @@ export default function SignUpComponent({ csrfToken }) {
       return;
     }
   };
-
   const handleChange = (event) => {
     const t = event.target;
     const name = t.name;
@@ -77,7 +76,6 @@ export default function SignUpComponent({ csrfToken }) {
     const value = checkValues(name, wert);
     setForm({ ...form, [name]: value });
   };
-
   function checkValues(name, wert) {
     if (name === "email") {
       return wert;
