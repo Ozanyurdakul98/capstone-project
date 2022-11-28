@@ -9,12 +9,17 @@ import { Spinner } from "../../../components/Spinner";
 import { ValidateCreateStudioService } from "../../../helpers/Validate";
 import { DeleteModal } from "../../../components/Modals/DeleteModal";
 import { useRouter } from "next/router";
+import { TbEdit } from "react-icons/tb";
+import EditStudioService from "../../../components/Forms/EditStudioService";
+
 export default function AdminDashboard({ studioServices }) {
   const [ID, setID] = useState("");
   const [studioService, setStudioService] = useState({ name: "", description: "" });
   const [studioServiceErrors, setStudioServiceErrors] = useState({});
   const [loading, setLoading] = useState("");
   const [submissionFailed, setSubmissionFailed] = useState(false);
+  const [openStudioServiceEditView, setOpenStudioServiceEditView] = useState(false);
+  const [toUpdateStudioService, setToUpdateStudioService] = useState();
   const [deleteModal, setDeleteModal] = useState(false);
   const [deleteModalStrings, setDeleteModalStrings] = useState({
     header: "Delete Studioservice?",
@@ -25,7 +30,7 @@ export default function AdminDashboard({ studioServices }) {
     error: "",
   });
   const router = useRouter();
-  console.log(studioServiceErrors);
+
   const handleAddStudioService = async (event) => {
     const passForm = studioService;
     event.preventDefault();
@@ -58,7 +63,6 @@ export default function AdminDashboard({ studioServices }) {
       }
     }
   };
-
   const handleStudioServiceChange = (event) => {
     const target = event.target;
     const name = target.name;
@@ -68,6 +72,23 @@ export default function AdminDashboard({ studioServices }) {
   };
   function checkValues(wert) {
     return wert;
+  }
+
+  async function handleStudioServiceEdit(values) {
+    if (values) {
+      const service = {
+        id: values.id,
+        avatar: values.avatar,
+        email: values.email,
+        name: values.name,
+      };
+      if (res.ok) {
+        setToUpdateStudioService(user);
+        setOpenEditView(true);
+      }
+      alert("Something went wrong!", error);
+      console.error("Failed to find User", error);
+    }
   }
 
   const handleStudioServiceDelete = async (ID) => {
@@ -100,7 +121,6 @@ export default function AdminDashboard({ studioServices }) {
       }
     }
   };
-
   function openDeleteModal(values) {
     setID(values._id);
     setDeleteModalStrings({ ...deleteModalStrings, ID: values._id });
@@ -122,8 +142,15 @@ export default function AdminDashboard({ studioServices }) {
             {studioServices.map((service) => (
               <span
                 key={service._id}
-                className='align-center ease flex w-max cursor-pointer whitespace-nowrap rounded-full bg-gray-200 px-4 py-2 text-sm font-semibold text-gray-500 transition duration-300 active:bg-gray-300'>
+                className='align-center ease flex w-max cursor-pointer items-center whitespace-nowrap rounded-full bg-gray-200 px-4 py-2 text-sm font-semibold text-gray-500 transition duration-300 active:bg-gray-300'>
                 {service.name}
+                <button
+                  className='hover ml-1 bg-transparent focus:outline-none'
+                  onClick={() => {
+                    handleStudioServiceEdit(service);
+                  }}>
+                  <TbEdit className='adminSettings-icon' />
+                </button>
                 <button
                   className='hover bg-transparent focus:outline-none'
                   onClick={() => openDeleteModal(service)}>
@@ -132,7 +159,7 @@ export default function AdminDashboard({ studioServices }) {
                     focusable='false'
                     data-prefix='fas'
                     data-icon='times'
-                    className='ml-3 w-3'
+                    className='adminSettings-icon'
                     role='img'
                     xmlns='http://www.w3.org/2000/svg'
                     viewBox='0 0 352 512'>
@@ -143,6 +170,12 @@ export default function AdminDashboard({ studioServices }) {
                 </button>
               </span>
             ))}
+            {openStudioServiceEditView ? (
+              <EditStudioService
+                toUpdateUser={toUpdateUser}
+                userID={userID}
+                setOpenStudioServiceEditView={setOpenStudioServiceEditView}></EditStudioService>
+            ) : null}
             {deleteModal ? (
               <DeleteModal
                 ID={ID}
@@ -152,7 +185,6 @@ export default function AdminDashboard({ studioServices }) {
                 deleteFunction={handleStudioServiceDelete}></DeleteModal>
             ) : null}
           </div>
-          <div></div>
         </section>
         <form action='' className=''>
           <fieldset className='fset-adminsettings '>
