@@ -12,7 +12,6 @@ export default async function handler(req, res) {
       message: "Not an admin!",
     });
   }
-
   if (topic === "studioservice") {
     //get for edit entries
     if (req.method === "GET") {

@@ -46,7 +46,6 @@ export function DeleteModal(props) {
             ) : (
               <button
                 onClick={() => props.deleteFunction(props.ID)}
-                disabled={props.loading ? true : false}
                 className='modal-deleteButton bg-red-600'>
                 Delete
               </button>

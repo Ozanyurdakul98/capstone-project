@@ -1,7 +1,5 @@
 import StudioService from "../../../models/StudioService";
 import db from "../../../lib/dbConnect";
-import StudioListing from "../../../models/StudioListing";
-import User from "../../../models/UserModel";
 import DashboardLayout from "../../../components/Layout/DashboardLayout";
 import { FormInput } from "../../../components/Forms/FormInput";
 import { useState } from "react";
@@ -49,15 +47,12 @@ export default function AdminDashboard({ studioServices }) {
           },
         });
         await res.json();
-
         if (!res.ok) {
           setLoading("");
           throw new Error(res.status);
         }
-        if (res.ok) {
-          setLoading("");
-          router.reload();
-        }
+        setLoading("");
+        router.reload();
       } catch (error) {
         setLoading("");
         setStudioServiceErrors(error);
@@ -103,15 +98,13 @@ export default function AdminDashboard({ studioServices }) {
         if (!res.ok) {
           throw new Error(res.status);
         }
-        if (res.ok) {
-          setDeleteModalStrings({
-            ...deleteModalStrings,
-            message: `successfully deleted`,
-            ID: false,
-          });
-          setLoading(false);
-          router.reload();
-        }
+        setDeleteModalStrings({
+          ...deleteModalStrings,
+          message: `successfully deleted`,
+          ID: false,
+        });
+        setLoading(false);
+        router.reload();
       } catch (error) {
         setDeleteModalStrings({ ...deleteModalStrings, message: "It didn't work", error: error });
         setLoading(false);
@@ -197,7 +190,7 @@ export default function AdminDashboard({ studioServices }) {
               placeholder='Studioservice name here..'
               required
               autoComplete='off'
-              pattern='^([a-zA-Z-])([a-zA-Z-0-9-!ä&öü,-_\s]){2,29}$'
+              pattern='^([a-zA-Z-])([a-zA-Z-0-9!ä&öü,-_\s]){2,29}$'
               errorMessage={"3-30 characters and (a-z, A-Z, 0-9, ! äöü ,-_) allowed!"}
               value={studioService.name}
               onChange={handleStudioServiceChange}></FormInput>
@@ -257,12 +250,8 @@ AdminDashboard.getLayout = function getLayout(page) {
 
 export async function getServerSideProps(context) {
   await db.connect();
-
-  const totalListingsCount = await StudioListing.find().count();
-  const totalUsersCount = await User.find().count();
   const studioServices = await StudioService.find({});
   const serializedStudioServices = JSON.parse(JSON.stringify(studioServices));
-
   return {
     props: {
       studioServices: serializedStudioServices || null,

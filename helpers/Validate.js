@@ -116,8 +116,8 @@ export function ValidateCreateStudioListing(form, checked) {
 
 export function ValidateCreateStudioService(form) {
   const errors = {};
-  const serviceName = /^([a-zA-Z-])([a-zA-Z-0-9-ä&öü\s]){2,60}$/i;
-  const serviceDescription = /^([a-zA-Z-])([a-zA-Z-0-9-,.!ä?&öü\s]){9,149}$/i;
+  const serviceName = /^([a-zA-Z-])([a-zA-Z-0-9ä&öü\s]){2,60}$/i;
+  const serviceDescription = /^([a-zA-Z-])([a-zA-Z-0-9,.!ä?&öü\s]){9,149}$/i;
 
   if (!form.name) {
     errors.name = "A Servicename is required!";

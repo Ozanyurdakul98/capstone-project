@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { BackgroundOverlayFullscreen as ClickToCloseMax } from "../BackgroundOverlay";
 import Link from "next/link.js";
 import { useRouter } from "next/router";
@@ -47,11 +47,9 @@ function EditStudioService({ toUpdateStudioService, setOpenStudioServiceEditView
           setLoading(false);
           throw new Error(res.status);
         }
-        if (res.ok) {
-          setLoading(false);
-          setOpenStudioServiceEditView(false);
-          router.reload();
-        }
+        setLoading(false);
+        setOpenStudioServiceEditView(false);
+        router.reload();
       } catch (error) {
         setLoading(false);
         setFormErrors(error);
@@ -192,7 +190,7 @@ function EditStudioService({ toUpdateStudioService, setOpenStudioServiceEditView
       </div>
       <ClickToCloseMax
         style={"bg-black/50 editModal   z-40 h-full"}
-        onClick={(event) => handleClickToCloseModal(event)}
+        onClick={() => handleClickToCloseModal()}
       />
     </>
   );
