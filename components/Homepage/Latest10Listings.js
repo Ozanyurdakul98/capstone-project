@@ -1,6 +1,6 @@
-import Carousel from 'react-multi-carousel';
-import ListingCard from '../ListingCardCarousell';
-import 'react-multi-carousel/lib/styles.css';
+import Carousel from "react-multi-carousel";
+import ListingCard from "../ListingCardCarousell";
+import "react-multi-carousel/lib/styles.css";
 
 export const Latest10Listings = (props) => {
   const responsive = {
@@ -47,7 +47,7 @@ export const Latest10Listings = (props) => {
             listingTitle,
             images,
             studiotype,
-            services,
+            studioService,
             soundengineer,
             studioPricing,
             maxGuests,
@@ -60,7 +60,7 @@ export const Latest10Listings = (props) => {
               listingTitle={listingTitle}
               images={images}
               studiotype={studiotype}
-              services={services}
+              studioService={studioService}
               maxGuests={maxGuests}
               openingHours={openingHours}
               soundengineer={soundengineer}

@@ -9,18 +9,18 @@ import { useRouter } from "next/router";
 import { StudioFormfields } from "../../components/Forms/StudioFormfields";
 import DashboardLayout from "../../components/Layout/DashboardLayout.js";
 import { getSession } from "next-auth/react";
-
-function DashboardAddStudio() {
+import StudioService from "../../models/StudioService.js";
+import db from "../../lib/dbConnect.js";
+function DashboardAddStudio({ sanitizedServices }) {
   const defaultForm = {
     listingTitle: "",
     images: "",
     openingHours: "Always Available",
     studiotype: "Home Studio",
-    services: [],
+    studioService: [],
     locationFeatures: [],
     soundengineer: "On Request",
     studioPricing: {},
-    email: "",
     studioLocation: "",
   };
   const defaultChecked = {
@@ -48,7 +48,6 @@ function DashboardAddStudio() {
     }
     myFunction();
   }, []);
-
   const handlePreview = (event) => {
     const passForm = form;
     setFormErrors(ValidateCreateStudioListing(passForm, checked));
@@ -59,8 +58,8 @@ function DashboardAddStudio() {
   };
   const handleFormSubmit = async (event) => {
     const passForm = form;
-
     event.preventDefault();
+    console.log("FORM", form);
     setFormErrors(ValidateCreateStudioListing(passForm, checked));
     setIsSubmit(true);
     if (Object.keys(formErrors).length === 0 && isSubmit) {
@@ -117,6 +116,7 @@ function DashboardAddStudio() {
         return deleteUndefined;
       }
       if (type === "checkbox") {
+        console.log("name", name, "wert", wert);
         let newArray = [...form?.[name], wert];
         if (form?.[name].includes(wert)) {
           newArray = newArray.filter((service) => service !== wert);
@@ -195,6 +195,7 @@ function DashboardAddStudio() {
             setChecked={setChecked}
             length={Object.keys(formErrors).length}
             formErrors={formErrors}
+            studioService={sanitizedServices}
             router={router}
             handlePreview={handlePreview}
             handleFormSubmit={handleFormSubmit}
@@ -221,7 +222,7 @@ function DashboardAddStudio() {
                           listingTitle={form.listingTitle}
                           images={form.images ? form.images : "/images/Thumbnail-default.png"}
                           studiotype={form.studiotype}
-                          services={form.services}
+                          studioService={form.studioService}
                           soundengineer={form.soundengineer}
                           studioPricing={form.studioPricing}
                           locationFeatures={form.locationFeatures}
@@ -235,7 +236,7 @@ function DashboardAddStudio() {
                             listingTitle={form.listingTitle}
                             images={form.images ? form.images : "/images/Thumbnail-default.png"}
                             studiotype={form.studiotype}
-                            services={form.services}
+                            studioService={form.studioService}
                             soundengineer={form.soundengineer}
                             studioPricing={form.studioPricing}
                             locationFeatures={form.locationFeatures}
@@ -341,3 +342,19 @@ export default DashboardAddStudio;
 DashboardAddStudio.getLayout = function getLayout(page) {
   return <DashboardLayout>{page}</DashboardLayout>;
 };
+
+export async function getServerSideProps() {
+  await db.connect();
+
+  const services = await StudioService.find();
+  const sanitizedServices = services.map((service) => ({
+    id: service.id,
+    name: service.name,
+    description: service.description,
+  }));
+  return {
+    props: {
+      sanitizedServices,
+    },
+  };
+}

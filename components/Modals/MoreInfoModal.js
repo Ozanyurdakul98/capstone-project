@@ -1,6 +1,6 @@
-import React from 'react';
-import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../BackgroundOverlay';
-import { Spinner } from '../Spinner';
+import React from "react";
+import { BackgroundOverlayFullscreen as ClickToCloseMax } from "../BackgroundOverlay";
+import { Spinner } from "../Spinner";
 
 export function MoreInfoModal(props) {
   const handleClickToCloseInfoModal = () => {
@@ -17,28 +17,31 @@ export function MoreInfoModal(props) {
               {props.moreInfoModalStrings.error}
             </p>
             <p>
-              StudioID: {props.moreInfoModalStrings.studioID ? props.moreInfoModalStrings.studioID : 'ID not found!'}
+              StudioID:{" "}
+              {props.moreInfoModalStrings.studioID
+                ? props.moreInfoModalStrings.studioID
+                : "ID not found!"}
             </p>
             <p>
               Published by:
               {props.moreInfoModalStrings.publisherEmail
-                ? ' ' + props.moreInfoModalStrings.publisherEmail
-                : 'Publisher Email not found!'}
+                ? " " + props.moreInfoModalStrings.publisherEmail
+                : "Publisher Email not found!"}
             </p>
             <p className='mt-2 flex flex-col gap-1 text-left font-thin'>
               Other information:
               <span>Studiolocation: {props.moreInfoModalStrings.others.studioLocation}</span>
-              <span>Services: {props.moreInfoModalStrings.others.services}</span>
+              <span>Services: {props.moreInfoModalStrings.others.studioService}</span>
               <span>Max Guests: {props.moreInfoModalStrings.others.maxGuests}</span>
             </p>
             <p className='mt-2 flex flex-col gap-1 text-left font-normal'>
               <span>
-                Created at: {props.moreInfoModalStrings.others.createdAtDate + ',  '}
-                {'  ' + props.moreInfoModalStrings.others.createdAtTime}
+                Created at: {props.moreInfoModalStrings.others.createdAtDate + ",  "}
+                {"  " + props.moreInfoModalStrings.others.createdAtTime}
               </span>
               <span>
-                Last updated at: {props.moreInfoModalStrings.others.updatedAtDate + ',  '}
-                {'  ' + props.moreInfoModalStrings.others.updatedAtTime}
+                Last updated at: {props.moreInfoModalStrings.others.updatedAtDate + ",  "}
+                {"  " + props.moreInfoModalStrings.others.updatedAtTime}
               </span>
             </p>
           </div>
@@ -59,7 +62,7 @@ export function MoreInfoModal(props) {
         </div>
       </div>
       <ClickToCloseMax
-        style={'bg-black/50 editModal  z-40 h-full'}
+        style={"bg-black/50 editModal  z-40 h-full"}
         onClick={(event) => handleClickToCloseInfoModal(event)}
       />
     </>

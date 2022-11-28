@@ -19,11 +19,13 @@ const studioListingSchema = new mongoose.Schema(
       required: true,
     },
     studiotype: { type: String, required: true },
-    studioService: {
-      type: Schema.Types.ObjectId,
-      ref: "StudioService",
-      required: true,
-    },
+    studioService: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "StudioService",
+        required: true,
+      },
+    ],
     locationFeatures: { type: Array, required: true },
     soundengineer: { type: Object, required: true },
     studioPricing: { type: Object, required: true },

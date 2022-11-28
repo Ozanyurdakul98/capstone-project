@@ -88,9 +88,10 @@ export function ValidateCreateStudioListing(form, checked) {
   } else if (form.studioPricing.studioPricingMonth?.length >= 5) {
     errors.studioPricing = "The max length is 4 numbers";
   }
-
-  if (form.services.length === 0) {
-    errors.services = "Select at least 1 service!";
+  console.log("Validation", form.studioService);
+  console.log("Validation", form.studioService.length);
+  if (form.studioService.length === 0) {
+    errors.studioService = "Select at least 1 service!";
   }
 
   if (Object.keys(form.studioPricing).length === 0 && form.studioPricing.constructor === Object) {
@@ -117,8 +118,8 @@ export function ValidateCreateStudioListing(form, checked) {
 
 export function ValidateCreateStudioService(form) {
   const errors = {};
-  const serviceName = /^([a-zA-Z-])([a-zA-Z-0-9-äöü\s]){2,60}$/i;
-  const serviceDescription = /^([a-zA-Z-])([a-zA-Z-0-9-,.!äöü\s]){9,99}$/i;
+  const serviceName = /^([a-zA-Z-])([a-zA-Z-0-9-ä&öü\s]){2,60}$/i;
+  const serviceDescription = /^([a-zA-Z-])([a-zA-Z-0-9-,.!ä&öü\s]){9,99}$/i;
 
   if (!form.name) {
     errors.name = "A Servicename is required!";

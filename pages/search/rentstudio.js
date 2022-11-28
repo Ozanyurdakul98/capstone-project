@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react";
 //db
-import db from '../../lib/dbConnect';
-import StudioListing from '../../models/StudioListing';
+import db from "../../lib/dbConnect";
+import StudioListing from "../../models/StudioListing";
 //components
-import ListingCards from '../../components/ListingCardWide';
-import Layout from '../../components/Layout/Layout';
+import ListingCards from "../../components/ListingCardWide";
+import Layout from "../../components/Layout/Layout";
 
 function Rentstudio({ listings }) {
   return (
@@ -17,7 +17,7 @@ function Rentstudio({ listings }) {
             listingTitle,
             images,
             studiotype,
-            services,
+            studioService,
             soundengineer,
             studioPricing,
             locationFeatures,
@@ -28,7 +28,7 @@ function Rentstudio({ listings }) {
               listingTitle={listingTitle}
               images={images}
               studiotype={studiotype}
-              services={services}
+              studioService={studioService}
               soundengineer={soundengineer}
               studioPricing={studioPricing}
               locationFeatures={locationFeatures}
@@ -48,7 +48,7 @@ Rentstudio.getLayout = function getLayout(page) {
 
 export async function getServerSideProps(context) {
   await db.connect();
-  const fetchingListings = await StudioListing.find({ services: 'Rent Studio' });
+  const fetchingListings = await StudioListing.find({ studioService: "Rent Studio" });
   const fetchedListings = JSON.parse(JSON.stringify(fetchingListings));
   return {
     props: {

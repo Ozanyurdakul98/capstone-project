@@ -168,7 +168,7 @@ export default function AdminDashboard({ studioServices }) {
               placeholder='Studioservice name here..'
               required
               autoComplete='off'
-              pattern='^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){2,29}$'
+              pattern='^([a-zA-Z-])([a-zA-Z-0-9-!ä&öü,-_\s]){2,29}$'
               errorMessage={"3-30 characters and (a-z, A-Z, 0-9, ! äöü ,-_) allowed!"}
               value={studioService.name}
               onChange={handleStudioServiceChange}></FormInput>
@@ -182,7 +182,7 @@ export default function AdminDashboard({ studioServices }) {
               placeholder='Studioservice description here..'
               required
               autoComplete='off'
-              pattern='^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){9,59}$'
+              pattern='^([a-zA-Z-])([a-zA-Z-0-9-!ä&öü,-_\s]){9,59}$'
               errorMessage={"10-60 characters and (a-z, A-Z, 0-9, ! äöü ,-_) allowed!"}
               value={studioService.description}
               onChange={handleStudioServiceChange}

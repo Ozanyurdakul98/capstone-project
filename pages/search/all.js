@@ -1,8 +1,8 @@
-import React from 'react';
-import db from '../../lib/dbConnect';
-import StudioListing from '../../models/StudioListing';
-import ListingCards from '../../components/ListingCardWide';
-import Layout from '../../components/Layout/Layout';
+import React from "react";
+import db from "../../lib/dbConnect";
+import StudioListing from "../../models/StudioListing";
+import ListingCards from "../../components/ListingCardWide";
+import Layout from "../../components/Layout/Layout";
 
 function All({ listings }) {
   return (
@@ -15,7 +15,7 @@ function All({ listings }) {
             listingTitle,
             images,
             studiotype,
-            services,
+            studioService,
             soundengineer,
             studioPricing,
             locationFeatures,
@@ -26,7 +26,7 @@ function All({ listings }) {
               listingTitle={listingTitle}
               images={images}
               studiotype={studiotype}
-              services={services}
+              studioService={studioService}
               soundengineer={soundengineer}
               studioPricing={studioPricing}
               locationFeatures={locationFeatures}

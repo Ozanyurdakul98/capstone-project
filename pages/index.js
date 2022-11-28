@@ -35,11 +35,11 @@ export async function getStaticProps(context) {
   const totalUsersCount = await User.find().count();
   const latestAddedListings = await StudioListing.find()
     .sort({ $natural: -1 })
-    .limit(10);
-  const serializedLatestAddedListings = JSON.parse(
-    JSON.stringify(latestAddedListings)
-  );
-
+    .limit(10)
+    .populate("studioService");
+  const serializedLatestAddedListings = JSON.parse(JSON.stringify(latestAddedListings));
+  const all = await StudioListing.find({}).populate("studioService");
+  console.log("ALLLL", all);
   return {
     props: {
       latestListings: serializedLatestAddedListings || null,
