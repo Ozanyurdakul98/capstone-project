@@ -127,8 +127,7 @@ function EditStudioService({ toUpdateStudioService, setOpenStudioServiceEditView
                   length={Object.keys(formErrors).length}
                   formErrors={formErrors}
                   handleDeleteImage={handleDeleteImage}
-                  handleChange={handleChange}
-                  handleCheck={handleCheck}></StudioServiceFormfields>
+                  handleChange={handleChange}></StudioServiceFormfields>
                 {/* ErrorModal */}
                 <fieldset>
                   {submissionFailed ? (

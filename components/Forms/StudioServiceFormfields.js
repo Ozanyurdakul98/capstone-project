@@ -87,7 +87,7 @@ export function StudioServiceFormfields(props) {
         </div>
       </fieldset>
       {/* QueryString */}
-      <fieldset className='fset-editUser mb-52'>
+      <fieldset className='fset-editUser'>
         <div className='flex w-full flex-col sm:w-2/3 lg:w-2/3'>
           <FormInput
             beforeLabel={{
