@@ -28,15 +28,13 @@ export function StudioServiceFormfields(props) {
             <div
               className={
                 "relative flex h-48 w-48 flex-shrink-0 flex-col items-center justify-center gap-2 rounded-md border-2 border-dotted text-white transition duration-75 ease-out  active:scale-95 sm:h-48 sm:w-48 md:h-56 md:w-56 md:px-2 lg:h-64 lg:w-64" +
-                (props.form.avatar ? " bg-site border-primary " : " bg-primary ")
+                (props.form.image ? " bg-site border-primary " : " bg-primary ")
               }>
-              {props.form.avatar ? (
+              {props.form.image ? (
                 <>
                   <Image
-                    src={
-                      props.checked.avatarPreview ? props.checked.avatarPreview : props.form.avatar
-                    }
-                    className='rounded-full'
+                    src={props.checked.imagePreview ? props.checked.imagePreview : props.form.image}
+                    className='rounded-md'
                     layout='fill'
                     objectFit='cover'
                     alt='Thumbnail'
@@ -61,36 +59,15 @@ export function StudioServiceFormfields(props) {
           </button>
           <div>
             <p className='pl-2 text-sm line-clamp-1 md:pl-5'>
-              {props.checked.avatarName ? props.checked.avatarName : "Please select a picture"}
+              {props.checked.imageName ? props.checked.imageName : "Please select a picture"}
             </p>
           </div>
         </div>
       </fieldset>
-      {/* Username */}
-      {/* <fieldset className='fset-editUser pt-4'>
-        <FormInput
-          beforeLabel={{
-            string: 'Username',
-            css: 'label-form ',
-          }}
-          className='input-editUser peer block '
-          type='text'
-          id='username'
-          placeholder='Type your username here...'
-          name='username'
-          required
-          autoComplete='off'
-          pattern='^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){3,25}$'
-          errorMessage={'Only 4-25 letters and (a-z, A-Z, 0-9, ! äöü ,-_) !'}
-          value={props.form.username}
-          onChange={props.handleChange}></FormInput>
-        <span className='errormessage '>{props.formErrors.username}</span>
-      </fieldset> */}
       {/* Name */}
       <fieldset className='fset-editUser flex gap-3'>
         <div className='flex w-full flex-col sm:w-2/3 lg:w-2/3'>
           <FormInput
-            divClassAll={"flex flex-col"}
             beforeLabel={{
               string: "Servicename",
               css: "label-form",
@@ -107,6 +84,28 @@ export function StudioServiceFormfields(props) {
             value={props.form.name}
             onChange={props.handleChange}></FormInput>
           <span className='errormessage '>{props.formErrors.name}</span>
+        </div>
+      </fieldset>
+      {/* QueryString */}
+      <fieldset className='fset-editUser mb-52'>
+        <div className='flex w-full flex-col sm:w-2/3 lg:w-2/3'>
+          <FormInput
+            beforeLabel={{
+              string: "Querystring",
+              css: "label-form",
+            }}
+            className='input-editUserName peer block '
+            type='text'
+            id='queryString'
+            placeholder='Type your name here...'
+            name='queryString'
+            required
+            autoComplete='off'
+            pattern='^([a-zA-Z-])([a-zA-Z-!äöü,-_\s]){3,25}$'
+            errorMessage={"Only 4-25 normal letters!"}
+            value={props.form.queryString}
+            onChange={props.handleChange}></FormInput>
+          <span className='errormessage '>{props.formErrors.queryString}</span>
         </div>
       </fieldset>
       {/* Description */}

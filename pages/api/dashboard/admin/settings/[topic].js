@@ -33,10 +33,12 @@ export default async function handler(req, res) {
       }
     } else if (req.method === "PATCH") {
       await db.connect();
+      const ID = req.body.id;
+      console.log("ID", ID);
+      console.log("IDbody", req.body);
       try {
-        const { studioID } = req.query;
-        const listing = await StudioListing.findByIdAndUpdate(studioID, req.body);
-        return res.status(201).json({ success: true, data: listing });
+        const service = await StudioService.findByIdAndUpdate(ID, req.body);
+        return res.status(201).json({ success: true, data: service });
       } catch (error) {
         return res.status(400).json({ success: false, message: "Unauthorized", error });
       }

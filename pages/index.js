@@ -10,7 +10,9 @@ import { HomepageBanner } from "../components/Homepage/HomepageBanner";
 import { HomepageStatsCounter } from "../components/Homepage/HomepageStatsCounter";
 import Layout from "../components/Layout/Layout";
 import StudioService from "../models/StudioService";
+import { useRouter } from "next/router";
 export default function Home({ latestListings, totalUsers, totalListings, studioServices }) {
+  const router = useRouter();
   return (
     <div className='mb-20'>
       <Head>
@@ -20,24 +22,27 @@ export default function Home({ latestListings, totalUsers, totalListings, studio
       <HomepageStatsCounter
         totalUsers={totalUsers}
         totalListings={totalListings}></HomepageStatsCounter>
-      <section className='grid grid-cols-2 '>
+      <section className='mx-2 grid grid-cols-2 gap-5 md:grid-cols-3'>
         {studioServices.map((service) => (
           <div key={service.id} className='flex justify-center'>
             <div className='max-w-sm rounded-lg bg-white shadow-lg'>
               <a href='#!'>
-                <img
-                  className='rounded-t-lg'
-                  src='https://mdbootstrap.com/img/new/standard/nature/184.jpg'
-                  alt=''
-                />
+                <img className='rounded-t-lg' src={service.image} alt='' />
               </a>
               <div className='p-6'>
-                <h5 className='mb-2 text-xl font-medium text-gray-900'>{service.name}</h5>
-                <p className='mb-4 text-base text-gray-700'>{service.description}</p>
+                <h5 className='h3 mb-2 text-sm font-medium md:text-lg'>{service.name}</h5>
+                <p className=' mb-4 text-xs text-gray-700 line-clamp-3 md:text-base'>
+                  {service.description}
+                </p>
                 <button
                   type='button'
+                  onClick={() =>
+                    router.push({
+                      pathname: `/studioservice/${service.name}`,
+                    })
+                  }
                   className=' inline-block rounded bg-blue-600 px-6 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg'>
-                  Button
+                  Show me
                 </button>
               </div>
             </div>
@@ -67,8 +72,10 @@ export async function getStaticProps(context) {
   // const alll = JSON.parse(JSON.stringify(all));
   // console.log("ALLLL", alll);
   const services = await StudioService.find();
+
   const sanitizedServices = services.map((service) => ({
     id: service.id,
+    image: service.image,
     name: service.name,
     description: service.description,
   }));

@@ -10,6 +10,7 @@ const studioServiceSchema = new Schema({
     required: true,
   },
   name: { type: String, unique: true, required: true, trim: true },
+  queryString: { type: String, unique: true, required: true },
   description: { type: String, unique: true, required: true, trim: true },
 });
 

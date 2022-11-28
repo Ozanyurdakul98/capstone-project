@@ -10,8 +10,8 @@ module.exports = {
     extend: {
       gridTemplateColumns: {
         // Simple 16 column grid
-        // 3: 'repeat(3, minmax(0, 1fr))',
-        3: "1fr, 3fr, minmax(0, 3fr)",
+        3: "repeat(3, minmax(0, 1fr))",
+        // 3: "1fr, 3fr, minmax(0, 3fr)",
         sm3: "1fr, 1fr, 1fr",
 
         // Complex site-specific column configuration

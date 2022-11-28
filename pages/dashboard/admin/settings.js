@@ -14,7 +14,11 @@ import EditStudioService from "../../../components/Forms/EditStudioService";
 
 export default function AdminDashboard({ studioServices }) {
   const [ID, setID] = useState("");
-  const [studioService, setStudioService] = useState({ name: "", description: "" });
+  const [studioService, setStudioService] = useState({
+    name: "",
+    queryString: "",
+    description: "",
+  });
   const [studioServiceErrors, setStudioServiceErrors] = useState({});
   const [loading, setLoading] = useState("");
   const [submissionFailed, setSubmissionFailed] = useState(false);
@@ -36,14 +40,16 @@ export default function AdminDashboard({ studioServices }) {
     setStudioServiceErrors(ValidateCreateStudioService(studioService));
     if (Object.keys(ValidateCreateStudioService(studioService)).length === 0) {
       setLoading("studioservice");
+      console.log("Started settings");
       try {
         const res = await fetch(`/api/dashboard/admin/settings/studioservice`, {
-          method: "PATCH",
+          method: "POST",
           body: JSON.stringify(studioService),
           headers: {
             "Content-Type": "application/json",
           },
         });
+        console.log("RES ESTTINGS", res);
         await res.json();
 
         if (!res.ok) {
@@ -73,17 +79,17 @@ export default function AdminDashboard({ studioServices }) {
     return wert;
   }
 
-  async function handleStudioServiceEdit(values) {
-    if (values) {
-      const service = {
-        id: values.id,
-        image: values.image,
-        name: values.name,
-        description: values.description,
-      };
-      setToUpdateStudioService(service);
-      setOpenStudioServiceEditView(true);
-    }
+  async function openEditStudioServiceModal(values) {
+    const service = {
+      id: values._id,
+      image: values.image,
+      name: values.name,
+      queryString: values.queryString,
+      description: values.description,
+    };
+    console.log("servicesettings", service);
+    setToUpdateStudioService(service);
+    setOpenStudioServiceEditView(true);
   }
 
   const handleStudioServiceDelete = async (ID) => {
@@ -142,7 +148,8 @@ export default function AdminDashboard({ studioServices }) {
                 <button
                   className='hover ml-1 bg-transparent focus:outline-none'
                   onClick={() => {
-                    handleStudioServiceEdit(service);
+                    openEditStudioServiceModal(service);
+                    console.log("mappung service", service, service._id);
                   }}>
                   <TbEdit className='adminSettings-icon' />
                 </button>
@@ -199,6 +206,23 @@ export default function AdminDashboard({ studioServices }) {
               value={studioService.name}
               onChange={handleStudioServiceChange}></FormInput>
             <span className='errormessage'>{studioServiceErrors.name}</span>
+            <FormInput
+              beforeLabel={{
+                string: "Querystring",
+                css: "label-login ",
+              }}
+              className='input-form peer block '
+              type='text'
+              name='queryString'
+              id='queryString'
+              placeholder='Querystring for url pathname..'
+              required
+              autoComplete='off'
+              pattern='^([a-z])([a-z-0-9-_&\s]){2,9}$'
+              errorMessage={"3-10 characters and (a-z, 0-9, &-_) allowed!"}
+              value={studioService.queryString}
+              onChange={handleStudioServiceChange}></FormInput>
+            <span className='errormessage'>{studioServiceErrors.queryString}</span>
             <FormInput
               beforeLabel={{ string: "Description", css: "label-login" }}
               textarea={true}
