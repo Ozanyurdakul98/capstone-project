@@ -42,7 +42,7 @@ export function HeaderPagemenu() {
                 <Menu.Item>
                   {({ active }) => (
                     <MyLink
-                      href='/search/recording'
+                      href='/studioservice/recording'
                       className={classNames(
                         active ? "bg-gray-100 text-gray-900" : "text-gray-700",
                         "block px-4 py-2 text-sm"
@@ -54,19 +54,31 @@ export function HeaderPagemenu() {
                 <Menu.Item>
                   {({ active }) => (
                     <MyLink
-                      href='/search/mixandmaster'
+                      href='/studioservice/mixing'
                       className={classNames(
                         active ? "bg-gray-100 text-gray-900" : "text-gray-700",
                         "block px-4 py-2 text-sm"
                       )}>
-                      Mix & Master
+                      Mixing
                     </MyLink>
                   )}
                 </Menu.Item>
                 <Menu.Item>
                   {({ active }) => (
                     <MyLink
-                      href='/search/musicproduction'
+                      href='/studioservice/mastering'
+                      className={classNames(
+                        active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                        "block px-4 py-2 text-sm"
+                      )}>
+                      Mastering
+                    </MyLink>
+                  )}
+                </Menu.Item>
+                <Menu.Item>
+                  {({ active }) => (
+                    <MyLink
+                      href='/studioservice/musicproduction'
                       className={classNames(
                         active ? "bg-gray-100 text-gray-900" : "text-gray-700",
                         "block px-4 py-2 text-sm"
@@ -78,12 +90,24 @@ export function HeaderPagemenu() {
                 <Menu.Item>
                   {({ active }) => (
                     <MyLink
-                      href='/search/rentstudio'
+                      href='/studioservice/rentstudio'
                       className={classNames(
                         active ? "bg-gray-100 text-gray-900" : "text-gray-700",
                         "block rounded-b-md px-4 py-2 text-sm"
                       )}>
                       Rent Studio
+                    </MyLink>
+                  )}
+                </Menu.Item>
+                <Menu.Item>
+                  {({ active }) => (
+                    <MyLink
+                      href='/studioservice/podcastsandaudiobooks'
+                      className={classNames(
+                        active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                        "block rounded-b-md px-4 py-2 text-sm"
+                      )}>
+                      Podcasts & Audiobooks
                     </MyLink>
                   )}
                 </Menu.Item>

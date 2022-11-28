@@ -218,8 +218,8 @@ export default function AdminDashboard({ studioServices }) {
               placeholder='Querystring for url pathname..'
               required
               autoComplete='off'
-              pattern='^([a-z])([a-z-0-9-_&\s]){2,9}$'
-              errorMessage={"3-10 characters and (a-z, 0-9, &-_) allowed!"}
+              pattern='^([a-z])([a-z-0-9-_&\s]){2,29}$'
+              errorMessage={"3-30 characters and (a-z, 0-9, &-_) allowed!"}
               value={studioService.queryString}
               onChange={handleStudioServiceChange}></FormInput>
             <span className='errormessage'>{studioServiceErrors.queryString}</span>
@@ -232,8 +232,8 @@ export default function AdminDashboard({ studioServices }) {
               placeholder='Studioservice description here..'
               required
               autoComplete='off'
-              pattern='^([a-zA-Z-])([a-zA-Z-0-9-!ä&?öü,-_\s]){9,59}$'
-              errorMessage={"10-60 characters and (a-z, A-Z, 0-9, !?äöü,-_) allowed!"}
+              pattern='^([a-zA-Z-])([a-zA-Z-0-9-!ä&?öü,-_\s]){9,149}$'
+              errorMessage={"10-150 characters and (a-z, A-Z, 0-9, !?äöü,-_) allowed!"}
               value={studioService.description}
               onChange={handleStudioServiceChange}
             />
