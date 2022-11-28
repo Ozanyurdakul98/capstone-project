@@ -30,7 +30,7 @@ export default function Home({ latestListings, totalUsers, totalListings, studio
                 <img className='rounded-t-lg' src={service.image} alt='' />
               </a>
               <div className='p-6'>
-                <h5 className='h3 mb-2 text-sm font-medium md:text-lg'>{service.name}</h5>
+                <h5 className=' h3 mb-2 text-sm font-medium md:text-lg'>{service.name}</h5>
                 <p className=' mb-4 text-xs text-gray-700 line-clamp-3 md:text-base'>
                   {service.description}
                 </p>
