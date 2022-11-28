@@ -133,17 +133,17 @@ export default function AdminDashboard({ studioServices }) {
             {studioServices.map((service) => (
               <span
                 key={service._id}
-                className='align-center ease flex w-max cursor-pointer items-center whitespace-nowrap rounded-full bg-gray-200 px-4 py-2 text-sm font-semibold text-gray-500 transition duration-300 active:bg-gray-300'>
+                className='ease flex w-max cursor-pointer items-center whitespace-nowrap rounded-full bg-gray-200 px-4 py-2 text-sm font-semibold text-gray-500 transition duration-300 active:bg-gray-300'>
                 {service.name}
                 <button
-                  className='hover ml-1 bg-transparent focus:outline-none'
+                  className='ml-1 bg-transparent focus:outline-none'
                   onClick={() => {
                     openEditStudioServiceModal(service);
                   }}>
                   <TbEdit className='adminSettings-icon' />
                 </button>
                 <button
-                  className='hover bg-transparent focus:outline-none'
+                  className='bg-transparent focus:outline-none'
                   onClick={() => openDeleteModal(service)}>
                   <svg
                     aria-hidden='true'

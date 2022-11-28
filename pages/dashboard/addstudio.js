@@ -204,7 +204,7 @@ function DashboardAddStudio({ sanitizedServices }) {
           <fieldset>
             {preview && (
               <>
-                <div className='searchFadein fixed inset-x-0 inset-y-0 top-0 left-0 right-0 z-50 my-auto mx-auto flex h-4/6   w-full  flex-col gap-5    rounded-2xl bg-white pb-5 pt-5 shadow-xxl  md:min-h-72 md:w-11/12 xl:w-6/12'>
+                <div className='searchFadein fixed inset-0 z-50 m-auto flex h-4/6 w-full flex-col gap-5 rounded-2xl bg-white py-5 shadow-xxl md:min-h-72 md:w-11/12 xl:w-6/12'>
                   <div className=' overflow-y-scroll'>
                     {/* Previews */}
                     <div className='flex flex-col gap-7 pb-20'>
@@ -248,12 +248,12 @@ function DashboardAddStudio({ sanitizedServices }) {
                     <div className=' absolute bottom-0 z-40 flex h-16 w-full items-center  justify-between gap-3  rounded-b-xl border-t-2 bg-white px-2 pb-1 pt-5 '>
                       <button
                         onClick={() => setPreview(false)}
-                        className='form-button max-w-[250px]  flex-grow justify-center border-none bg-black text-white'>
+                        className='form-button max-w-[250px] grow justify-center border-none bg-black text-white'>
                         Cancel
                       </button>
                       <button
                         onClick={handleFormSubmit}
-                        className='form-button bg-primary max-w-[250px] flex-grow justify-center border-none text-white'>
+                        className='form-button bg-primary max-w-[250px] grow justify-center border-none text-white'>
                         {Object.keys(formErrors).length === 0 && isSubmit ? "List Studio" : "Check"}
                       </button>
                     </div>
@@ -270,7 +270,7 @@ function DashboardAddStudio({ sanitizedServices }) {
           <fieldset>
             {submissionFailed ? (
               <>
-                <div className='searchFadein fixed inset-x-0 inset-y-0 top-0 left-0 right-0 z-50 my-auto mx-auto flex   h-96  w-full flex-col  gap-5 rounded-2xl bg-white pb-5 pt-5  shadow-xxl md:min-h-72 md:w-7/12 xl:w-6/12 2xl:w-[680px]'>
+                <div className='searchFadein fixed inset-0 z-50 m-auto flex h-96 w-full flex-col gap-5 rounded-2xl   bg-white  py-5 shadow-xxl  md:min-h-72 md:w-7/12 xl:w-6/12 2xl:w-[680px]'>
                   {/* Previews */}
                   <div className='flex flex-col gap-7 overflow-y-scroll pb-20'>
                     <h2 className='h2 ml-5'>The operation has failed!</h2>
@@ -288,7 +288,7 @@ function DashboardAddStudio({ sanitizedServices }) {
                   <div className=' absolute bottom-0 z-40 flex h-16 w-full items-center  justify-between gap-3 rounded-b-xl border-t-2 bg-white px-2 pb-1 pt-5 md:px-20 '>
                     <button
                       type='button'
-                      className='form-button max-w-[250px] flex-grow justify-center border-none bg-black text-white'
+                      className='form-button max-w-[250px] grow justify-center border-none bg-black text-white'
                       onClick={() => router.reload()}>
                       Try again
                     </button>
@@ -296,7 +296,7 @@ function DashboardAddStudio({ sanitizedServices }) {
                     <Link href='/contact'>
                       <button
                         type='button'
-                        className='form-button bg-primary max-w-[250px] flex-grow justify-center border-none text-white'>
+                        className='form-button bg-primary max-w-[250px] grow justify-center border-none text-white'>
                         Contact support
                       </button>
                     </Link>

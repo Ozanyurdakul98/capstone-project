@@ -291,7 +291,7 @@ export default function StudioTable({ fetchedStudios }) {
           <table className='table' {...getTableProps()}>
             <thead className='thead'>
               {headerGroups.map((headerGroup) => (
-                <tr key={headerGroup._id} className='tr' {...headerGroup.getHeaderGroupProps()}>
+                <tr key={headerGroup._id} {...headerGroup.getHeaderGroupProps()}>
                   {headerGroup.headers.map((column, idx) => (
                     <th
                       key={idx}

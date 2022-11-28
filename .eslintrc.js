@@ -3,12 +3,12 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: ["plugin:tailwindcss/recommended"],
+  extends: ['plugin:tailwindcss/recommended'],
   overrides: [],
   parserOptions: {
-    ecmaVersion: "latest",
-    sourceType: "module",
+    ecmaVersion: 'latest',
+    sourceType: 'module',
   },
-  plugins: ["react", "tailwindcss"],
+  plugins: ['react', 'tailwindcss'],
   rules: {},
 };

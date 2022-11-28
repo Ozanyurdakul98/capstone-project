@@ -70,7 +70,11 @@ export default function UserTable({ fetchedUsers }) {
           throw new Error(res.status);
         }
         if (res.ok) {
-          setDeleteModalStrings({ ...deleteModalStrings, message: `successfully deleted...`, studioID: '' });
+          setDeleteModalStrings({
+            ...deleteModalStrings,
+            message: `successfully deleted...`,
+            studioID: '',
+          });
           setTimeout(() => {
             setLoading(false);
             router.reload();
@@ -104,8 +108,8 @@ export default function UserTable({ fetchedUsers }) {
         accessor: 'avatar',
         disableSortBy: true,
         Cell: ({ value }) => (
-          <div className='relative -mx-2 h-12 w-12 sm:h-16 sm:w-16 md:h-24 md:w-24'>
-            <Image src={value} layout='fill' className='bg-secondary rounded-full ' objectFit='cover' alt='avatar' />
+          <div className="relative -mx-2 h-12 w-12 sm:h-16 sm:w-16 md:h-24 md:w-24">
+            <Image src={value} layout="fill" className="bg-secondary rounded-full " objectFit="cover" alt="avatar" />
           </div>
         ),
       },
@@ -162,20 +166,20 @@ export default function UserTable({ fetchedUsers }) {
         id: 'Edit',
         Header: 'Edit',
         Cell: ({ row }) => (
-          <div className='flex flex-col gap-2'>
+          <div className="flex flex-col gap-2">
             <button
-              className=''
+              className=""
               onClick={() => {
                 handleEdit(row.values);
               }}>
-              <TbEdit className='table-icon' />
+              <TbEdit className="table-icon" />
             </button>
             <button
-              className=''
+              className=""
               onClick={() => {
                 openDeleteModal(row.values);
               }}>
-              <MdDeleteForever className='table-icon' />
+              <MdDeleteForever className="table-icon" />
             </button>
           </div>
         ),
@@ -183,7 +187,12 @@ export default function UserTable({ fetchedUsers }) {
     ]);
   };
   const tableInstance = useTable(
-    { columns: userColumns, data: userData, disableMultiSort: false, initialState: { pageSize: 10 } },
+    {
+      columns: userColumns,
+      data: userData,
+      disableMultiSort: false,
+      initialState: { pageSize: 10 },
+    },
     useGlobalFilter,
     useFilters,
     tableHooks,
@@ -212,9 +221,9 @@ export default function UserTable({ fetchedUsers }) {
 
   return (
     <>
-      <div className='mt-20 block max-w-full'>
-        <div className='tableWrap'>
-          <div className='filter-table'>
+      <div className="mt-20 block max-w-full">
+        <div className="tableWrap">
+          <div className="filter-table">
             <AllColumnsFilter
               preGlobalFilteredRows={preGlobalFilteredRows}
               setGlobalFilter={setGlobalFilter}
@@ -222,12 +231,12 @@ export default function UserTable({ fetchedUsers }) {
               tableName={'users'}
             />
           </div>
-          <table className='table' {...getTableProps()}>
-            <thead className='thead'>
+          <table className="table" {...getTableProps()}>
+            <thead className="thead">
               {headerGroups.map((headerGroup) => (
-                <tr key={headerGroup._id} className='tr' {...headerGroup.getHeaderGroupProps()}>
+                <tr key={headerGroup._id} {...headerGroup.getHeaderGroupProps()}>
                   {headerGroup.headers.map((column, idx) => (
-                    <th key={idx} className='th' {...column.getHeaderProps(column.getSortByToggleProps())}>
+                    <th key={idx} className="th" {...column.getHeaderProps(column.getSortByToggleProps())}>
                       {column.render('Header')}
                       {column.canSort ? (column.isSorted ? (column.isSortedDesc ? '↑' : '↓') : ' ↓↑') : null}
                     </th>
@@ -235,13 +244,13 @@ export default function UserTable({ fetchedUsers }) {
                 </tr>
               ))}
             </thead>
-            <tbody className='tbody' {...getTableBodyProps()}>
+            <tbody className="tbody" {...getTableBodyProps()}>
               {page.map((row, idx) => {
                 prepareRow(row);
                 return (
                   <tr key={idx} {...row.getRowProps()} className={isEven(idx) ? 'evenRow' : null}>
                     {row.cells.map((cell, idx) => (
-                      <td key={idx} className=' td' {...cell.getCellProps()}>
+                      <td key={idx} className=" td" {...cell.getCellProps()}>
                         {cell.render('Cell')}
                       </td>
                     ))}
@@ -250,19 +259,19 @@ export default function UserTable({ fetchedUsers }) {
               })}
             </tbody>
           </table>
-          <div className='pagination'>
-            <div className='pagination-buttons'>
-              <button className='tablePagination-button' onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+          <div className="pagination">
+            <div className="pagination-buttons">
+              <button className="tablePagination-button" onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
                 {'<<'}
               </button>
-              <button className='tablePagination-button' onClick={() => previousPage()} disabled={!canPreviousPage}>
+              <button className="tablePagination-button" onClick={() => previousPage()} disabled={!canPreviousPage}>
                 {'<'}
               </button>
-              <button className='tablePagination-button' onClick={() => nextPage()} disabled={!canNextPage}>
+              <button className="tablePagination-button" onClick={() => nextPage()} disabled={!canNextPage}>
                 {'>'}
               </button>
               <button
-                className='tablePagination-button'
+                className="tablePagination-button"
                 onClick={() => gotoPage(pageCount - 1)}
                 disabled={!canNextPage}>
                 {'>>'}
@@ -270,16 +279,16 @@ export default function UserTable({ fetchedUsers }) {
             </div>
             <span>
               Page
-              <strong className='pl-1'>
+              <strong className="pl-1">
                 {state.pageIndex + 1} of {pageOptions.length}
               </strong>
             </span>
             <span>|</span>
-            <span className='flex items-center gap-1'>
+            <span className="flex items-center gap-1">
               Go to page:
               <input
-                className='pagination-input'
-                type='number'
+                className="pagination-input"
+                type="number"
                 defaultValue={state.pageIndex + 1}
                 onChange={(e) => {
                   const page = e.target.value ? Number(e.target.value) - 1 : 0;
@@ -289,7 +298,7 @@ export default function UserTable({ fetchedUsers }) {
               />
             </span>
             <select
-              className='select-table'
+              className="select-table"
               value={state.pageSize}
               onChange={(e) => {
                 setPageSize(Number(e.target.value));
