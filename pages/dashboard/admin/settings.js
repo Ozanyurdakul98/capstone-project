@@ -32,14 +32,13 @@ export default function AdminDashboard({ studioServices }) {
   const router = useRouter();
 
   const handleAddStudioService = async (event) => {
-    const passForm = studioService;
     event.preventDefault();
     setStudioServiceErrors(ValidateCreateStudioService(studioService));
     if (Object.keys(ValidateCreateStudioService(studioService)).length === 0) {
       setLoading("studioservice");
       try {
         const res = await fetch(`/api/dashboard/admin/settings/studioservice`, {
-          method: "POST",
+          method: "PATCH",
           body: JSON.stringify(studioService),
           headers: {
             "Content-Type": "application/json",
@@ -78,16 +77,12 @@ export default function AdminDashboard({ studioServices }) {
     if (values) {
       const service = {
         id: values.id,
-        avatar: values.avatar,
-        email: values.email,
+        image: values.image,
         name: values.name,
+        description: values.description,
       };
-      if (res.ok) {
-        setToUpdateStudioService(user);
-        setOpenEditView(true);
-      }
-      alert("Something went wrong!", error);
-      console.error("Failed to find User", error);
+      setToUpdateStudioService(service);
+      setOpenStudioServiceEditView(true);
     }
   }
 
@@ -172,8 +167,7 @@ export default function AdminDashboard({ studioServices }) {
             ))}
             {openStudioServiceEditView ? (
               <EditStudioService
-                toUpdateUser={toUpdateUser}
-                userID={userID}
+                toUpdateStudioService={toUpdateStudioService}
                 setOpenStudioServiceEditView={setOpenStudioServiceEditView}></EditStudioService>
             ) : null}
             {deleteModal ? (

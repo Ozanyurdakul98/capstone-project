@@ -3,12 +3,12 @@ import { useState, useEffect } from "react";
 import { BackgroundOverlayFullscreen as ClickToCloseMax } from "../BackgroundOverlay";
 import Link from "next/link.js";
 import { useRouter } from "next/router";
-import { UserFormfields } from "./UserFormfields";
+import { StudioServiceFormfields } from "./StudioServiceFormfields";
 import { Spinner } from "../Spinner";
 import { ValidateEditUser } from "../../helpers/Validate";
 
-function EditStudioService({ toUpdateUser, setOpenEditView, userID }) {
-  const data = toUpdateUser;
+function EditStudioService({ toUpdateStudioService, setOpenStudioServiceEditView }) {
+  const data = toUpdateStudioService;
   const defaultPic = "/images/Thumbnail-default.png";
   const [form, setForm] = useState(data);
   const [checked, setChecked] = useState("");
@@ -29,22 +29,22 @@ function EditStudioService({ toUpdateUser, setOpenEditView, userID }) {
   const handleClickToCloseErrorModal = () => {};
 
   const handleFormSubmit = async (event) => {
-    const passForm = form;
     event.preventDefault();
-    setFormErrors(ValidateEditUser(passForm));
-    setIsSubmit(true);
-    if (Object.keys(formErrors).length === 0 && isSubmit) {
+    setFormErrors(ValidateEditUser(form));
+    console.log("here");
+    if (Object.keys(ValidateEditUser(form)).length === 0) {
+      console.log("here2");
       setLoading(true);
       try {
-        const resAvatar = await handleUploadInput(form.avatar);
-        const res = await fetch(`/api/dashboard/admin/user/${userID}`, {
+        const resImage = await handleUploadInput(form.image);
+        const res = await fetch(`/api/dashboard/admin/settings/studioservice`, {
           method: "PATCH",
-          body: JSON.stringify({ ...form, avatar: resAvatar }),
+          body: JSON.stringify({ ...form, image: resImage }),
           headers: {
             "Content-Type": "application/json",
           },
         });
-        const result = await res.json();
+        await res.json();
 
         if (!res.ok) {
           setLoading(false);
@@ -139,19 +139,19 @@ function EditStudioService({ toUpdateUser, setOpenEditView, userID }) {
       <div className='searchFadein fixed inset-x-0 inset-y-0 top-0 left-0 right-0 z-50 my-auto mx-auto flex h-4/6   w-full  flex-col gap-5 rounded-2xl bg-white pb-5 shadow-xxl  md:min-h-72 md:w-11/12 xl:w-6/12'>
         <div className=' overflow-y-scroll sm:px-0'>
           <div className='mt-4 flex flex-col gap-4'>
-            <h2 className='h2 ml-5 text-2xl'>Edit Profile</h2>
+            <h2 className='h2 ml-5 text-2xl'>Edit Studioservice</h2>
           </div>
           <div className=' px-2 sm:ml-5 md:mr-5'>
             <div className='sm:px-0'>
               <form noValidate className='text-primary w-full' onSubmit={handleFormSubmit}>
-                <UserFormfields
+                <StudioServiceFormfields
                   form={form}
                   checked={checked}
                   length={Object.keys(formErrors).length}
                   formErrors={formErrors}
                   handleDeleteImage={handleDeleteImage}
                   handleChange={handleChange}
-                  handleCheck={handleCheck}></UserFormfields>
+                  handleCheck={handleCheck}></StudioServiceFormfields>
                 {/* ErrorModal */}
                 <fieldset>
                   {submissionFailed ? (
@@ -210,7 +210,7 @@ function EditStudioService({ toUpdateUser, setOpenEditView, userID }) {
               onClick={(event) => handleFormSubmit(event)}
               disabled={loading ? true : false}
               className='form-button bg-primary max-w-[250px] flex-grow justify-center border-none text-white'>
-              {Object.keys(formErrors).length === 0 && isSubmit ? "Update User" : "Check"}
+              {Object.keys(ValidateEditUser(form)).length === 0 ? "Update Service" : "Check"}
             </button>
           </div>
         </div>
