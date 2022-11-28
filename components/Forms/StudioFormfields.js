@@ -179,7 +179,6 @@ export function StudioFormfields(props) {
       {/* services */}
       <fieldset className='listingForm flex flex-col gap-2'>
         <legend className='label-form'>Studio services</legend>
-
         {props.studioService.map((service) => (
           <FormInput
             key={service.id}
