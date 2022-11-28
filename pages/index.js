@@ -41,7 +41,7 @@ export default function Home({ latestListings, totalUsers, totalListings, studio
                       pathname: `/studioservice/${service.queryString}`,
                     })
                   }
-                  className=' inline-block rounded bg-black px-6 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg'>
+                  className=' bg-primary inline-block rounded-xl px-6 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg'>
                   Show me
                 </button>
               </div>
@@ -68,9 +68,6 @@ export async function getStaticProps(context) {
     .limit(10)
     .populate("studioService");
   const serializedLatestAddedListings = JSON.parse(JSON.stringify(latestAddedListings));
-  // const all = await StudioListing.find({}).populate("studioService");
-  // const alll = JSON.parse(JSON.stringify(all));
-  // console.log("ALLLL", alll);
   const services = await StudioService.find();
 
   const sanitizedServices = services.map((service) => ({

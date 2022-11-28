@@ -1,16 +1,16 @@
-import React from 'react';
+import React from "react";
 //hooks
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from "react";
 //tools
-import Image from 'next/image';
+import Image from "next/image";
 //icons
-import { FiHeart } from 'react-icons/fi';
-import { TiTick } from 'react-icons/ti';
-import { IoIosWifi } from 'react-icons/io';
-import { IoPeopleCircleSharp } from 'react-icons/io5';
-import { RiParkingBoxLine } from 'react-icons/ri';
-import { TbSmoking } from 'react-icons/tb';
-import { MdBed } from 'react-icons/md';
+import { FiHeart } from "react-icons/fi";
+import { TiTick } from "react-icons/ti";
+import { IoIosWifi } from "react-icons/io";
+import { IoPeopleCircleSharp } from "react-icons/io5";
+import { RiParkingBoxLine } from "react-icons/ri";
+import { TbSmoking } from "react-icons/tb";
+import { MdBed } from "react-icons/md";
 
 function ListingCard({
   listingTitle,
@@ -27,7 +27,13 @@ function ListingCard({
     <article className='mx-1 mb-10'>
       <div className='relative   flex min-h-[333px] w-full max-w-[250px] cursor-pointer flex-col rounded-lg border border-b border-slate-500 px-2 shadow-md hover:opacity-90 hover:shadow-lg'>
         <div className='relative h-40 w-full  flex-shrink-0'>
-          <Image src={images} layout='fill' objectFit='cover' className='rounded-xl' alt='Thumbnail' />
+          <Image
+            src={images}
+            layout='fill'
+            objectFit='cover'
+            className='rounded-xl'
+            alt='Thumbnail'
+          />
         </div>
         <div className='mb-3 flex w-full flex-grow flex-col justify-between pl-2'>
           <div className='flex flex-col gap-[6px] md:gap-2'>
@@ -39,31 +45,31 @@ function ListingCard({
                 {studiotype}
               </p>
               <p className='flex truncate rounded border border-slate-700 pr-6 pl-1 text-xs  md:text-sm'>
-                {soundengineer ? <>Soundengineer</> : '❌'}
+                {soundengineer ? <>Soundengineer</> : "❌"}
               </p>
             </div>
           </div>
-          <div className='mt-1 flex flex-1 md:min-h-[60px]'>
-            <h4 className=' line-clamp-2 sm:text-base md:text-lg'>{listingTitle}</h4>
+          <div className='mt-1 flex flex-1 items-center md:min-h-[60px]'>
+            <h4 className='line-clamp-2 sm:text-base md:text-lg'>{listingTitle}</h4>
           </div>
           <div className='flex items-center justify-between'>
             <ul className='flex gap-2'>
-              {locationFeatures.includes('Wi-Fi') ? (
+              {locationFeatures.includes("Wi-Fi") ? (
                 <li>
                   <IoIosWifi className='icon-carousell' />
                 </li>
               ) : null}
-              {locationFeatures.includes('Parking') ? (
+              {locationFeatures.includes("Parking") ? (
                 <li>
                   <RiParkingBoxLine className='icon-carousell' />
                 </li>
               ) : null}
-              {locationFeatures.includes('Smoking') ? (
+              {locationFeatures.includes("Smoking") ? (
                 <li>
                   <TbSmoking className='icon-carousell' />
                 </li>
               ) : null}
-              {locationFeatures.includes('Sleepover') ? (
+              {locationFeatures.includes("Sleepover") ? (
                 <li>
                   <MdBed className='icon-carousell' />
                 </li>
@@ -81,19 +87,23 @@ function ListingCard({
             <p className='relative top-1 whitespace-nowrap text-lg font-semibold sm:text-xl md:text-xl lg:text-2xl'>
               {studioPricing.studioPricingHour ? (
                 <>
-                  {studioPricing.studioPricingHour}$ <span className='text-base sm:text-lg lg:text-xl'>/Hour</span>
+                  {studioPricing.studioPricingHour}${" "}
+                  <span className='text-base sm:text-lg lg:text-xl'>/Hour</span>
                 </>
               ) : studioPricing.studioPricingDay ? (
                 <>
-                  {studioPricing.studioPricingDay}$ <span className='text-base sm:text-lg'>/Day</span>
+                  {studioPricing.studioPricingDay}${" "}
+                  <span className='text-base sm:text-lg'>/Day</span>
                 </>
               ) : studioPricing.studioPricingWeek ? (
                 <>
-                  {studioPricing.studioPricingWeek}$ <span className='text-base sm:text-lg'>/Week</span>
+                  {studioPricing.studioPricingWeek}${" "}
+                  <span className='text-base sm:text-lg'>/Week</span>
                 </>
               ) : studioPricing.studioPricingMonth ? (
                 <>
-                  {studioPricing.studioPricingMonth}$ <span className='text-base sm:text-lg'>/Month</span>
+                  {studioPricing.studioPricingMonth}${" "}
+                  <span className='text-base sm:text-lg'>/Month</span>
                 </>
               ) : null}
             </p>

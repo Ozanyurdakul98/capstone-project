@@ -7,11 +7,13 @@ import ListingCards from "../../components/ListingCardWide";
 import Layout from "../../components/Layout/Layout";
 import StudioService from "../../models/StudioService";
 
-function Recording({ studios }) {
+function Recording({ studios, serviceName }) {
   return (
-    <div className='mb-20'>
-      <h1>Recording Studios</h1>
-      <>
+    <div className='my-20'>
+      <div>
+        <h1 className='h2'>{serviceName}</h1>
+      </div>
+      <div className='mt-5'>
         {studios.map(
           ({
             _id,
@@ -36,7 +38,7 @@ function Recording({ studios }) {
               studioLocation={studioLocation}></ListingCards>
           )
         )}
-      </>
+      </div>
     </div>
   );
 }
@@ -49,30 +51,27 @@ Recording.getLayout = function getLayout(page) {
 
 export async function getServerSideProps(context) {
   await db.connect();
-  const serviceName = context.query.service;
-  const serviceID = await StudioService.find({ queryString: serviceName }).select("_id");
+  const serviceQueryName = context.query.service;
+  const serviceName = await StudioService.find({ queryString: serviceQueryName }).select(
+    "name -_id"
+  );
+  const sanitizeServiceName = serviceName[0].name;
+  const serviceID = await StudioService.find({ queryString: serviceQueryName }).select("_id");
   const serializedServiceID = JSON.parse(JSON.stringify(serviceID[0]._id));
   const studiosWithID = await StudioListing.find({ studioService: serializedServiceID }).populate({
     path: "studioService",
     model: "StudioService",
     select: "name -_id",
   });
-  const test = studiosWithID.map((studio) =>
-    JSON.parse(JSON.stringify(studio.studioService[0].name))
-  );
-  //   console.log("test", test[0].name);
-  //   console.log("test", test[0]);
-  //   console.log("test", test);
-  //   console.log("fetchedStudios", studiosWithID);
   const serializingStudiosWithID = JSON.parse(JSON.stringify(studiosWithID));
   const serializedStudiosWithID = serializingStudiosWithID.map((studio) => ({
     ...studio,
     studioService: studio.studioService.map((service) => service.name),
   }));
-  console.log("fetchedStudios", serializedStudiosWithID);
   return {
     props: {
       studios: serializedStudiosWithID || null,
+      serviceName: sanitizeServiceName || null,
     },
   };
 }

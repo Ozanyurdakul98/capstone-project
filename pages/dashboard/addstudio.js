@@ -59,7 +59,6 @@ function DashboardAddStudio({ sanitizedServices }) {
   const handleFormSubmit = async (event) => {
     const passForm = form;
     event.preventDefault();
-    console.log("FORM", form);
     setFormErrors(ValidateCreateStudioListing(passForm, checked));
     setIsSubmit(true);
     if (Object.keys(formErrors).length === 0 && isSubmit) {
@@ -116,7 +115,6 @@ function DashboardAddStudio({ sanitizedServices }) {
         return deleteUndefined;
       }
       if (type === "checkbox") {
-        console.log("name", name, "wert", wert);
         let newArray = [...form?.[name], wert];
         if (form?.[name].includes(wert)) {
           newArray = newArray.filter((service) => service !== wert);

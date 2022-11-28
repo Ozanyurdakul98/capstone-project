@@ -34,8 +34,6 @@ export default async function handler(req, res) {
     } else if (req.method === "PATCH") {
       await db.connect();
       const ID = req.body.id;
-      console.log("ID", ID);
-      console.log("IDbody", req.body);
       try {
         const service = await StudioService.findByIdAndUpdate(ID, req.body);
         return res.status(201).json({ success: true, data: service });
@@ -46,7 +44,6 @@ export default async function handler(req, res) {
       await db.connect();
       try {
         const ID = req.body;
-        console.log("IDDD", ID);
         const status = await StudioService.findByIdAndDelete(ID);
         return res.status(201).json({ success: true, status });
       } catch (error) {

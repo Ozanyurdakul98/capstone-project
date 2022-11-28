@@ -40,7 +40,6 @@ export default function AdminDashboard({ studioServices }) {
     setStudioServiceErrors(ValidateCreateStudioService(studioService));
     if (Object.keys(ValidateCreateStudioService(studioService)).length === 0) {
       setLoading("studioservice");
-      console.log("Started settings");
       try {
         const res = await fetch(`/api/dashboard/admin/settings/studioservice`, {
           method: "POST",
@@ -49,7 +48,6 @@ export default function AdminDashboard({ studioServices }) {
             "Content-Type": "application/json",
           },
         });
-        console.log("RES ESTTINGS", res);
         await res.json();
 
         if (!res.ok) {
@@ -87,7 +85,6 @@ export default function AdminDashboard({ studioServices }) {
       queryString: values.queryString,
       description: values.description,
     };
-    console.log("servicesettings", service);
     setToUpdateStudioService(service);
     setOpenStudioServiceEditView(true);
   }
@@ -149,7 +146,6 @@ export default function AdminDashboard({ studioServices }) {
                   className='hover ml-1 bg-transparent focus:outline-none'
                   onClick={() => {
                     openEditStudioServiceModal(service);
-                    console.log("mappung service", service, service._id);
                   }}>
                   <TbEdit className='adminSettings-icon' />
                 </button>

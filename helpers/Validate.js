@@ -88,8 +88,6 @@ export function ValidateCreateStudioListing(form, checked) {
   } else if (form.studioPricing.studioPricingMonth?.length >= 5) {
     errors.studioPricing = "The max length is 4 numbers";
   }
-  console.log("Validation", form.studioService);
-  console.log("Validation", form.studioService.length);
   if (form.studioService.length === 0) {
     errors.studioService = "Select at least 1 service!";
   }

@@ -9,7 +9,6 @@ import { ValidateCreateStudioService } from "../../helpers/Validate";
 
 function EditStudioService({ toUpdateStudioService, setOpenStudioServiceEditView }) {
   const data = toUpdateStudioService;
-  console.log("dataedit", data, toUpdateStudioService);
   const defaultPic = "/images/Thumbnail-default.png";
   const [form, setForm] = useState(data);
   const [checked, setChecked] = useState("");
@@ -35,9 +34,7 @@ function EditStudioService({ toUpdateStudioService, setOpenStudioServiceEditView
     if (Object.keys(ValidateCreateStudioService(form)).length === 0) {
       setLoading(true);
       try {
-        console.log("started");
         const resImage = await handleUploadInput(form.image);
-        console.log("resImage", resImage);
         const res = await fetch(`/api/dashboard/admin/settings/studioservice`, {
           method: "PATCH",
           body: JSON.stringify({ ...form, image: resImage }),
@@ -45,9 +42,7 @@ function EditStudioService({ toUpdateStudioService, setOpenStudioServiceEditView
             "Content-Type": "application/json",
           },
         });
-        console.log("res", res);
         await res.json();
-
         if (!res.ok) {
           setLoading(false);
           throw new Error(res.status);
