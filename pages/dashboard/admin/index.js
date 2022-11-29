@@ -16,7 +16,6 @@ export default function AdminDashboard({ totalUsers, totalListings, studiosCreat
         <div className="grow md:w-8/12">
           <DashboardAdminStatsTotal totalUsers={totalUsers} totalListings={totalListings}></DashboardAdminStatsTotal>
           <DashboardAdminBoxes studiosCreatedToday={studiosCreatedToday} usersCreatedToday={usersCreatedToday} />
-          {/*   <SalesStats /> */}
         </div>
         <div className="grow md:w-4/12">{/* <TopSellingProducts /> */}</div>
       </div>

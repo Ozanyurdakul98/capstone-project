@@ -60,26 +60,6 @@ export function UserFormfields(props) {
           </div>
         </div>
       </fieldset>
-      {/* Username */}
-      {/* <fieldset className='fset-editUser pt-4'>
-        <FormInput
-          beforeLabel={{
-            string: 'Username',
-            css: 'label-form ',
-          }}
-          className='input-editUser peer block '
-          type='text'
-          id='username'
-          placeholder='Type your username here...'
-          name='username'
-          required
-          autoComplete='off'
-          pattern='^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){3,25}$'
-          errorMessage={'Only 4-25 letters and (a-z, A-Z, 0-9, ! äöü ,-_) !'}
-          value={props.form.username}
-          onChange={props.handleChange}></FormInput>
-        <span className='errormessage '>{props.formErrors.username}</span>
-      </fieldset> */}
       {/* Name */}
       <fieldset className="fset-editUser flex gap-3">
         <div className="flex w-full flex-col sm:w-2/3 lg:w-2/3">
@@ -102,26 +82,6 @@ export function UserFormfields(props) {
             onChange={props.handleChange}></FormInput>
           <span className="errormessage ">{props.formErrors.name}</span>
         </div>
-        {/* <div className='flex w-full flex-col sm:w-2/3 lg:w-2/3'>
-          <FormInput
-            divClassAll={'flex flex-col'}
-            beforeLabel={{
-              string: 'Lastname',
-              css: 'label-form',
-            }}
-            className='input-editUserName peer block '
-            type='text'
-            id='username'
-            placeholder='Type your lastname here...'
-            name='lastname'
-            required
-            autoComplete='off'
-            pattern='^([a-zA-Z-])([a-zA-Z-!äöü,-_\s]){3,25}$'
-            errorMessage={'Only 4-25 letters!'}
-            value={props.form.lastname}
-            onChange={props.handleChange}></FormInput>
-          <span className='errormessage '>{props.formErrors.lastname}</span>
-        </div> */}
       </fieldset>
       {/* Email */}
       <fieldset className="fset-editUser mb-52">

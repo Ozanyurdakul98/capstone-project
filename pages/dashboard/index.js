@@ -14,9 +14,7 @@ export default function Dashboard({ totalUsers, totalListings }) {
       <div className="gap-10 md:flex">
         <div className="grow md:w-8/12">
           <DashboardStats totalUsers={totalUsers} totalListings={totalListings}></DashboardStats>
-          {/*   <SalesStats /> */}
         </div>
-        <div className="grow md:w-4/12">{/* <TopSellingProducts /> */}</div>
       </div>
     </div>
   );
