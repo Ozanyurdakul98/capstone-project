@@ -46,7 +46,7 @@ function DashboardAddStudio({ sanitizedServices }) {
     }
     myFunction();
   }, []);
-  const handlePreview = (event) => {
+  const handlePreview = () => {
     const passForm = form;
     setFormErrors(ValidateCreateStudioListing(passForm, checked));
     if (Object.keys(ValidateCreateStudioListing(passForm, checked)).length === 0) {
