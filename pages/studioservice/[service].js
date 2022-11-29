@@ -1,19 +1,18 @@
-import React from "react";
 //db
-import db from "../../lib/dbConnect";
-import StudioListing from "../../models/StudioListing";
+import db from '../../lib/dbConnect';
+import StudioListing from '../../models/StudioListing';
 //components
-import ListingCards from "../../components/ListingCardWide";
-import Layout from "../../components/Layout/Layout";
-import StudioService from "../../models/StudioService";
+import ListingCards from '../../components/ListingCardWide';
+import Layout from '../../components/Layout/Layout';
+import StudioService from '../../models/StudioService';
 
 function Recording({ studios, serviceName }) {
   return (
-    <div className='my-20'>
+    <div className="my-20">
       <div>
-        <h1 className='h2'>{serviceName}</h1>
+        <h1 className="h2">{serviceName}</h1>
       </div>
-      <div className='mt-5'>
+      <div className="mt-5">
         {studios.map(
           ({
             _id,
@@ -52,17 +51,18 @@ Recording.getLayout = function getLayout(page) {
 export async function getServerSideProps(context) {
   await db.connect();
   const serviceQueryName = context.query.service;
-  const serviceName = await StudioService.find({ queryString: serviceQueryName }).select(
-    "name -_id"
-  );
+  const serviceName = await StudioService.find({ queryString: serviceQueryName }).select('name -_id');
   const sanitizeServiceName = serviceName[0].name;
-  const serviceID = await StudioService.find({ queryString: serviceQueryName }).select("_id");
+  const serviceID = await StudioService.find({ queryString: serviceQueryName }).select('_id');
   const serializedServiceID = JSON.parse(JSON.stringify(serviceID[0]._id));
-  const studiosWithID = await StudioListing.find({ studioService: serializedServiceID }).populate({
-    path: "studioService",
-    model: "StudioService",
-    select: "name -_id",
-  });
+  const studiosWithID = await StudioListing.find({ studioService: serializedServiceID })
+    .populate({
+      path: 'studioService',
+      model: 'StudioService',
+      select: 'name -_id',
+    })
+    .sort({ $natural: -1 });
+
   const serializingStudiosWithID = JSON.parse(JSON.stringify(studiosWithID));
   const serializedStudiosWithID = serializingStudiosWithID.map((studio) => ({
     ...studio,

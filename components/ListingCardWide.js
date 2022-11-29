@@ -1,4 +1,3 @@
-import React from 'react';
 //hooks
 import { useEffect, useState, useRef } from 'react';
 

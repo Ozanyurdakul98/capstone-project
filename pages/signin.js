@@ -1,4 +1,3 @@
-import React from 'react';
 import SignInComponent from '../components/Forms/SignInForm';
 import { getCsrfToken, getSession, getProviders } from 'next-auth/react';
 

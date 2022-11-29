@@ -1,4 +1,3 @@
-import React from 'react';
 import { useState, useEffect } from 'react';
 import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../BackgroundOverlay';
 import Link from 'next/link.js';

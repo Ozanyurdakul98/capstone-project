@@ -1,4 +1,3 @@
-import React from 'react';
 import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../BackgroundOverlay';
 import { Spinner } from '../Spinner';
 

@@ -1,4 +1,3 @@
-import React from 'react';
 import { useState, useEffect } from 'react';
 import { ValidateCreateStudioListing } from '../../helpers/Validate.js';
 import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../BackgroundOverlay';

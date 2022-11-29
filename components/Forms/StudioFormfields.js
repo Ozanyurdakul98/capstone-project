@@ -1,4 +1,3 @@
-import React from 'react';
 import { FormInput } from '../../components/Forms/FormInput';
 import Image from 'next/image.js';
 import { TbHandClick } from 'react-icons/tb';
