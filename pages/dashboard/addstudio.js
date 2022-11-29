@@ -316,7 +316,7 @@ function DashboardAddStudio({ sanitizedServices }) {
             </button>
             <button
               type="button"
-              onClick={(event) => {
+              onClick={() => {
                 handlePreview();
               }}
               className="form-button hover:bg-secondary-hover text-white">
