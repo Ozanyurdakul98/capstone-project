@@ -110,7 +110,7 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
       }
       if (type === 'checkbox') {
         let newArray = [...form[name], wert];
-        if (form?.[name].includes(wert)) {
+        if (form[name].includes(wert)) {
           newArray = newArray.filter((service) => service !== wert);
         }
         return newArray;
@@ -140,7 +140,7 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
       }
       if (name === 'studioPricing') {
         let newArray = [...checked[name], id];
-        if (checked?.[name].includes(id)) {
+        if (checked[name].includes(id)) {
           newArray = newArray.filter((pricing) => pricing !== id);
           const currentForm = { ...form?.[name], [id]: wert };
           const deleteUnchecked = Object.fromEntries(

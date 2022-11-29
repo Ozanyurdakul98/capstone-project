@@ -50,7 +50,7 @@ function DashboardAddStudio({ sanitizedServices }) {
     const passForm = form;
     setFormErrors(ValidateCreateStudioListing(passForm, checked));
     if (Object.keys(ValidateCreateStudioListing(passForm, checked)).length === 0) {
-      handleUploadInput(event);
+      handleUploadInput();
       setPreview(true);
     }
   };
@@ -144,7 +144,7 @@ function DashboardAddStudio({ sanitizedServices }) {
       }
       if (name === 'studioPricing') {
         let newArray = [...checked[name], id];
-        if (checked?.[name].includes(id)) {
+        if (checked[name].includes(id)) {
           newArray = newArray.filter((pricing) => pricing !== id);
           const currentForm = { ...form?.[name], [id]: wert };
           const deleteUnchecked = Object.fromEntries(
