@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
-// mongoose.set('debug', true);
+import './StudioService';
+
+const { Schema } = mongoose;
 
 const studioListingSchema = new mongoose.Schema(
   {
@@ -16,7 +18,13 @@ const studioListingSchema = new mongoose.Schema(
       required: true,
     },
     studiotype: { type: String, required: true },
-    services: { type: Array, required: true },
+    studioService: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'StudioService',
+        required: true,
+      },
+    ],
     locationFeatures: { type: Array, required: true },
     soundengineer: { type: Object, required: true },
     studioPricing: { type: Object, required: true },

@@ -1,68 +1,53 @@
-import { useState, useEffect } from 'react';
-import { ValidateCreateStudioListing } from '../../helpers/Validate.js';
+import { useState } from 'react';
 import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../BackgroundOverlay';
 import Link from 'next/link.js';
 import { useRouter } from 'next/router';
-import { StudioFormfields } from './StudioFormfields';
+import { StudioServiceFormfields } from './StudioServiceFormfields';
 import { Spinner } from '../Spinner';
+import { ValidateCreateStudioService } from '../../helpers/Validate';
 
-function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
-  const data = toUpdateStudio;
+function EditStudioService({ toUpdateStudioService, setOpenStudioServiceEditView }) {
+  const data = toUpdateStudioService;
   const defaultPic = '/images/Thumbnail-default.png';
-  const defaultChecked = {
-    soundengineer: '',
-    studioPricing: [],
-  };
   const [form, setForm] = useState(data);
-  const [checked, setChecked] = useState(defaultChecked);
+  const [checked, setChecked] = useState('');
   const [imageChanged, setImageChanged] = useState(false);
-  const [isSubmit, setIsSubmit] = useState(false);
   const [loading, setLoading] = useState(false);
   const [submissionFailed, setSubmissionFailed] = useState(false);
   const [formErrors, setFormErrors] = useState({});
   const router = useRouter();
 
   const handleClickToCloseModal = () => {
-    setOpenEditView(false);
+    setOpenStudioServiceEditView(false);
   };
   const handleDeleteImage = () => {
     setImageChanged(true);
-    setForm({ ...form, images: defaultPic });
-    setChecked({ ...checked, imagesPreview: defaultPic });
-    setChecked((prev) => ({ ...prev, images: defaultPic }));
+    setForm({ ...form, image: defaultPic });
   };
   const handleClickToCloseErrorModal = () => {};
-  useEffect(() => {
-    return MatchDataWithChecked();
-  }, []);
 
   const handleFormSubmit = async (event) => {
-    const passForm = form;
     event.preventDefault();
-    setFormErrors(ValidateCreateStudioListing(passForm, checked));
-    setIsSubmit(true);
-    if (Object.keys(formErrors).length === 0 && isSubmit) {
+    setFormErrors(ValidateCreateStudioService(form));
+    if (Object.keys(ValidateCreateStudioService(form)).length === 0) {
       setLoading(true);
       try {
-        const resImage = await handleUploadInput(form.images);
-        const res = await fetch(`/api/dashboard/admin/studio/${studioID}`, {
+        const resImage = await handleUploadInput(form.image);
+        const res = await fetch(`/api/dashboard/admin/settings/studioservice`, {
           method: 'PATCH',
-          body: JSON.stringify({ ...form, images: resImage }),
+          body: JSON.stringify({ ...form, image: resImage }),
           headers: {
             'Content-Type': 'application/json',
           },
         });
         await res.json();
-
         if (!res.ok) {
           setLoading(false);
           throw new Error(res.status);
         }
-        if (res.ok) {
-          setLoading(false);
-          setOpenEditView(false);
-          router.reload();
-        }
+        setLoading(false);
+        setOpenStudioServiceEditView(false);
+        router.reload();
       } catch (error) {
         setLoading(false);
         setFormErrors(error);
@@ -74,54 +59,22 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
 
   const handleChange = (event) => {
     const target = event.target;
-    const type = target.type;
     const name = target.name;
     const wert = target.value;
-    const id = target.id;
-    const value = checkValues(type, form, name, wert, id, target);
+    const value = checkValues(name, wert, target);
     setForm({ ...form, [name]: value() });
   };
 
-  function MatchDataWithChecked() {
-    const pricing = data.studioPricing;
-    const engineer = data.soundengineer;
+  function checkValues(name, wert, target) {
     return () => {
-      if (pricing) {
-        let pricingArray = [];
-        Object.keys(pricing).map((price) => (pricingArray = [...pricingArray, price]));
-        setChecked({ ...checked, studioPricing: pricingArray });
-      }
-      if (typeof engineer === 'object') {
-        const string = 'soundengineerPrice';
-        setChecked((prev) => ({ ...prev, soundengineer: string }));
-      }
-    };
-  }
-
-  function checkValues(type, form, name, wert, id, target) {
-    return () => {
-      if (name === 'studioPricing' || id === 'soundengineerPrice') {
-        const currentForm = {
-          ...form?.[name === 'studioPricing' ? name : id],
-          [id]: wert,
-        };
-        const deleteUndefined = Object.fromEntries(Object.entries(currentForm).filter(([v]) => v));
-        return deleteUndefined;
-      }
-      if (type === 'checkbox') {
-        let newArray = [...form[name], wert];
-        if (form[name].includes(wert)) {
-          newArray = newArray.filter((service) => service !== wert);
-        }
-        return newArray;
-      }
-      if (name === 'images') {
+      if (name === 'image') {
         setImageChanged(true);
-        let wertImage = target.files[0];
+        const wertImage = target.files[0];
+        const imageName = wertImage.name;
         setChecked({
           ...checked,
-          imagesPreview: URL.createObjectURL(wertImage),
-          images: wertImage,
+          imagePreview: URL.createObjectURL(wertImage),
+          imageName: imageName,
         });
         return wertImage;
       } else {
@@ -129,42 +82,18 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
       }
     };
   }
-  const handleCheck = (event) => {
-    const target = event.target;
-    const name = target.name;
-    const id = target.id;
-    const wert = target.value;
-    const isChecked = () => {
-      if (name === 'soundengineer') {
-        return id;
-      }
-      if (name === 'studioPricing') {
-        let newArray = [...checked[name], id];
-        if (checked[name].includes(id)) {
-          newArray = newArray.filter((pricing) => pricing !== id);
-          const currentForm = { ...form?.[name], [id]: wert };
-          const deleteUnchecked = Object.fromEntries(
-            Object.entries(currentForm).filter((pricing) => !pricing.includes(id))
-          );
-          setForm({ ...form, [name]: deleteUnchecked });
-        }
-        return newArray;
-      }
-    };
-    setChecked({ ...checked, [name]: isChecked() });
-  };
 
-  const handleUploadInput = async (wertImage) => {
+  const handleUploadInput = async (image) => {
     if (!imageChanged) {
       return;
     }
-    if (wertImage === defaultPic) {
+    if (image === defaultPic) {
       return defaultPic;
     }
     const formData = new FormData();
     const preset = 'cy1wyxej';
     const url = 'https://api.cloudinary.com/v1_1/drt9lfnfg/image/upload';
-    formData.append('file', wertImage);
+    formData.append('file', image);
     formData.append('upload_preset', preset);
     const res = await fetch(url, {
       method: 'POST',
@@ -178,21 +107,18 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
       <div className="searchFadein fixed inset-0 z-50 m-auto flex h-4/6 w-full flex-col gap-5 rounded-2xl bg-white   pb-5  shadow-xxl md:min-h-72 md:w-11/12 xl:w-6/12">
         <div className=" overflow-y-scroll sm:px-0">
           <div className="mt-4 flex flex-col gap-4">
-            <h2 className="h2 ml-5 text-2xl">Edit Studio</h2>
-            <p className="text-center ">Keep it nice and smooth!</p>
+            <h2 className="h2 ml-5 text-2xl">Edit Studioservice</h2>
           </div>
           <div className=" px-2 sm:ml-5 md:mr-5">
             <div className="sm:px-0">
               <form noValidate className="text-primary w-full" onSubmit={handleFormSubmit}>
-                <StudioFormfields
+                <StudioServiceFormfields
                   form={form}
-                  setForm={setForm}
                   checked={checked}
                   length={Object.keys(formErrors).length}
                   formErrors={formErrors}
                   handleDeleteImage={handleDeleteImage}
-                  handleChange={handleChange}
-                  handleCheck={handleCheck}></StudioFormfields>
+                  handleChange={handleChange}></StudioServiceFormfields>
                 {/* ErrorModal */}
                 <fieldset>
                   {submissionFailed ? (
@@ -202,9 +128,9 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
                         <div className="flex flex-col gap-7 overflow-y-scroll pb-20">
                           <h2 className="h2 ml-5">The operation has failed!</h2>
                           <div className="flex w-full flex-col gap-5 px-5 text-center ">
-                            <p>The Studio could not be changed, Submission failed!</p>
+                            <p>Service could not be updated, Submission failed!</p>
                             <p>This is the Error message: </p>
-                            <p className="text-red-500">{Object.entries(formErrors)}</p>
+                            <span className="text-red-500">{Object.entries(formErrors).toString()}</span>
                           </div>
                         </div>
                         {/* Buttons */}
@@ -213,7 +139,9 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
                             type="button"
                             className="form-button max-w-[250px] grow justify-center border-none bg-black text-white"
                             onClick={() => {
-                              router.reload();
+                              setTimeout(() => {
+                                router.reload();
+                              }, 100);
                             }}>
                             Try again
                           </button>
@@ -238,7 +166,7 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
           {/* Buttons */}
           <div className=" absolute bottom-0 z-30 flex h-16 w-full items-center  justify-between gap-3  rounded-b-xl border-t-2 bg-white px-2 pb-1 pt-5 ">
             <button
-              onClick={() => setOpenEditView(false)}
+              onClick={() => setOpenStudioServiceEditView(false)}
               className="form-button max-w-[250px]  grow justify-center border-none bg-black text-white">
               Cancel
             </button>
@@ -247,17 +175,14 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
               onClick={(event) => handleFormSubmit(event)}
               disabled={loading ? true : false}
               className="form-button bg-primary max-w-[250px] grow justify-center border-none text-white">
-              {Object.keys(formErrors).length === 0 && isSubmit ? 'Update Studio' : 'Check'}
+              {Object.keys(ValidateCreateStudioService(form)).length === 0 ? 'Update Service' : 'Check'}
             </button>
           </div>
         </div>
       </div>
-      <ClickToCloseMax
-        style={'bg-black/50 editModal   z-40 h-full'}
-        onClick={(event) => handleClickToCloseModal(event)}
-      />
+      <ClickToCloseMax style={'bg-black/50 editModal   z-40 h-full'} onClick={() => handleClickToCloseModal()} />
     </>
   );
 }
 
-export default EditStudio;
+export default EditStudioService;

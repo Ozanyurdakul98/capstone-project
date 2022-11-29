@@ -26,13 +26,13 @@ export const Latest10Listings = (props) => {
     },
   };
   return (
-    <article className='my-40 '>
+    <article className="my-40 ">
       <Carousel
         swipeable={true}
         draggable={true}
         showDots={true}
         arrows={false}
-        containerClass='container-padding-bottom'
+        containerClass="container-padding-bottom"
         customButtonGroup={<CustomButtonGroup />}
         // centerMode={true}
         responsive={responsive}
@@ -47,7 +47,7 @@ export const Latest10Listings = (props) => {
             listingTitle,
             images,
             studiotype,
-            services,
+            studioService,
             soundengineer,
             studioPricing,
             maxGuests,
@@ -60,7 +60,7 @@ export const Latest10Listings = (props) => {
               listingTitle={listingTitle}
               images={images}
               studiotype={studiotype}
-              services={services}
+              studioService={studioService}
               maxGuests={maxGuests}
               openingHours={openingHours}
               soundengineer={soundengineer}
@@ -77,15 +77,15 @@ export const Latest10Listings = (props) => {
 
 const CustomButtonGroup = ({ next, previous }) => {
   return (
-    <div className='absolute top-0 left-0 right-0 flex w-full flex-col items-end justify-between'>
+    <div className="absolute inset-x-0 top-0 flex w-full flex-col items-end justify-between">
       <div>
-        <h2 className='label-form mb-0 text-lg'>The 10 latest added Studio Listings</h2>
+        <h2 className="label-form mb-0 text-lg">The 10 latest added Studio Listings</h2>
       </div>
-      <div className='flex gap-2 pb-1 pr-1 '>
-        <button className='button' onClick={() => previous()}>
+      <div className="flex gap-2 pb-1 pr-1 ">
+        <button className="button" onClick={() => previous()}>
           Previous
         </button>
-        <button className='button' onClick={() => next()}>
+        <button className="button" onClick={() => next()}>
           Next
         </button>
       </div>

@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTable, useSortBy, useGlobalFilter, useFilters, usePagination } from 'react-table';
 import AllColumnsFilter from '../TableComponents/AllColumnsFilter';
 import ServicesFilter from '../TableComponents/ServicesFilter';
@@ -55,7 +55,7 @@ export default function MyStudiosTable({ fetchedStudios }) {
           images: rawStudio.images,
           openingHours: rawStudio.openingHours,
           studiotype: rawStudio.studiotype,
-          services: rawStudio.services,
+          studioService: rawStudio.studioService,
           locationFeatures: rawStudio.locationFeatures,
           soundengineer: rawStudio.soundengineer,
           studioPricing: rawStudio.studioPricing,
@@ -89,7 +89,11 @@ export default function MyStudiosTable({ fetchedStudios }) {
           throw new Error(res.status);
         }
         if (res.ok) {
-          setDeleteModalStrings({ ...deleteModalStrings, message: `successfully deleted...`, studioID: '' });
+          setDeleteModalStrings({
+            ...deleteModalStrings,
+            message: `successfully deleted...`,
+            studioID: '',
+          });
           setTimeout(() => {
             setLoading(false);
             router.reload();
@@ -129,8 +133,8 @@ export default function MyStudiosTable({ fetchedStudios }) {
         accessor: 'images',
         disableSortBy: true,
         Cell: ({ value }) => (
-          <div className='relative -mx-2 h-12 w-14 sm:h-16 sm:w-24 md:h-24 md:w-32'>
-            <Image src={value} layout='fill' className='bg-secondary rounded-lg ' objectFit='cover' alt='avatar' />
+          <div className="relative -mx-2 h-12 w-14 sm:h-16 sm:w-24 md:h-24 md:w-32">
+            <Image src={value} layout="fill" className="bg-secondary rounded-lg " objectFit="cover" alt="avatar" />
           </div>
         ),
       },
@@ -206,7 +210,7 @@ export default function MyStudiosTable({ fetchedStudios }) {
         disableSortBy: true,
         collapse: true,
       },
-      { Header: 'Services', accessor: 'services', collapse: true, disableSortBy: true },
+      { Header: 'Services', accessor: 'studioService', collapse: true, disableSortBy: true },
       {
         Header: 'ID',
         accessor: '_id',
@@ -235,27 +239,27 @@ export default function MyStudiosTable({ fetchedStudios }) {
         id: 'Edit',
         Header: 'Edit',
         Cell: ({ row }) => (
-          <div className='flex flex-col gap-2'>
+          <div className="flex flex-col gap-2">
             <button
-              className=''
+              className=""
               onClick={() => {
                 openInfoModal(row.values);
               }}>
-              <MdInfo className='table-icon' />
+              <MdInfo className="table-icon" />
             </button>
             <button
-              className=''
+              className=""
               onClick={() => {
                 handleEdit(row.values);
               }}>
-              <TbEdit className='table-icon' />
+              <TbEdit className="table-icon" />
             </button>
             <button
-              className=''
+              className=""
               onClick={() => {
                 openDeleteModal(row.values);
               }}>
-              <MdDeleteForever className='table-icon' />
+              <MdDeleteForever className="table-icon" />
             </button>
           </div>
         ),
@@ -263,7 +267,12 @@ export default function MyStudiosTable({ fetchedStudios }) {
     ]);
   };
   const tableInstance = useTable(
-    { columns: studioColumns, data: studioData, disableMultiSort: true, initialState: { pageSize: 10 } },
+    {
+      columns: studioColumns,
+      data: studioData,
+      disableMultiSort: true,
+      initialState: { pageSize: 10 },
+    },
     useGlobalFilter,
     useFilters,
     tableHooks,
@@ -292,9 +301,9 @@ export default function MyStudiosTable({ fetchedStudios }) {
 
   return (
     <>
-      <div className='mt-20 block max-w-full'>
-        <div className='tableWrap'>
-          <div className='filter-table'>
+      <div className="mt-20 block max-w-full">
+        <div className="tableWrap">
+          <div className="filter-table">
             <AllColumnsFilter
               preGlobalFilteredRows={preGlobalFilteredRows}
               setGlobalFilter={setGlobalFilter}
@@ -308,10 +317,10 @@ export default function MyStudiosTable({ fetchedStudios }) {
               setFilter={setFilter}
             />
           </div>
-          <table className='table' {...getTableProps()}>
-            <thead className='thead'>
+          <table className="table" {...getTableProps()}>
+            <thead className="thead">
               {headerGroups.map((headerGroup) => (
-                <tr key={headerGroup._id} className='tr' {...headerGroup.getHeaderGroupProps()}>
+                <tr key={headerGroup._id} {...headerGroup.getHeaderGroupProps()}>
                   {headerGroup.headers.map((column, idx) => (
                     <th
                       key={idx}
@@ -326,7 +335,7 @@ export default function MyStudiosTable({ fetchedStudios }) {
                 </tr>
               ))}
             </thead>
-            <tbody className='tbody ' {...getTableBodyProps()}>
+            <tbody className="tbody " {...getTableBodyProps()}>
               {page.map((row, idx) => {
                 prepareRow(row);
                 return (
@@ -345,19 +354,19 @@ export default function MyStudiosTable({ fetchedStudios }) {
               })}
             </tbody>
           </table>
-          <div className='pagination'>
-            <div className='pagination-buttons'>
-              <button className='tablePagination-button' onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+          <div className="pagination">
+            <div className="pagination-buttons">
+              <button className="tablePagination-button" onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
                 {'<<'}
               </button>
-              <button className='tablePagination-button' onClick={() => previousPage()} disabled={!canPreviousPage}>
+              <button className="tablePagination-button" onClick={() => previousPage()} disabled={!canPreviousPage}>
                 {'<'}
               </button>
-              <button className='tablePagination-button' onClick={() => nextPage()} disabled={!canNextPage}>
+              <button className="tablePagination-button" onClick={() => nextPage()} disabled={!canNextPage}>
                 {'>'}
               </button>
               <button
-                className='tablePagination-button'
+                className="tablePagination-button"
                 onClick={() => gotoPage(pageCount - 1)}
                 disabled={!canNextPage}>
                 {'>>'}
@@ -365,16 +374,16 @@ export default function MyStudiosTable({ fetchedStudios }) {
             </div>
             <span>
               Page
-              <strong className='pl-1'>
+              <strong className="pl-1">
                 {state.pageIndex + 1} of {pageOptions.length}
               </strong>
             </span>
             <span>|</span>
-            <span className='flex items-center gap-1'>
+            <span className="flex items-center gap-1">
               Go to page:
               <input
-                className='pagination-input'
-                type='number'
+                className="pagination-input"
+                type="number"
                 defaultValue={state.pageIndex + 1}
                 onChange={(e) => {
                   const page = e.target.value ? Number(e.target.value) - 1 : 0;
@@ -384,7 +393,7 @@ export default function MyStudiosTable({ fetchedStudios }) {
               />
             </span>
             <select
-              className='select-table'
+              className="select-table"
               value={state.pageSize}
               onChange={(e) => {
                 setPageSize(Number(e.target.value));

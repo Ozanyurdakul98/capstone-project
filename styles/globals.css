@@ -57,6 +57,9 @@
   .icon-carousell {
     @apply h-6 w-6 cursor-pointer rounded-md  border border-slate-800 text-[color:var(--primary-icon)] lg:h-7 lg:w-7  lg:hover:bg-gray-100;
   }
+  .adminSettings-icon {
+    @apply text-primary h-4 w-4 cursor-pointer rounded-sm active:bg-gray-100/20 md:h-5 md:w-5 md:hover:bg-white/30 md:hover:text-blue-900/60 md:active:bg-none lg:h-6 lg:w-6;
+  }
   .icon-bookmark {
     @apply h-6 w-6 cursor-pointer  text-[color:var(--primary-icon)] lg:h-7 lg:w-7  lg:hover:bg-gray-100;
   }
@@ -77,6 +80,12 @@
   }
   .tablePagination-button {
     @apply bg-primary flex h-4 transform cursor-pointer items-center rounded-md border border-black px-3  py-2 text-white transition  duration-100 ease-out active:scale-95 active:bg-gray-100 sm:h-5 lg:h-6;
+  }
+  .adminSettings-button {
+    @apply mb-5 w-full rounded-full bg-secondary-color py-2 text-xs uppercase text-white outline-none sm:w-60;
+  }
+  .form-button {
+    @apply my-5 w-full rounded-full bg-secondary-color py-2 text-xs uppercase text-white outline-none  xl:w-[250px];
   }
   .button-active {
     @apply flex max-h-8 transform cursor-pointer items-center rounded-full  border bg-[#1e90ff] px-4 py-2 text-white transition duration-100 ease-out  hover:shadow-lg active:scale-95 active:bg-gray-100;
@@ -103,6 +112,12 @@
   /* Fieldsets */
   .fset-editUser {
     @apply my-8 w-full leading-tight;
+  }
+  .fset-adminsettings {
+    @apply mt-5 mb-5 w-full leading-tight;
+  }
+  .listingForm {
+    @apply my-10 w-full leading-tight xl:my-20;
   }
   .searchBarModal {
     @apply fixed top-0 left-0 z-30 h-screen w-screen cursor-default;
@@ -134,9 +149,7 @@
     @apply hover:bg-secondary-hover my-5 w-full  rounded-lg bg-secondary-color py-2 text-white outline-none active:bg-primary-color;
   }
   /* create listing */
-  .listingForm {
-    @apply my-10 w-full leading-tight xl:my-20;
-  }
+
   .form-button {
     @apply my-5 w-full rounded-full bg-secondary-color py-2 text-xs uppercase text-white outline-none  xl:w-[250px];
   }

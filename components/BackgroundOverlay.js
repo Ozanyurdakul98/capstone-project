@@ -1,5 +1,3 @@
-import React from 'react';
-
 export function BackgroundOverlayFullscreen({ onClick, style }) {
   return <button onClick={(event) => onClick(event)} className={`${style} modalIn`}></button>;
 }

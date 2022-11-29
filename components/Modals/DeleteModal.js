@@ -1,4 +1,3 @@
-import React from 'react';
 import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../BackgroundOverlay';
 import { Spinner } from '../Spinner';
 
@@ -14,10 +13,10 @@ export function DeleteModal(props) {
 
   return (
     <>
-      <div className='searchFadein fixed inset-x-0 inset-y-0 top-0 left-0 right-0 z-50 my-auto mx-auto h-48 max-w-md rounded-2xl  bg-white shadow-xxl lg:h-56  '>
-        <div className='flex h-full flex-col items-center justify-between gap-2 pt-5'>
-          <h2 className='h3 ml-5'>{props.deleteModalStrings.header}</h2>
-          <div className='flex w-full flex-col gap-1 px-5 text-center font-thin '>
+      <div className="searchFadein fixed inset-0 z-50 m-auto h-52 max-w-md rounded-2xl bg-white shadow-xxl lg:h-56">
+        <div className="flex h-full flex-col items-center justify-between gap-2 pt-5">
+          <h2 className="h3 ml-5">{props.deleteModalStrings.header}</h2>
+          <div className="flex w-full flex-col gap-1 px-5 text-center font-thin ">
             <p>
               {props.deleteModalStrings.message}
               {props.deleteModalStrings.error}
@@ -27,29 +26,27 @@ export function DeleteModal(props) {
               <p>
                 {props.deleteModalStrings.type}: {props.deleteModalStrings.ID}
               </p>
-            ) : props.deleteModalStrings.type !== 'User' ? (
+            ) : props.deleteModalStrings.type === 'Studio' ? (
               ' no ID'
             ) : null}
           </div>
-          <div className=' flex h-16 w-full items-center  justify-between gap-3 px-2 pb-1  md:px-5 '>
+          <div className=" flex h-16 w-full items-center  justify-between gap-3 px-2 pb-1  md:px-5 ">
             <button
-              className='modal-deleteButton bg-black'
+              className="modal-deleteButton bg-black"
               onClick={() => {
                 props.setDeleteModal(false);
               }}>
               Cancel
             </button>
             {props.loading ? (
-              <div className=' flex-shrink-0'>
+              <div className="flex w-full grow justify-center">
                 <Spinner />
               </div>
-            ) : null}
-            <button
-              onClick={() => props.deleteFunction(props.ID)}
-              disabled={props.loading ? true : false}
-              className='modal-deleteButton bg-red-600'>
-              Delete
-            </button>
+            ) : (
+              <button onClick={() => props.deleteFunction(props.ID)} className="modal-deleteButton bg-red-600">
+                Delete
+              </button>
+            )}
           </div>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 //SSR
 import db from '../../lib/dbConnect';
@@ -27,7 +27,7 @@ function Search({ listings, query }) {
     .filter((studio) => studio.studioLocation?.toLowerCase().includes(searchFilter.location?.toLowerCase()))
     .filter((studio) => studio.maxGuests >= searchFilter.noOfGuests)
     .filter((studio) =>
-      studio.services
+      studio.studioService
         .map((studio) => {
           return studio.toLowerCase();
         })
@@ -54,7 +54,7 @@ function Search({ listings, query }) {
           listingTitle,
           images,
           studiotype,
-          services,
+          studioService,
           soundengineer,
           studioPricing,
           locationFeatures,
@@ -65,7 +65,7 @@ function Search({ listings, query }) {
             listingTitle={listingTitle}
             images={images}
             studiotype={studiotype}
-            services={services}
+            studioService={studioService}
             soundengineer={soundengineer}
             studioPricing={studioPricing}
             locationFeatures={locationFeatures}

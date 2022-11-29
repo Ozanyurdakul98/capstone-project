@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import Lottie from 'lottie-react';
@@ -35,13 +35,13 @@ export default function Success() {
   }, [isRedirecting, router.push.operation]);
 
   return (
-    <div className='relative ml-5 h-screen'>
-      <Lottie animationData={success} loop={true} className='fixed top-0 h-full' />
-      <section className='top fixed top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2  transform flex-col gap-5 rounded-xl p-6 shadow-lg '>
-        <h1 className='h1'>
+    <div className="relative ml-5 h-screen">
+      <Lottie animationData={success} loop={true} className="fixed top-0 h-full" />
+      <section className="fixed top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2  flex-col gap-5 rounded-xl p-6 shadow-lg ">
+        <h1 className="h1">
           Congratulations for <u> {content?.header}!</u>
         </h1>
-        <p className='text-xl font-thin'>
+        <p className="text-xl font-thin">
           Tonstudio-Kleinanzeigen thanks you for <strong>{content?.for}!</strong> You are a truly valuable member of
           this platform.
         </p>
