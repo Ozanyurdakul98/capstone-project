@@ -7,7 +7,8 @@ import db from '../../../lib/dbConnect';
 export const authOptions = {
   providers: [
     CredentialsProvider({
-      async authorize(credentials) {
+      // eslint-disable-next-line no-unused-vars
+      async authorize(credentials, req) {
         await db.connect();
         const email = credentials.email;
         const password = credentials.password;
