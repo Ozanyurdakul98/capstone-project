@@ -52,7 +52,7 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
             'Content-Type': 'application/json',
           },
         });
-        const result = await res.json();
+        await res.json();
 
         if (!res.ok) {
           setLoading(false);
@@ -105,11 +105,11 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
           ...form?.[name === 'studioPricing' ? name : id],
           [id]: wert,
         };
-        const deleteUndefined = Object.fromEntries(Object.entries(currentForm).filter(([k, v]) => v));
+        const deleteUndefined = Object.fromEntries(Object.entries(currentForm).filter(([v]) => v));
         return deleteUndefined;
       }
       if (type === 'checkbox') {
-        let newArray = [...form?.[name], wert];
+        let newArray = [...form[name], wert];
         if (form?.[name].includes(wert)) {
           newArray = newArray.filter((service) => service !== wert);
         }
@@ -139,7 +139,7 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
         return id;
       }
       if (name === 'studioPricing') {
-        let newArray = [...checked?.[name], id];
+        let newArray = [...checked[name], id];
         if (checked?.[name].includes(id)) {
           newArray = newArray.filter((pricing) => pricing !== id);
           const currentForm = { ...form?.[name], [id]: wert };

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../BackgroundOverlay';
 import Link from 'next/link.js';
 import { useRouter } from 'next/router';
@@ -43,7 +43,7 @@ function EditUser({ toUpdateUser, setOpenEditView, userID }) {
             'Content-Type': 'application/json',
           },
         });
-        const result = await res.json();
+        await res.json();
 
         if (!res.ok) {
           setLoading(false);
@@ -99,7 +99,7 @@ function EditUser({ toUpdateUser, setOpenEditView, userID }) {
         return id;
       }
       if (name === 'studioPricing') {
-        let newArray = [...checked?.[name], id];
+        let newArray = [...checked[name], id];
         if (checked?.[name].includes(id)) {
           newArray = newArray.filter((pricing) => pricing !== id);
           const currentForm = { ...form?.[name], [id]: wert };

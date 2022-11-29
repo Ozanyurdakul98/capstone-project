@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useAsyncDebounce } from 'react-table';
 
 export default function AllColumnsFilter({ preGlobalFilteredRows, globalFilter, setGlobalFilter, tableName }) {
@@ -11,7 +11,7 @@ export default function AllColumnsFilter({ preGlobalFilteredRows, globalFilter, 
     <div>
       <h2>Search:</h2>
       <input
-        className='input-table'
+        className="input-table"
         value={value || ''}
         onChange={(e) => {
           setValue(e.target.value);

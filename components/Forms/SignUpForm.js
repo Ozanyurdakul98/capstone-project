@@ -17,7 +17,6 @@ export default function SignUpComponent({ csrfToken }) {
     message: null,
   });
   const [formErrors, setFormErrors] = useState({});
-  const [isSubmit, setIsSubmit] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isValidated, setIsValidated] = useState(false);
   const signupUser = async (event) => {
@@ -44,7 +43,6 @@ export default function SignUpComponent({ csrfToken }) {
         if (user.message) {
           setForm({ ...form, message: user.message });
           setLoading(false);
-          setIsSubmit(false);
         }
         if (user.message == 'success') {
           setLoading(false);
@@ -53,7 +51,7 @@ export default function SignUpComponent({ csrfToken }) {
             email: form.email,
             password: form.password,
           };
-          const res = await signIn('credentials', options);
+          await signIn('credentials', options);
           router.push({
             pathname: '/success',
             query: {

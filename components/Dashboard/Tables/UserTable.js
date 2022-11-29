@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTable, useSortBy, useGlobalFilter, useFilters, usePagination } from 'react-table';
 import AllColumnsFilter from '../TableComponents/AllColumnsFilter';
 import EditUser from '../../Forms/EditUser';
@@ -207,7 +207,6 @@ export default function UserTable({ fetchedUsers }) {
     prepareRow,
     preGlobalFilteredRows,
     setGlobalFilter,
-    setFilter,
     state,
     canPreviousPage,
     canNextPage,

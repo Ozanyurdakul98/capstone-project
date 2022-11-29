@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ValidateCreateStudioListing } from '../../helpers/Validate.js';
 import ListingCardWide from '../../components/ListingCardWide';
 import ListingCardCarousell from '../../components/ListingCardCarousell';
@@ -310,7 +309,7 @@ function DashboardAddStudio({ sanitizedServices }) {
               type="button"
               className="form-button bg-black text-white hover:bg-black"
               onClick={() => {
-                setForm(props.defaultForm);
+                setForm(defaultForm);
                 setChecked(defaultChecked);
               }}>
               Reset

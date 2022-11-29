@@ -1,18 +1,18 @@
-import React, { useState } from "react";
-import { useRouter } from "next/router";
+import { useState } from 'react';
+import { useRouter } from 'next/router';
 //SSR
-import db from "../../lib/dbConnect";
-import StudioListing from "../../models/StudioListing";
+import db from '../../lib/dbConnect';
+import StudioListing from '../../models/StudioListing';
 //tools
-import format from "date-fns/format";
+import format from 'date-fns/format';
 //components
-import ListingCard from "../../components/ListingCardWide";
-import Layout from "../../components/Layout/Layout";
+import ListingCard from '../../components/ListingCardWide';
+import Layout from '../../components/Layout/Layout';
 
 function Search({ listings, query }) {
   const [searchFilter, setSearchFilter] = useState(query);
   const router = useRouter();
-  const weekdays = ["sunday", "monday", "thuesday", "wednesday", "thursday", "friday", "saturday"];
+  const weekdays = ['sunday', 'monday', 'thuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
   const checkInDay = new Date(query.startDate).getDay();
   if (
     router.query.location !== searchFilter.location ||
@@ -24,9 +24,7 @@ function Search({ listings, query }) {
     setSearchFilter(routerQueryFilters);
   }
   const filteredListings = listings
-    .filter((studio) =>
-      studio.studioLocation?.toLowerCase().includes(searchFilter.location?.toLowerCase())
-    )
+    .filter((studio) => studio.studioLocation?.toLowerCase().includes(searchFilter.location?.toLowerCase()))
     .filter((studio) => studio.maxGuests >= searchFilter.noOfGuests)
     .filter((studio) =>
       studio.studioService
@@ -37,8 +35,8 @@ function Search({ listings, query }) {
     )
     .filter(
       (studio) =>
-        studio.openingHours === "Always Available" ||
-        studio.openingHours === "On Request" ||
+        studio.openingHours === 'Always Available' ||
+        studio.openingHours === 'On Request' ||
         studio.openingHours[weekdays[checkInDay]]
     );
 
@@ -47,7 +45,7 @@ function Search({ listings, query }) {
     <>
       <h1>
         Search results for
-        {format(date, " dd/MM/yyyy")} and {query.location}
+        {format(date, ' dd/MM/yyyy')} and {query.location}
       </h1>
 
       {filteredListings.map(

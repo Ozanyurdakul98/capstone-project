@@ -12,7 +12,6 @@ function EditStudioService({ toUpdateStudioService, setOpenStudioServiceEditView
   const [form, setForm] = useState(data);
   const [checked, setChecked] = useState('');
   const [imageChanged, setImageChanged] = useState(false);
-  const [isSubmit, setIsSubmit] = useState(false);
   const [loading, setLoading] = useState(false);
   const [submissionFailed, setSubmissionFailed] = useState(false);
   const [formErrors, setFormErrors] = useState({});

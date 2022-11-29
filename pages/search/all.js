@@ -1,8 +1,7 @@
-import React from "react";
-import db from "../../lib/dbConnect";
-import StudioListing from "../../models/StudioListing";
-import ListingCards from "../../components/ListingCardWide";
-import Layout from "../../components/Layout/Layout";
+import db from '../../lib/dbConnect';
+import StudioListing from '../../models/StudioListing';
+import ListingCards from '../../components/ListingCardWide';
+import Layout from '../../components/Layout/Layout';
 
 function All({ listings }) {
   return (
@@ -44,7 +43,7 @@ All.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
 };
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps() {
   await db.connect();
 
   const fetchingListings = await StudioListing.find();

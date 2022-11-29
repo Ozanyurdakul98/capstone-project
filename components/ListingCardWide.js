@@ -1,11 +1,6 @@
-//hooks
-import { useEffect, useState, useRef } from 'react';
-
 //tools
 import Image from 'next/image';
 //icons
-import { FiHeart } from 'react-icons/fi';
-import { TiTick } from 'react-icons/ti';
 import { IoIosWifi } from 'react-icons/io';
 import { RiParkingBoxLine } from 'react-icons/ri';
 import { TbSmoking } from 'react-icons/tb';

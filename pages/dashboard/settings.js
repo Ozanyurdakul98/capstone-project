@@ -9,7 +9,6 @@ import { signOut } from 'next-auth/react';
 
 export default function DashboardSettings({ userData }) {
   const [deleteModal, setDeleteModal] = useState(false);
-  const [data, setData] = useState('');
   const [userID, setUserID] = useState('');
   const [loading, setLoading] = useState(false);
   const [deleteModalStrings, setDeleteModalStrings] = useState({
@@ -49,25 +48,22 @@ export default function DashboardSettings({ userData }) {
     }
   }
   useEffect(() => {
-    if (userData) {
-      setData({ username: userData.username, name: userData.name, lastname: userData.lastname });
-      setUserID(userData._id);
-    }
+    setUserID(userData._id);
   }, []);
-  function handleOpenDeleteModal(userID) {
+  function handleOpenDeleteModal() {
     setDeleteModal(true);
   }
   return (
     <>
-      <div className=''>
+      <div className="">
         <div>
-          <h1 className='mt-4 mb-2 text-center text-4xl font-bold leading-tight text-secondary-color'>Settings</h1>
+          <h1 className="mt-4 mb-2 text-center text-4xl font-bold leading-tight text-secondary-color">Settings</h1>
         </div>
-        <div className=''>
+        <div className="">
           <button
-            type='button'
-            onClick={() => handleOpenDeleteModal(userID)}
-            className='inline-block rounded-full bg-red-600 px-6 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg'>
+            type="button"
+            onClick={() => handleOpenDeleteModal()}
+            className="inline-block rounded-full bg-red-600 px-6 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg">
             Delete Account
           </button>
           {deleteModal ? (

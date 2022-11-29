@@ -1,11 +1,9 @@
-import React from "react";
-import { useState } from "react";
-import TextareaAutosize from "react-textarea-autosize";
+import { useState } from 'react';
+import TextareaAutosize from 'react-textarea-autosize';
 
 export function FormInput(props) {
   const [focused, setFocused] = useState(false);
   const {
-    label,
     errorMessage,
     onChange,
     beforeLabel,
@@ -27,7 +25,7 @@ export function FormInput(props) {
   //   -afterLable = just a string
   //   -errormessage = errormessage dispalying if input is invalid due to pattern/required. peer class for input required
 
-  const handleFocus = (event) => {
+  const handleFocus = () => {
     setFocused(true);
   };
   return (
@@ -37,22 +35,12 @@ export function FormInput(props) {
           <Label id={props.id} beforeLabel={beforeLabel} />
           {divClass ? (
             <div className={divClass}>
-              <input
-                {...inputProps}
-                onChange={onChange}
-                onBlur={handleFocus}
-                data-focused={focused.toString()}
-              />
+              <input {...inputProps} onChange={onChange} onBlur={handleFocus} data-focused={focused.toString()} />
               <Label id={props.id} afterLabel={afterLabel} />
             </div>
           ) : (
             <>
-              <input
-                {...inputProps}
-                onChange={onChange}
-                onBlur={handleFocus}
-                data-focused={focused.toString()}
-              />
+              <input {...inputProps} onChange={onChange} onBlur={handleFocus} data-focused={focused.toString()} />
               <Label id={props.id} afterLabel={afterLabel} />
             </>
           )}
@@ -68,12 +56,7 @@ export function FormInput(props) {
           <Label id={props.id} beforeLabel={beforeLabel} />
           {divClass ? (
             <div className={divClass}>
-              <input
-                {...inputProps}
-                onChange={onChange}
-                onBlur={handleFocus}
-                data-focused={focused.toString()}
-              />
+              <input {...inputProps} onChange={onChange} onBlur={handleFocus} data-focused={focused.toString()} />
               <Label id={props.id} afterLabel={afterLabel} />
               <ErrorMessage
                 type={props.type}
@@ -85,12 +68,7 @@ export function FormInput(props) {
           ) : labelWrap ? (
             <>
               <label className={labelWrap.css} htmlFor={props.id}>
-                <input
-                  {...inputProps}
-                  onChange={onChange}
-                  onBlur={handleFocus}
-                  data-focused={focused.toString()}
-                />
+                <input {...inputProps} onChange={onChange} onBlur={handleFocus} data-focused={focused.toString()} />
                 <Label id={props.id} afterLabel={afterLabel} />
                 {labelWrap.string}
                 <ErrorMessage
@@ -119,12 +97,7 @@ export function FormInput(props) {
             </>
           ) : (
             <>
-              <input
-                {...inputProps}
-                onChange={onChange}
-                onBlur={handleFocus}
-                data-focused={focused.toString()}
-              />
+              <input {...inputProps} onChange={onChange} onBlur={handleFocus} data-focused={focused.toString()} />
               <Label id={props.id} afterLabel={afterLabel} />
               <ErrorMessage
                 type={props.type}
@@ -148,13 +121,9 @@ function Label(props) {
           ? `block ${props.beforeLabel.css}`
           : props.afterLabel
           ? `mr-2 block  ${props.afterLabel.css}`
-          : "hidden"
+          : 'hidden'
       }>
-      {props.beforeLabel
-        ? props.beforeLabel.string
-        : props.afterLabel
-        ? props.afterLabel.string
-        : null}
+      {props.beforeLabel ? props.beforeLabel.string : props.afterLabel ? props.afterLabel.string : null}
       {props.afterLabel?.string2 ? props.afterLabel.string2 : null}
     </label>
   );
@@ -163,15 +132,13 @@ function ErrorMessage(props) {
   return (
     <span
       className={
-        props.focused && props.errorMessage && props.type !== "number"
-          ? "block pl-5 text-xs text-red-500 peer-valid:hidden peer-invalid:visible sm:text-sm"
-          : props.type === "number" && props.errorMessage && !props.disabled && props.focused
-          ? "text-xs text-yellow-500 peer-valid:hidden peer-enabled:block sm:text-sm"
-          : (props.type === "email" || props.type === "password") &&
-            props.errorMessage &&
-            props.focused
-          ? "block text-xs text-red-500 peer-valid:hidden peer-invalid:visible sm:text-sm"
-          : "hidden"
+        props.focused && props.errorMessage && props.type !== 'number'
+          ? 'block pl-5 text-xs text-red-500 peer-valid:hidden peer-invalid:visible sm:text-sm'
+          : props.type === 'number' && props.errorMessage && !props.disabled && props.focused
+          ? 'text-xs text-yellow-500 peer-valid:hidden peer-enabled:block sm:text-sm'
+          : (props.type === 'email' || props.type === 'password') && props.errorMessage && props.focused
+          ? 'block text-xs text-red-500 peer-valid:hidden peer-invalid:visible sm:text-sm'
+          : 'hidden'
       }>
       {props.errorMessage}
     </span>

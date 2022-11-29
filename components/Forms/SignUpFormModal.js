@@ -17,15 +17,13 @@ export default function SignUpComponent({ csrfToken, setPreviewSigning }) {
     message: null,
   });
   const [formErrors, setFormErrors] = useState({});
-  const [isSubmit, setIsSubmit] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isValidated, setIsValidated] = useState(false);
 
   const signupUser = async (event) => {
     const passForm = form;
     event.preventDefault();
-    setFormErrors(ValidateSignUp(passForm));
-    if (Object.keys(formErrors).length === 0) {
+    if (Object.keys(ValidateSignUp(passForm)).length === 0) {
       setLoading(true);
       try {
         const res = await fetch('/api/register', {
@@ -45,7 +43,6 @@ export default function SignUpComponent({ csrfToken, setPreviewSigning }) {
         if (user.message) {
           setForm({ ...form, message: user.message });
           setLoading(false);
-          setIsSubmit(false);
         }
         if (user.message == 'success') {
           setLoading(false);
