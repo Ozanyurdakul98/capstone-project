@@ -317,7 +317,7 @@ function DashboardAddStudio({ sanitizedServices }) {
             <button
               type="button"
               onClick={(event) => {
-                handlePreview(event);
+                handlePreview();
               }}
               className="form-button hover:bg-secondary-hover text-white">
               {Object.keys(formErrors).length === 0 && isSubmit ? 'Next' : 'Check'}
