@@ -15,7 +15,7 @@ export function HomepageHero() {
           Describe your services & studio and let the users decide by comparing your listing with others.
         </p>
         <Link href="/search/all">
-          <button className=" button mt-4 text-sm font-normal lg:text-base">View all listings</button>
+          <button className="landingpage-buttons mt-5">View all listings</button>
         </Link>
       </div>
       <div className=" min-w-[420px]">
