@@ -9,9 +9,9 @@ import { HomepageBanner } from '../components/Homepage/HomepageBanner';
 import { HomepageStatsCounter } from '../components/Homepage/HomepageStatsCounter';
 import Layout from '../components/Layout/Layout';
 import StudioService from '../models/StudioService';
-import { useRouter } from 'next/router';
+import { HomepageStudioServicesGrid } from '../components/Homepage/HomepageStudioServicesGrid';
+
 export default function Home({ latestListings, totalUsers, totalListings, studioServices }) {
-  const router = useRouter();
   return (
     <div className="mb-20">
       <Head>
@@ -19,6 +19,8 @@ export default function Home({ latestListings, totalUsers, totalListings, studio
       </Head>
       <HomepageHero />
       <HomepageStatsCounter totalUsers={totalUsers} totalListings={totalListings}></HomepageStatsCounter>
+      <HomepageStudioServicesGrid studioServices={studioServices}></HomepageStudioServicesGrid>
+      <Latest10Listings latestListings={latestListings} />
       <div className="mb-40 flex flex-col gap-10 px-2">
         <div className="px-5">
           <h2 className="h2">Studio services</h2>
@@ -50,7 +52,6 @@ export default function Home({ latestListings, totalUsers, totalListings, studio
           ))}
         </section>
       </div>
-      <Latest10Listings latestListings={latestListings} />
       <HomepageBanner />
     </div>
   );
