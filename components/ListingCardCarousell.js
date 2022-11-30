@@ -32,11 +32,11 @@ function ListingCard({
             <div className="-mt-1 flex min-w-0 grow gap-2">
               <p
                 style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
-                className="bg-primary truncate rounded border border-slate-700 px-1 text-xs text-white  md:text-sm">
+                className="truncate rounded border border-slate-700 bg-black px-1 text-xs text-white  md:text-sm">
                 {studiotype}
               </p>
-              <p className="truncate rounded border border-slate-700 px-1 text-xs  md:text-sm">
-                {soundengineer ? 'Soundengineer' : '❌'}
+              <p className="bg-primary truncate rounded border border-slate-700 px-1 text-xs text-white  md:text-sm">
+                {soundengineer ? 'Soundengineer' : ''}
               </p>
             </div>
           </div>
@@ -75,7 +75,7 @@ function ListingCard({
             <p className="truncate rounded-xl border border-slate-700 bg-black px-[6px] text-xs text-white">
               {openingHours}
             </p>
-            <p className="relative top-1 whitespace-nowrap text-lg font-semibold sm:text-xl md:text-xl lg:text-2xl">
+            <p className="relative top-1 whitespace-nowrap text-lg font-semibold  sm:text-xl md:text-xl lg:text-2xl">
               {studioPricing.studioPricingHour ? (
                 <>
                   {studioPricing.studioPricingHour}$ <span className="text-base sm:text-lg lg:text-xl">/Hour</span>

@@ -6,7 +6,7 @@ export const Latest10Listings = (props) => {
   const responsive = {
     desktop: {
       breakpoint: { max: 3000, min: 0 },
-      items: 4,
+      items: 3,
       slidesToSlide: 1, // optional, default to 1.
     },
     Laptop: {
