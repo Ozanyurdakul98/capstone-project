@@ -7,7 +7,7 @@ import StudioService from '../../models/StudioService';
 import { Resultpage } from '../../components/Result/Resultpage';
 
 function StudioServiceResults({ studios, serviceName }) {
-  return <Resultpage studios={studios} serviceName={serviceName}></Resultpage>;
+  return <Resultpage studios={studios} header={serviceName}></Resultpage>;
 }
 
 export default StudioServiceResults;
