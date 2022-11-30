@@ -19,7 +19,7 @@ export default function Home({ latestListings, totalUsers, totalListings, studio
       </Head>
       <HomepageHero />
       <HomepageStatsCounter totalUsers={totalUsers} totalListings={totalListings}></HomepageStatsCounter>
-      <div className=" flex flex-col gap-10 px-2">
+      <div className="mb-40 flex flex-col gap-10 px-2">
         <div className="px-5">
           <h2 className="h2">Studio services</h2>
         </div>
