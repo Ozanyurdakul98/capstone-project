@@ -26,7 +26,7 @@ function ListingCard({
         </div>
         <div className="mb-3 flex w-full grow flex-col justify-between px-1 sm:px-2">
           <div className="flex flex-col gap-[6px] md:gap-2">
-            <div className="flex items-center justify-between py-2">
+            <div className="flex items-center justify-between pt-1">
               <p className="truncate text-xs text-gray-400">{studioLocation}</p>
             </div>
             <div className="-mt-1 flex min-w-0 grow gap-2">
