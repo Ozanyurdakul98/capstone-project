@@ -85,7 +85,9 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
               </li>
             </ol>
           </nav>
-          <h1 className="h1 text-black">{studio.listingTitle}</h1>
+          <div>
+            <h1 className="h1 text-black">{studio.listingTitle}</h1>
+          </div>
           <h3 className="flex gap-2 text-sm text-gray-700">
             <svg
               className="h-5 w-5 text-black"
