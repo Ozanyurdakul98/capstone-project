@@ -89,7 +89,6 @@ function DashboardAddStudio({ sanitizedServices }) {
       }
     }
   };
-  console.log(form);
   const handleChange = (event) => {
     const target = event.target;
     const type = target.type;
@@ -110,11 +109,8 @@ function DashboardAddStudio({ sanitizedServices }) {
         return deleteUndefined;
       }
       if (type === 'checkbox') {
-        console.log('name', name, 'wert', wert);
         let newArray = [...form[name], wert];
-        console.log('new arra', newArray);
-        console.log('form.name', form[name]);
-        console.log('...name');
+
         if (form[name].includes(wert)) {
           newArray = newArray.filter((service) => service !== wert);
         }
@@ -337,7 +333,6 @@ DashboardAddStudio.getLayout = function getLayout(page) {
 
 export async function getServerSideProps() {
   await db.connect();
-
   const services = await StudioService.find();
   const sanitizedServices = services.map((service) => ({
     id: service.id,

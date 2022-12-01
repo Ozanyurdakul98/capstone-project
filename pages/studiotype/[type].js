@@ -18,7 +18,6 @@ StudioTypeResults.getLayout = function getLayout(page) {
 export async function getServerSideProps(context) {
   await db.connect();
   const { type } = context.query;
-  console.log(type, 'type');
   let sanitizedStudios;
   let studioType;
   if (type === 'homestudio') {
@@ -40,8 +39,6 @@ export async function getServerSideProps(context) {
     ...studio,
     studioService: studio.studioService.map((service) => service.name),
   }));
-
-  console.log('sanitized', sanitizedStudios);
   return {
     props: {
       studios: sanitizedStudios || null,
