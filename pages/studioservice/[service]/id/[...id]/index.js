@@ -31,13 +31,14 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
         />
       </div>
 
-      <section className="container mx-auto py-16 px-5">
-        <div>
+      <section className="container mx-auto py-16 px-5 text-black">
+        <div className="flex flex-col gap-2">
           <nav className="flex" aria-label="Breadcrumb">
             <ol className="inline-flex items-center space-x-1 md:space-x-3">
               <li className="inline-flex items-center">
                 <MyLink
-                  href="#"
+                  href="/"
+                  passhref
                   className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
                   <svg
                     className="mr-2 h-4 w-4"
@@ -86,6 +87,26 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
             </ol>
           </nav>
           <h1 className="h1 text-black">{studio.listingTitle}</h1>
+          <h3 className="flex gap-2 text-sm text-gray-700">
+            <svg
+              className="h-5 w-5 text-black"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+            </svg>
+            {studio.studioLocation}
+          </h3>
         </div>
       </section>
     </>

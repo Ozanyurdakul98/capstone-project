@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import './StudioService';
-
+import './UserModel';
 const { Schema } = mongoose;
 
 const studioListingSchema = new mongoose.Schema(
@@ -29,7 +29,11 @@ const studioListingSchema = new mongoose.Schema(
     soundengineer: { type: Object, required: true },
     studioPricing: { type: Object, required: true },
     studioLocation: { type: String, required: true },
-    userEmail: { type: String, required: true },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'UserModel',
+      required: true,
+    },
   },
   {
     timestamps: true,
