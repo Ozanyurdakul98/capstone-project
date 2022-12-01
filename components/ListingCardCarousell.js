@@ -19,22 +19,24 @@ function ListingCard({
   studioLocation,
 }) {
   return (
-    <article className="mx-1 mb-10">
-      <div className="relative   flex min-h-[333px] w-full max-w-[250px] cursor-pointer flex-col rounded-lg border border-b border-slate-500 px-2 shadow-md hover:opacity-90 hover:shadow-lg">
+    <div className="mx-1">
+      <article className="relative mb-10  flex min-h-[333px] w-full max-w-[250px] cursor-pointer flex-col rounded-lg border border-b border-slate-500 bg-white shadow-md hover:opacity-90 hover:shadow-lg">
         <div className="relative h-40 w-full  shrink-0">
           <Image src={images} layout="fill" objectFit="cover" className="rounded-xl" alt="Thumbnail" />
         </div>
-        <div className="mb-3 flex w-full grow flex-col justify-between pl-2">
+        <div className="mb-3 flex w-full grow flex-col justify-between px-1 sm:px-2">
           <div className="flex flex-col gap-[6px] md:gap-2">
-            <div className="flex items-center justify-between py-2">
+            <div className="flex items-center justify-between pt-1">
               <p className="truncate text-xs text-gray-400">{studioLocation}</p>
             </div>
-            <div className="-mt-1 flex  gap-2">
-              <p className="bg-primary truncate rounded border border-slate-700 px-1 text-xs text-white  md:text-sm">
+            <div className="-mt-1 flex min-w-0 grow gap-2">
+              <p
+                style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                className="truncate rounded border border-slate-700 bg-black px-1 text-xs text-white  md:text-sm">
                 {studiotype}
               </p>
-              <p className="flex truncate rounded border border-slate-700 pr-6 pl-1 text-xs  md:text-sm">
-                {soundengineer ? <>Soundengineer</> : '❌'}
+              <p className="bg-primary truncate rounded border border-slate-700 px-1 text-xs text-white  md:text-sm">
+                {soundengineer ? 'Soundengineer' : ''}
               </p>
             </div>
           </div>
@@ -70,10 +72,10 @@ function ListingCard({
             </div>
           </div>
           <div className="  flex w-full  items-end justify-between gap-1 text-right ">
-            <p className="bg-primary truncate rounded-xl border border-slate-700 px-[6px] text-xs text-white">
+            <p className="truncate rounded-xl border border-slate-700 bg-black px-[6px] text-xs text-white">
               {openingHours}
             </p>
-            <p className="relative top-1 whitespace-nowrap text-lg font-semibold sm:text-xl md:text-xl lg:text-2xl">
+            <p className="relative top-1 whitespace-nowrap text-lg font-semibold  sm:text-xl md:text-xl lg:text-2xl">
               {studioPricing.studioPricingHour ? (
                 <>
                   {studioPricing.studioPricingHour}$ <span className="text-base sm:text-lg lg:text-xl">/Hour</span>
@@ -94,8 +96,8 @@ function ListingCard({
             </p>
           </div>
         </div>
-      </div>
-    </article>
+      </article>
+    </div>
   );
 }
 

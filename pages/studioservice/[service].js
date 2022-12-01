@@ -2,49 +2,17 @@
 import db from '../../lib/dbConnect';
 import StudioListing from '../../models/StudioListing';
 //components
-import ListingCards from '../../components/ListingCardWide';
 import Layout from '../../components/Layout/Layout';
 import StudioService from '../../models/StudioService';
+import { Resultpage } from '../../components/Result/Resultpage';
 
-function Recording({ studios, serviceName }) {
-  return (
-    <div className="my-20">
-      <div>
-        <h1 className="h2">{serviceName}</h1>
-      </div>
-      <div className="mt-5">
-        {studios.map(
-          ({
-            _id,
-            listingTitle,
-            images,
-            studiotype,
-            studioService,
-            soundengineer,
-            studioPricing,
-            locationFeatures,
-            studioLocation,
-          }) => (
-            <ListingCards
-              key={_id}
-              listingTitle={listingTitle}
-              images={images}
-              studiotype={studiotype}
-              studioService={studioService}
-              soundengineer={soundengineer}
-              studioPricing={studioPricing}
-              locationFeatures={locationFeatures}
-              studioLocation={studioLocation}></ListingCards>
-          )
-        )}
-      </div>
-    </div>
-  );
+function StudioServiceResults({ studios, serviceName }) {
+  return <Resultpage studios={studios} header={serviceName}></Resultpage>;
 }
 
-export default Recording;
+export default StudioServiceResults;
 
-Recording.getLayout = function getLayout(page) {
+StudioServiceResults.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
 };
 
