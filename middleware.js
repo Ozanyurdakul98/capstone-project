@@ -3,7 +3,6 @@ import { getToken } from 'next-auth/jwt';
 
 export async function middleware(req) {
   const session = await getToken({ req, secret: process.env.SECRET });
-  console.log(session);
   if (!session) return NextResponse.rewrite(new URL('/', req.url));
   if (
     session.role !== 'admin' &&
