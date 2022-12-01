@@ -87,6 +87,16 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
           </nav>
           <div>
             <h1 className="h1 text-black">{studio.listingTitle}</h1>
+            <div className="relative flex h-10 w-10 sm:h-12 sm:w-12">
+              <Image
+                src={studio.user.avatar}
+                layout="fill"
+                className="rounded-full bg-gray-200 "
+                objectFit="cover"
+                objectPosition={'center'}
+                alt="avatar"
+              />
+            </div>
           </div>
           <h3 className="flex gap-2 text-sm text-gray-700">
             <svg
