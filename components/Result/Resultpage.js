@@ -21,6 +21,8 @@ export function Resultpage(props) {
           }) => (
             <ListingCards
               key={_id}
+              id={_id}
+              path={props.path}
               listingTitle={listingTitle}
               images={images}
               studiotype={studiotype}
