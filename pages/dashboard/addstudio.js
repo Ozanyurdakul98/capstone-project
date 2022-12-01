@@ -10,7 +10,9 @@ import DashboardLayout from '../../components/Layout/DashboardLayout.js';
 import { getSession } from 'next-auth/react';
 import StudioService from '../../models/StudioService.js';
 import db from '../../lib/dbConnect.js';
-function DashboardAddStudio({ sanitizedServices }) {
+import User from '../../models/User.js';
+import { getToken } from 'next-auth/jwt';
+function DashboardAddStudio({ sanitizedServices, userID }) {
   const defaultForm = {
     listingTitle: '',
     images: '',
@@ -21,11 +23,13 @@ function DashboardAddStudio({ sanitizedServices }) {
     soundengineer: 'On Request',
     studioPricing: {},
     studioLocation: '',
+    user: userID,
   };
   const defaultChecked = {
     soundengineer: false,
     studioPricing: [],
   };
+  console.log('IDADD', userID);
   const [form, setForm] = useState(defaultForm);
   const [checked, setChecked] = useState(defaultChecked);
   const [isSubmit, setIsSubmit] = useState(false);
@@ -33,19 +37,19 @@ function DashboardAddStudio({ sanitizedServices }) {
   const [formErrors, setFormErrors] = useState({});
   const [preview, setPreview] = useState(false);
   const router = useRouter();
-  useEffect(() => {
-    async function myFunction() {
-      const session = await getSession();
-      const userEmail = session.user.email;
-      try {
-        setForm({ ...form, userEmail: userEmail });
-        return;
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    myFunction();
-  }, []);
+  // useEffect(() => {
+  //   async function myFunction() {
+  //     const session = await getSession();
+  //     const userEmail = session.user.email;
+  //     try {
+  //       setForm({ ...form, userEmail: userEmail });
+  //       return;
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   }
+  //   myFunction();
+  // }, []);
   const handlePreview = () => {
     const passForm = form;
     setFormErrors(ValidateCreateStudioListing(passForm, checked));
@@ -331,9 +335,14 @@ DashboardAddStudio.getLayout = function getLayout(page) {
   return <DashboardLayout>{page}</DashboardLayout>;
 };
 
-export async function getServerSideProps() {
+export async function getServerSideProps({ req, res }) {
   await db.connect();
+  const token = await getToken({ req });
+  const userID = token.id;
+  const user = await User.findById(userID);
+  console.log(user, 'ID');
   const services = await StudioService.find();
+  console.log('Token', token);
   const sanitizedServices = services.map((service) => ({
     id: service.id,
     name: service.name,
@@ -341,7 +350,8 @@ export async function getServerSideProps() {
   }));
   return {
     props: {
-      sanitizedServices,
+      sanitizedServices: sanitizedServices || null,
+      userID: userID || null,
     },
   };
 }

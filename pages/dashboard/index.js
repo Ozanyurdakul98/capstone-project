@@ -2,7 +2,7 @@ import WelcomeRow from '../../components/Dashboard/WelcomeRow';
 import DashboardStats from '../../components/Dashboard/DashboardStatsTotal';
 import db from '../../lib/dbConnect';
 import StudioListing from '../../models/StudioListing';
-import User from '../../models/UserModel';
+import User from '../../models/User';
 import DashboardLayout from '../../components/Layout/DashboardLayout';
 export default function Dashboard({ totalUsers, totalListings }) {
   return (

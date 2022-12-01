@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import './StudioService';
-import './UserModel';
+import './User';
 const { Schema } = mongoose;
 
 const studioListingSchema = new mongoose.Schema(
@@ -31,7 +31,7 @@ const studioListingSchema = new mongoose.Schema(
     studioLocation: { type: String, required: true },
     user: {
       type: Schema.Types.ObjectId,
-      ref: 'UserModel',
+      ref: 'users',
       required: true,
     },
   },

@@ -38,7 +38,6 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
               <li className="inline-flex items-center">
                 <MyLink
                   href="/"
-                  passhref
                   className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
                   <svg
                     className="mr-2 h-4 w-4"
@@ -125,11 +124,17 @@ export async function getServerSideProps(context) {
   let breadCrumb = context.query.service;
   if (breadCrumb === 'recording') breadCrumb = 'Recording';
   console.log('BREADCRUMB', breadCrumb);
-  const fetchStudio = await StudioListing.findById(id).populate({
-    path: 'studioService',
-    model: 'StudioService',
-    select: 'name -_id',
-  });
+  const fetchStudio = await StudioListing.findById(id)
+    .populate({
+      path: 'studioService',
+      model: 'StudioService',
+      select: 'name -_id',
+    })
+    .populate({
+      path: 'user',
+      model: 'users',
+      select: 'avatar email name lastname username',
+    });
   // console.log('byid', fetchStudio);
   const serializeStudio = [JSON.parse(JSON.stringify(fetchStudio))];
   const serializedStudio = serializeStudio.map((studio) => ({

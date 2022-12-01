@@ -1,6 +1,6 @@
 import db from '../lib/dbConnect';
 import StudioListing from '../models/StudioListing';
-import User from '../models/UserModel';
+import User from '../models/User';
 import Head from 'next/head';
 import { Latest10Listings } from '../components/Homepage/Latest10Listings';
 import { HomepageHero } from '../components/Homepage/HomepageHero';
