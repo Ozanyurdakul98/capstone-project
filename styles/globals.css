@@ -41,9 +41,32 @@
     @apply bg-[color:var(--secondary-color-hover)];
   }
 
+  /* Headers */
+  .h1 {
+    @apply block text-2xl font-bold uppercase tracking-wide text-[color:var(--primary-text)] md:text-xl lg:text-2xl;
+  }
+  .h1LandingP {
+    @apply block text-lg font-bold tracking-wide text-black sm:text-lg md:text-xl lg:text-2xl xl:text-2xl;
+  }
+  .h2 {
+    @apply block text-lg font-bold uppercase tracking-wide text-[color:var(--primary-text)] md:text-xl lg:text-2xl;
+  }
+  .h2LandingP {
+    @apply block text-base font-bold tracking-wide text-black sm:text-base md:text-lg lg:text-xl;
+  }
+  .h3 {
+    @apply block text-sm font-bold uppercase tracking-wide text-[color:var(--primary-text)] md:text-[15px] lg:text-lg;
+  }
+  .h4 {
+    @apply text-lg font-semibold;
+  }
+
   /* Icons */
   .icon-header {
     @apply h-6 w-6 cursor-pointer rounded-sm text-[color:var(--primary-icon)] md:hover:bg-gray-100 lg:h-9 lg:w-9 lg:p-1;
+  }
+  .landingP-icon {
+    @apply h-10 w-10 rounded-sm text-gray-300 md:hover:bg-gray-100 lg:h-9 lg:w-9 lg:p-1;
   }
   .table-icon {
     @apply h-4 w-4 cursor-pointer rounded-sm text-white active:bg-gray-100/20 md:h-6 md:w-6 md:hover:bg-gray-100/20 md:active:bg-none lg:h-8 lg:w-8 lg:p-1;
@@ -247,19 +270,6 @@
   }
   /* Modals */
 
-  /* Headers */
-  .h1 {
-    @apply block text-2xl font-bold uppercase tracking-wide  text-[color:var(--primary-text)] md:text-xl lg:text-2xl;
-  }
-  .h2 {
-    @apply block text-lg font-bold uppercase tracking-wide  text-[color:var(--primary-text)] md:text-xl lg:text-2xl;
-  }
-  .h3 {
-    @apply block text-sm font-bold uppercase tracking-wide  text-[color:var(--primary-text)] md:text-[15px] lg:text-lg;
-  }
-  .h4 {
-    @apply text-lg font-semibold;
-  }
   .searchFadein {
     animation: fadeInAnimation 250ms;
   }

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { ValidateCreateStudioListing } from '../../helpers/Validate.js';
 import ListingCardWide from '../../components/ListingCardWide';
 import ListingCardCarousell from '../../components/ListingCardCarousell';
@@ -7,7 +7,6 @@ import Link from 'next/link.js';
 import { useRouter } from 'next/router';
 import { StudioFormfields } from '../../components/Forms/StudioFormfields';
 import DashboardLayout from '../../components/Layout/DashboardLayout.js';
-import { getSession } from 'next-auth/react';
 import StudioService from '../../models/StudioService.js';
 import db from '../../lib/dbConnect.js';
 import User from '../../models/User.js';
@@ -335,7 +334,7 @@ DashboardAddStudio.getLayout = function getLayout(page) {
   return <DashboardLayout>{page}</DashboardLayout>;
 };
 
-export async function getServerSideProps({ req, res }) {
+export async function getServerSideProps({ req }) {
   await db.connect();
   const token = await getToken({ req });
   const userID = token.id;
