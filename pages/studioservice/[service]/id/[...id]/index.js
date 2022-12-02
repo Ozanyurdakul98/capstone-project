@@ -34,7 +34,7 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
         />
       </section>
       {/* MainAndSidebar */}
-      <section className="container my-10  mx-auto lg:grid lg:grid-cols-landingpage lg:gap-5">
+      <section className="container my-10 mx-auto lg:grid lg:grid-cols-landingpage lg:gap-5">
         {/* Main */}
         <section className="rounded-md bg-white py-16 text-black">
           {/* Headersection */}
@@ -203,7 +203,9 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
           </section>
         </section>
         {/* SideTable */}
-        <section className="hidden w-full bg-white lg:block"></section>
+        <section className="hidden h-full w-full lg:block">
+          <div className=" sticky top-10 h-96 w-full bg-white"></div>
+        </section>
       </section>
     </>
   );
