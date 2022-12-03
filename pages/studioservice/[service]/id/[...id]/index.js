@@ -422,10 +422,10 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
             </ul>
           </section>
           {/* Studiofeatures */}
-          <section className="mb-14 border-b px-7 pb-14 text-xs text-gray-600 lg:text-sm">
-            <ul className="grid grid-cols-smbg grid-rows-[4] gap-2 sm:grid-cols-smbgbg sm:grid-rows-4">
+          <section className="mb-7 px-7 text-xs text-gray-600 lg:text-sm">
+            <ul className="grid grid-cols-smbg gap-2 sm:grid-cols-smbgbg">
               <li className="h2LandingP col-start-1 row-span-2 text-sm font-bold lg:text-base">Studio Features</li>
-              <ul className="grid grid-cols-2 grid-rows-4 gap-2">
+              <ul className="grid grid-cols-2 gap-2">
                 {studio.locationFeatures.map((feature) => (
                   <li key={feature} className="col-auto flex items-center">
                     <svg
@@ -443,6 +443,117 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
                 ))}
               </ul>
             </ul>
+          </section>
+          {/* Equipment */}
+          <section className="mb-14 border-b px-7 pb-14 text-xs text-gray-600 lg:text-sm">
+            <ul className="grid grid-cols-smbg gap-2 sm:grid-cols-smbgbg">
+              <ul className="col-start-2 grid grid-cols-2 gap-2">
+                <li className="col-span-2 font-semibold text-black">Equipment</li>
+                {studio.locationFeatures.map((feature) => (
+                  <li key={feature} className="col-auto flex items-center">
+                    <svg
+                      className="mr-1 h-4 w-4"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        fillRule="evenodd"
+                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                        clipRule="evenodd"></path>
+                    </svg>
+                    {'Equipment XYZ'}
+                  </li>
+                ))}
+              </ul>
+            </ul>
+          </section>
+          {/* StudioLocation */}
+          <section className="mb-14 border-b px-7 pb-14 text-xs text-gray-600 lg:text-sm">
+            <div className="container h-96 w-full bg-blue-400"></div>
+          </section>
+          {/* StudioRules */}
+          <section className="mb-7 px-7 text-xs text-gray-600 lg:text-sm">
+            <ul className="grid grid-cols-smbg gap-2 sm:grid-cols-smbgbg">
+              <li className="h2LandingP col-start-1 row-span-2 text-sm font-bold lg:text-base">Studio Rules</li>
+              <ul className="grid max-w-md list-inside gap-2 space-y-1 dark:text-gray-400 sm:col-span-2">
+                <li className="flex items-center justify-between">
+                  <span className="flex">
+                    <svg
+                      className="mr-1.5 h-5 w-5 shrink-0 text-red-400"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                        clipRule="evenodd"></path>
+                    </svg>
+                    Smoking allowed:
+                  </span>
+                  <span className="font-semibold">No</span>
+                </li>
+                <li className="flex items-center justify-between">
+                  <span className="flex">
+                    <svg
+                      className="mr-1.5 h-5 w-5 shrink-0 text-green-500 dark:text-green-400"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                        clipRule="evenodd"></path>
+                    </svg>
+                    Pets allowed:
+                  </span>
+                  <span className="font-semibold">Yes</span>
+                </li>
+                <li className="flex items-center justify-between">
+                  <span className="flex">
+                    <svg
+                      className="mr-1.5 h-5 w-5 shrink-0 text-green-500 dark:text-green-400"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                        clipRule="evenodd"></path>
+                    </svg>
+                    Party allowed:
+                  </span>
+                  <span className="font-semibold">Yes</span>
+                </li>
+                <li className="flex items-center justify-between">
+                  <span className="flex">
+                    <svg
+                      className="mr-1.5 h-5 w-5 shrink-0 text-green-500 dark:text-green-400"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                        clipRule="evenodd"></path>
+                    </svg>
+                    Kids allowed:
+                  </span>
+                  <span className="font-semibold">Yes</span>
+                </li>
+              </ul>
+            </ul>
+          </section>
+          {/* Additional StudioRules */}
+          <section className="mb-14 border-b px-7 pb-14 text-xs text-gray-600 lg:text-sm">
+            <div className="grid grid-cols-smbg gap-2 sm:grid-cols-smbgbg">
+              <div className="col-span-2 col-start-2 flex flex-col gap-2">
+                <h4 className="font-semibold text-black">Additional Rules</h4>
+                <p className="">
+                  Adipisicing quis sint nisi occaecat nisi adipisicing Lorem sunt tempor anim excepteur. Cupidatat
+                  eiusmod consectetur aute exercitation commodo anim nulla esse incididunt culpa dolore in sint.
+                </p>
+              </div>
+            </div>
           </section>
         </section>
         {/* SideTable */}
