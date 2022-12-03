@@ -421,6 +421,29 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
               </li>
             </ul>
           </section>
+          {/* Studiofeatures */}
+          <section className="mb-14 border-b px-7 pb-14 text-xs text-gray-600 lg:text-sm">
+            <ul className="grid grid-cols-smbg grid-rows-[4] gap-2 sm:grid-cols-smbgbg sm:grid-rows-4">
+              <li className="h2LandingP col-start-1 row-span-2 text-sm font-bold lg:text-base">Studio Features</li>
+              <ul className="grid grid-cols-2 grid-rows-4 gap-2">
+                {studio.locationFeatures.map((feature) => (
+                  <li key={feature} className="col-auto flex items-center">
+                    <svg
+                      className="mr-1 h-4 w-4"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        fillRule="evenodd"
+                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                        clipRule="evenodd"></path>
+                    </svg>
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+            </ul>
+          </section>
         </section>
         {/* SideTable */}
         <section className="hidden h-full w-full lg:block">
