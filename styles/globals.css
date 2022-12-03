@@ -217,19 +217,34 @@
   .date-search {
     @apply mb-2 cursor-pointer rounded-full text-center outline-none;
   }
-  /* carousell */
+
+  /* Detailpage ImageGallerySection */
+  .studioImgsLP {
+    @apply mt-[30px] text-center;
+  }
+  .flex_row {
+    @apply mt-[20px] flex flex-wrap justify-center gap-3;
+  }
+  .thumbnail {
+    @apply ml-[1px];
+  }
+  .clicked {
+    @apply z-50;
+  }
+  /* Homepage-studio-carousell */
+
   .container-padding-bottom {
     @apply pt-20 pb-2;
   }
+
   /* Tables */
+
   .filter-table {
     @apply mb-2 flex min-w-fit gap-4 rounded-lg bg-white py-2 px-5 [&_div]:flex [&_div]:items-center [&_div]:gap-2;
   }
-
   .input-table {
     @apply w-28 rounded-lg bg-white p-2 pl-5 focus:border-blue-500 focus:outline-none sm:w-36 md:w-40;
   }
-
   .tableWrap {
     @apply block max-w-full overflow-y-hidden overflow-x-scroll text-xs font-thin sm:text-sm;
   }
@@ -253,7 +268,6 @@
   }
   .evenRow {
     @apply bg-blue-200/30;
-    /*@apply bg-blue-600/30;*/
   }
   .pagination {
     @apply mt-2 flex min-w-fit items-center gap-4  whitespace-nowrap rounded-lg bg-white py-2 px-5;
@@ -261,13 +275,13 @@
   .pagination-buttons {
     @apply flex gap-1;
   }
-
   .pagination-input {
     @apply text-primary h-10 rounded-lg text-center focus:border-blue-500  focus:outline-none;
   }
   .editModal {
     @apply fixed top-0 left-0 z-30 h-screen w-screen cursor-default;
   }
+
   /* Modals */
 
   .searchFadein {

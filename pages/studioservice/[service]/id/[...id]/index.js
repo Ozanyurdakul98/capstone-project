@@ -10,12 +10,25 @@ import { MyLink } from '../../../../../components/MyLink';
 import { useRouter } from 'next/router';
 import { HomeIcon, UserIcon, WifiIcon } from '@heroicons/react/24/solid';
 import { GiCigarette } from 'react-icons/gi';
-
+import { useState } from 'react';
 function StudioDetailpage({ serializedStudio, breadCrumb }) {
   const router = useRouter();
   const studio = serializedStudio[0];
-  console.log(studio);
-  console.log(breadCrumb);
+  // console.log(studio);
+  const imgs = [
+    { id: 0, value: studio.images },
+    { id: 1, value: studio.images },
+    { id: 2, value: studio.images },
+    { id: 3, value: 'https://source.unsplash.com/user/c_v_r/1900x800' },
+    { id: 4, value: 'https://source.unsplash.com/user/c_v_r/100x100' },
+    { id: 5, value: studio.images },
+  ];
+  const [wordData, setWordData] = useState(imgs[0]);
+  const handleClick = (index) => {
+    // console.log(index);
+    const wordSlider = imgs[index];
+    setWordData(wordSlider);
+  };
   return (
     <>
       <Head>
@@ -170,7 +183,7 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
             </div>
           </section>
           {/* Details */}
-          <section className="px-7 text-xs text-gray-600">
+          <section className="mb-10 px-7 text-xs text-gray-600">
             <ul className="grid grid-cols-smbg grid-rows-6 gap-2 sm:grid-cols-smbgbg sm:grid-rows-4">
               <li className="h2LandingP col-start-1 text-sm font-bold">Details</li>
               <li className="col-start-2 row-start-1 flex items-center">
@@ -253,6 +266,21 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
               </li>
             </ul>
           </section>
+          {/* ImageSection */}
+          <section className="mb-10">
+            <div className="studioImgsLP relative h-80 w-full md:h-[450px]">
+              <Image src={wordData.value} alt="" layout="fill" objectFit="cover" />
+              {/* <Image src={wordData.value} alt="" height="300" width="500" /> */}
+            </div>
+            <div className="flex_row">
+              {imgs.map((data, i) => (
+                <div className={`thumbnail relative h-[70px] w-[100px]`} onClick={() => handleClick(i)} key={i}>
+                  <Image src={data.value} layout="fill" objectFit="cover" alt="studio image" />
+                  <div className={`absolute h-full w-full bg-black/50  ${wordData.id == i ? 'hidden' : ''}`}></div>
+                </div>
+              ))}
+            </div>
+          </section>
         </section>
         {/* SideTable */}
         <section className="hidden h-full w-full lg:block">
@@ -274,7 +302,6 @@ export async function getServerSideProps(context) {
   const id = context.query.id[2];
   let breadCrumb = context.query.service;
   if (breadCrumb === 'recording') breadCrumb = 'Recording';
-  console.log('BREADCRUMB', breadCrumb);
   const fetchStudio = await StudioListing.findById(id)
     .populate({
       path: 'studioService',
@@ -286,7 +313,6 @@ export async function getServerSideProps(context) {
       model: 'users',
       select: 'avatar email name lastname username',
     });
-  // console.log('byid', fetchStudio);
   const serializeStudio = [JSON.parse(JSON.stringify(fetchStudio))];
   const serializedStudio = serializeStudio.map((studio) => ({
     ...studio,
@@ -296,8 +322,6 @@ export async function getServerSideProps(context) {
     updatedAt: moment(studio.updatedAt).format('DD/MM/yyyy'),
     updatedAtTime: moment(studio.updatedAt).format('kk:mm'),
   }));
-  // console.log('SERIALIZEDSTUDIO', serializedStudio);
-  // console.log('SERIALIZEDSTUDIO', serializedStudio[0].listingTitle);
   return {
     props: {
       serializedStudio: serializedStudio || null,
