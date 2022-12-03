@@ -74,14 +74,14 @@ function SearchBar() {
     setServicesSelected(event.target.value);
   };
   return (
-    <div className="flex w-full items-center justify-center lg:pr-5 xl:pr-0">
+    <div className="flex w-[220px] items-center justify-center sm:w-full lg:pr-5 xl:pr-0">
       {/* SearchInput */}
       <form
         onSubmit={handleSearch}
-        className="relative z-40 flex flex-1 items-center space-x-2 rounded-full border border-gray-300 bg-gray-100 px-3 py-1 shadow-sm md:shadow-lg">
+        className="relative z-40 flex flex-1 items-center rounded-full border border-gray-300 bg-gray-100 px-3 py-1 shadow-sm sm:space-x-2 md:shadow-lg">
         <MagnifyingGlassIcon className="h-6 w-6 shrink-0 cursor-pointer rounded-full bg-black/30 p-1 text-white" />
         <input
-          className="relative z-40 flex-1 border-none bg-transparent outline-none"
+          className="relative z-40 w-full flex-1 border-none bg-transparent outline-none"
           type="text"
           placeholder="type your location "
           value={searchInput}

@@ -14,7 +14,7 @@ import { useState } from 'react';
 function StudioDetailpage({ serializedStudio, breadCrumb }) {
   const router = useRouter();
   const studio = serializedStudio[0];
-  // console.log(studio);
+  console.log(studio);
   const imgs = [
     { id: 0, value: studio.images },
     { id: 1, value: studio.images },
@@ -51,7 +51,7 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
         {/* Main */}
         <section className="rounded-md bg-white py-16 text-black">
           {/* Headersection */}
-          <section className="mb-10 flex flex-col gap-2 px-7 text-xs">
+          <section className="mb-14 flex flex-col gap-2 px-7 text-xs">
             <nav className="flex" aria-label="Breadcrumb">
               <ol className="inline-flex items-center space-x-1 md:space-x-3">
                 <li className="inline-flex items-center">
@@ -141,7 +141,7 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
             </div>
           </section>
           {/* FeatureSection */}
-          <section className=" mb-10 text-sm text-gray-600">
+          <section className=" mb-14 text-sm text-gray-600">
             <div className="grid grid-cols-4 text-xs sm:text-sm [&>div]:border [&>div]:border-r-0 [&>div]:p-5 [&>div]:md:py-7 [&>_:last-child]:border-r-0 [&>_:first-child]:border-l-0 [&>*]:whitespace-nowrap [&>*]:text-center">
               <div className="flex flex-col items-center justify-center gap-1">
                 <HomeIcon className="landingP-icon" />
@@ -166,7 +166,7 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
             </div>
           </section>
           {/* Studiodescription */}
-          <section className=" mb-10 border-b px-7 pb-10 text-sm text-gray-600">
+          <section className=" mb-14 border-b px-7 pb-14 text-sm text-gray-600">
             <div>
               <h2 className="h2LandingP">About the Studio</h2>
             </div>
@@ -269,7 +269,7 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
             </ul>
           </section>
           {/* Studioservices */}
-          <section className="mb-10 px-7 text-xs text-gray-600 lg:text-sm">
+          <section className="mb-14 px-7 text-xs text-gray-600 lg:text-sm">
             <ul className="grid grid-cols-smbg grid-rows-1 gap-2 sm:grid-cols-smbgbg sm:grid-rows-1">
               {/* <li className="h2LandingP col-start-1 row-span-2 text-sm font-bold lg:text-base">Studio services</li> */}
               <li className="col-start-2 row-start-1 flex items-start sm:col-span-2 sm:col-start-2 sm:row-start-1">
@@ -292,7 +292,7 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
             </ul>
           </section>
           {/* ImageSection */}
-          <section className="mb-10">
+          <section className="mb-14">
             <div className="studioImgsLP relative h-80 w-full md:h-[450px]">
               <Image src={wordData.value} alt="" layout="fill" objectFit="cover" />
               {/* <Image src={wordData.value} alt="" height="300" width="500" /> */}
@@ -307,9 +307,9 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
             </div>
           </section>
           {/* PricingSection */}
-          <section className="mb-10 px-7 text-xs text-gray-600 lg:text-sm">
-            <ul className="grid grid-cols-smbg grid-rows-6 gap-2 sm:grid-cols-smbgbg sm:grid-rows-4">
-              <li className="h2LandingP col-start-1 text-sm font-bold lg:text-base">Details</li>
+          <section className="mb-14 border-b px-7 pb-14 text-xs text-gray-600 lg:text-sm">
+            <ul className="grid grid-cols-smbg grid-rows-[8] gap-2 sm:grid-cols-smbgbg sm:grid-rows-4">
+              <li className="h2LandingP col-start-1 text-sm font-bold lg:text-base">Prices</li>
               <li className="col-start-2 row-start-1 flex items-center">
                 <svg
                   className="mr-1 h-4 w-4"
@@ -321,7 +321,8 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
                     d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                     clipRule="evenodd"></path>
                 </svg>
-                ID: <span className=" pl-1 font-semibold">{studio._id}</span>
+                Hourly:
+                <span className=" pl-1 font-semibold">{studio.studioPricing.studioPricingHour + '€' || '/'}</span>
               </li>
               <li className="col-start-2 row-start-2 flex items-center">
                 <svg
@@ -334,7 +335,8 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
                     d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                     clipRule="evenodd"></path>
                 </svg>
-                Capacity: <span className="pl-1 font-semibold">{studio.maxGuests + ' Guests max'}</span>
+                Daily:
+                <span className=" pl-1 font-semibold">{studio.studioPricing.studioPricingDay + '€' || '/'}</span>
               </li>
               <li className="col-start-2 row-start-3 flex items-center">
                 <svg
@@ -347,7 +349,8 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
                     d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                     clipRule="evenodd"></path>
                 </svg>
-                Beds: <span className="pl-1 font-semibold">No Sleepover</span>
+                Weekends (Sat & Sun):
+                <span className=" pl-1 font-semibold">same as daily</span>
               </li>
               <li className="col-start-2 row-start-4 flex items-center">
                 <svg
@@ -360,9 +363,10 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
                     d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                     clipRule="evenodd"></path>
                 </svg>
-                Studio rooms: <span className="pl-1 font-semibold">3</span>
+                Weekly (7 Days):
+                <span className=" pl-1 font-semibold">{studio.studioPricing.studioPricingWeek + '€' || '/'}</span>
               </li>
-              <li className="col-start-2 row-start-5 flex items-center sm:col-start-3 sm:row-start-1">
+              <li className="col-start-2 row-start-5 flex items-center">
                 <svg
                   className="mr-1 h-4 w-4"
                   fill="currentColor"
@@ -373,9 +377,10 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
                     d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                     clipRule="evenodd"></path>
                 </svg>
-                Studio type: <span className="pl-1 font-semibold">{studio.studiotype}</span>
+                Monthly (30 Days):
+                <span className=" pl-1 font-semibold">{studio.studioPricing.studioPricingMonth + '€' || '/'}</span>
               </li>
-              <li className="col-start-2 row-start-6 flex items-center sm:col-start-3 sm:row-start-2">
+              <li className="col-start-2 row-start-6 flex items-center sm:col-start-3 sm:row-start-1">
                 <svg
                   className="mr-1 h-4 w-4"
                   fill="currentColor"
@@ -386,7 +391,33 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
                     d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                     clipRule="evenodd"></path>
                 </svg>
-                Property size: <span className="pl-1 font-semibold">78 sqm</span>
+                Additional Guests: <span className="pl-1 font-semibold">15€</span>
+              </li>
+              <li className="col-start-2 row-start-7 flex items-center sm:col-start-3 sm:row-start-2">
+                <svg
+                  className="mr-1 h-4 w-4"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    fillRule="evenodd"
+                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                    clipRule="evenodd"></path>
+                </svg>
+                Cleaning costs: <span className="pl-1 font-semibold">30€ per day</span>
+              </li>
+              <li className="col-start-2 row-start-[8] flex items-center sm:col-start-3 sm:row-start-3">
+                <svg
+                  className="mr-1 h-4 w-4"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    fillRule="evenodd"
+                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                    clipRule="evenodd"></path>
+                </svg>
+                Deposit: <span className="pl-1 font-semibold">300€</span>
               </li>
             </ul>
           </section>
