@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import User from '../../../models/UserModel';
+import User from '../../../models/User';
 import db from '../../../lib/dbConnect';
 
 export const authOptions = {
@@ -52,6 +52,7 @@ export const authOptions = {
         token.username = user.username;
         token.role = user.role;
         token.name = user.name;
+        token.id = JSON.stringify(user._id);
       }
       return token;
     },
@@ -61,6 +62,7 @@ export const authOptions = {
       session.user.username = token.username;
       session.user.email = token.email;
       session.user.role = token.role;
+      session.user.id = token.id;
       return session;
     },
   },

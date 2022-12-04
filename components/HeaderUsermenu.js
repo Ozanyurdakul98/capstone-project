@@ -48,7 +48,8 @@ export function HeaderUsermenu(props) {
                         src={avatar}
                         layout="fill"
                         className="rounded-full bg-gray-200 "
-                        objectFit="contain"
+                        objectFit="cover"
+                        objectPosition={'center'}
                         alt="avatar"
                       />
                     </div>

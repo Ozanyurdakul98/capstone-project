@@ -41,9 +41,32 @@
     @apply bg-[color:var(--secondary-color-hover)];
   }
 
+  /* Headers */
+  .h1 {
+    @apply block text-2xl font-bold uppercase tracking-wide text-[color:var(--primary-text)] md:text-xl lg:text-2xl;
+  }
+  .h1LandingP {
+    @apply block text-lg font-bold tracking-wide text-black sm:text-lg md:text-xl lg:text-2xl xl:text-2xl;
+  }
+  .h2 {
+    @apply block text-lg font-bold uppercase tracking-wide text-[color:var(--primary-text)] md:text-xl lg:text-2xl;
+  }
+  .h2LandingP {
+    @apply block text-base font-bold tracking-wide text-black sm:text-base md:text-lg lg:text-xl;
+  }
+  .h3 {
+    @apply block text-sm font-bold uppercase tracking-wide text-[color:var(--primary-text)] md:text-[15px] lg:text-lg;
+  }
+  .h4 {
+    @apply text-lg font-semibold;
+  }
+
   /* Icons */
   .icon-header {
     @apply h-6 w-6 cursor-pointer rounded-sm text-[color:var(--primary-icon)] md:hover:bg-gray-100 lg:h-9 lg:w-9 lg:p-1;
+  }
+  .landingP-icon {
+    @apply h-10 w-10 rounded-sm text-gray-300 md:h-12 md:w-12  lg:h-14 lg:w-14 lg:p-1;
   }
   .table-icon {
     @apply h-4 w-4 cursor-pointer rounded-sm text-white active:bg-gray-100/20 md:h-6 md:w-6 md:hover:bg-gray-100/20 md:active:bg-none lg:h-8 lg:w-8 lg:p-1;
@@ -99,6 +122,18 @@
     @apply flex max-h-8 transform cursor-pointer items-center rounded-full  border border-black  px-4 py-2 transition duration-100 ease-out  hover:shadow-lg active:scale-95 active:bg-gray-100;
   }
 
+  /* OpenModalInput */
+
+  .inputOpenGuestsLP {
+    @apply mb-2 w-full cursor-pointer rounded-md text-start outline-none;
+  }
+  .inputOpenCalendarLP {
+    @apply mb-2 cursor-pointer rounded-full text-start outline-none;
+  }
+  .date-search {
+    @apply mb-2 cursor-pointer rounded-full text-center outline-none;
+  }
+
   /* SelectInputs */
 
   .select-table {
@@ -114,6 +149,12 @@
     @apply w-full appearance-none rounded-full border-gray-500  bg-[#edf0f5] py-3 px-5 leading-tight  text-gray-700 focus:border-gray-500/30 focus:bg-white focus:outline-none    lg:w-2/3;
   }
 
+  /* Labels */
+
+  .sideBarLP-label {
+    @apply absolute -top-2.5 left-14 w-[45px] min-w-min cursor-pointer bg-white text-center text-[13px];
+  }
+
   /* Fieldsets */
   .fset-editUser {
     @apply my-8 w-full leading-tight;
@@ -127,6 +168,7 @@
   .searchBarModal {
     @apply fixed top-0 left-0 z-30 h-screen w-screen cursor-default;
   }
+
   input,
   select,
   textarea {
@@ -191,22 +233,34 @@
   .select-search {
     @apply top-1 mb-1 h-10 max-w-min cursor-pointer  rounded-full bg-[#1e90ff] pl-5  text-white after:absolute after:h-5 after:w-5;
   }
-  .date-search {
-    @apply mb-2 cursor-pointer rounded-full text-center outline-none;
+
+  /* Detailpage ImageGallerySection */
+  .studioImgsLP {
+    @apply mt-[30px] text-center;
   }
-  /* carousell */
+  .flex_row {
+    @apply mt-[20px] flex flex-wrap justify-center gap-3;
+  }
+  .thumbnail {
+    @apply ml-[1px];
+  }
+  .clicked {
+    @apply z-50;
+  }
+  /* Homepage-studio-carousell */
+
   .container-padding-bottom {
     @apply pt-20 pb-2;
   }
+
   /* Tables */
+
   .filter-table {
     @apply mb-2 flex min-w-fit gap-4 rounded-lg bg-white py-2 px-5 [&_div]:flex [&_div]:items-center [&_div]:gap-2;
   }
-
   .input-table {
     @apply w-28 rounded-lg bg-white p-2 pl-5 focus:border-blue-500 focus:outline-none sm:w-36 md:w-40;
   }
-
   .tableWrap {
     @apply block max-w-full overflow-y-hidden overflow-x-scroll text-xs font-thin sm:text-sm;
   }
@@ -230,7 +284,6 @@
   }
   .evenRow {
     @apply bg-blue-200/30;
-    /*@apply bg-blue-600/30;*/
   }
   .pagination {
     @apply mt-2 flex min-w-fit items-center gap-4  whitespace-nowrap rounded-lg bg-white py-2 px-5;
@@ -238,28 +291,15 @@
   .pagination-buttons {
     @apply flex gap-1;
   }
-
   .pagination-input {
     @apply text-primary h-10 rounded-lg text-center focus:border-blue-500  focus:outline-none;
   }
   .editModal {
     @apply fixed top-0 left-0 z-30 h-screen w-screen cursor-default;
   }
+
   /* Modals */
 
-  /* Headers */
-  .h1 {
-    @apply block text-2xl font-bold uppercase tracking-wide  text-[color:var(--primary-text)] md:text-xl lg:text-2xl;
-  }
-  .h2 {
-    @apply block text-lg font-bold uppercase tracking-wide  text-[color:var(--primary-text)] md:text-xl lg:text-2xl;
-  }
-  .h3 {
-    @apply block text-sm font-bold uppercase tracking-wide  text-[color:var(--primary-text)] md:text-[15px] lg:text-lg;
-  }
-  .h4 {
-    @apply text-lg font-semibold;
-  }
   .searchFadein {
     animation: fadeInAnimation 250ms;
   }

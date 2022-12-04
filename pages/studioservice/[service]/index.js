@@ -1,13 +1,13 @@
 //db
-import db from '../../lib/dbConnect';
-import StudioListing from '../../models/StudioListing';
+import db from '../../../lib/dbConnect';
+import StudioListing from '../../../models/StudioListing';
 //components
-import Layout from '../../components/Layout/Layout';
-import StudioService from '../../models/StudioService';
-import { Resultpage } from '../../components/Result/Resultpage';
+import Layout from '../../../components/Layout/Layout';
+import StudioService from '../../../models/StudioService';
+import { Resultpage } from '../../../components/Result/Resultpage';
 
-function StudioServiceResults({ studios, serviceName }) {
-  return <Resultpage studios={studios} header={serviceName}></Resultpage>;
+function StudioServiceResults({ studios, serviceName, path }) {
+  return <Resultpage studios={studios} path={path} header={serviceName}></Resultpage>;
 }
 
 export default StudioServiceResults;
@@ -30,16 +30,19 @@ export async function getServerSideProps(context) {
       select: 'name -_id',
     })
     .sort({ $natural: -1 });
+  console.log('find', studiosWithID);
 
   const serializingStudiosWithID = JSON.parse(JSON.stringify(studiosWithID));
   const serializedStudiosWithID = serializingStudiosWithID.map((studio) => ({
     ...studio,
     studioService: studio.studioService.map((service) => service.name),
   }));
+  console.log('SERVICENAME', sanitizeServiceName);
   return {
     props: {
       studios: serializedStudiosWithID || null,
       serviceName: sanitizeServiceName || null,
+      path: serviceQueryName || null,
     },
   };
 }

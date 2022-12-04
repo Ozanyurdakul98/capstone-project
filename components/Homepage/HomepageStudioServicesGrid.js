@@ -6,7 +6,11 @@ export function HomepageStudioServicesGrid(props) {
   return (
     <div className="mb-40 flex flex-col gap-10 px-2">
       <div className="px-5">
-        <h2 className="h2">Studio services</h2>
+        <h2 className="h2">Studios</h2>
+        <p>
+          Look for Studios around your place or around the world you will want to visit. These studio listings right
+          here are for in-person services.
+        </p>
       </div>
       <section className="grid grid-cols-2 gap-5 md:grid-cols-3">
         {props.studioServices.map((service) => (

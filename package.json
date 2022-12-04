@@ -31,8 +31,7 @@
     "react-table": "^7.8.0",
     "react-textarea-autosize": "^8.4.0",
     "styled-components": "^5.3.6",
-    "tw-elements": "^1.0.0-alpha12",
-    "v8": "^0.1.0"
+    "tw-elements": "^1.0.0-alpha12"
   },
   "devDependencies": {
     "@tailwindcss/line-clamp": "^0.4.2",
