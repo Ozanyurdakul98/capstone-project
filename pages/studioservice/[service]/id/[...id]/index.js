@@ -1062,7 +1062,7 @@ export async function getServerSideProps(context) {
   }));
   return {
     props: {
-      serializedStudio: serializedStudio || null,
+      serializedStudio: serializedStudio,
       breadCrumb: breadCrumb || null,
     },
   };
