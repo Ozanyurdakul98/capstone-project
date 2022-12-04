@@ -361,7 +361,9 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
                     clipRule="evenodd"></path>
                 </svg>
                 Hourly:
-                <span className=" pl-1 font-semibold">{studio.studioPricing.studioPricingHour + '€' || '/'}</span>
+                <span className=" pl-1 font-semibold">
+                  {studio.studioPricing.studioPricingHour ? studio.studioPricing.studioPricingHour + '€' : '/'}
+                </span>
               </li>
               <li className="col-start-2 row-start-2 flex items-center">
                 <svg
@@ -375,7 +377,9 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
                     clipRule="evenodd"></path>
                 </svg>
                 Daily:
-                <span className=" pl-1 font-semibold">{studio.studioPricing.studioPricingDay + '€' || '/'}</span>
+                <span className=" pl-1 font-semibold">
+                  {studio.studioPricing.studioPricingDay ? studio.studioPricing.studioPricingDay + '€' : '/'}
+                </span>
               </li>
               <li className="col-start-2 row-start-3 flex items-center">
                 <svg
@@ -403,7 +407,9 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
                     clipRule="evenodd"></path>
                 </svg>
                 Weekly (7 Days):
-                <span className=" pl-1 font-semibold">{studio.studioPricing.studioPricingWeek + '€' || '/'}</span>
+                <span className=" pl-1 font-semibold">
+                  {studio.studioPricing.studioPricingWeek ? studio.studioPricing.studioPricingWeek + '€' : '/'}
+                </span>
               </li>
               <li className="col-start-2 row-start-5 flex items-center">
                 <svg
@@ -417,7 +423,9 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
                     clipRule="evenodd"></path>
                 </svg>
                 Monthly (30 Days):
-                <span className=" pl-1 font-semibold">{studio.studioPricing.studioPricingMonth + '€' || '/'}</span>
+                <span className=" pl-1 font-semibold">
+                  {studio.studioPricing.studioPricingMonth ? studio.studioPricing.studioPricingMonth + '€' : '/'}
+                </span>
               </li>
               <li className="col-start-2 row-start-6 flex items-center sm:col-start-3 sm:row-start-1">
                 <svg
