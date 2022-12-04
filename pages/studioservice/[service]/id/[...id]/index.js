@@ -8,13 +8,11 @@ import Image from 'next/image';
 import Head from 'next/head';
 import { MyLink } from '../../../../../components/MyLink';
 import { useRouter } from 'next/router';
-import { HomeIcon, UserIcon, WifiIcon } from '@heroicons/react/24/solid';
+import { HomeIcon, MinusCircleIcon, PlusCircleIcon, UserIcon, WifiIcon } from '@heroicons/react/24/solid';
+
 import { GiCigarette } from 'react-icons/gi';
 import { useState } from 'react';
-import {
-  BackgroundOverlayFullscreen as ClickToCloseMax,
-  BackgroundOverlay as ClickToCloseMin,
-} from '../../../../../components/BackgroundOverlay';
+import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../../../../../components/BackgroundOverlay';
 //tools
 import { DateRange } from 'react-date-range';
 import format from 'date-fns/format';
@@ -33,20 +31,13 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
   ];
   const [wordData, setWordData] = useState(imgs[0]);
   const handleClick = (index) => {
-    // console.log(index);
     const wordSlider = imgs[index];
     setWordData(wordSlider);
   };
-  const [calenderOpen, setCalenderOpen] = useState(false);
+  const [openPanel, setOpenPanel] = useState('');
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
 
-  const handleClickToCloseSearch = () => {
-    setSearchInput('');
-  };
-  const handleClickToCloseCalendar = () => {
-    setCalenderOpen(false);
-  };
   const selectionRange = {
     startDate: startDate,
     endDate: endDate,
@@ -57,7 +48,14 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
 
     setEndDate(ranges.selection.endDate);
   };
-
+  //guests
+  const [noOfGuests, setNoOfGuest] = useState(1);
+  const incrementNumberGuests = () => {
+    setNoOfGuest((counter) => counter + 1);
+  };
+  const decrementNumberGuests = () => {
+    setNoOfGuest((counter) => counter - 1);
+  };
   return (
     <>
       <Head>
@@ -452,9 +450,9 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
           </section>
           {/* Studiofeatures */}
           <section className="mb-7 px-7 text-xs text-gray-600 md:text-sm">
-            <ul className="grid grid-cols-smbg gap-2 sm:grid-cols-smbgbg lg:space-x-4">
+            <ul className="grid grid-cols-smbg gap-2 sm:grid-cols-smbgsm ">
               <li className="h2LandingP col-start-1 row-span-2 text-sm font-bold lg:text-base">Studio Features</li>
-              <ul className="grid grid-cols-2 gap-2">
+              <ul className="grid grid-cols-2 gap-2 lg:pl-5">
                 {studio.locationFeatures.map((feature) => (
                   <li key={feature} className="col-auto flex items-center">
                     <svg
@@ -475,8 +473,8 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
           </section>
           {/* Equipment */}
           <section className="mb-14 border-b px-7 pb-14 text-xs text-gray-600 md:text-sm">
-            <ul className="grid grid-cols-smbg gap-2 sm:grid-cols-smbgbg">
-              <ul className="col-start-2 grid grid-cols-2 gap-2">
+            <ul className="grid grid-cols-smbg gap-2  sm:grid-cols-smbgsm">
+              <ul className="col-start-2 grid grid-cols-2 gap-2 lg:pl-5">
                 <li className="col-span-2 font-semibold text-black">Equipment</li>
                 {studio.locationFeatures.map((feature) => (
                   <li key={feature} className="col-auto flex items-center">
@@ -720,7 +718,7 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
           </section>
         </section>
         {/* SideTable */}
-        <section className="hidden h-full w-full lg:block">
+        <section className="hidden h-full w-full text-black lg:block">
           <div className=" sticky top-10 grid h-96 w-full grid-rows-smbgsm bg-white shadow-lg">
             {/* Top */}
             <section className="flex items-center rounded-t-sm bg-gray-500 text-white">
@@ -753,21 +751,41 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
             </section>
             {/* Middle */}
             <section className="px-8 py-4">
-              <div className=" grid w-full grid-cols-2 grid-rows-6">
+              <div className=" grid w-full grid-cols-2 grid-rows-6 gap-2">
+                {/* Date */}
                 <div className="col-span-2 row-start-1">
-                  <div className="flex w-full flex-col items-center justify-center">
-                    <input
-                      className="date-search "
-                      value={format(startDate, 'dd/MM/yy') + ' - ' + format(endDate, 'dd/MM/yy')}
-                      readOnly
-                      onClick={() => {
-                        setCalenderOpen((previous) => !previous);
-                      }}
-                    />
-                    {calenderOpen && (
+                  <div className="relative flex w-full flex-col items-center justify-center">
+                    <label className="sideBarLP-label" htmlFor="date">
+                      Date
+                    </label>
+                    <div className="flex w-full items-center gap-2">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="h-6 w-6">
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
+                        />
+                      </svg>
+                      <input
+                        className="inputOpenCalendarLP w-full rounded-md"
+                        id="date"
+                        value={format(startDate, 'dd/MM/yy') + ' - ' + format(endDate, 'dd/MM/yy')}
+                        readOnly
+                        onClick={() => {
+                          setOpenPanel('calendar');
+                        }}
+                      />
+                    </div>
+                    {openPanel === 'calendar' && (
                       <>
                         <DateRange
-                          className="relative z-40 max-w-min rounded-xl border border-gray-400"
+                          className="absolute top-12 right-0 z-50 max-w-min rounded-xl border border-gray-400"
                           ranges={[selectionRange]}
                           rangeColors={['#df1b1b']}
                           showMonthAndYearPickers={false}
@@ -776,12 +794,73 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
                           calendarFocus={'forwards'}
                           moveRangeOnFirstSelection={false}
                         />
-                        <ClickToCloseMin onClick={() => handleClickToCloseCalendar()} />
+                        <ClickToCloseMax style={'editModal z-40 h-full'} onClick={() => setOpenPanel('')} />
                       </>
                     )}
                   </div>
                 </div>
-                <div></div>
+                {/* Guests */}
+                <div className="col-span-2 row-start-2">
+                  <div className="relative flex w-full flex-col items-center justify-center">
+                    <label className="sideBarLP-label" htmlFor="guests">
+                      Guests
+                    </label>
+                    <div className="flex w-full items-center gap-2">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="h-6 w-6">
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"
+                        />
+                      </svg>
+                      <input
+                        readOnly
+                        id="guests"
+                        className="inputOpenGuestsLP"
+                        placeholder="Guests"
+                        value={'Guests ' + noOfGuests}
+                        onClick={() => {
+                          setOpenPanel('guests');
+                        }}
+                      />
+                    </div>
+
+                    {/* <h4 className="text-sm">Number of Guests</h4> */}
+                    {openPanel === 'guests' && (
+                      <>
+                        <div className="absolute -bottom-16 z-50 flex items-center rounded-xl border border-gray-400 bg-white p-2">
+                          <button
+                            className="icon-big cursor-pointer"
+                            onClick={decrementNumberGuests}
+                            disabled={noOfGuests === 1}>
+                            <MinusCircleIcon />
+                          </button>
+                          <input
+                            className="number-search text-center disabled:text-white"
+                            type="number"
+                            min={1}
+                            max={studio.maxGuests}
+                            value={noOfGuests}
+                            disabled
+                          />
+                          <button
+                            className="icon-big"
+                            onClick={incrementNumberGuests}
+                            disabled={noOfGuests === studio.maxGuests}>
+                            <PlusCircleIcon />
+                          </button>
+                        </div>
+                        <ClickToCloseMax style={'editModal z-40 h-full'} onClick={() => setOpenPanel('')} />
+                      </>
+                    )}
+                  </div>
+                </div>
                 <div></div>
                 <div></div>
                 <div></div>

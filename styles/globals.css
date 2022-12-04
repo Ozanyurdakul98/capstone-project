@@ -122,6 +122,18 @@
     @apply flex max-h-8 transform cursor-pointer items-center rounded-full  border border-black  px-4 py-2 transition duration-100 ease-out  hover:shadow-lg active:scale-95 active:bg-gray-100;
   }
 
+  /* OpenModalInput */
+
+  .inputOpenGuestsLP {
+    @apply mb-2 w-full cursor-pointer rounded-md text-start outline-none;
+  }
+  .inputOpenCalendarLP {
+    @apply mb-2 cursor-pointer rounded-full text-start outline-none;
+  }
+  .date-search {
+    @apply mb-2 cursor-pointer rounded-full text-center outline-none;
+  }
+
   /* SelectInputs */
 
   .select-table {
@@ -137,6 +149,12 @@
     @apply w-full appearance-none rounded-full border-gray-500  bg-[#edf0f5] py-3 px-5 leading-tight  text-gray-700 focus:border-gray-500/30 focus:bg-white focus:outline-none    lg:w-2/3;
   }
 
+  /* Labels */
+
+  .sideBarLP-label {
+    @apply absolute -top-2.5 left-14 w-[45px] min-w-min cursor-pointer bg-white text-center text-[13px];
+  }
+
   /* Fieldsets */
   .fset-editUser {
     @apply my-8 w-full leading-tight;
@@ -150,6 +168,7 @@
   .searchBarModal {
     @apply fixed top-0 left-0 z-30 h-screen w-screen cursor-default;
   }
+
   input,
   select,
   textarea {
@@ -213,9 +232,6 @@
   }
   .select-search {
     @apply top-1 mb-1 h-10 max-w-min cursor-pointer  rounded-full bg-[#1e90ff] pl-5  text-white after:absolute after:h-5 after:w-5;
-  }
-  .date-search {
-    @apply mb-2 cursor-pointer rounded-full text-center outline-none;
   }
 
   /* Detailpage ImageGallerySection */
