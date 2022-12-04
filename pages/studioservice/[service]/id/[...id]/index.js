@@ -11,11 +11,22 @@ import { useRouter } from 'next/router';
 import { HomeIcon, MinusCircleIcon, PlusCircleIcon, UserIcon, WifiIcon } from '@heroicons/react/24/solid';
 
 import { GiCigarette } from 'react-icons/gi';
+import {
+  ImFacebook,
+  ImTwitter,
+  ImPinterest,
+  ImYoutube,
+  ImLinkedin2,
+  ImInstagram,
+  ImSpotify,
+  ImSoundcloud,
+} from 'react-icons/im';
 import { useState } from 'react';
 import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../../../../../components/BackgroundOverlay';
 //tools
 import { DateRange } from 'react-date-range';
 import format from 'date-fns/format';
+import { FormInput } from '../../../../../components/Forms/FormInput';
 
 function StudioDetailpage({ serializedStudio, breadCrumb }) {
   const router = useRouter();
@@ -108,6 +119,7 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
                         clipRule="evenodd"></path>
                     </svg>
                     <button
+                      type="button"
                       onClick={() => router.back()}
                       className="ml-1 font-medium text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white md:ml-2">
                       {breadCrumb}
@@ -719,9 +731,9 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
         </section>
         {/* SideTable */}
         <section className="hidden h-full w-full text-black lg:block">
-          <div className=" sticky top-10 grid h-96 w-full grid-rows-smbgsm bg-white shadow-lg">
+          <form noValidate={true} className="sticky top-10 grid h-[400px] w-full grid-rows-smbgsm bg-white shadow-lg">
             {/* Top */}
-            <section className="flex items-center rounded-t-sm bg-gray-500 text-white">
+            <section className="flex items-center rounded-t-sm bg-gray-400 text-white">
               <div className="flex items-center pl-5">
                 <span className="self-start pr-1">€</span>
                 <span className="text-2xl">
@@ -751,13 +763,10 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
             </section>
             {/* Middle */}
             <section className="px-8 py-4">
-              <div className=" grid w-full grid-cols-2 grid-rows-6 gap-2">
+              <div className=" grid w-full grid-cols-2 grid-rows-5 gap-2">
                 {/* Date */}
                 <div className="col-span-2 row-start-1">
                   <div className="relative flex w-full flex-col items-center justify-center">
-                    <label className="sideBarLP-label" htmlFor="date">
-                      Date
-                    </label>
                     <div className="flex w-full items-center gap-2">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -772,7 +781,8 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
                           d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
                         />
                       </svg>
-                      <input
+                      <FormInput
+                        beforeLabel={{ css: 'sideBarLP-label', string: 'Date' }}
                         className="inputOpenCalendarLP w-full rounded-md"
                         id="date"
                         value={format(startDate, 'dd/MM/yy') + ' - ' + format(endDate, 'dd/MM/yy')}
@@ -802,9 +812,6 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
                 {/* Guests */}
                 <div className="col-span-2 row-start-2">
                   <div className="relative flex w-full flex-col items-center justify-center">
-                    <label className="sideBarLP-label" htmlFor="guests">
-                      Guests
-                    </label>
                     <div className="flex w-full items-center gap-2">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -819,7 +826,8 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
                           d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"
                         />
                       </svg>
-                      <input
+                      <FormInput
+                        beforeLabel={{ css: 'sideBarLP-label px-2', string: 'Guests' }}
                         readOnly
                         id="guests"
                         className="inputOpenGuestsLP"
@@ -830,12 +838,11 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
                         }}
                       />
                     </div>
-
-                    {/* <h4 className="text-sm">Number of Guests</h4> */}
                     {openPanel === 'guests' && (
                       <>
                         <div className="absolute -bottom-16 z-50 flex items-center rounded-xl border border-gray-400 bg-white p-2">
                           <button
+                            type="button"
                             className="icon-big cursor-pointer"
                             onClick={decrementNumberGuests}
                             disabled={noOfGuests === 1}>
@@ -850,6 +857,7 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
                             disabled
                           />
                           <button
+                            type="button"
                             className="icon-big"
                             onClick={incrementNumberGuests}
                             disabled={noOfGuests === studio.maxGuests}>
@@ -861,14 +869,74 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
                     )}
                   </div>
                 </div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
+                {/* Message */}
+                <div className="col-span-2 row-span-2">
+                  <div className="flex w-full items-center gap-2">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="h-6 w-6">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 01-.825-.242m9.345-8.334a2.126 2.126 0 00-.476-.095 48.64 48.64 0 00-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0011.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155"
+                      />
+                    </svg>
+                    <textarea
+                      type="textarea"
+                      rows={'3'}
+                      style={{ height: 'initial' }}
+                      className="h-full w-full resize-none "
+                      name="description"
+                      id="description"
+                      placeholder="Introduce yourself and what you need here.."
+                      required
+                      maxLength="250"
+                      autoComplete="off"
+                      // value={''}
+                      // onChange={''}
+                    ></textarea>
+                  </div>
+                </div>
+                {/* Button */}
+                <div className="col-span-2 row-start-5">
+                  <div className="flex h-full w-full flex-col gap-[2px]">
+                    <button type="button" className="bg-primary h-8 w-full rounded-md text-white">
+                      Submit booking request
+                    </button>
+                    <p className="flex items-center justify-center gap-1 text-center text-xs text-gray-400">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        className="h-4 w-4">
+                        <path
+                          fillRule="evenodd"
+                          d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 01.67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 11-.671-1.34l.041-.022zM12 9a.75.75 0 100-1.5.75.75 0 000 1.5z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      Non-binding request
+                    </p>
+                  </div>
+                </div>
               </div>
             </section>
-            <div className="rounded-b-sm"></div>
-          </div>
+            {/* Bottom */}
+            <section className="flex w-full items-center justify-evenly rounded-b-sm bg-gray-200 text-gray-400 [&>*]:h-4 [&>*]:w-4 [&>*]:cursor-pointer">
+              <ImSoundcloud title="Soundcloud" />
+              <ImSpotify title="Spotify" />
+              <ImYoutube title="Youtube" />
+              <ImFacebook title="Facebook" />
+              <ImInstagram title="Instagram" />
+              <ImTwitter title="Twitter" />
+              <ImPinterest title="Pinterest" />
+              <ImLinkedin2 title="LinkedIn" />
+            </section>
+          </form>
         </section>
       </section>
       {/* StudioOwner Card */}
@@ -881,7 +949,13 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
               <div className="flex w-full justify-center">
                 <div className="relative">
                   <div className="absolute -m-16 -ml-20 h-[150px] w-[150px] rounded-full border-none align-middle shadow-xl">
-                    <Image src={studio.user.avatar} className="rounded-full " layout="fill" objectFit="cover" />
+                    <Image
+                      src={studio.user.avatar}
+                      alt="profile picture"
+                      className="rounded-full "
+                      layout="fill"
+                      objectFit="cover"
+                    />
                   </div>
                 </div>
               </div>
@@ -915,10 +989,14 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
             </div>
             {/* buttons */}
             <div className="mt-3 flex gap-3 text-slate-400">
-              <button className="w-full rounded-md border py-2 hover:bg-gray-200/70 hover:text-gray-400/70">
+              <button
+                type="button"
+                className="w-full rounded-md border py-2 hover:bg-gray-200/70 hover:text-gray-400/70">
                 Contact Studio
               </button>
-              <button className="w-full rounded-md border py-2 hover:bg-gray-200/70 hover:text-gray-400/70">
+              <button
+                type="button"
+                className="w-full rounded-md border py-2 hover:bg-gray-200/70 hover:text-gray-400/70">
                 View Profile
               </button>
             </div>
@@ -930,7 +1008,7 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
                     An artist of considerable range, Mike is the name taken by Melbourne-raised, Brooklyn-based Nick
                     Murphy writes, performs and records all of his own music, giving it a warm...
                   </p>
-                  <button className="rounded-md border bg-green-400/80 py-2 px-2 font-normal text-white">
+                  <button type="button" className="rounded-md border bg-green-400/80 p-2 font-normal text-white">
                     Follow Account
                   </button>
                 </div>
