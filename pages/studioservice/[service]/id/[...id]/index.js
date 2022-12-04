@@ -555,11 +555,209 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
               </div>
             </div>
           </section>
+          {/* Availability */}
+          <section className="border-b px-7 pb-14 text-xs text-gray-600 lg:text-sm">
+            <ul className="grid grid-cols-smbg gap-2 sm:grid-cols-smbgbg">
+              <li className="h2LandingP col-start-1 text-sm font-bold lg:text-base">Availability</li>
+              <li className="flex items-center gap-2 sm:col-start-2 sm:row-start-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="h-5 w-5">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
+                  />
+                </svg>
+                Minimum Hourly: <span className="font-semibold">2 hours</span>
+              </li>
+              <li className="flex items-center gap-2 sm:col-start-3 sm:row-start-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="h-5 w-5">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
+                  />
+                </svg>
+                Maximum Hourly: <span className="font-semibold">/</span>
+              </li>
+              <li className="flex items-center gap-2 sm:col-start-2 sm:row-start-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="h-5 w-5">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
+                  />
+                </svg>
+                Minimum Daily: <span className="font-semibold">1 day</span>
+              </li>
+              <li className="flex items-center gap-2 sm:col-start-3 sm:row-start-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="h-5 w-5">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
+                  />
+                </svg>
+                Maximum Daily: <span className="font-semibold">5 days</span>
+              </li>
+              <li className="flex items-center gap-2 sm:col-start-2 sm:row-start-3">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="h-5 w-5">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
+                  />
+                </svg>
+                Minimum Weekly: <span className="font-semibold">1 week</span>
+              </li>
+              <li className="flex items-center gap-2 sm:col-start-3 sm:row-start-3">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="h-5 w-5">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
+                  />
+                </svg>
+                Maximum Weekly: <span className="font-semibold">4 weeks</span>
+              </li>
+              <li className="flex items-center gap-2 sm:col-start-2 sm:row-start-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="h-5 w-5">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
+                  />
+                </svg>
+                Minimum Monthly: <span className="font-semibold">1 month</span>
+              </li>
+              <li className="flex items-center gap-2 sm:col-start-3 sm:row-start-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="h-5 w-5">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
+                  />
+                </svg>
+                Maximum Monthly: <span className="font-semibold">3 months</span>
+              </li>
+            </ul>
+          </section>
         </section>
         {/* SideTable */}
         <section className="hidden h-full w-full lg:block">
           <div className=" sticky top-10 h-96 w-full bg-white"></div>
         </section>
+      </section>
+      {/* StudioOwner Card */}
+      <section className="container my-10 mx-auto lg:grid lg:grid-cols-landingpage lg:gap-5">
+        <div className="relative mx-auto my-6 mt-16 w-full min-w-0 break-words rounded-xl bg-white shadow-lg ">
+          <div className="px-6">
+            {/* top */}
+            <div className="flex flex-wrap justify-center">
+              {/* ProfilePic */}
+              <div className="flex w-full justify-center">
+                <div className="relative">
+                  <div className="absolute -m-16 -ml-20 h-[150px] w-[150px] rounded-full border-none align-middle shadow-xl">
+                    <Image src={studio.user.avatar} className="rounded-full " layout="fill" objectFit="cover" />
+                  </div>
+                </div>
+              </div>
+              {/* CounterSection */}
+              <div className="mt-20 w-full text-center">
+                <div className="flex justify-center pt-8 pb-0 lg:pt-4">
+                  <div className="p-3 text-center">
+                    <span className="block text-xl font-bold uppercase tracking-wide text-slate-700">60</span>
+                    <span className="text-sm text-slate-400">Studios</span>
+                  </div>
+                  <div className="p-3 text-center">
+                    <span className="block text-xl font-bold uppercase tracking-wide text-slate-700">2,454</span>
+                    <span className="text-sm text-slate-400">Followers</span>
+                  </div>
+                  <div className="p-3 text-center">
+                    <span className="block text-xl font-bold uppercase tracking-wide text-slate-700">54</span>
+                    <span className="text-sm text-slate-400">Services</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* middle */}
+            <div className="mt-2 text-center">
+              <h3 className="mb-1 text-2xl font-bold leading-normal text-slate-700">Marvellous Soundstudio 24</h3>
+              <div className="mt-0 mb-2 text-xs font-bold uppercase text-slate-400">
+                <i className="mr-2 text-slate-400 opacity-75">Paris, France</i>
+              </div>
+            </div>
+            <div className="mt-0 mb-2 text-xs font-bold uppercase text-slate-400">
+              Languages: <span className="text-sm font-thin normal-case">English, Francais, German</span>
+            </div>
+            {/* buttons */}
+            <div className="mt-3 flex gap-3 text-slate-400">
+              <button className="w-full rounded-md border py-2">Contact Studio</button>
+              <button className="w-full rounded-md border py-2">View Profile</button>
+            </div>
+            {/* bottom */}
+            <div className="mt-3 border-t border-slate-200 py-6 text-center">
+              <div className="flex flex-wrap justify-center">
+                <div className="w-full px-4">
+                  <p className="mb-4 font-light leading-relaxed text-slate-600">
+                    An artist of considerable range, Mike is the name taken by Melbourne-raised, Brooklyn-based Nick
+                    Murphy writes, performs and records all of his own music, giving it a warm...
+                  </p>
+                  <button className="rounded-md border bg-green-400/80 py-2 px-2 font-normal text-white">
+                    Follow Account
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
     </>
   );
