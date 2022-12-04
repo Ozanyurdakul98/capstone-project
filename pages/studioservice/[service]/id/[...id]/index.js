@@ -49,7 +49,7 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
       {/* MainAndSidebar */}
       <section className="container my-10 mx-auto lg:grid lg:grid-cols-landingpage lg:gap-5">
         {/* Main */}
-        <section className="rounded-md bg-white py-16 text-black">
+        <section className="rounded-md bg-white py-16 text-black shadow-lg">
           {/* Headersection */}
           <section className="mb-14 flex flex-col gap-2 px-7 text-xs">
             <nav className="flex" aria-label="Breadcrumb">
@@ -185,7 +185,7 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
             </div>
           </section>
           {/* Details */}
-          <section className="mb-7 px-7 text-xs text-gray-600 lg:text-sm">
+          <section className="mb-7 px-7 text-xs text-gray-600 md:text-sm">
             <ul className="grid grid-cols-smbg grid-rows-6 gap-2 sm:grid-cols-smbgbg sm:grid-rows-4">
               <li className="h2LandingP col-start-1 row-span-2 text-sm font-bold lg:text-base">Details</li>
               <li className="col-start-2 row-start-1 flex items-center">
@@ -269,7 +269,7 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
             </ul>
           </section>
           {/* Studioservices */}
-          <section className="mb-14 px-7 text-xs text-gray-600 lg:text-sm">
+          <section className="mb-14 px-7 text-xs text-gray-600 md:text-sm">
             <ul className="grid grid-cols-smbg grid-rows-1 gap-2 sm:grid-cols-smbgbg sm:grid-rows-1">
               {/* <li className="h2LandingP col-start-1 row-span-2 text-sm font-bold lg:text-base">Studio services</li> */}
               <li className="col-start-2 row-start-1 flex items-start sm:col-span-2 sm:col-start-2 sm:row-start-1">
@@ -286,7 +286,7 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
                   </svg>
                   <span className="whitespace-nowrap">Studio services:</span>
                 </div>
-                <span className="pl-1 text-[14px] font-semibold">{studio.studioService.join(', ')}</span>
+                <span className="pl-1 font-semibold">{studio.studioService.join(', ')}</span>
                 {/* <span className="pl-1 font-semibold">{studio.studioService.map((service) => service + ', ')}</span> */}
               </li>
             </ul>
@@ -307,8 +307,8 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
             </div>
           </section>
           {/* PricingSection */}
-          <section className="mb-14 border-b px-7 pb-14 text-xs text-gray-600 lg:text-sm">
-            <ul className="grid grid-cols-smbg grid-rows-[8] gap-2 sm:grid-cols-smbgbg sm:grid-rows-4">
+          <section className="mb-14 truncate border-b px-7 pb-14 text-xs text-gray-600 md:text-sm">
+            <ul className="grid w-full grid-cols-smbg grid-rows-[8] gap-2 space-x-10 sm:grid-cols-smbgbg sm:grid-rows-4 sm:space-x-0">
               <li className="h2LandingP col-start-1 text-sm font-bold lg:text-base">Prices</li>
               <li className="col-start-2 row-start-1 flex items-center">
                 <svg
@@ -350,7 +350,7 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
                     clipRule="evenodd"></path>
                 </svg>
                 Weekends (Sat & Sun):
-                <span className=" pl-1 font-semibold">same as daily</span>
+                <span className=" pl-1 font-semibold">as daily</span>
               </li>
               <li className="col-start-2 row-start-4 flex items-center">
                 <svg
@@ -422,8 +422,8 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
             </ul>
           </section>
           {/* Studiofeatures */}
-          <section className="mb-7 px-7 text-xs text-gray-600 lg:text-sm">
-            <ul className="grid grid-cols-smbg gap-2 sm:grid-cols-smbgbg">
+          <section className="mb-7 px-7 text-xs text-gray-600 md:text-sm">
+            <ul className="grid grid-cols-smbg gap-2 sm:grid-cols-smbgbg lg:space-x-4">
               <li className="h2LandingP col-start-1 row-span-2 text-sm font-bold lg:text-base">Studio Features</li>
               <ul className="grid grid-cols-2 gap-2">
                 {studio.locationFeatures.map((feature) => (
@@ -445,7 +445,7 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
             </ul>
           </section>
           {/* Equipment */}
-          <section className="mb-14 border-b px-7 pb-14 text-xs text-gray-600 lg:text-sm">
+          <section className="mb-14 border-b px-7 pb-14 text-xs text-gray-600 md:text-sm">
             <ul className="grid grid-cols-smbg gap-2 sm:grid-cols-smbgbg">
               <ul className="col-start-2 grid grid-cols-2 gap-2">
                 <li className="col-span-2 font-semibold text-black">Equipment</li>
@@ -556,10 +556,10 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
             </div>
           </section>
           {/* Availability */}
-          <section className="border-b px-7 pb-14 text-xs text-gray-600 lg:text-sm">
-            <ul className="grid grid-cols-smbg gap-2 sm:grid-cols-smbgbg">
+          <section className="px-7 pb-10 text-xs text-gray-600 lg:text-sm">
+            <ul className="grid grid-cols-smbg gap-2 space-x-10 sm:grid-cols-smbgbg sm:space-x-0">
               <li className="h2LandingP col-start-1 text-sm font-bold lg:text-base">Availability</li>
-              <li className="flex items-center gap-2 sm:col-start-2 sm:row-start-1">
+              <li className="col-start-2 flex items-center gap-2 sm:col-start-2 sm:row-start-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -575,7 +575,7 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
                 </svg>
                 Minimum Hourly: <span className="font-semibold">2 hours</span>
               </li>
-              <li className="flex items-center gap-2 sm:col-start-3 sm:row-start-1">
+              <li className="col-start-2 flex items-center gap-2 sm:col-start-3 sm:row-start-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -591,7 +591,7 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
                 </svg>
                 Maximum Hourly: <span className="font-semibold">/</span>
               </li>
-              <li className="flex items-center gap-2 sm:col-start-2 sm:row-start-2">
+              <li className="col-start-2 flex items-center gap-2 sm:col-start-2 sm:row-start-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -607,7 +607,7 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
                 </svg>
                 Minimum Daily: <span className="font-semibold">1 day</span>
               </li>
-              <li className="flex items-center gap-2 sm:col-start-3 sm:row-start-2">
+              <li className="col-start-2 flex items-center gap-2 sm:col-start-3 sm:row-start-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -623,7 +623,7 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
                 </svg>
                 Maximum Daily: <span className="font-semibold">5 days</span>
               </li>
-              <li className="flex items-center gap-2 sm:col-start-2 sm:row-start-3">
+              <li className="col-start-2 flex items-center gap-2 sm:col-start-2 sm:row-start-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -639,7 +639,7 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
                 </svg>
                 Minimum Weekly: <span className="font-semibold">1 week</span>
               </li>
-              <li className="flex items-center gap-2 sm:col-start-3 sm:row-start-3">
+              <li className="col-start-2 flex items-center gap-2 sm:col-start-3 sm:row-start-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -655,7 +655,7 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
                 </svg>
                 Maximum Weekly: <span className="font-semibold">4 weeks</span>
               </li>
-              <li className="flex items-center gap-2 sm:col-start-2 sm:row-start-4">
+              <li className="col-start-2 flex items-center gap-2 sm:col-start-2 sm:row-start-4">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -671,7 +671,7 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
                 </svg>
                 Minimum Monthly: <span className="font-semibold">1 month</span>
               </li>
-              <li className="flex items-center gap-2 sm:col-start-3 sm:row-start-4">
+              <li className="col-start-2 flex items-center gap-2 sm:col-start-3 sm:row-start-4">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -692,11 +692,11 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
         </section>
         {/* SideTable */}
         <section className="hidden h-full w-full lg:block">
-          <div className=" sticky top-10 h-96 w-full bg-white"></div>
+          <div className=" sticky top-10 h-96 w-full bg-white shadow-lg"></div>
         </section>
       </section>
       {/* StudioOwner Card */}
-      <section className="container my-10 mx-auto lg:grid lg:grid-cols-landingpage lg:gap-5">
+      <section className="container mx-auto mt-28 mb-10 lg:grid lg:grid-cols-landingpage lg:gap-5">
         <div className="relative mx-auto my-6 mt-16 w-full min-w-0 break-words rounded-xl bg-white shadow-lg ">
           <div className="px-6">
             {/* top */}
@@ -739,8 +739,12 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
             </div>
             {/* buttons */}
             <div className="mt-3 flex gap-3 text-slate-400">
-              <button className="w-full rounded-md border py-2">Contact Studio</button>
-              <button className="w-full rounded-md border py-2">View Profile</button>
+              <button className="w-full rounded-md border py-2 hover:bg-gray-200/70 hover:text-gray-400/70">
+                Contact Studio
+              </button>
+              <button className="w-full rounded-md border py-2 hover:bg-gray-200/70 hover:text-gray-400/70">
+                View Profile
+              </button>
             </div>
             {/* bottom */}
             <div className="mt-3 border-t border-slate-200 py-6 text-center">
