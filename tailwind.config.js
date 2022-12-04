@@ -16,6 +16,9 @@ module.exports = {
         sm3: '1fr, 1fr, 1fr',
         footer: '200px minmax(900px, 1fr) 100px',
       },
+      gridTemplateRows: {
+        smbgsm: '50px, 1fr, 50px',
+      },
       colors: {
         'primary-color': 'var(--primary-color)',
         'secondary-color': 'var(--secondary-color)',

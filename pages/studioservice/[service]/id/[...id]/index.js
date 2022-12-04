@@ -11,6 +11,14 @@ import { useRouter } from 'next/router';
 import { HomeIcon, UserIcon, WifiIcon } from '@heroicons/react/24/solid';
 import { GiCigarette } from 'react-icons/gi';
 import { useState } from 'react';
+import {
+  BackgroundOverlayFullscreen as ClickToCloseMax,
+  BackgroundOverlay as ClickToCloseMin,
+} from '../../../../../components/BackgroundOverlay';
+//tools
+import { DateRange } from 'react-date-range';
+import format from 'date-fns/format';
+
 function StudioDetailpage({ serializedStudio, breadCrumb }) {
   const router = useRouter();
   const studio = serializedStudio[0];
@@ -29,6 +37,27 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
     const wordSlider = imgs[index];
     setWordData(wordSlider);
   };
+  const [calenderOpen, setCalenderOpen] = useState(false);
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+
+  const handleClickToCloseSearch = () => {
+    setSearchInput('');
+  };
+  const handleClickToCloseCalendar = () => {
+    setCalenderOpen(false);
+  };
+  const selectionRange = {
+    startDate: startDate,
+    endDate: endDate,
+    key: 'selection',
+  };
+  const handleSelect = (ranges) => {
+    setStartDate(ranges.selection.startDate);
+
+    setEndDate(ranges.selection.endDate);
+  };
+
   return (
     <>
       <Head>
@@ -692,11 +721,79 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
         </section>
         {/* SideTable */}
         <section className="hidden h-full w-full lg:block">
-          <div className=" sticky top-10 h-96 w-full bg-white shadow-lg"></div>
+          <div className=" sticky top-10 grid h-96 w-full grid-rows-smbgsm bg-white shadow-lg">
+            {/* Top */}
+            <section className="flex items-center rounded-t-sm bg-gray-500 text-white">
+              <div className="flex items-center pl-5">
+                <span className="self-start pr-1">€</span>
+                <span className="text-2xl">
+                  {studio.studioPricing.studioPricingHour
+                    ? studio.studioPricing.studioPricingHour
+                    : studio.studioPricing.studioPricingDay
+                    ? studio.studioPricing.studioPricingDay
+                    : studio.studioPricing.studioPricingWeek
+                    ? studio.studioPricing.studioPricingWeek
+                    : studio.studioPricing.studioPricingMonth
+                    ? studio.studioPricing.studioPricingMonth
+                    : null}
+                </span>
+                <span className="pt-[2px] text-xl">/</span>
+                <span className="pt-1">
+                  {studio.studioPricing.studioPricingHour
+                    ? 'Hour'
+                    : studio.studioPricing.studioPricingDay
+                    ? 'Day'
+                    : studio.studioPricing.studioPricingWeek
+                    ? 'Week'
+                    : studio.studioPricing.studioPricingMonth
+                    ? 'Month'
+                    : null}
+                </span>
+              </div>
+            </section>
+            {/* Middle */}
+            <section className="px-8 py-4">
+              <div className=" grid w-full grid-cols-2 grid-rows-6">
+                <div className="col-span-2 row-start-1">
+                  <div className="flex w-full flex-col items-center justify-center">
+                    <input
+                      className="date-search "
+                      value={format(startDate, 'dd/MM/yy') + ' - ' + format(endDate, 'dd/MM/yy')}
+                      readOnly
+                      onClick={() => {
+                        setCalenderOpen((previous) => !previous);
+                      }}
+                    />
+                    {calenderOpen && (
+                      <>
+                        <DateRange
+                          className="relative z-40 max-w-min rounded-xl border border-gray-400"
+                          ranges={[selectionRange]}
+                          rangeColors={['#df1b1b']}
+                          showMonthAndYearPickers={false}
+                          onChange={handleSelect}
+                          minDate={new Date()}
+                          calendarFocus={'forwards'}
+                          moveRangeOnFirstSelection={false}
+                        />
+                        <ClickToCloseMin onClick={() => handleClickToCloseCalendar()} />
+                      </>
+                    )}
+                  </div>
+                </div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+            </section>
+            <div className="rounded-b-sm"></div>
+          </div>
         </section>
       </section>
       {/* StudioOwner Card */}
-      <section className="container mx-auto mt-28 mb-10 lg:grid lg:grid-cols-landingpage lg:gap-5">
+      <section className="container mx-auto mt-28 mb-10 lg:mt-20 lg:grid lg:grid-cols-landingpage lg:gap-5">
         <div className="relative mx-auto my-6 mt-16 w-full min-w-0 break-words rounded-xl bg-white shadow-lg ">
           <div className="px-6">
             {/* top */}
