@@ -3,7 +3,7 @@ import WelcomeRow from '../../../components/Dashboard/WelcomeRow';
 import DashboardAdminStatsTotal from '../../../components/Dashboard/DashboardAdminStatsTotal';
 import db from '../../../lib/dbConnect';
 import StudioListing from '../../../models/StudioListing';
-import User from '../../../models/UserModel';
+import User from '../../../models/User';
 import DashboardLayout from '../../../components/Layout/DashboardLayout';
 export default function AdminDashboard({ totalUsers, totalListings, studiosCreatedToday, usersCreatedToday }) {
   return (

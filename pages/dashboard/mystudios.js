@@ -1,10 +1,9 @@
 import DashboardLayout from '../../components/Layout/DashboardLayout';
 import db from '../../lib/dbConnect';
 import StudioListing from '../../models/StudioListing';
-import { unstable_getServerSession } from 'next-auth/next';
-import { authOptions } from '../api/auth/[...nextauth].js';
 import MyStudiosTable from '../../components/Dashboard/Tables/MyStudiosTable';
 import moment from 'moment';
+import { getToken } from 'next-auth/jwt';
 
 export default function DashboardMyStudiosTable({ fetchedStudios }) {
   return (
@@ -19,18 +18,11 @@ DashboardMyStudiosTable.getLayout = function getLayout(page) {
   return <DashboardLayout>{page}</DashboardLayout>;
 };
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps({ req }) {
   await db.connect();
-  const session = await unstable_getServerSession(context.req, context.res, authOptions);
-  if (!session) {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false,
-      },
-    };
-  }
-  const email = session.user.email;
+  const session = await getToken({ req });
+
+  const email = session.email;
   const fetchingStudios = await StudioListing.find({ userEmail: email });
   const serializing = JSON.parse(JSON.stringify(fetchingStudios));
 

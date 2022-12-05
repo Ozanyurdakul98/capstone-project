@@ -31,7 +31,6 @@ import { FormInput } from '../../../../../components/Forms/FormInput';
 function StudioDetailpage({ serializedStudio, breadCrumb }) {
   const router = useRouter();
   const studio = serializedStudio[0];
-  console.log(studio);
   const imgs = [
     { id: 0, value: studio.images },
     { id: 1, value: studio.images },
@@ -1005,7 +1004,7 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
               <button
                 type="button"
                 className="w-full rounded-md border py-2 hover:bg-gray-200/70 hover:text-gray-400/70">
-                View Profile
+                View Studio
               </button>
             </div>
             {/* bottom */}
@@ -1016,9 +1015,6 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
                     An artist of considerable range, Mike is the name taken by Melbourne-raised, Brooklyn-based Nick
                     Murphy writes, performs and records all of his own music, giving it a warm...
                   </p>
-                  <button type="button" className="rounded-md border bg-green-400/80 p-2 font-normal text-white">
-                    Follow Account
-                  </button>
                 </div>
               </div>
             </div>

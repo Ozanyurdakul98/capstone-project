@@ -52,7 +52,7 @@ export const authOptions = {
         token.username = user.username;
         token.role = user.role;
         token.name = user.name;
-        token.id = JSON.stringify(user._id);
+        token.id = user._id;
       }
       return token;
     },
@@ -62,7 +62,8 @@ export const authOptions = {
       session.user.username = token.username;
       session.user.email = token.email;
       session.user.role = token.role;
-      session.user.id = token.id;
+      session.user.id = token.id || token.sub;
+      session.token = token;
       return session;
     },
   },

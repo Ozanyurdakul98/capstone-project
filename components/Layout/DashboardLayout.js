@@ -2,8 +2,19 @@ import Header from '../Header';
 import { Footer } from '../Footer';
 import Head from 'next/head';
 import Navigation from '../Dashboard/Navigation';
+import { signOut, useSession } from 'next-auth/react';
+import { useEffect } from 'react';
 
 export default function DashboardLayout({ children }) {
+  const { data: session, status } = useSession();
+  useEffect(() => {
+    if (status === 'loading') return;
+    if (session && !session?.token.id) {
+      signOut({
+        callbackUrl: '/signin',
+      });
+    }
+  }, [status]);
   return (
     <div className="bg-secondary">
       <Head>

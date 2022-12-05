@@ -4,8 +4,19 @@ import Head from 'next/head';
 import Header from '../Header';
 
 import { Footer } from '../Footer';
+import { signOut, useSession } from 'next-auth/react';
+import { useEffect } from 'react';
 
 export default function Layout({ children }) {
+  const { data: session, status } = useSession();
+  useEffect(() => {
+    if (status === 'loading') return;
+    if (session && !session?.token.id) {
+      signOut({
+        callbackUrl: '/signin',
+      });
+    }
+  }, [status]);
   return (
     <div className="bg-site relative overflow-x-hidden">
       <Head>

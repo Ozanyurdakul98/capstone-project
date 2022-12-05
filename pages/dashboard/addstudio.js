@@ -9,7 +9,6 @@ import { StudioFormfields } from '../../components/Forms/StudioFormfields';
 import DashboardLayout from '../../components/Layout/DashboardLayout.js';
 import StudioService from '../../models/StudioService.js';
 import db from '../../lib/dbConnect.js';
-import User from '../../models/User.js';
 import { getToken } from 'next-auth/jwt';
 function DashboardAddStudio({ sanitizedServices, userID }) {
   const defaultForm = {
@@ -28,7 +27,6 @@ function DashboardAddStudio({ sanitizedServices, userID }) {
     soundengineer: false,
     studioPricing: [],
   };
-  console.log('IDADD', userID);
   const [form, setForm] = useState(defaultForm);
   const [checked, setChecked] = useState(defaultChecked);
   const [isSubmit, setIsSubmit] = useState(false);
@@ -36,19 +34,7 @@ function DashboardAddStudio({ sanitizedServices, userID }) {
   const [formErrors, setFormErrors] = useState({});
   const [preview, setPreview] = useState(false);
   const router = useRouter();
-  // useEffect(() => {
-  //   async function myFunction() {
-  //     const session = await getSession();
-  //     const userEmail = session.user.email;
-  //     try {
-  //       setForm({ ...form, userEmail: userEmail });
-  //       return;
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   }
-  //   myFunction();
-  // }, []);
+
   const handlePreview = () => {
     const passForm = form;
     setFormErrors(ValidateCreateStudioListing(passForm, checked));
@@ -174,6 +160,10 @@ function DashboardAddStudio({ sanitizedServices, userID }) {
       ? setForm({ ...form, images: data.secure_url })
       : setForm({ ...form, images: '/images/Thumbnail-default.png' });
   };
+  console.log('1', JSON.stringify(formErrors));
+  console.log('2', formErrors);
+  console.log('3', form);
+  console.log('4', userID);
 
   return (
     <>
@@ -338,10 +328,7 @@ export async function getServerSideProps({ req }) {
   await db.connect();
   const token = await getToken({ req });
   const userID = token.id;
-  const user = await User.findById(userID);
-  console.log(user, 'ID');
   const services = await StudioService.find();
-  console.log('Token', token);
   const sanitizedServices = services.map((service) => ({
     id: service.id,
     name: service.name,
@@ -350,7 +337,7 @@ export async function getServerSideProps({ req }) {
   return {
     props: {
       sanitizedServices: sanitizedServices || null,
-      userID: userID || null,
+      userID: userID || token.sub,
     },
   };
 }

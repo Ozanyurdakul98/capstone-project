@@ -20,9 +20,7 @@ function ListingCard({
   studioLocation,
 }) {
   const type = studiotype?.toLowerCase().replace(/ /g, '');
-  console.log(type);
   const title = listingTitle?.toLowerCase().replace(/ /g, '-');
-  console.log(title);
   return (
     <article>
       <Link
