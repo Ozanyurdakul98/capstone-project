@@ -49,6 +49,7 @@ export function ValidateEditUser(form) {
 export function ValidateCreateStudioListing(form, checked) {
   const errors = {};
   const studioName = /^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){4,39}$/i;
+  const url = /^((http|https):\/\/)/;
   const patternLocation = /^([a-zA-Z-])([a-zA-Z-0-9-,äöü\s]){4,60}$/i;
 
   if (!form.studioName) {
@@ -62,7 +63,7 @@ export function ValidateCreateStudioListing(form, checked) {
   } else if (form.profileText.length >= 351) {
     errors.profileText = 'Your profiletext is too long!';
   } else if (form.profileText.length <= 24) {
-    errors.profileText = 'Your profiletext is too short!';
+    errors.profileText = 'Your profiletext is too short! Min length is 25';
   }
 
   if (!form.studioLanguages) {
@@ -70,18 +71,18 @@ export function ValidateCreateStudioListing(form, checked) {
   } else if (form.studioLanguages.length >= 71) {
     errors.studioLanguages = 'Your iput is too long!';
   } else if (form.studioLanguages.length <= 2) {
-    errors.studioLanguages = 'Your input is too short!';
+    errors.studioLanguages = 'Your input is too short! Min length is 3';
   }
 
   if (
-    !!form.studioSocials.soundcloud &&
-    !!form.studioSocials.spotify &&
-    !!form.studioSocials.youtube &&
-    !!form.studioSocials.facebook &&
-    !!form.studioSocials.instagram &&
-    !!form.studioSocials.twitter &&
-    !!form.studioSocials.pinterest &&
-    !!form.studioSocials.linkedin
+    form.studioSocials.soundcloud.length <= 8 &&
+    form.studioSocials.spotify.length <= 8 &&
+    form.studioSocials.youtube.length <= 8 &&
+    form.studioSocials.facebook.length <= 8 &&
+    form.studioSocials.instagram.length <= 8 &&
+    form.studioSocials.twitter.length <= 8 &&
+    form.studioSocials.pinterest.length <= 8 &&
+    form.studioSocials.linkedin.length <= 8
   ) {
     errors.studioSocials = 'Enter at least one social account link of your studio or yourself!';
   } else if (
@@ -95,6 +96,17 @@ export function ValidateCreateStudioListing(form, checked) {
     form.studioSocials.linkedin >= 101
   ) {
     errors.studioSocials = 'The max length for each social is 100 characters';
+  } else if (
+    (form.studioSocials.soundcloud?.length >= 2 && !url.test(form.studioSocials.soundcloud)) ||
+    (form.studioSocials.spotify?.length >= 2 && !url.test(form.studioSocials.spotify)) ||
+    (form.studioSocials.youtube?.length >= 2 && !url.test(form.studioSocials.youtube)) ||
+    (form.studioSocials.facebook?.length >= 2 && !url.test(form.studioSocials.facebook)) ||
+    (form.studioSocials.instagram?.length >= 2 && !url.test(form.studioSocials.instagram)) ||
+    (form.studioSocials.twitter?.length >= 2 && !url.test(form.studioSocials.twitter)) ||
+    (form.studioSocials.pinterest?.length >= 2 && !url.test(form.studioSocials.pinterest)) ||
+    (form.studioSocials.linkedin?.length >= 2 && !url.test(form.studioSocials.linkedin))
+  ) {
+    errors.studioSocials = 'Url invalid! Max length for socials is 100 and it must begin with https://';
   }
 
   // if (Object.keys(form.studioPricing).length === 0 && form.studioPricing.constructor === Object) {

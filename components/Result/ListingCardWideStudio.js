@@ -10,10 +10,10 @@ import Link from 'next/link';
 function ListingCard({
   id,
   path,
+  logo,
+  preview,
   listingTitle,
-  images,
   studiotype,
-  studioService,
   soundengineer,
   studioPricing,
   locationFeatures,
@@ -24,13 +24,17 @@ function ListingCard({
   return (
     <article>
       <Link
-        href={{
-          pathname: '/studioservice/[path]/id/[type]/[title]/[id]',
-          query: { path: `${path}`, type: `${type}`, title: `${title}`, id: `${id}` },
-        }}>
+        href={
+          preview
+            ? '#'
+            : {
+                pathname: '/studiotype/[path]/id/[type]/[title]/[id]',
+                query: { path: `${path}`, type: `${type}`, title: `${title}`, id: `${id}` },
+              }
+        }>
         <div className="flex w-full cursor-pointer rounded-lg border-b py-7 px-2 first:border hover:opacity-80 hover:shadow-lg">
           <div className="relative h-24 w-32  shrink-0 sm:h-32 sm:w-48 md:h-36 md:w-56 lg:h-52 lg:w-80">
-            <Image src={images} layout="fill" objectFit="cover" className="rounded-xl" alt="Thumbnail" />
+            <Image src={logo} layout="fill" objectFit="cover" className="rounded-xl" alt="Thumbnail" />
           </div>
           <div className="flex w-full flex-col justify-between pl-2 sm:pl-5">
             <div className="flex flex-col md:gap-2">
@@ -63,7 +67,7 @@ function ListingCard({
             <h4 className="text-sm sm:text-xl md:text-2xl">{listingTitle}</h4>
             <div className="flex   items-center  ">
               <p className=" pr-1 text-sm line-clamp-1 sm:text-sm md:text-sm lg:text-base xl:text-lg">
-                {studioService.map((service) => service + ' | ')}
+                {/* {studioService.map((service) => service + ' | ')} */}
               </p>
             </div>
             <div className="flex items-center justify-between">
@@ -74,7 +78,7 @@ function ListingCard({
                 {locationFeatures.sleepover ? <MdBed className="icon" /> : null}
               </div>
               <p className="text-sm font-semibold sm:text-base md:text-lg lg:text-2xl">
-                {studioPricing.studioPricingHour
+                {/* {studioPricing.studioPricingHour
                   ? studioPricing.studioPricingHour + '$ / Hour'
                   : studioPricing.studioPricingDay
                   ? studioPricing.studioPricingDay + '$ / Day'
@@ -82,7 +86,7 @@ function ListingCard({
                   ? studioPricing.studioPricingWeek + '$ / Week'
                   : studioPricing.studioPricingMonth
                   ? studioPricing.studioPricingMonth + '$ / Month'
-                  : null}
+                  : null} */}
               </p>
             </div>
           </div>

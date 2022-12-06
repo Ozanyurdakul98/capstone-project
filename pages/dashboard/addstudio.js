@@ -7,10 +7,9 @@ import Link from 'next/link.js';
 import { useRouter } from 'next/router';
 import { StudioFormfields } from '../../components/Forms/StudioFormfields';
 import DashboardLayout from '../../components/Layout/DashboardLayout.js';
-import StudioService from '../../models/StudioService.js';
 import db from '../../lib/dbConnect.js';
 import { getToken } from 'next-auth/jwt';
-function DashboardAddStudio({ sanitizedServices, userID }) {
+function DashboardAddStudio({ userID }) {
   const defaultForm = {
     logo: '',
     studioName: '',
@@ -40,7 +39,7 @@ function DashboardAddStudio({ sanitizedServices, userID }) {
   const [isSubmit, setIsSubmit] = useState(false);
   const [submissionFailed, setSubmissionFailed] = useState(false);
   const [formErrors, setFormErrors] = useState({});
-  const [preview, setPreview] = useState(false);
+  const [preview, setPreview] = useState(true);
   const [logoChanged, setLogoChanged] = useState(false);
 
   const router = useRouter();
@@ -183,8 +182,17 @@ function DashboardAddStudio({ sanitizedServices, userID }) {
     data ? setForm({ ...form, logo: data.secure_url }) : setForm({ ...form, logo: '/images/Thumbnail-default.png' });
   };
 
-  console.log('form', form, formErrors, !!form.studioSocials.twitter, !form.studioSocials.instagram);
-  console.log('checked', checked);
+  console.log(
+    'form',
+    form,
+    formErrors,
+    !!form.studioSocials.twitter,
+    !form.studioSocials.instagram,
+    form.studioSocials.instagram
+  );
+  const url = /^((http|https):\/\/)/;
+
+  console.log('checked', checked, !url.test(form.studioSocials.soundcloud));
   return (
     <>
       <div className="sm:px-0">
@@ -208,7 +216,6 @@ function DashboardAddStudio({ sanitizedServices, userID }) {
             setChecked={setChecked}
             length={Object.keys(formErrors).length}
             formErrors={formErrors}
-            studioService={sanitizedServices}
             handlePreview={handlePreview}
             handleFormSubmit={handleFormSubmit}
             handleChange={handleChange}
@@ -229,20 +236,22 @@ function DashboardAddStudio({ sanitizedServices, userID }) {
                       <div>
                         <h3 className="h3 ml-5">Searchpage preview</h3>
                         <ListingCardWideStudio
-                          listingTitle={form.listingTitle}
-                          images={form.images ? form.images : '/images/Thumbnail-default.png'}
+                          preview={true}
+                          logo={form.logo ? form.logo : '/images/Thumbnail-default.png'}
+                          studioName={form.studioName}
+                          profileText={form.profileText}
                           studiotype={form.studiotype}
-                          studioService={form.studioService}
-                          soundengineer={form.soundengineer}
-                          studioPricing={form.studioPricing}
+                          studioLanguages={form.studioLanguages}
+                          openingHours={form.openingHours}
                           locationFeatures={form.locationFeatures}
+                          studioSocials={form.studioSocials}
                           studioLocation={form.studioLocation}
                         />
                       </div>
                       <div className="ml-5 pb-4">
                         <h3 className="h3">Startpage preview</h3>
                         <div className="-ml-4">
-                          <ListingCardCarousellStudio
+                          {/* <ListingCardCarousellStudio
                             listingTitle={form.listingTitle}
                             images={form.images ? form.images : '/images/Thumbnail-default.png'}
                             studiotype={form.studiotype}
@@ -252,7 +261,7 @@ function DashboardAddStudio({ sanitizedServices, userID }) {
                             locationFeatures={form.locationFeatures}
                             openingHours={form.openingHours}
                             studioLocation={form.studioLocation}
-                          />
+                          /> */}
                         </div>
                       </div>
                     </div>
@@ -356,15 +365,8 @@ export async function getServerSideProps({ req }) {
   await db.connect();
   const token = await getToken({ req });
   const userID = token.id;
-  const services = await StudioService.find();
-  const sanitizedServices = services.map((service) => ({
-    id: service.id,
-    name: service.name,
-    description: service.description,
-  }));
   return {
     props: {
-      sanitizedServices: sanitizedServices || null,
       userID: userID || token.sub,
     },
   };
