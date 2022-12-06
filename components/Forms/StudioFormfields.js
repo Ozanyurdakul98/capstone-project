@@ -116,7 +116,7 @@ export function StudioFormfields(props) {
       {/* Studiotype */}
       <fieldset className="listingForm flex flex-col gap-3">
         <legend className="label-form">Studiotype</legend>
-        <h2 className="flex items-center gap-2 pl-5 text-sm font-thin normal-case">
+        <h2 className="flex items-center gap-2 pl-5 text-sm font-thin normal-case md:text-base">
           Choose a fitting studiotype <TbHandClick className="h-6 w-6 rotate-[-25deg] lg:h-8 lg:w-8" />
         </h2>
         <button
@@ -171,21 +171,20 @@ export function StudioFormfields(props) {
           }}
           className="input-form peer block "
           type="text"
+          multiselect={true}
+          data={props.languages}
           id="studioLanguages"
-          placeholder="English, France, German.."
           name="studioLanguages"
+          handleDelete={props.handleDelete}
           counter={{
             val: props.form.studioLanguages.length,
-            max: '70',
-            css: 'inputCounter',
+            max: '20',
+            css: 'inputCounter z-50',
           }}
           required
           autoComplete="off"
-          pattern="^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){3,69}$"
-          errorMessage={'Only 4-70 characters and (a-z, A-Z, 0-9, ! äöü ,-_) allowed!'}
           value={props.form.studioLanguages}
           onChange={props.handleChange}></FormInput>
-
         <span className="errormessage ">{props.formErrors.studioLanguages}</span>
       </fieldset>
       {/* OpeningHours */}

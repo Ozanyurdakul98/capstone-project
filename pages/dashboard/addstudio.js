@@ -15,7 +15,7 @@ function DashboardAddStudio({ userID }) {
     studioName: '',
     profileText: '',
     studiotype: 'Home Studio',
-    studioLanguages: '',
+    studioLanguages: [],
     openingHours: 'Always Available',
     locationFeatures: [],
     studioSocials: {
@@ -34,6 +34,62 @@ function DashboardAddStudio({ userID }) {
   const defaultChecked = {
     studioSocials: [],
   };
+  const languages = [
+    'Afrikaans',
+    'Albanian',
+    'Arabic',
+    'Armenian',
+    'Azerbaijani',
+    'Belarusian',
+    'Bulgarian',
+    'Catalan',
+    'Chinese',
+    'Croatian',
+    'Czech',
+    'Danish',
+    'Dutch',
+    'English',
+    'Filipino',
+    'Finnish',
+    'French',
+    'Georgian',
+    'German',
+    'Greek',
+    'Hebrew',
+    'Hindi',
+    'Hungarian',
+    'Indonesian',
+    'Irish',
+    'Italian',
+    'Japanese',
+    'Kannada',
+    'Korean',
+    'Latin',
+    'Lithuanian',
+    'Macedonian',
+    'Maltese',
+    'Mongolian',
+    'Nepali',
+    'Norwegian',
+    'Persian',
+    'Polish',
+    'Portuguese',
+    'Romanian',
+    'Russian',
+    'Scottish',
+    'Serbian',
+    'Slovenian',
+    'Spanish',
+    'Swedish',
+    'Thai',
+    'Turkish',
+    'Turkmen',
+    'Ukrainian',
+    'Urdu',
+    'Uyghur',
+    'Uzbek',
+    'Vietnamese',
+  ];
   const [form, setForm] = useState(defaultForm);
   const [checked, setChecked] = useState(defaultChecked);
   const [isSubmit, setIsSubmit] = useState(false);
@@ -94,16 +150,25 @@ function DashboardAddStudio({ userID }) {
     setForm({ ...form, logo: '' });
     setChecked({ ...checked, logoPreview: '', logoName: '' });
   };
-  const handleChange = (event) => {
+  const handleDelete = (val) => {
+    let newArray = [...form['studioLanguages'], val];
+    if (form['studioLanguages'].includes(val)) {
+      newArray = newArray.filter((lang) => lang !== val);
+      setForm({ ...form, studioLanguages: newArray });
+    }
+  };
+  const handleChange = (event, val) => {
     const target = event.target;
     const type = target.type;
-    const name = target.name;
+    let name = target.name;
+    if (val) name = 'studioLanguages';
     const wert = target.value;
     const id = target.id;
-    const value = checkValues(type, form, name, wert, id, target);
+    const value = checkValues(type, form, name, wert, id, target, val);
+    console.log('val', val, value(), 'name', name);
     setForm({ ...form, [name]: value() });
   };
-  function checkValues(type, form, name, wert, id, target) {
+  function checkValues(type, form, name, wert, id, target, val) {
     return () => {
       if (name === 'studioSocials' || id === 'studioSocials') {
         const currentForm = {
@@ -139,6 +204,15 @@ function DashboardAddStudio({ userID }) {
           logoName: logoName,
         });
         return wertImage;
+      }
+      if (val) {
+        let newArray = [...form[name], val];
+        console.log('newarr', newArray);
+        if (form[name].includes(val)) {
+          newArray = newArray.filter((service) => service !== val);
+        }
+        console.log('newarr2', newArray);
+        return newArray;
       } else {
         return wert;
       }
@@ -191,8 +265,17 @@ function DashboardAddStudio({ userID }) {
     form.studioSocials.instagram
   );
   const url = /^((http|https):\/\/)/;
-
-  console.log('checked', checked, !url.test(form.studioSocials.soundcloud));
+  // console.log(
+  //   (form.studioSocials.soundcloud?.length >= 2 && !url.test(form.studioSocials.soundcloud)) ||
+  //     (form.studioSocials.spotify?.length >= 2 && !url.test(form.studioSocials.spotify)) ||
+  //     (form.studioSocials.youtube?.length >= 2 && !url.test(form.studioSocials.youtube)) ||
+  //     (form.studioSocials.facebook?.length >= 2 && !url.test(form.studioSocials.facebook)) ||
+  //     (form.studioSocials.instagram?.length >= 2 && !url.test(form.studioSocials.instagram)) ||
+  //     (form.studioSocials.twitter?.length >= 2 && !url.test(form.studioSocials.twitter)) ||
+  //     (form.studioSocials.pinterest?.length >= 2 && !url.test(form.studioSocials.pinterest)) ||
+  //     (form.studioSocials.linkedin?.length >= 2 && !url.test(form.studioSocials.linkedin))
+  // );
+  // console.log('checked', checked, !url.test(form.studioSocials.soundcloud));
   return (
     <>
       <div className="sm:px-0">
@@ -216,9 +299,11 @@ function DashboardAddStudio({ userID }) {
             setChecked={setChecked}
             length={Object.keys(formErrors).length}
             formErrors={formErrors}
+            languages={languages}
             handlePreview={handlePreview}
             handleFormSubmit={handleFormSubmit}
             handleChange={handleChange}
+            handleDelete={handleDelete}
             handleCheck={handleCheck}
             handleClickToCloseSearch={handleClickToCloseSearch}></StudioFormfields>
           {/* PreviewModal */}
