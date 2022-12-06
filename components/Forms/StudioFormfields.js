@@ -6,37 +6,19 @@ import { MdDeleteForever } from 'react-icons/md';
 export function StudioFormfields(props) {
   return (
     <>
-      {/* title */}
-      <fieldset className="listingForm ">
-        <FormInput
-          beforeLabel={{
-            string: 'Listing Title',
-            css: 'label-form ',
-          }}
-          className="input-form peer block "
-          type="text"
-          id="titel"
-          placeholder="Listing Title here.."
-          name="listingTitle"
-          required
-          autoComplete="off"
-          pattern="^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){9,60}$"
-          errorMessage={'Only 10-60 characters and (a-z, A-Z, 0-9, ! äöü ,-_) allowed!'}
-          value={props.form.listingTitle}
-          onChange={props.handleChange}></FormInput>
-        <span className="errormessage ">{props.formErrors.listingTitle}</span>
-      </fieldset>
-      {/* Mediafiles */}
-      <fieldset className="listingForm ">
+      {/* Logo */}
+      <fieldset className="fset-editUser">
         <legend htmlFor="image" className=" label-form">
-          Mediafiles
+          Logo
         </legend>
-        <div className="relative flex max-w-[1000px] flex-col items-center justify-between md:flex-row ">
-          <label className=" cursor-pointer" htmlFor="images">
+        <div className=" relative flex h-48 w-48 flex-col sm:h-48 sm:w-48 md:h-56 md:w-56 lg:h-64 lg:w-64 ">
+          <label
+            className="flex h-48 w-48 cursor-pointer rounded-full transition duration-75  ease-out active:scale-95 sm:h-48 sm:w-48 md:h-56 md:w-56 md:px-2 lg:h-64 lg:w-64 "
+            htmlFor="logo">
             <input
               className="hidden"
-              id="images"
-              name="images"
+              id="logo"
+              name="logo"
               type="file"
               accept=".gif, .jpg, .jpeg, .jfif, .pjpeg, .pjp, .png, .webp"
               onChange={props.handleChange}
@@ -44,27 +26,18 @@ export function StudioFormfields(props) {
             />
             <div
               className={
-                props.form.images || props.checked.imagesPreview
-                  ? 'bg-site border-primary  relative  flex h-56 w-48 shrink-0 flex-col items-center justify-center gap-2 rounded-xl border-2 border-dotted text-white transition duration-75 ease-out  active:scale-95 sm:h-60 sm:w-48 md:h-60 md:w-56 md:px-2 lg:h-72 lg:w-64'
-                  : 'bg-primary relative  flex  h-56 w-48 shrink-0 flex-col items-center justify-center gap-2 rounded-xl border-2 border-dotted border-white text-white transition duration-75 ease-out  active:scale-95 sm:h-60 sm:w-48 md:h-60 md:w-56 md:px-2 lg:h-72 lg:w-64'
+                'relative flex h-48 w-48 flex-shrink-0 flex-col items-center justify-center gap-2 rounded-full border-2 border-dotted text-white transition duration-75 ease-out  active:scale-95 sm:h-48 sm:w-48 md:h-56 md:w-56 md:px-2 lg:h-64 lg:w-64' +
+                (props.form.logo ? ' bg-site border-primary ' : ' bg-primary ')
               }>
-              {props.form.images || props.checked.imagesPreview || props.checked.images ? (
+              {props.form.logo ? (
                 <>
                   <Image
-                    src={
-                      props.checked.imagesPreview
-                        ? props.checked.imagesPreview
-                        : props.form.images
-                        ? props.form.images
-                        : props.checked.images
-                    }
+                    src={props.checked.logoPreview ? props.checked.logoPreview : props.form.logo}
+                    className="rounded-full"
                     layout="fill"
+                    objectFit="cover"
                     alt="Thumbnail"
-                    objectFit="contain"
                   />
-                  <button onClick={props.handleDeleteImage} className="absolute top-0 right-0">
-                    <MdDeleteForever className="h-8 w-8 text-red-500 hover:text-red-400" />
-                  </button>
                 </>
               ) : (
                 <>
@@ -76,51 +49,69 @@ export function StudioFormfields(props) {
                 </>
               )}
             </div>
-            <p className="pl-2 text-sm md:pl-5">
-              {props.checked.imageName ? props.checked.imageName : 'Please select a picture'}
-            </p>
           </label>
-          <ul className="border-primary text-primary bg-primary h-44 w-60 list-disc rounded-xl border-4 p-2 pl-8 text-sm text-white md:mb-4 md:h-56 md:w-64 md:text-base lg:h-60 lg:w-80 xl:text-lg ">
-            <li className="h3 list-none pb-2  text-white">Tips for good photos:</li>
-            <li className="font-thin">Different perspectives of the studio setup</li>
-            <li className="font-thin">Show your equipment and instruments</li>
-            <li className="font-thin">Show sitting areas, awards, kitchen, etc</li>
-          </ul>
+          <button type="button" onClick={props.handleDeleteImage} className="absolute top-0 right-0">
+            <MdDeleteForever className="h-8 w-8 text-red-500 hover:text-red-400" />
+          </button>
+          <div>
+            <p className="pl-2 text-center text-sm line-clamp-1 md:pl-5">
+              {props.checked.logoName ? props.checked.logoName : 'Please select a picture'}
+            </p>
+          </div>
         </div>
       </fieldset>
-      {/* OpeningHours */}
-      <fieldset className="listingForm  flex gap-3 ">
-        <legend className="label-form">Opening hours</legend>
+      {/* Studioname */}
+      <fieldset className="listingForm">
         <FormInput
-          labelWrap={{
-            css: props.form.openingHours.includes('Always Available') ? 'radio-formActive' : 'radio-form',
+          beforeLabel={{
+            string: 'Studioname',
+            css: 'label-form ',
+            description: 'How do you want to name your Studio?',
           }}
-          type="radio"
-          id="openingHours"
-          name="openingHours"
-          value="Always Available"
-          checked={props.form.openingHours.includes('Always Available')}
-          onChange={props.handleChange}
-          afterLabel={{
-            string: 'Always Available',
-            css: 'cursor-pointer',
+          className="input-form peer block "
+          counter={{
+            val: props.form.studioName.length,
+            max: '40',
+            css: 'inputCounter',
           }}
-        />
+          type="text"
+          id="studioName"
+          placeholder="Studioname.."
+          name="studioName"
+          required
+          autoComplete="off"
+          pattern="^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){4,39}$"
+          errorMessage={'Only 5-40 characters and (a-z, A-Z, 0-9, ! äöü ,-_) allowed!'}
+          value={props.form.studioName}
+          onChange={props.handleChange}></FormInput>
+        <span className="errormessage ">{props.formErrors.studioName}</span>
+      </fieldset>
+      {/* Studio profiletext */}
+      <fieldset className="listingForm">
         <FormInput
-          labelWrap={{
-            css: props.form.openingHours.includes('On Request') ? 'radio-formActive' : 'radio-form',
+          beforeLabel={{
+            string: 'Profiletext',
+            css: 'label-form ',
+            description:
+              "Write a short text about this studio, visitors of the detailpages of your studio services you'll later add,  will read.",
           }}
-          type="radio"
-          id="onRequest"
-          name="openingHours"
-          value="On Request"
-          checked={props.form.openingHours.includes('On Request')}
-          onChange={props.handleChange}
-          afterLabel={{
-            string: 'On Request',
-            css: 'cursor-pointer',
+          className="input-form peer block resize-none "
+          counter={{
+            val: props.form.profileText.length,
+            max: '350',
+            css: 'inputCounter',
           }}
-        />
+          textarea={true}
+          id="profileText"
+          placeholder="Informative short text about this studio.."
+          name="profileText"
+          required
+          autoComplete="off"
+          pattern="^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){24,349}$"
+          errorMessage={'Only 25-350 characters and (a-z, A-Z, 0-9, ! äöü ,-_) allowed!'}
+          value={props.form.profileText}
+          onChange={props.handleChange}></FormInput>
+        <span className="errormessage ">{props.formErrors.profileText}</span>
       </fieldset>
       {/* Studiotype */}
       <fieldset className="listingForm flex flex-col gap-3">
@@ -170,28 +161,66 @@ export function StudioFormfields(props) {
           </p>
         </button>
       </fieldset>
-      {/* services */}
-      <fieldset className="listingForm flex flex-col gap-2">
-        <legend className="label-form">Studio services</legend>
-        {props.studioService.map((service) => (
-          <FormInput
-            key={service.id}
-            value={service.id}
-            id={service.name}
-            name="studioService"
-            type="checkbox"
-            labelWrap={{
-              css: props.form.studioService.includes(service.id) ? 'radio-formActive' : 'radio-form',
-            }}
-            checked={props.form.studioService.includes(service.id)}
-            onChange={props.handleChange}
-            afterLabel={{
-              string: service.name,
-              css: 'cursor-pointer',
-            }}
-          />
-        ))}
-        <span className="errormessage">{props.formErrors.studioService}</span>
+      {/* Studiolanguages */}
+      <fieldset className="listingForm">
+        <FormInput
+          beforeLabel={{
+            string: 'Studio languages',
+            css: 'label-form ',
+            description: 'Which languages you can provide your Customer services in?',
+          }}
+          className="input-form peer block "
+          type="text"
+          id="studioLanguages"
+          placeholder="English, France, German.."
+          name="studioLanguages"
+          counter={{
+            val: props.form.studioLanguages.length,
+            max: '70',
+            css: 'inputCounter',
+          }}
+          required
+          autoComplete="off"
+          pattern="^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){3,69}$"
+          errorMessage={'Only 4-70 characters and (a-z, A-Z, 0-9, ! äöü ,-_) allowed!'}
+          value={props.form.studioLanguages}
+          onChange={props.handleChange}></FormInput>
+
+        <span className="errormessage ">{props.formErrors.studioLanguages}</span>
+      </fieldset>
+      {/* OpeningHours */}
+      <fieldset className="listingForm  flex gap-3 ">
+        <legend className="label-form">Opening hours</legend>
+        <FormInput
+          labelWrap={{
+            css: props.form.openingHours.includes('Always Available') ? 'radio-formActive' : 'radio-form',
+          }}
+          type="radio"
+          id="openingHours"
+          name="openingHours"
+          value="Always Available"
+          checked={props.form.openingHours.includes('Always Available')}
+          onChange={props.handleChange}
+          afterLabel={{
+            string: 'Always Available',
+            css: 'cursor-pointer',
+          }}
+        />
+        <FormInput
+          labelWrap={{
+            css: props.form.openingHours.includes('On Request') ? 'radio-formActive' : 'radio-form',
+          }}
+          type="radio"
+          id="onRequest"
+          name="openingHours"
+          value="On Request"
+          checked={props.form.openingHours.includes('On Request')}
+          onChange={props.handleChange}
+          afterLabel={{
+            string: 'On Request',
+            css: 'cursor-pointer',
+          }}
+        />
       </fieldset>
       {/* location-features */}
       <fieldset className="listingForm   flex flex-wrap gap-3 ">
@@ -286,247 +315,223 @@ export function StudioFormfields(props) {
             css: 'cursor-pointer',
           }}
         />
+        <FormInput
+          labelWrap={{
+            css: props.form.locationFeatures.includes('Sleepover') ? 'radio-formActive' : 'radio-form',
+          }}
+          type="checkbox"
+          id="sleepover"
+          value="Sleepover"
+          name="locationFeatures"
+          checked={props.form.locationFeatures.includes('Sleepover')}
+          onChange={props.handleChange}
+          afterLabel={{
+            string: 'Sleepover',
+            css: 'cursor-pointer',
+          }}
+        />
+        <FormInput
+          labelWrap={{
+            css: props.form.locationFeatures.includes('Party') ? 'radio-formActive' : 'radio-form',
+          }}
+          type="checkbox"
+          id="party"
+          value="Party"
+          name="locationFeatures"
+          checked={props.form.locationFeatures.includes('Party')}
+          onChange={props.handleChange}
+          afterLabel={{
+            string: 'Party',
+            css: 'cursor-pointer',
+          }}
+        />
+        <FormInput
+          labelWrap={{
+            css: props.form.locationFeatures.includes('Drinks') ? 'radio-formActive' : 'radio-form',
+          }}
+          type="checkbox"
+          id="drinks"
+          value="Drinks"
+          name="locationFeatures"
+          checked={props.form.locationFeatures.includes('Drinks')}
+          onChange={props.handleChange}
+          afterLabel={{
+            string: 'Drinks',
+            css: 'cursor-pointer',
+          }}
+        />
+        <FormInput
+          labelWrap={{
+            css: props.form.locationFeatures.includes('Microwave') ? 'radio-formActive' : 'radio-form',
+          }}
+          type="checkbox"
+          id="microwave"
+          value="Microwave"
+          name="locationFeatures"
+          checked={props.form.locationFeatures.includes('Microwave')}
+          onChange={props.handleChange}
+          afterLabel={{
+            string: 'Microwave',
+            css: 'cursor-pointer',
+          }}
+        />
         <div className="block">
           <span className="errormessage block">{props.formErrors.locationFeatures}</span>
         </div>
       </fieldset>
-      {/* Soundengineer */}
-      <fieldset className="listingForm  flex flex-col gap-3 ">
-        <legend className="label-form">Soundengineer</legend>
+      {/* StudioSocials */}
+      <fieldset className="listingForm space-y-2">
+        {/* soundcloud */}
         <FormInput
-          labelWrap={{
-            css: props.form.soundengineer === 'No Soundengineer' ? 'radio-formActive' : 'radio-form',
+          beforeLabel={{
+            string: 'Social Links',
+            css: 'label-form ',
+            description:
+              'Add socials to this studio (at least one). These will be added to each of the studio services you add to this studio later on.',
           }}
-          type="radio"
-          id="soundengineerNo"
-          name="soundengineer"
-          value="No Soundengineer"
-          checked={props.form.soundengineer === 'No Soundengineer'}
-          onChange={(event) => {
-            props.handleChange(event);
-            props.handleCheck(event);
+          className="input-form peer block "
+          counter={{
+            val: props.form.studioSocials.soundcloud.length,
+            max: '100',
+            css: 'inputCounter',
           }}
-          afterLabel={{
-            string: 'No Soundengineer ',
-            string2: <span className="text-sm">(Studio just for Rent)</span>,
-            css: 'cursor-pointer',
-          }}
+          type="text"
+          id="soundcloud"
+          placeholder="https://soundcloud.com/profile"
+          name="studioSocials"
+          required
+          pattern="https://.*"
+          errorMessage={'Try to include https:// and max length 100 characters'}
+          value={props.form.studioSocials.soundcloud}
+          onChange={props.handleChange}
         />
+        {/* spotify */}
         <FormInput
-          labelWrap={{
-            css: props.form.soundengineer === 'On Request' ? 'radio-formActive' : 'radio-form',
+          className="input-form peer block "
+          counter={{
+            val: props.form.studioSocials.spotify.length,
+            max: '100',
+            css: 'inputCounter',
           }}
-          type="radio"
-          id="soundengineerOnRequest"
-          name="soundengineer"
-          value="On Request"
-          checked={props.form.soundengineer === 'On Request'}
-          onChange={(event) => {
-            props.handleChange(event);
-            props.handleCheck(event);
-          }}
-          afterLabel={{
-            string: 'On Request',
-            css: 'cursor-pointer',
-          }}
+          type="text"
+          id="spotify"
+          placeholder="https://open.spotify.com/profile"
+          name="studioSocials"
+          required
+          pattern="https://.*"
+          errorMessage={'Try to include https:// and max length 100 characters'}
+          value={props.form.studioSocials.spotify}
+          onChange={props.handleChange}
         />
+        {/* youtube */}
         <FormInput
-          labelWrap={{
-            css: props.form.soundengineer === 'Inclusive' ? 'radio-formActive' : 'radio-form',
+          className="input-form peer block "
+          counter={{
+            val: props.form.studioSocials.youtube.length,
+            max: '100',
+            css: 'inputCounter',
           }}
-          type="radio"
-          id="soundengineerInclusive"
-          name="soundengineer"
-          value="Inclusive"
-          checked={props.form.soundengineer === 'Inclusive'}
-          onChange={(event) => {
-            props.handleChange(event);
-            props.handleCheck(event);
-          }}
-          afterLabel={{
-            string: 'Inclusive',
-            css: 'cursor-pointer',
-          }}
+          type="text"
+          id="youtube"
+          placeholder="https://youtube.com/profile"
+          name="studioSocials"
+          required
+          pattern="https://.*"
+          errorMessage={'Try to include https:// and max length 100 characters'}
+          value={props.form.studioSocials.youtube}
+          onChange={props.handleChange}
         />
-        <div className={props.form.soundengineer.soundengineerPrice ? 'radio-formActive' : 'radio-form'}>
-          <FormInput
-            labelWrap={{
-              css: 'cursor-pointer',
-              string: 'Price per hour',
-            }}
-            className="mr-2 "
-            type="radio"
-            name="soundengineer"
-            id="soundengineerPrice"
-            checked={props.checked.soundengineer === 'soundengineerPrice'}
-            onChange={(event) => {
-              props.handleChange(event);
-              props.handleCheck(event);
-            }}></FormInput>
-          <FormInput
-            className="priceInput-form peer"
-            type="number"
-            name="soundengineer"
-            id="soundengineerPrice"
-            required
-            min={1}
-            max={9999}
-            errorMessage={'From 1 to 9999'}
-            disabled={props.checked.soundengineer != 'soundengineerPrice'}
-            value={
-              props.checked.soundengineer === 'soundengineerPrice' ? props.form.soundengineer.soundengineerPrice : 0
-            }
-            onChange={(event) => {
-              props.handleChange(event);
-            }}></FormInput>
-        </div>
-
-        <span className="errormessage">{props.formErrors.soundengineer}</span>
-      </fieldset>
-      {/* studio-price */}
-      <fieldset className="listingForm  flex flex-col gap-3 ">
-        <legend className="label-form">Studio Pricing</legend>
-        <div className={props.checked.studioPricing.includes('studioPricingHour') ? 'radio-formActive' : 'radio-form'}>
-          <FormInput
-            labelWrap={{
-              css: 'cursor-pointer',
-              string: 'Per hour',
-            }}
-            type="checkbox"
-            className="mr-2"
-            name="studioPricing"
-            id="studioPricingHour"
-            checked={props.checked.studioPricing.includes('studioPricingHour')}
-            onChange={(event) => {
-              props.handleCheck(event);
-            }}
-          />
-          <FormInput
-            className="priceInput-form peer outline-none"
-            type="number"
-            name="studioPricing"
-            id="studioPricingHour"
-            required
-            min={1}
-            max={9999}
-            errorMessage={'From 1 to 9999'}
-            disabled={!props.checked.studioPricing.includes('studioPricingHour')}
-            value={
-              !props.checked.studioPricing.includes('studioPricingHour')
-                ? 0
-                : props.form.studioPricing.studioPricingHour === undefined
-                ? ''
-                : props.form.studioPricing.studioPricingHour
-            }
-            onChange={props.handleChange}></FormInput>
-        </div>
-        <div className={props.checked.studioPricing.includes('studioPricingDay') ? 'radio-formActive' : 'radio-form'}>
-          <FormInput
-            type="checkbox"
-            labelWrap={{
-              css: 'cursor-pointer',
-              string: 'Per day',
-            }}
-            className="mr-2"
-            name="studioPricing"
-            id="studioPricingDay"
-            checked={props.checked.studioPricing.includes('studioPricingDay')}
-            onChange={(event) => {
-              props.handleChange(event);
-              props.handleCheck(event);
-            }}
-          />
-          <FormInput
-            className="priceInput-form peer"
-            type="number"
-            name="studioPricing"
-            id="studioPricingDay"
-            required
-            max={9999}
-            min={1}
-            errorMessage={'From 1 to 9999'}
-            disabled={!props.checked.studioPricing.includes('studioPricingDay')}
-            value={
-              !props.checked.studioPricing.includes('studioPricingDay')
-                ? 0
-                : props.form.studioPricing.studioPricingDay === undefined
-                ? ''
-                : props.form.studioPricing.studioPricingDay
-            }
-            onChange={props.handleChange}
-          />
-        </div>
-        <div className={props.checked.studioPricing.includes('studioPricingWeek') ? 'radio-formActive' : 'radio-form'}>
-          <FormInput
-            type="checkbox"
-            name="studioPricing"
-            id="studioPricingWeek"
-            className="mr-2"
-            checked={props.checked.studioPricing.includes('studioPricingWeek')}
-            labelWrap={{
-              css: 'cursor-pointer',
-              string: 'Per week',
-            }}
-            onChange={(event) => {
-              props.handleCheck(event);
-            }}
-          />
-          <FormInput
-            className="priceInput-form peer"
-            type="number"
-            name="studioPricing"
-            id="studioPricingWeek"
-            required
-            min={1}
-            max={9999}
-            errorMessage={'From 1 to 9999'}
-            disabled={!props.checked.studioPricing.includes('studioPricingWeek')}
-            value={
-              !props.checked.studioPricing.includes('studioPricingWeek')
-                ? 0
-                : props.form.studioPricing.studioPricingWeek === undefined
-                ? ''
-                : props.form.studioPricing.studioPricingWeek
-            }
-            onChange={props.handleChange}
-          />
-        </div>
-        <div className={props.checked.studioPricing.includes('studioPricingMonth') ? 'radio-formActive' : 'radio-form'}>
-          <FormInput
-            type="checkbox"
-            name="studioPricing"
-            id="studioPricingMonth"
-            className="mr-2"
-            checked={props.checked.studioPricing.includes('studioPricingMonth')}
-            labelWrap={{
-              css: 'cursor-pointer',
-              string: 'Per month',
-            }}
-            onChange={(event) => {
-              props.handleCheck(event);
-            }}
-          />
-          <FormInput
-            className="priceInput-form peer "
-            type="number"
-            name="studioPricing"
-            id="studioPricingMonth"
-            required
-            errorMessage={'From 1 to 9999'}
-            min={1}
-            max={9999}
-            disabled={!props.checked.studioPricing.includes('studioPricingMonth')}
-            value={
-              !props.checked.studioPricing.includes('studioPricingMonth')
-                ? 0
-                : props.form.studioPricing.studioPricingMonth === undefined
-                ? ''
-                : props.form.studioPricing.studioPricingMonth
-            }
-            onChange={props.handleChange}
-          />
-        </div>
-        <span className="errormessage">{props.formErrors.studioPricing}</span>
+        {/* facebook */}
+        <FormInput
+          className="input-form peer block "
+          counter={{
+            val: props.form.studioSocials.youtube.length,
+            max: '100',
+            css: 'inputCounter',
+          }}
+          type="text"
+          id="facebook"
+          placeholder="https://facebook.com/profile"
+          name="studioSocials"
+          required
+          pattern="https://.*"
+          errorMessage={'Try to include https:// and max length 100 characters'}
+          value={props.form.studioSocials.facebook}
+          onChange={props.handleChange}
+        />
+        {/* Instagram */}
+        <FormInput
+          className="input-form peer block "
+          counter={{
+            val: props.form.studioSocials.instagram.length,
+            max: '100',
+            css: 'inputCounter',
+          }}
+          type="text"
+          id="instagram"
+          placeholder="https://instagram.com/profile"
+          name="studioSocials"
+          required
+          pattern="https://.*"
+          errorMessage={'Try to include https:// and max length 100 characters'}
+          value={props.form.studioSocials.instagram}
+          onChange={props.handleChange}
+        />
+        {/* Twitter */}
+        <FormInput
+          className="input-form peer block "
+          counter={{
+            val: props.form.studioSocials.twitter.length,
+            max: '100',
+            css: 'inputCounter',
+          }}
+          type="text"
+          id="twitter"
+          placeholder="https://twitter.com/profile"
+          name="studioSocials"
+          required
+          pattern="https://.*"
+          errorMessage={'Try to include https:// and max length 100 characters'}
+          value={props.form.studioSocials.twitter}
+          onChange={props.handleChange}
+        />
+        {/* Pinterest */}
+        <FormInput
+          className="input-form peer block "
+          counter={{
+            val: props.form.studioSocials.pinterest.length,
+            max: '100',
+            css: 'inputCounter',
+          }}
+          type="text"
+          id="pinterest"
+          placeholder="https://pinterest.com/profile"
+          name="studioSocials"
+          required
+          pattern="https://.*"
+          errorMessage={'Try to include https:// and max length 100 characters'}
+          value={props.form.studioSocials.pinterest}
+          onChange={props.handleChange}
+        />
+        {/* LinkedIn */}
+        <FormInput
+          className="input-form peer block "
+          counter={{
+            val: props.form.studioSocials.linkedin.length,
+            max: '100',
+            css: 'inputCounter',
+          }}
+          type="text"
+          id="linkedin"
+          placeholder="https://linkedin.com/profile"
+          name="studioSocials"
+          required
+          pattern="https://.*"
+          errorMessage={'Try to include https:// and max length 100 characters'}
+          value={props.form.studioSocials.linkedin}
+          onChange={props.handleChange}
+        />
+        <span className="errormessage ">{props.formErrors.studioSocials}</span>
       </fieldset>
       {/* location */}
       <fieldset className="listingForm mb-52">

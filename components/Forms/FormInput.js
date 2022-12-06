@@ -11,6 +11,7 @@ export function FormInput(props) {
     divClass,
     divClassAll,
     submitErrors,
+    counter,
     labelWrap,
     textarea,
     ...inputProps
@@ -81,6 +82,14 @@ export function FormInput(props) {
             </>
           ) : textarea ? (
             <>
+              <p
+                className={
+                  counter?.max
+                    ? ` ${props.counter.css} ${counter.val > counter.max ? 'text-red-400' : 'text-gray-400'}`
+                    : 'hidden'
+                }>
+                {counter?.val + '/' + counter?.max}
+              </p>
               <TextareaAutosize
                 {...inputProps}
                 onChange={onChange}
@@ -97,6 +106,14 @@ export function FormInput(props) {
             </>
           ) : (
             <>
+              <p
+                className={
+                  counter?.max
+                    ? ` ${props.counter.css} ${counter.val > counter.max ? 'text-red-400' : 'text-gray-400'}`
+                    : 'hidden'
+                }>
+                {counter?.val + '/' + counter?.max}
+              </p>
               <input {...inputProps} onChange={onChange} onBlur={handleFocus} data-focused={focused.toString()} />
               <Label id={props.id} afterLabel={afterLabel} />
               <ErrorMessage
@@ -114,18 +131,23 @@ export function FormInput(props) {
 }
 function Label(props) {
   return (
-    <label
-      htmlFor={props.id}
-      className={
-        props.beforeLabel
-          ? `block ${props.beforeLabel.css}`
-          : props.afterLabel
-          ? `mr-2 block  ${props.afterLabel.css}`
-          : 'hidden'
-      }>
-      {props.beforeLabel ? props.beforeLabel.string : props.afterLabel ? props.afterLabel.string : null}
-      {props.afterLabel?.string2 ? props.afterLabel.string2 : null}
-    </label>
+    <>
+      <label
+        htmlFor={props.id}
+        className={
+          props.beforeLabel
+            ? `block ${props.beforeLabel.css}`
+            : props.afterLabel
+            ? `mr-2 block  ${props.afterLabel.css}`
+            : 'hidden'
+        }>
+        {props.beforeLabel ? props.beforeLabel.string : props.afterLabel ? props.afterLabel.string : null}
+        {props.afterLabel?.string2 ? props.afterLabel.string2 : null}
+        <p className={props.beforeLabel?.description ? 'text-sm font-thin normal-case' : 'hidden'}>
+          {props.beforeLabel?.description}
+        </p>
+      </label>
+    </>
   );
 }
 function ErrorMessage(props) {

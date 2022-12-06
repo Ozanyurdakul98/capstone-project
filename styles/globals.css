@@ -134,6 +134,11 @@
     @apply mb-2 cursor-pointer rounded-full text-center outline-none;
   }
 
+  /* InputCounter */
+
+  .inputCounter {
+    @apply absolute mt-[2px] w-full px-5 text-end text-xs sm:w-2/3 lg:w-1/2;
+  }
   /* SelectInputs */
 
   .select-table {
@@ -163,7 +168,7 @@
     @apply mt-5 mb-5 w-full leading-tight;
   }
   .listingForm {
-    @apply my-10 w-full leading-tight xl:my-20;
+    @apply relative my-10 w-full leading-tight xl:my-20;
   }
   .searchBarModal {
     @apply fixed top-0 left-0 z-30 h-screen w-screen cursor-default;

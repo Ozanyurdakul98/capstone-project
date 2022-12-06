@@ -12,24 +12,14 @@ import db from '../../lib/dbConnect.js';
 import { getToken } from 'next-auth/jwt';
 function DashboardAddStudio({ sanitizedServices, userID }) {
   const defaultForm = {
-    logo: '',
-    studioName: '',
-    profileText: '',
-    studiotype: 'Home Studio',
-    studioLanguages: '',
+    listingTitle: '',
+    images: '',
     openingHours: 'Always Available',
+    studiotype: 'Home Studio',
     studioService: '',
     locationFeatures: [],
-    studioSocials: {
-      soundcloud: '',
-      spotify: '',
-      instagram: '',
-      youtube: '',
-      facebook: '',
-      pinterest: '',
-      twitter: '',
-      linkedin: '',
-    },
+    soundengineer: 'On Request',
+    studioPricing: {},
     studioLocation: '',
     user: userID,
   };
@@ -43,8 +33,6 @@ function DashboardAddStudio({ sanitizedServices, userID }) {
   const [submissionFailed, setSubmissionFailed] = useState(false);
   const [formErrors, setFormErrors] = useState({});
   const [preview, setPreview] = useState(false);
-  const [logoChanged, setLogoChanged] = useState(false);
-
   const router = useRouter();
 
   const handlePreview = () => {
@@ -90,13 +78,6 @@ function DashboardAddStudio({ sanitizedServices, userID }) {
       }
     }
   };
-  const defaultPic = '/images/Thumbnail-default.png';
-
-  const handleDeleteImage = () => {
-    setLogoChanged(true);
-    setForm({ ...form, logo: '' });
-    setChecked({ ...checked, logoPreview: '', logoName: '' });
-  };
   const handleChange = (event) => {
     const target = event.target;
     const type = target.type;
@@ -108,9 +89,9 @@ function DashboardAddStudio({ sanitizedServices, userID }) {
   };
   function checkValues(type, form, name, wert, id, target) {
     return () => {
-      if (name === 'studioSocials' || id === 'studioSocials') {
+      if (name === 'studioPricing' || id === 'soundengineerPrice') {
         const currentForm = {
-          ...form[name === 'studioSocials' ? name : id],
+          ...form[name === 'studioPricing' ? name : id],
           [id]: wert,
         };
         const deleteUndefined = Object.fromEntries(Object.entries(currentForm).filter(([v]) => v));
@@ -118,6 +99,7 @@ function DashboardAddStudio({ sanitizedServices, userID }) {
       }
       if (type === 'checkbox') {
         let newArray = [...form[name], wert];
+
         if (form[name].includes(wert)) {
           newArray = newArray.filter((service) => service !== wert);
         }
@@ -131,17 +113,6 @@ function DashboardAddStudio({ sanitizedServices, userID }) {
           images: wertImage,
         });
         return;
-      }
-      if (name === 'logo') {
-        setLogoChanged(true);
-        const wertImage = target.files[0];
-        const logoName = wertImage.name;
-        setChecked({
-          ...checked,
-          logoPreview: URL.createObjectURL(wertImage),
-          logoName: logoName,
-        });
-        return wertImage;
       } else {
         return wert;
       }
@@ -189,31 +160,27 @@ function DashboardAddStudio({ sanitizedServices, userID }) {
       ? setForm({ ...form, images: data.secure_url })
       : setForm({ ...form, images: '/images/Thumbnail-default.png' });
   };
+  console.log('1', JSON.stringify(formErrors));
+  console.log('2', formErrors);
+  console.log('3', form);
+  console.log('4', userID);
 
   return (
     <>
       <div className="sm:px-0">
-        <div>
-          <h1 className="text-primary mt-4 mb-2 text-center text-4xl font-bold leading-tight">Add a Studio </h1>
-          <p className="text-center">
-            Add a Studio to your account. The details you include here (like socials or studio location) will be used in
-            the studio-services you can add to this studio later on. To submit a service, a studio is required. So go on
-            and add a studio.
-          </p>
-        </div>
+        <h1 className="text-primary mt-4 mb-2 text-center text-4xl font-bold leading-tight">Add Studio Listing</h1>
         <form noValidate className="text-primary w-full" onSubmit={handleFormSubmit}>
           <StudioFormfields
             defaultForm={defaultForm}
-            defaultPic={defaultPic}
             defaultChecked={defaultChecked}
             form={form}
-            handleDeleteImage={handleDeleteImage}
             setForm={setForm}
             checked={checked}
             setChecked={setChecked}
             length={Object.keys(formErrors).length}
             formErrors={formErrors}
             studioService={sanitizedServices}
+            router={router}
             handlePreview={handlePreview}
             handleFormSubmit={handleFormSubmit}
             handleChange={handleChange}
