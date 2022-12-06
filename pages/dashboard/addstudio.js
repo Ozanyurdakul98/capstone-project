@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ValidateCreateStudioListing } from '../../helpers/Validate.js';
-import ListingCardWide from '../../components/ListingCardWide';
-import ListingCardCarousell from '../../components/ListingCardCarousell';
+import ListingCardWideStudio from '../../components/Result/ListingCardWideStudio';
+import ListingCardCarousellStudio from '../../components/Result/ListingCardCarousellStudio';
 import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../../components/BackgroundOverlay';
 import Link from 'next/link.js';
 import { useRouter } from 'next/router';
@@ -18,7 +18,6 @@ function DashboardAddStudio({ sanitizedServices, userID }) {
     studiotype: 'Home Studio',
     studioLanguages: '',
     openingHours: 'Always Available',
-    studioService: '',
     locationFeatures: [],
     studioSocials: {
       soundcloud: '',
@@ -34,8 +33,7 @@ function DashboardAddStudio({ sanitizedServices, userID }) {
     user: userID,
   };
   const defaultChecked = {
-    soundengineer: false,
-    studioPricing: [],
+    studioSocials: [],
   };
   const [form, setForm] = useState(defaultForm);
   const [checked, setChecked] = useState(defaultChecked);
@@ -153,10 +151,7 @@ function DashboardAddStudio({ sanitizedServices, userID }) {
     const id = target.id;
     const wert = target.value;
     const isChecked = () => {
-      if (name === 'soundengineer') {
-        return id;
-      }
-      if (name === 'studioPricing') {
+      if (name === 'studioSocials') {
         let newArray = [...checked[name], id];
         if (checked[name].includes(id)) {
           newArray = newArray.filter((pricing) => pricing !== id);
@@ -178,18 +173,18 @@ function DashboardAddStudio({ sanitizedServices, userID }) {
     const formData = new FormData();
     const preset = 'cy1wyxej';
     const url = 'https://api.cloudinary.com/v1_1/drt9lfnfg/image/upload';
-    formData.append('file', checked.images);
+    formData.append('file', checked.logo);
     formData.append('upload_preset', preset);
     const res = await fetch(url, {
       method: 'POST',
       body: formData,
     });
     const data = await res.json();
-    data
-      ? setForm({ ...form, images: data.secure_url })
-      : setForm({ ...form, images: '/images/Thumbnail-default.png' });
+    data ? setForm({ ...form, logo: data.secure_url }) : setForm({ ...form, logo: '/images/Thumbnail-default.png' });
   };
 
+  console.log('form', form, formErrors, !!form.studioSocials.twitter, !form.studioSocials.instagram);
+  console.log('checked', checked);
   return (
     <>
       <div className="sm:px-0">
@@ -233,7 +228,7 @@ function DashboardAddStudio({ sanitizedServices, userID }) {
                       </div>
                       <div>
                         <h3 className="h3 ml-5">Searchpage preview</h3>
-                        <ListingCardWide
+                        <ListingCardWideStudio
                           listingTitle={form.listingTitle}
                           images={form.images ? form.images : '/images/Thumbnail-default.png'}
                           studiotype={form.studiotype}
@@ -247,7 +242,7 @@ function DashboardAddStudio({ sanitizedServices, userID }) {
                       <div className="ml-5 pb-4">
                         <h3 className="h3">Startpage preview</h3>
                         <div className="-ml-4">
-                          <ListingCardCarousell
+                          <ListingCardCarousellStudio
                             listingTitle={form.listingTitle}
                             images={form.images ? form.images : '/images/Thumbnail-default.png'}
                             studiotype={form.studiotype}

@@ -116,7 +116,7 @@ export function StudioFormfields(props) {
       {/* Studiotype */}
       <fieldset className="listingForm flex flex-col gap-3">
         <legend className="label-form">Studiotype</legend>
-        <h2 className="flex items-center gap-2 pl-5 lg:text-lg">
+        <h2 className="flex items-center gap-2 pl-5 text-sm font-thin normal-case">
           Choose a fitting studiotype <TbHandClick className="h-6 w-6 rotate-[-25deg] lg:h-8 lg:w-8" />
         </h2>
         <button

@@ -7,7 +7,7 @@ export function HomepageStudioServicesGrid(props) {
     <div className="mb-40 flex flex-col gap-10 px-2">
       <div className="px-5">
         <h2 className="h2">Studios</h2>
-        <p>
+        <p className="pl-3">
           Look for Studios around your place or around the world you will want to visit. These studio listings right
           here are for in-person services.
         </p>

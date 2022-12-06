@@ -2,24 +2,28 @@ export function ValidateSignUp(form) {
   const errors = {};
   const patternEmail = /^([^\s@]+@[^\s@]+\.[^\s@]+$)$/i;
   const patternPassword = /^([a-zA-Z-0-9-!äöü#@.,-_]){8,60}$/i;
+  const userName = /^[a-zA-Z][a-zA-Z0-9-_]{4,24}/;
+  // const userName = /^[a-zA-Z][a-zA-Z0-9-_]{4,24}$/i;
   const isMatch = form.password === form.matchpassword;
   if (!form.username) {
-    errors.username = "A Username is required!";
+    errors.username = 'A Username is required!';
+  } else if (!userName.test(form.userName)) {
+    errors.email = 'Your username format is invalid!';
   }
   if (!form.email) {
-    errors.email = "A Email adress is required!";
+    errors.email = 'A Email adress is required!';
   } else if (!patternEmail.test(form.email)) {
-    errors.email = "Your Email format is invalid!";
+    errors.email = 'Your Email format is invalid!';
   }
   if (!form.password) {
-    errors.password = "Please enter password";
+    errors.password = 'Please enter password';
   } else if (!patternPassword.test(form.password)) {
-    errors.password = "Incorrect format! Only (a-zA-Z-0-9-!äöü#@.,-_) and 8-20 characters";
+    errors.password = 'Incorrect format! Only (a-zA-Z-0-9-!äöü#@.,-_) and 8-20 characters';
   }
   if (!form.matchpassword) {
-    errors.matchpassword = "Enter your Password again!";
+    errors.matchpassword = 'Enter your Password again!';
   } else if (!isMatch) {
-    errors.matchpassword = "Password is not matching!";
+    errors.matchpassword = 'Password is not matching!';
   }
 
   return errors;
@@ -31,12 +35,12 @@ export function ValidateEditUser(form) {
   const nameRegex = /^([a-zA-Z-])([a-zA-Z-äöü_\s]){0,25}$/i;
 
   if (!nameRegex.test(form.name)) {
-    errors.name = "Your name is not valid!";
+    errors.name = 'Your name is not valid!';
   }
   if (!form.email) {
-    errors.email = "Email adress is required!";
+    errors.email = 'Email adress is required!';
   } else if (!patternEmail.test(form.email)) {
-    errors.email = "Email format is invalid!";
+    errors.email = 'Email format is invalid!';
   }
 
   return errors;
@@ -44,72 +48,127 @@ export function ValidateEditUser(form) {
 
 export function ValidateCreateStudioListing(form, checked) {
   const errors = {};
+  const studioName = /^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){4,39}$/i;
+  const patternLocation = /^([a-zA-Z-])([a-zA-Z-0-9-,äöü\s]){4,60}$/i;
+
+  if (!form.studioName) {
+    errors.listingTitle = 'A Studioname is required!';
+  } else if (!studioName.test(form.listingTitle)) {
+    errors.listingTitle = 'Your input is not valid!';
+  }
+
+  if (!form.profileText) {
+    errors.profileText = 'A profiletext is required!';
+  } else if (form.profileText.length >= 351) {
+    errors.profileText = 'Your profiletext is too long!';
+  } else if (form.profileText.length <= 24) {
+    errors.profileText = 'Your profiletext is too short!';
+  }
+
+  if (!form.studioLanguages) {
+    errors.studioLanguages = 'Add at least one languag to your studio!';
+  } else if (form.studioLanguages.length >= 71) {
+    errors.studioLanguages = 'Your iput is too long!';
+  } else if (form.studioLanguages.length <= 2) {
+    errors.studioLanguages = 'Your input is too short!';
+  }
+
+  if (
+    !!form.studioSocials.soundcloud &&
+    !!form.studioSocials.spotify &&
+    !!form.studioSocials.youtube &&
+    !!form.studioSocials.facebook &&
+    !!form.studioSocials.instagram &&
+    !!form.studioSocials.twitter &&
+    !!form.studioSocials.pinterest &&
+    !!form.studioSocials.linkedin
+  ) {
+    errors.studioSocials = 'Enter at least one social account link of your studio or yourself!';
+  } else if (
+    form.studioSocials.soundcloud?.length >= 101 ||
+    form.studioSocials.spotify?.length >= 101 ||
+    form.studioSocials.youtube?.length >= 101 ||
+    form.studioSocials.facebook?.length >= 101 ||
+    form.studioSocials.instagram?.length >= 101 ||
+    form.studioSocials.twitter?.length >= 101 ||
+    form.studioSocials.pinterest?.length >= 101 ||
+    form.studioSocials.linkedin >= 101
+  ) {
+    errors.studioSocials = 'The max length for each social is 100 characters';
+  }
+
+  // if (Object.keys(form.studioPricing).length === 0 && form.studioPricing.constructor === Object) {
+  //   errors.studioPricing = 'Select at least 1 studio pricing option!';
+  // }
+
+  if (form.locationFeatures.length === 0) {
+    errors.locationFeatures = 'Select at least 1 location feature!';
+  }
+
+  if (!form.studioLocation) {
+    errors.studioLocation = 'A studio location is required!';
+  } else if (!patternLocation.test(form.studioLocation)) {
+    errors.studioLocation = 'Your input is not valid';
+  }
+  return errors;
+}
+
+export function ValidateCreateStudioListingCOPY(form, checked) {
+  const errors = {};
   const regex = /^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){9,60}$/i;
   const patternLocation = /^([a-zA-Z-])([a-zA-Z-0-9-,äöü\s]){4,60}$/i;
 
   if (!form.listingTitle) {
-    errors.listingTitle = "A listing title is required!";
+    errors.listingTitle = 'A listing title is required!';
   } else if (!regex.test(form.listingTitle)) {
-    errors.listingTitle = "Your input is not valid!";
+    errors.listingTitle = 'Your input is not valid!';
   }
 
-  if (
-    checked.studioPricing.indexOf("studioPricingHour") > -1 &&
-    !form.studioPricing.studioPricingHour
-  ) {
-    errors.studioPricing = "Enter your price!";
+  if (checked.studioPricing.indexOf('studioPricingHour') > -1 && !form.studioPricing.studioPricingHour) {
+    errors.studioPricing = 'Enter your price!';
   } else if (form.studioPricing.studioPricingHour?.length >= 5) {
-    errors.studioPricing = "The max length is 4 numbers";
+    errors.studioPricing = 'The max length is 4 numbers';
   }
 
-  if (
-    checked.studioPricing.indexOf("studioPricingDay") > -1 &&
-    !form.studioPricing.studioPricingDay
-  ) {
-    errors.studioPricing = "Enter your price!";
+  if (checked.studioPricing.indexOf('studioPricingDay') > -1 && !form.studioPricing.studioPricingDay) {
+    errors.studioPricing = 'Enter your price!';
   } else if (form.studioPricing.studioPricingDay?.length >= 5) {
-    errors.studioPricing = "The max length is 4 numbers";
+    errors.studioPricing = 'The max length is 4 numbers';
   }
 
-  if (
-    checked.studioPricing.indexOf("studioPricingWeek") > -1 &&
-    !form.studioPricing.studioPricingWeek
-  ) {
-    errors.studioPricing = "Enter your price!";
+  if (checked.studioPricing.indexOf('studioPricingWeek') > -1 && !form.studioPricing.studioPricingWeek) {
+    errors.studioPricing = 'Enter your price!';
   } else if (form.studioPricing.studioPricingWeek?.length >= 5) {
-    errors.studioPricing = "The max length is 4 numbers";
+    errors.studioPricing = 'The max length is 4 numbers';
   }
 
-  if (
-    checked.studioPricing.indexOf("studioPricingMonth") > -1 &&
-    !form.studioPricing.studioPricingMonth
-  ) {
-    errors.studioPricing = "Enter your price!";
+  if (checked.studioPricing.indexOf('studioPricingMonth') > -1 && !form.studioPricing.studioPricingMonth) {
+    errors.studioPricing = 'Enter your price!';
   } else if (form.studioPricing.studioPricingMonth?.length >= 5) {
-    errors.studioPricing = "The max length is 4 numbers";
+    errors.studioPricing = 'The max length is 4 numbers';
   }
   if (form.studioService.length === 0) {
-    errors.studioService = "Select at least 1 service!";
+    errors.studioService = 'Select at least 1 service!';
   }
 
   if (Object.keys(form.studioPricing).length === 0 && form.studioPricing.constructor === Object) {
-    errors.studioPricing = "Select at least 1 studio pricing option!";
+    errors.studioPricing = 'Select at least 1 studio pricing option!';
   }
 
   if (form.locationFeatures.length === 0) {
-    errors.locationFeatures = "Select at least 1 location feature!";
+    errors.locationFeatures = 'Select at least 1 location feature!';
   }
 
   if (!form.soundengineer) {
-    errors.soundengineer = "Select a option for Soundengineer!";
+    errors.soundengineer = 'Select a option for Soundengineer!';
   } else if (form.soundengineer.soundengineerPrice?.length >= 5) {
-    errors.soundengineer = "The max length is 4 numbers";
+    errors.soundengineer = 'The max length is 4 numbers';
   }
 
   if (!form.studioLocation) {
-    errors.studioLocation = "A studio location is required!";
+    errors.studioLocation = 'A studio location is required!';
   } else if (!patternLocation.test(form.studioLocation)) {
-    errors.studioLocation = "Your input is not valid";
+    errors.studioLocation = 'Your input is not valid';
   }
   return errors;
 }
@@ -120,14 +179,14 @@ export function ValidateCreateStudioService(form) {
   const serviceDescription = /^([a-zA-Z-])([a-zA-Z-0-9,.!ä?&öü\s]){9,149}$/i;
 
   if (!form.name) {
-    errors.name = "A Servicename is required!";
+    errors.name = 'A Servicename is required!';
   } else if (!serviceName.test(form.name)) {
-    errors.name = "Your service name input is not valid!";
+    errors.name = 'Your service name input is not valid!';
   }
   if (!form.description) {
-    errors.description = "A Servicedescription is required!";
+    errors.description = 'A Servicedescription is required!';
   } else if (!serviceDescription.test(form.description)) {
-    errors.description = "Your service description input is not valid!";
+    errors.description = 'Your service description input is not valid!';
   }
 
   return errors;
