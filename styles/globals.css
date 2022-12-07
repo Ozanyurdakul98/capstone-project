@@ -78,7 +78,7 @@
     @apply h-4 w-4 cursor-pointer rounded-sm  md:h-5 md:w-5;
   }
   .icon-carousell {
-    @apply h-6 w-6 cursor-pointer rounded-md  border border-slate-800 text-[color:var(--primary-icon)] lg:h-7 lg:w-7  lg:hover:bg-gray-100;
+    @apply h-5 w-5 cursor-pointer rounded-md  text-black lg:h-7 lg:w-7  lg:hover:bg-gray-100;
   }
   .adminSettings-icon {
     @apply text-primary h-4 w-4 cursor-pointer rounded-sm active:bg-gray-100/20 md:h-5 md:w-5 md:hover:bg-white/30 md:hover:text-blue-900/60 md:active:bg-none lg:h-6 lg:w-6;

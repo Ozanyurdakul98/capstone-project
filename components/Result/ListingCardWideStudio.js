@@ -66,14 +66,14 @@ function ListingCard({
             </div>
             <div className="flex items-center justify-between">
               <div className="flex gap-2 pt-2">
-                {locationFeatures.includes('Wi-Fi') ? <IoIosWifi className="icon" /> : null}
+                {locationFeatures.includes('Wi-Fi') ? <IoIosWifi className="icon" title="Wi-Fi" /> : null}
                 {locationFeatures.includes('Sleepover') ? (
-                  <MdBed className="icon" />
+                  <MdBed className="icon" title="Sleepover" />
                 ) : locationFeatures.includes('Snacks') ? (
-                  <MdFastfood className="icon" />
+                  <MdFastfood className="icon" title="Snacks" />
                 ) : null}
-                {locationFeatures.includes('Parking') ? <RiParkingBoxLine className="icon" /> : null}
-                {locationFeatures.includes('Smoking') ? <TbSmoking className="icon" /> : null}
+                {locationFeatures.includes('Parking') ? <RiParkingBoxLine className="icon" title="Parking" /> : null}
+                {locationFeatures.includes('Smoking') ? <TbSmoking className="icon" title="Smoking" /> : null}
               </div>
             </div>
           </div>

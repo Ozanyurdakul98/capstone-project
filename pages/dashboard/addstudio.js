@@ -271,18 +271,6 @@ function DashboardAddStudio({ userID }) {
   };
 
   console.log('form', form, studioLanguagesSearch);
-  const url = /^((http|https):\/\/)/;
-  // console.log(
-  //   (form.studioSocials.soundcloud?.length >= 2 && !url.test(form.studioSocials.soundcloud)) ||
-  //     (form.studioSocials.spotify?.length >= 2 && !url.test(form.studioSocials.spotify)) ||
-  //     (form.studioSocials.youtube?.length >= 2 && !url.test(form.studioSocials.youtube)) ||
-  //     (form.studioSocials.facebook?.length >= 2 && !url.test(form.studioSocials.facebook)) ||
-  //     (form.studioSocials.instagram?.length >= 2 && !url.test(form.studioSocials.instagram)) ||
-  //     (form.studioSocials.twitter?.length >= 2 && !url.test(form.studioSocials.twitter)) ||
-  //     (form.studioSocials.pinterest?.length >= 2 && !url.test(form.studioSocials.pinterest)) ||
-  //     (form.studioSocials.linkedin?.length >= 2 && !url.test(form.studioSocials.linkedin))
-  // );
-  // console.log('checked', checked, !url.test(form.studioSocials.soundcloud));
   return (
     <>
       <div className="sm:px-0">
@@ -326,35 +314,30 @@ function DashboardAddStudio({ userID }) {
                         <h2 className="h2 ml-5">Preview of your Listings</h2>
                         <p className="text-center ">Thank you for beeing part of Tonstudio-Kleinanzeigen!</p>
                       </div>
-                      <div>
-                        <h3 className="h3 ml-5">Searchpage preview</h3>
+                      <div className="ml-5">
+                        <h3 className="h3">Searchpage preview</h3>
                         <ListingCardWideStudio
                           preview={true}
                           logo={form.logo ? form.logo : '/images/Thumbnail-default.png'}
                           studioName={form.studioName}
-                          profileText={form.profileText}
                           studiotype={form.studiotype}
                           studioLanguages={form.studioLanguages}
                           openingHours={form.openingHours}
                           locationFeatures={form.locationFeatures}
-                          studioSocials={form.studioSocials}
                           studioLocation={form.studioLocation}
                         />
                       </div>
-                      <div className="ml-5 pb-4">
-                        <h3 className="h3">Startpage preview</h3>
-                        <div className="-ml-4">
-                          {/* <ListingCardCarousellStudio
-                            listingTitle={form.listingTitle}
-                            images={form.images ? form.images : '/images/Thumbnail-default.png'}
+                      <div className="ml-5">
+                        <h3 className="h3 pb-12">Startpage preview</h3>
+                        <div className="-ml-4 ">
+                          <ListingCardCarousellStudio
+                            logo={form.logo ? form.logo : '/images/Thumbnail-default.png'}
+                            studioName={form.studioName}
                             studiotype={form.studiotype}
-                            studioService={form.studioService}
-                            soundengineer={form.soundengineer}
-                            studioPricing={form.studioPricing}
-                            locationFeatures={form.locationFeatures}
                             openingHours={form.openingHours}
+                            locationFeatures={form.locationFeatures}
                             studioLocation={form.studioLocation}
-                          /> */}
+                          />
                         </div>
                       </div>
                     </div>
