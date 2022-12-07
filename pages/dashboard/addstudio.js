@@ -31,9 +31,6 @@ function DashboardAddStudio({ userID }) {
     studioLocation: '',
     user: userID,
   };
-  const defaultChecked = {
-    studioSocials: [],
-  };
   const languages = [
     'Afrikaans',
     'Albanian',
@@ -90,10 +87,16 @@ function DashboardAddStudio({ userID }) {
     'Uzbek',
     'Vietnamese',
   ];
+  const defaultChecked = {
+    studioSocials: [],
+    studioLanguages: languages,
+  };
+
   const [form, setForm] = useState(defaultForm);
   const [checked, setChecked] = useState(defaultChecked);
   const [isSubmit, setIsSubmit] = useState(false);
   const [submissionFailed, setSubmissionFailed] = useState(false);
+  const [studioLanguagesSearch, setStudioLanguagesSearch] = useState('');
   const [formErrors, setFormErrors] = useState({});
   const [preview, setPreview] = useState(true);
   const [logoChanged, setLogoChanged] = useState(false);
@@ -155,6 +158,9 @@ function DashboardAddStudio({ userID }) {
     if (form['studioLanguages'].includes(val)) {
       newArray = newArray.filter((lang) => lang !== val);
       setForm({ ...form, studioLanguages: newArray });
+      setChecked({ ...checked, studioLanguages: languages });
+
+      setStudioLanguagesSearch('');
     }
   };
   const handleChange = (event, val) => {
@@ -207,11 +213,10 @@ function DashboardAddStudio({ userID }) {
       }
       if (val) {
         let newArray = [...form[name], val];
-        console.log('newarr', newArray);
         if (form[name].includes(val)) {
           newArray = newArray.filter((service) => service !== val);
         }
-        console.log('newarr2', newArray);
+        setStudioLanguagesSearch('');
         return newArray;
       } else {
         return wert;
@@ -236,6 +241,13 @@ function DashboardAddStudio({ userID }) {
         }
         return newArray;
       }
+      if (name === 'studioLanguages') {
+        const t = languages.filter((lang) => lang.toLowerCase().includes(wert));
+        setStudioLanguagesSearch(wert);
+        console.log('tT', t, checked);
+
+        return t;
+      }
     };
     setChecked({ ...checked, [name]: isChecked() });
   };
@@ -256,14 +268,7 @@ function DashboardAddStudio({ userID }) {
     data ? setForm({ ...form, logo: data.secure_url }) : setForm({ ...form, logo: '/images/Thumbnail-default.png' });
   };
 
-  console.log(
-    'form',
-    form,
-    formErrors,
-    !!form.studioSocials.twitter,
-    !form.studioSocials.instagram,
-    form.studioSocials.instagram
-  );
+  console.log('form', form, studioLanguagesSearch);
   const url = /^((http|https):\/\/)/;
   // console.log(
   //   (form.studioSocials.soundcloud?.length >= 2 && !url.test(form.studioSocials.soundcloud)) ||
@@ -304,6 +309,7 @@ function DashboardAddStudio({ userID }) {
             handleFormSubmit={handleFormSubmit}
             handleChange={handleChange}
             handleDelete={handleDelete}
+            studioLanguagesSearch={studioLanguagesSearch}
             handleCheck={handleCheck}
             handleClickToCloseSearch={handleClickToCloseSearch}></StudioFormfields>
           {/* PreviewModal */}

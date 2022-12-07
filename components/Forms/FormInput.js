@@ -125,7 +125,7 @@ export function FormInput(props) {
                     {/* input */}
                     <div className="flex w-full rounded border border-gray-500 bg-white py-[6px] px-5 focus:border-gray-500/30">
                       {/* selected and input*/}
-                      <div className="flex flex-auto flex-wrap">
+                      <label className="flex flex-auto flex-wrap">
                         {/* selected */}
                         {props.value?.map((lang) => (
                           <div
@@ -155,11 +155,18 @@ export function FormInput(props) {
                         <div className="flex-1">
                           <input
                             placeholder=""
+                            id="studioLanguages"
+                            name="studioLanguages"
+                            onChange={(event) => {
+                              props.handleCheck(event);
+                            }}
+                            autoComplete="off"
+                            value={props.studioLanguagesSearch}
                             type="text"
                             className="h-full w-full appearance-none border-none bg-transparent p-1 px-2 text-gray-800 outline-none focus:outline-none"
                           />
                         </div>
-                      </div>
+                      </label>
                       {/* arrow button */}
                       <div className="flex w-8 items-center border-l border-gray-200 py-1 pl-2 pr-1 text-gray-300">
                         <button className="h-6 w-6 cursor-pointer text-gray-600 outline-none focus:outline-none">
@@ -182,7 +189,7 @@ export function FormInput(props) {
                     {/* dropdown */}
                     <div className="relative  top-1 left-0 z-40 max-h-44 w-full overflow-y-auto rounded border border-gray-500 bg-white shadow-lg">
                       <div className="flex w-full flex-col">
-                        {props.data.map((lang) => (
+                        {props.checked.studioLanguages.map((lang) => (
                           <div
                             key={lang}
                             onClick={() => {

@@ -66,6 +66,9 @@ export function ValidateCreateStudioListing(form, checked) {
     errors.profileText = 'Your profiletext is too short! Min length is 25';
   }
 
+  if (!form.studiotype) {
+    errors.studiotype = "Just don't. Instead be a part!";
+  }
   if (!form.studioLanguages) {
     errors.studioLanguages = 'Add at least one languag to your studio!';
   } else if (form.studioLanguages.length >= 71) {

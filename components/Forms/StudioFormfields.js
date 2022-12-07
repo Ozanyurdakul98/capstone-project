@@ -178,12 +178,15 @@ export function StudioFormfields(props) {
           handleDelete={props.handleDelete}
           counter={{
             val: props.form.studioLanguages.length,
-            max: '20',
+            max: '10',
             css: 'inputCounter z-50',
           }}
           required
           autoComplete="off"
+          studioLanguagesSearch={props.studioLanguagesSearch}
           value={props.form.studioLanguages}
+          handleCheck={props.handleCheck}
+          checked={props.checked}
           onChange={props.handleChange}></FormInput>
         <span className="errormessage ">{props.formErrors.studioLanguages}</span>
       </fieldset>
