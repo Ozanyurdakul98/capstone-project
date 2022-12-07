@@ -58,7 +58,7 @@ function ListingCard({
               </div>
             </div>
             {/* StudioName */}
-            <h4 className="text-[16px] sm:text-xl md:text-2xl">{studioName}</h4>
+            <h4 className="pt-1 text-[16px] sm:text-xl md:text-2xl">{studioName}</h4>
             <div className="flex   items-center  ">
               <p className=" pr-1 text-sm line-clamp-1 sm:text-sm md:text-sm lg:text-base xl:text-lg">
                 {studioLanguages.join('  ')}
