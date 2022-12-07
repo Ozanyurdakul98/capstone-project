@@ -100,14 +100,13 @@ function DashboardAddStudio({ userID }) {
   const [formErrors, setFormErrors] = useState({});
   const [preview, setPreview] = useState(true);
   const [logoChanged, setLogoChanged] = useState(false);
-
+  const defaultPic = '/images/Thumbnail-default.png';
   const router = useRouter();
 
   const handlePreview = () => {
     const passForm = form;
     setFormErrors(ValidateCreateStudioListing(passForm, checked));
     if (Object.keys(ValidateCreateStudioListing(passForm, checked)).length === 0) {
-      handleUploadInput();
       setPreview(true);
     }
   };
@@ -118,9 +117,10 @@ function DashboardAddStudio({ userID }) {
     setIsSubmit(true);
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       try {
+        const resLogo = await handleUploadInput(form.logo);
         const res = await fetch('/api/dashboard/studio/1', {
           method: 'POST',
-          body: JSON.stringify(form),
+          body: JSON.stringify({ ...form, logo: resLogo }),
           headers: {
             'Content-Type': 'application/json',
           },
@@ -146,7 +146,6 @@ function DashboardAddStudio({ userID }) {
       }
     }
   };
-  const defaultPic = '/images/Thumbnail-default.png';
 
   const handleDeleteImage = () => {
     setLogoChanged(true);
@@ -256,7 +255,13 @@ function DashboardAddStudio({ userID }) {
   const handleClickToCloseSearch = () => {
     setPreview(false);
   };
-  const handleUploadInput = async () => {
+  const handleUploadInput = async (logo) => {
+    if (!logoChanged) {
+      return;
+    }
+    if (logo === defaultPic) {
+      return defaultPic;
+    }
     const formData = new FormData();
     const preset = 'cy1wyxej';
     const url = 'https://api.cloudinary.com/v1_1/drt9lfnfg/image/upload';
@@ -318,7 +323,7 @@ function DashboardAddStudio({ userID }) {
                         <h3 className="h3">Searchpage preview</h3>
                         <ListingCardWideStudio
                           preview={true}
-                          logo={form.logo ? form.logo : '/images/Thumbnail-default.png'}
+                          logo={checked.logoPreview ? checked.logoPreview : '/images/Thumbnail-default.png'}
                           studioName={form.studioName}
                           studiotype={form.studiotype}
                           studioLanguages={form.studioLanguages}
@@ -331,7 +336,7 @@ function DashboardAddStudio({ userID }) {
                         <h3 className="h3 pb-12">Startpage preview</h3>
                         <div className="-ml-4 ">
                           <ListingCardCarousellStudio
-                            logo={form.logo ? form.logo : '/images/Thumbnail-default.png'}
+                            logo={checked.logoPreview ? checked.logoPreview : '/images/Thumbnail-default.png'}
                             studioName={form.studioName}
                             studiotype={form.studiotype}
                             openingHours={form.openingHours}

@@ -20,6 +20,10 @@ const studioListingSchema = new mongoose.Schema(
       required: true,
     },
     locationFeatures: { type: Array, required: true },
+
+    studioBeds: { type: String },
+    studioSize: { type: String },
+    studioRooms: { type: String },
     studioSocials: { type: Object, required: true },
     studioLocation: { type: String, required: true },
     user: {

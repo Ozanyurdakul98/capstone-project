@@ -22,16 +22,16 @@ function ListingCard({
   const type = studiotype?.toLowerCase().replace(/ /g, '');
   const title = studioName?.toLowerCase().replace(/ /g, '-');
   return (
-    <article>
-      <Link
-        href={
-          preview
-            ? '#'
-            : {
-                pathname: '/studiotype/[path]/id/[type]/[title]/[id]',
-                query: { path: `${path}`, type: `${type}`, title: `${title}`, id: `${id}` },
-              }
-        }>
+    <Link
+      href={
+        preview
+          ? '#'
+          : {
+              pathname: '/studiotype/[path]/id/[type]/[title]/[id]',
+              query: { path: `${path}`, type: `${type}`, title: `${title}`, id: `${id}` },
+            }
+      }>
+      <article>
         <div className="flex w-full cursor-pointer items-center rounded-lg border-b py-7 px-2 first:border hover:opacity-80 hover:shadow-lg">
           <div className="flex h-24 w-32 shrink-0 justify-center sm:h-32 sm:w-48 md:h-36 md:w-56 lg:h-52 lg:w-80">
             <div className="relative h-24 w-24  shrink-0 sm:h-32 sm:w-32 md:h-36 md:w-36 lg:h-52 lg:w-52">
@@ -78,8 +78,8 @@ function ListingCard({
             </div>
           </div>
         </div>
-      </Link>
-    </article>
+      </article>
+    </Link>
   );
 }
 

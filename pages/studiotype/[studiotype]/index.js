@@ -1,9 +1,9 @@
 //db
-import db from '../../lib/dbConnect';
-import StudioListing from '../../models/StudioListing';
+import db from '../../../lib/dbConnect';
+import StudioListing from '../../../models/StudioListing';
 //components
-import Layout from '../../components/Layout/Layout';
-import { Resultpage } from '../../components/Result/Resultpage';
+import Layout from '../../../components/Layout/Layout';
+import { Resultpage } from '../../../components/Result/Resultpage';
 
 function StudioTypeResults({ studios, studioType }) {
   return <Resultpage studios={studios} header={studioType}></Resultpage>;

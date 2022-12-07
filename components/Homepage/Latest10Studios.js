@@ -1,5 +1,5 @@
 import Carousel from 'react-multi-carousel';
-import ListingCard from '../Result/ListingCardCarousellStudioService';
+import ListingCard from '../Result/ListingCardCarousellStudio';
 import 'react-multi-carousel/lib/styles.css';
 
 export const Latest10Studios = (props) => {
@@ -56,7 +56,9 @@ export const Latest10Studios = (props) => {
           }) => (
             <ListingCard
               key={_id}
+              id={_id}
               logo={logo}
+              preview={false}
               studioName={studioName}
               profileText={profileText}
               studiotype={studiotype}

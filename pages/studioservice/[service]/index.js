@@ -9,7 +9,6 @@ import { Resultpage } from '../../../components/Result/Resultpage';
 function StudioServiceResults({ studios, serviceName, path }) {
   return <Resultpage studios={studios} path={path} header={serviceName}></Resultpage>;
 }
-
 export default StudioServiceResults;
 
 StudioServiceResults.getLayout = function getLayout(page) {
