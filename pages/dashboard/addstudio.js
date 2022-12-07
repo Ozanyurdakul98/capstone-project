@@ -217,6 +217,8 @@ function DashboardAddStudio({ userID }) {
           newArray = newArray.filter((service) => service !== val);
         }
         setStudioLanguagesSearch('');
+        setChecked({ ...checked, studioLanguages: languages });
+
         return newArray;
       } else {
         return wert;

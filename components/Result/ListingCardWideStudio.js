@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { IoIosWifi } from 'react-icons/io';
 import { RiParkingBoxLine } from 'react-icons/ri';
 import { TbSmoking } from 'react-icons/tb';
-import { MdBed } from 'react-icons/md';
+import { MdBed, MdFastfood } from 'react-icons/md';
 import Link from 'next/link';
 
 function ListingCard({
@@ -14,8 +14,6 @@ function ListingCard({
   logo,
   studioName,
   studiotype,
-  profileText,
-  studioSocials,
   studioLanguages,
   openingHours,
   locationFeatures,
@@ -34,7 +32,7 @@ function ListingCard({
                 query: { path: `${path}`, type: `${type}`, title: `${title}`, id: `${id}` },
               }
         }>
-        <div className="flex w-full cursor-pointer rounded-lg border-b py-7 px-2 first:border hover:opacity-80 hover:shadow-lg">
+        <div className="flex w-full cursor-pointer items-center rounded-lg border-b py-7 px-2 first:border hover:opacity-80 hover:shadow-lg">
           <div className="flex h-24 w-32 shrink-0 justify-center sm:h-32 sm:w-48 md:h-36 md:w-56 lg:h-52 lg:w-80">
             <div className="relative h-24 w-24  shrink-0 sm:h-32 sm:w-32 md:h-36 md:w-36 lg:h-52 lg:w-52">
               <Image src={logo} layout="fill" objectFit="cover" className="rounded-full" alt="Thumbnail" />
@@ -63,27 +61,20 @@ function ListingCard({
             <h4 className="text-[16px] sm:text-xl md:text-2xl">{studioName}</h4>
             <div className="flex   items-center  ">
               <p className=" pr-1 text-sm line-clamp-1 sm:text-sm md:text-sm lg:text-base xl:text-lg">
-                {studioLanguages.toString()}
+                {studioLanguages.join('  ')}
               </p>
             </div>
             <div className="flex items-center justify-between">
-              <div className="flex gap-2">
-                {locationFeatures.wifi ? <IoIosWifi className="icon" /> : null}
-                {locationFeatures.parking ? <RiParkingBoxLine className="icon" /> : null}
-                {locationFeatures.smoking ? <TbSmoking className="icon" /> : null}
-                {locationFeatures.sleepover ? <MdBed className="icon" /> : null}
+              <div className="flex gap-2 pt-2">
+                {locationFeatures.includes('Wi-Fi') ? <IoIosWifi className="icon" /> : null}
+                {locationFeatures.includes('Sleepover') ? (
+                  <MdBed className="icon" />
+                ) : locationFeatures.includes('Snacks') ? (
+                  <MdFastfood className="icon" />
+                ) : null}
+                {locationFeatures.includes('Parking') ? <RiParkingBoxLine className="icon" /> : null}
+                {locationFeatures.includes('Smoking') ? <TbSmoking className="icon" /> : null}
               </div>
-              <p className="text-sm font-semibold sm:text-base md:text-lg lg:text-2xl">
-                {/* {studioPricing.studioPricingHour
-                  ? studioPricing.studioPricingHour + '$ / Hour'
-                  : studioPricing.studioPricingDay
-                  ? studioPricing.studioPricingDay + '$ / Day'
-                  : studioPricing.studioPricingWeek
-                  ? studioPricing.studioPricingWeek + '$ / Week'
-                  : studioPricing.studioPricingMonth
-                  ? studioPricing.studioPricingMonth + '$ / Month'
-                  : null} */}
-              </p>
             </div>
           </div>
         </div>
