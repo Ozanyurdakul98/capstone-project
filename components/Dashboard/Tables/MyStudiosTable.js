@@ -129,18 +129,18 @@ export default function MyStudiosTable({ fetchedStudios }) {
   const studioColumns = useMemo(
     () => [
       {
-        Header: 'Image',
-        accessor: 'images',
+        Header: 'Logo',
+        accessor: 'logo',
         disableSortBy: true,
         Cell: ({ value }) => (
-          <div className="relative -mx-2 h-12 w-14 sm:h-16 sm:w-24 md:h-24 md:w-32">
-            <Image src={value} layout="fill" className="bg-secondary rounded-lg " objectFit="cover" alt="avatar" />
+          <div className="relative -mx-2 h-14 w-14 sm:h-16 sm:w-16 md:h-24 md:w-24">
+            <Image src={value} layout="fill" className="bg-secondary rounded-full " objectFit="cover" alt="avatar" />
           </div>
         ),
       },
       {
-        Header: 'Title',
-        accessor: 'listingTitle',
+        Header: 'Name',
+        accessor: 'studioName',
         disableSortBy: true,
         collapse: false,
       },
@@ -149,41 +149,46 @@ export default function MyStudiosTable({ fetchedStudios }) {
         accessor: 'studiotype',
         disableSortBy: false,
       },
+      // {
+      //   Header: 'Hourly',
+      //   accessor: (row) => (row.studioPricing.studioPricingHour ? row.studioPricing.studioPricingHour + ' €' : ''),
+      //   disableSortBy: false,
+      // },
+      // {
+      //   Header: 'Daily',
+      //   accessor: (row) => (row.studioPricing.studioPricingDay ? row.studioPricing.studioPricingDay + ' €' : ''),
+      //   disableSortBy: false,
+      // },
+      // {
+      //   Header: 'Weekly',
+      //   accessor: (row) => (row.studioPricing.studioPricingWeek ? row.studioPricing.studioPricingWeek + ' €' : ''),
+      //   disableSortBy: false,
+      // },
+      // {
+      //   Header: 'Monthly',
+      //   accessor: (row) => (row.studioPricing.studioPricingMonth ? row.studioPricing.studioPricingMonth + ' €' : ''),
+      //   disableSortBy: false,
+      // },
+      // {
+      //   Header: 'Soundengineer',
+      //   accessor: (row) =>
+      //     row.soundengineer.soundengineerPrice ? row.soundengineer.soundengineerPrice + ' €' : row.soundengineer,
+      //   disableSortBy: false,
+      // },
+      // {
+      //   Header: 'Opening Hours',
+      //   accessor: 'openingHours',
+      //   disableSortBy: false,
+      // },
       {
-        Header: 'Hourly',
-        accessor: (row) => (row.studioPricing.studioPricingHour ? row.studioPricing.studioPricingHour + ' €' : ''),
+        Header: 'Sleepover',
+        accessor: (row) => (row.locationFeatures.includes('Sleepover') ? 'yes' : 'no'),
         disableSortBy: false,
       },
       {
-        Header: 'Daily',
-        accessor: (row) => (row.studioPricing.studioPricingDay ? row.studioPricing.studioPricingDay + ' €' : ''),
-        disableSortBy: false,
-      },
-      {
-        Header: 'Weekly',
-        accessor: (row) => (row.studioPricing.studioPricingWeek ? row.studioPricing.studioPricingWeek + ' €' : ''),
-        disableSortBy: false,
-      },
-      {
-        Header: 'Monthly',
-        accessor: (row) => (row.studioPricing.studioPricingMonth ? row.studioPricing.studioPricingMonth + ' €' : ''),
-        disableSortBy: false,
-      },
-      {
-        Header: 'Soundengineer',
-        accessor: (row) =>
-          row.soundengineer.soundengineerPrice ? row.soundengineer.soundengineerPrice + ' €' : row.soundengineer,
-        disableSortBy: false,
-      },
-      {
-        Header: 'Opening Hours',
-        accessor: 'openingHours',
-        disableSortBy: false,
-      },
-      {
-        Header: 'Date',
+        Header: 'Created',
         accessor: 'createdAtDate',
-        collapse: true,
+        collapse: false,
         disableSortBy: false,
       },
       {
@@ -193,9 +198,9 @@ export default function MyStudiosTable({ fetchedStudios }) {
         disableSortBy: false,
       },
       {
-        Header: 'Date',
+        Header: 'Updated',
         accessor: 'updatedAtDate',
-        collapse: true,
+        collapse: false,
         disableSortBy: false,
       },
       {
@@ -298,7 +303,7 @@ export default function MyStudiosTable({ fetchedStudios }) {
     previousPage,
     setPageSize,
   } = tableInstance;
-
+  console.log(fetchedStudios);
   return (
     <>
       <div className="mt-20 block max-w-full">

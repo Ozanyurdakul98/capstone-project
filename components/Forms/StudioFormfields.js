@@ -242,6 +242,9 @@ export function StudioFormfields(props) {
               onChange={props.handleChange}
             />
           </div>
+          <p className="max-w-[400px] whitespace-normal pl-5 pb-2">
+            The size is square meters and Studio rooms are the total count of rooms your Studio has.
+          </p>
           <span className="errormessage">{props.formErrors.studioInformation}</span>
         </fieldset>
       ) : null}
@@ -526,9 +529,9 @@ export function StudioFormfields(props) {
               name="studioBeds"
               id="studioBedsMaxPeople"
               required
-              max={9999}
+              max={1000}
               min={1}
-              errorMessage={'From 1 to 9999'}
+              errorMessage={'From 1 to 1000'}
               disabled={!props.checked.studioBeds.includes('studioBedsMaxPeople')}
               value={
                 !props.checked.studioBeds.includes('studioBedsMaxPeople')
