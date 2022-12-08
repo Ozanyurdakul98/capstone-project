@@ -6,29 +6,11 @@ import StudiosDetailpage from '../../../../../components/Layout/StudiosDetailpag
 import moment from 'moment';
 import Image from 'next/image';
 import Head from 'next/head';
-import { MyLink } from '../../../../../components/MyLink';
 import { useRouter } from 'next/router';
-import { HomeIcon, MinusCircleIcon, PlusCircleIcon, UserIcon, WifiIcon } from '@heroicons/react/24/solid';
 
-import { GiCigarette } from 'react-icons/gi';
-import {
-  ImFacebook,
-  ImTwitter,
-  ImPinterest,
-  ImYoutube,
-  ImLinkedin2,
-  ImInstagram,
-  ImSpotify,
-  ImSoundcloud,
-} from 'react-icons/im';
-import { useState } from 'react';
-import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../../../../../components/BackgroundOverlay';
 //tools
-import { DateRange } from 'react-date-range';
-import format from 'date-fns/format';
-import { FormInput } from '../../../../../components/Forms/FormInput';
-
 function StudioDetailpage({ serializedStudio }) {
+  // eslint-disable-next-line no-unused-vars
   const router = useRouter();
   const studio = serializedStudio[0];
   console.log(studio);

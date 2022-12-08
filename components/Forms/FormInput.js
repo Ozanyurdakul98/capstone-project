@@ -15,8 +15,6 @@ export function FormInput(props) {
     labelWrap,
     textarea,
     multiselect,
-    data,
-    handleDelete,
     ...inputProps
   } = props;
 
