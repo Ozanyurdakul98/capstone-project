@@ -8,7 +8,7 @@ import { MdBed, MdFastfood } from 'react-icons/md';
 
 function AddStudioserviceCardWideStudio(props) {
   const {
-    setSelectedStudio,
+    selectingStudio,
     selectedStudio,
     logo,
     studioName,
@@ -18,7 +18,7 @@ function AddStudioserviceCardWideStudio(props) {
     studioLocation,
   } = props;
   return (
-    <button className="block w-full" onClick={() => setSelectedStudio((prev) => !prev)}>
+    <button className="block w-full" onClick={() => selectingStudio(props)}>
       <article>
         <div
           className={`${
@@ -33,7 +33,7 @@ function AddStudioserviceCardWideStudio(props) {
             <div className="flex flex-col md:gap-2">
               {/* studiolocation */}
               <div className="flex items-center justify-between">
-                <p className={`${setSelectedStudio ? 'text-white' : 'text-gray-400'}truncate text-xs `}>
+                <p className={`${selectedStudio ? 'text-white' : 'text-gray-400'}truncate text-xs `}>
                   {studioLocation}
                 </p>
               </div>
@@ -41,13 +41,13 @@ function AddStudioserviceCardWideStudio(props) {
               <div className="flex gap-2">
                 <p
                   className={`${
-                    setSelectedStudio ? 'text-primary bg-white' : 'border-secondary bg-secondary text-white'
+                    selectedStudio ? 'text-primary bg-white' : 'border-secondary bg-secondary text-white'
                   }  flex truncate rounded border px-1 text-xs sm:text-sm md:text-sm`}>
                   {studiotype}
                 </p>
                 <p
                   className={`${
-                    setSelectedStudio ? 'text-primary bg-white' : 'bg-primary border-slate-700 text-white'
+                    selectedStudio ? 'text-primary bg-white' : 'bg-primary border-slate-700 text-white'
                   } truncate rounded border px-1 text-xs sm:text-sm md:text-sm`}>
                   {openingHours}
                 </p>

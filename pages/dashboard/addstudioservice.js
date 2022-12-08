@@ -5,9 +5,19 @@ import AddStudioserviceCardWideStudio from '../../components/Cards/AddStudioserv
 import DashboardLayout from '../../components/Layout/DashboardLayout';
 import db from '../../lib/dbConnect';
 import StudioListing from '../../models/StudioListing';
-
-export default function DashboardMyStudiosTable({ fetchedStudios }) {
+import StudioInformation from '../../components/Modals/StudioInformation';
+export default function DashboardAddStudioservice({ fetchedStudios }) {
   const [selectedStudio, setSelectedStudio] = useState(false);
+  const [selectedStudioInformation, setSelectedStudioInformation] = useState('');
+  const [openModal, setOpenModal] = useState(false);
+
+  const selectingStudio = (val) => {
+    const thisStudio = fetchedStudios.filter((studio) => studio._id === val.id);
+    setSelectedStudio((prev) => !prev);
+    setSelectedStudioInformation(thisStudio[0]);
+    setOpenModal(true);
+  };
+  console.log('val', selectedStudioInformation);
   return (
     <div>
       {/* welcome */}
@@ -18,35 +28,53 @@ export default function DashboardMyStudiosTable({ fetchedStudios }) {
           can have its own images, descriptions and other details
         </p>
       </section>
-      {/* studiorows */}
+      {/* studiorow */}
       <section className="mt-10">
-        <div>
+        {/* heading */}
+        <div className="mb-5">
           <h2 className="h2">Studios</h2>
           <p>Choose the Studio you want add a Studioservice to</p>
         </div>
-        {fetchedStudios.map(
-          ({ _id, studioName, logo, studiotype, studioLanguages, openingHours, locationFeatures, studioLocation }) => (
-            <AddStudioserviceCardWideStudio
-              key={_id}
-              id={_id}
-              // path={props.path}
-              studioName={studioName}
-              studioLanguages={studioLanguages}
-              logo={logo}
-              studiotype={studiotype}
-              openingHours={openingHours}
-              locationFeatures={locationFeatures}
-              studioLocation={studioLocation}
-              setSelectedStudio={setSelectedStudio}
-              selectedStudio={selectedStudio}></AddStudioserviceCardWideStudio>
-          )
-        )}
+        {/* studios */}
+        <section>
+          {fetchedStudios.map(
+            ({
+              _id,
+              user,
+              studioName,
+              logo,
+              studiotype,
+              studioLanguages,
+              openingHours,
+              locationFeatures,
+              studioLocation,
+            }) => (
+              <AddStudioserviceCardWideStudio
+                key={_id}
+                id={_id}
+                user={user}
+                studioName={studioName}
+                studioLanguages={studioLanguages}
+                logo={logo}
+                studiotype={studiotype}
+                openingHours={openingHours}
+                locationFeatures={locationFeatures}
+                studioLocation={studioLocation}
+                selectingStudio={selectingStudio}
+                selectedStudio={selectedStudio}></AddStudioserviceCardWideStudio>
+            )
+          )}
+        </section>
+        {/* StudioInformationModal */}
+        <section>
+          {openModal ? <StudioInformation setOpenModal={setOpenModal} studio={selectedStudioInformation} /> : null}
+        </section>
       </section>
     </div>
   );
 }
 
-DashboardMyStudiosTable.getLayout = function getLayout(page) {
+DashboardAddStudioservice.getLayout = function getLayout(page) {
   return <DashboardLayout>{page}</DashboardLayout>;
 };
 
@@ -55,7 +83,11 @@ export async function getServerSideProps({ req }) {
   const session = await getToken({ req });
 
   const email = session.email;
-  const fetchingStudios = await StudioListing.find({ userEmail: email });
+  const fetchingStudios = await StudioListing.find({ userEmail: email }).populate({
+    path: 'user',
+    model: 'users',
+    select: 'avatar email name lastname username',
+  });
   const serializing = JSON.parse(JSON.stringify(fetchingStudios));
 
   const serializedAndUpdatedStudios = serializing.map((studio) => ({
