@@ -1,10 +1,13 @@
 import moment from 'moment';
 import { getToken } from 'next-auth/jwt';
+import { useState } from 'react';
 import AddStudioserviceCardWideStudio from '../../components/Cards/AddStudioserviceCardWideStudio';
 import DashboardLayout from '../../components/Layout/DashboardLayout';
 import db from '../../lib/dbConnect';
 import StudioListing from '../../models/StudioListing';
+
 export default function DashboardMyStudiosTable({ fetchedStudios }) {
+  const [selectedStudio, setSelectedStudio] = useState(false);
   return (
     <div>
       {/* welcome */}
@@ -15,7 +18,12 @@ export default function DashboardMyStudiosTable({ fetchedStudios }) {
           can have its own images, descriptions and other details
         </p>
       </section>
+      {/* studiorows */}
       <section className="mt-10">
+        <div>
+          <h2 className="h2">Studios</h2>
+          <p>Choose the Studio you want add a Studioservice to</p>
+        </div>
         {fetchedStudios.map(
           ({ _id, studioName, logo, studiotype, studioLanguages, openingHours, locationFeatures, studioLocation }) => (
             <AddStudioserviceCardWideStudio
@@ -28,7 +36,9 @@ export default function DashboardMyStudiosTable({ fetchedStudios }) {
               studiotype={studiotype}
               openingHours={openingHours}
               locationFeatures={locationFeatures}
-              studioLocation={studioLocation}></AddStudioserviceCardWideStudio>
+              studioLocation={studioLocation}
+              setSelectedStudio={setSelectedStudio}
+              selectedStudio={selectedStudio}></AddStudioserviceCardWideStudio>
           )
         )}
       </section>
