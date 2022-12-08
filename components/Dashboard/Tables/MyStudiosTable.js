@@ -250,21 +250,21 @@ export default function MyStudiosTable({ fetchedStudios }) {
               onClick={() => {
                 openInfoModal(row.values);
               }}>
-              <MdInfo className="table-icon" />
+              <MdInfo className="table-icon" title="more information" />
             </button>
             <button
               className=""
               onClick={() => {
                 handleEdit(row.values);
               }}>
-              <TbEdit className="table-icon" />
+              <TbEdit className="table-icon" title="edit studio" />
             </button>
             <button
               className=""
               onClick={() => {
                 openDeleteModal(row.values);
               }}>
-              <MdDeleteForever className="table-icon" />
+              <MdDeleteForever className="table-icon" title="delete studio" />
             </button>
           </div>
         ),
@@ -306,7 +306,7 @@ export default function MyStudiosTable({ fetchedStudios }) {
   console.log(fetchedStudios);
   return (
     <>
-      <div className="mt-20 block max-w-full">
+      <div className="mb-20 mt-10 block max-w-full">
         <div className="tableWrap">
           <div className="filter-table">
             <AllColumnsFilter

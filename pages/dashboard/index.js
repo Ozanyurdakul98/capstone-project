@@ -20,7 +20,7 @@ export default function Dashboard({ totalUsers, totalListings, fetchedStudios })
         </div>
       </div>
       <section>
-        <h1 className="mt-4 mb-2 text-center text-4xl font-bold leading-tight text-secondary-color">My Studios</h1>
+        <h1 className="mt-4 text-2xl font-bold leading-tight text-secondary-color">My Studios</h1>
         <MyStudiosTable fetchedStudios={fetchedStudios} />
       </section>
     </div>
