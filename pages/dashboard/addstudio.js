@@ -15,9 +15,11 @@ function DashboardAddStudio({ userID }) {
     studioName: '',
     profileText: '',
     studiotype: 'Home Studio',
+    studioInformation: {},
     studioLanguages: [],
     openingHours: 'Always Available',
     locationFeatures: [],
+    studioBeds: {},
     studioSocials: {
       soundcloud: '',
       spotify: '',
@@ -89,16 +91,17 @@ function DashboardAddStudio({ userID }) {
   ];
   const defaultChecked = {
     studioSocials: [],
+    studioInformation: [],
     studioLanguages: languages,
+    studioBeds: [],
   };
-
   const [form, setForm] = useState(defaultForm);
   const [checked, setChecked] = useState(defaultChecked);
   const [isSubmit, setIsSubmit] = useState(false);
   const [submissionFailed, setSubmissionFailed] = useState(false);
   const [studioLanguagesSearch, setStudioLanguagesSearch] = useState('');
   const [formErrors, setFormErrors] = useState({});
-  const [preview, setPreview] = useState(true);
+  const [preview, setPreview] = useState(false);
   const [logoChanged, setLogoChanged] = useState(false);
   const defaultPic = '/images/Thumbnail-default.png';
   const router = useRouter();
@@ -175,9 +178,25 @@ function DashboardAddStudio({ userID }) {
   };
   function checkValues(type, form, name, wert, id, target, val) {
     return () => {
-      if (name === 'studioSocials' || id === 'studioSocials') {
+      if (name === 'studioInformation') {
         const currentForm = {
-          ...form[name === 'studioSocials' ? name : id],
+          ...form[name],
+          [id]: wert,
+        };
+        const deleteUndefined = Object.fromEntries(Object.entries(currentForm).filter(([v]) => v));
+        return deleteUndefined;
+      }
+      if (name === 'studioBeds') {
+        const currentForm = {
+          ...form[name],
+          [id]: wert,
+        };
+        const deleteUndefined = Object.fromEntries(Object.entries(currentForm).filter(([v]) => v));
+        return deleteUndefined;
+      }
+      if (name === 'studioSocials') {
+        const currentForm = {
+          ...form[name],
           [id]: wert,
         };
         const deleteUndefined = Object.fromEntries(Object.entries(currentForm).filter(([v]) => v));
@@ -230,6 +249,26 @@ function DashboardAddStudio({ userID }) {
     const id = target.id;
     const wert = target.value;
     const isChecked = () => {
+      if (name === 'studioInformation') {
+        let newArray = [...checked[name], id];
+        if (checked[name].includes(id)) {
+          newArray = newArray.filter((val) => val !== id);
+          const currentForm = { ...form?.[name], [id]: wert };
+          const deleteUnchecked = Object.fromEntries(Object.entries(currentForm).filter((val) => !val.includes(id)));
+          setForm({ ...form, [name]: deleteUnchecked });
+        }
+        return newArray;
+      }
+      if (name === 'studioBeds') {
+        let newArray = [...checked[name], id];
+        if (checked[name].includes(id)) {
+          newArray = newArray.filter((val) => val !== id);
+          const currentForm = { ...form?.[name], [id]: wert };
+          const deleteUnchecked = Object.fromEntries(Object.entries(currentForm).filter((val) => !val.includes(id)));
+          setForm({ ...form, [name]: deleteUnchecked });
+        }
+        return newArray;
+      }
       if (name === 'studioSocials') {
         let newArray = [...checked[name], id];
         if (checked[name].includes(id)) {
@@ -275,7 +314,8 @@ function DashboardAddStudio({ userID }) {
     data ? setForm({ ...form, logo: data.secure_url }) : setForm({ ...form, logo: '/images/Thumbnail-default.png' });
   };
 
-  console.log('form', form, studioLanguagesSearch);
+  console.log('form', form);
+  console.log('checked', checked);
   return (
     <>
       <div className="sm:px-0">

@@ -65,6 +65,7 @@ export function StudioFormfields(props) {
         <FormInput
           beforeLabel={{
             string: 'Studioname',
+            required: true,
             css: 'label-form ',
             description: 'How do you want to name your Studio?',
           }}
@@ -92,8 +93,8 @@ export function StudioFormfields(props) {
           beforeLabel={{
             string: 'Profiletext',
             css: 'label-form ',
-            description:
-              "Write a short text about this studio, visitors of the detailpages of your studio services you'll later add,  will read.",
+            required: true,
+            description: 'Write a short text about this studio. Visitors of the detailpage of this Studio will see it.',
           }}
           className="input-form peer block resize-none "
           counter={{
@@ -115,7 +116,7 @@ export function StudioFormfields(props) {
       </fieldset>
       {/* Studiotype */}
       <fieldset className="listingForm flex flex-col gap-3">
-        <legend className="label-form">Studiotype</legend>
+        <legend className="label-form">Studiotype*</legend>
         <h2 className="flex items-center gap-2 pl-5 text-sm font-thin normal-case md:text-base">
           Choose a fitting studiotype <TbHandClick className="h-6 w-6 rotate-[-25deg] lg:h-8 lg:w-8" />
         </h2>
@@ -150,23 +151,107 @@ export function StudioFormfields(props) {
           type="button"
           className={props.form.studiotype === 'Home Studio' ? 'studiotypeActive' : 'studiotype'}
           onClick={() => {
-            props.setForm({ ...props.form, studiotype: 'Home Studio' });
+            props.setForm({ ...props.form, studiotype: 'Home Studio', studioInformation: {} });
+            props.setChecked({ ...props.checked, studioInformation: [] });
           }}>
           <p className="h3 text-white">Home Studio</p>
           <p>
-            Your equipment serves its purpose. You want to get started and you may already have orders for yours Circle
-            of acquaintances or others done.
+            Your equipment serves its purpose. You want to get started and you may already have completed orders for
+            your inner Circle or others done.
             <br />
             The studio is in the lower price segment
           </p>
         </button>
       </fieldset>
+      {/* Studiodetails */}
+      {props.form.studiotype.includes('Medium Studio') || props.form.studiotype.includes('Premium Studio') ? (
+        <fieldset className="listingForm flex flex-col gap-3 whitespace-nowrap ">
+          <legend className="pl-5 pb-2">Additional Studio informations</legend>
+          <div className={props.checked.studioInformation.includes('studioSize') ? 'radio-formActive' : 'radio-form'}>
+            <FormInput
+              labelWrap={{
+                css: 'cursor-pointer',
+                string: 'Studio Size',
+              }}
+              type="checkbox"
+              className="mr-2"
+              name="studioInformation"
+              id="studioSize"
+              checked={props.checked.studioInformation.includes('studioSize')}
+              onChange={(event) => {
+                props.handleCheck(event);
+              }}
+            />
+            <FormInput
+              afterLabel={{
+                string: '(Only numbers)',
+                css: 'text-xs',
+              }}
+              className="priceInput-form peer outline-none"
+              type="number"
+              name="studioInformation"
+              id="studioSize"
+              required
+              min={1}
+              max={9999}
+              errorMessage={'Min 1 max 9999'}
+              disabled={!props.checked.studioInformation.includes('studioSize')}
+              value={
+                !props.checked.studioInformation.includes('studioSize')
+                  ? 0
+                  : props.form.studioInformation.studioSize === undefined
+                  ? ''
+                  : props.form.studioInformation.studioSize
+              }
+              onChange={props.handleChange}></FormInput>
+          </div>
+          <div className={props.checked.studioInformation.includes('studioRooms') ? 'radio-formActive' : 'radio-form'}>
+            <FormInput
+              type="checkbox"
+              labelWrap={{
+                css: 'cursor-pointer',
+                string: 'Studio Rooms',
+              }}
+              className="mr-2"
+              name="studioInformation"
+              id="studioRooms"
+              checked={props.checked.studioInformation.includes('studioRooms')}
+              onChange={(event) => {
+                props.handleChange(event);
+                props.handleCheck(event);
+              }}
+            />
+            <FormInput
+              afterLabel={{ string: '(Only numbers)', css: 'text-xs' }}
+              className="priceInput-form peer"
+              type="number"
+              name="studioInformation"
+              id="studioRooms"
+              required
+              max={1000}
+              min={1}
+              errorMessage={'From 1 to 1000'}
+              disabled={!props.checked.studioInformation.includes('studioRooms')}
+              value={
+                !props.checked.studioInformation.includes('studioRooms')
+                  ? 0
+                  : props.form.studioInformation.studioRooms === undefined
+                  ? ''
+                  : props.form.studioInformation.studioRooms
+              }
+              onChange={props.handleChange}
+            />
+          </div>
+          <span className="errormessage">{props.formErrors.studioInformation}</span>
+        </fieldset>
+      ) : null}
       {/* Studiolanguages */}
       <fieldset className="listingForm">
         <FormInput
           beforeLabel={{
             string: 'Studio languages',
             css: 'label-form ',
+            required: true,
             description: 'Which languages you can provide your Customer services in?',
           }}
           className="input-form peer block "
@@ -192,7 +277,7 @@ export function StudioFormfields(props) {
       </fieldset>
       {/* OpeningHours */}
       <fieldset className="listingForm  flex gap-3 ">
-        <legend className="label-form">Opening hours</legend>
+        <legend className="label-form">Opening hours*</legend>
         <FormInput
           labelWrap={{
             css: props.form.openingHours.includes('Always Available') ? 'radio-formActive' : 'radio-form',
@@ -225,8 +310,8 @@ export function StudioFormfields(props) {
         />
       </fieldset>
       {/* location-features */}
-      <fieldset className="listingForm   flex flex-wrap gap-3 ">
-        <legend className="label-form">Location Features</legend>
+      <fieldset className="listingForm flex flex-wrap gap-3 ">
+        <legend className="label-form">Location Features*</legend>
         <FormInput
           labelWrap={{
             css: props.form.locationFeatures.includes('Parking') ? 'radio-formActive' : 'radio-form',
@@ -381,6 +466,83 @@ export function StudioFormfields(props) {
           <span className="errormessage block">{props.formErrors.locationFeatures}</span>
         </div>
       </fieldset>
+      {/* StudioSleepover */}
+      {props.form.locationFeatures.includes('Sleepover') ? (
+        <fieldset className="listingForm  flex flex-col gap-3 ">
+          <legend className="pl-5 pb-2">Sleepover informations*</legend>
+          <div className={props.checked.studioBeds.includes('studioBedsCount') ? 'radio-formActive' : 'radio-form'}>
+            <FormInput
+              labelWrap={{
+                css: 'cursor-pointer',
+                string: 'Beds in total',
+              }}
+              type="checkbox"
+              className="mr-2"
+              name="studioBeds"
+              id="studioBedsCount"
+              checked={props.checked.studioBeds.includes('studioBedsCount')}
+              onChange={(event) => {
+                props.handleCheck(event);
+              }}
+            />
+            <FormInput
+              className="priceInput-form peer outline-none"
+              type="number"
+              name="studioBeds"
+              id="studioBedsCount"
+              required
+              min={1}
+              max={1000}
+              errorMessage={'Min 1 max 1000'}
+              disabled={!props.checked.studioBeds.includes('studioBedsCount')}
+              value={
+                !props.checked.studioBeds.includes('studioBedsCount')
+                  ? 0
+                  : props.form.studioBeds.studioBedsCount === undefined
+                  ? ''
+                  : props.form.studioBeds.studioBedsCount
+              }
+              onChange={props.handleChange}></FormInput>
+          </div>
+          <div className={props.checked.studioBeds.includes('studioBedsMaxPeople') ? 'radio-formActive' : 'radio-form'}>
+            <FormInput
+              type="checkbox"
+              labelWrap={{
+                css: 'cursor-pointer',
+                string: 'Max persons',
+              }}
+              className="mr-2"
+              name="studioBeds"
+              id="studioBedsMaxPeople"
+              checked={props.checked.studioBeds.includes('studioBedsMaxPeople')}
+              onChange={(event) => {
+                props.handleChange(event);
+                props.handleCheck(event);
+              }}
+            />
+            <FormInput
+              className="priceInput-form peer"
+              type="number"
+              name="studioBeds"
+              id="studioBedsMaxPeople"
+              required
+              max={9999}
+              min={1}
+              errorMessage={'From 1 to 9999'}
+              disabled={!props.checked.studioBeds.includes('studioBedsMaxPeople')}
+              value={
+                !props.checked.studioBeds.includes('studioBedsMaxPeople')
+                  ? 0
+                  : props.form.studioBeds.studioBedsMaxPeople === undefined
+                  ? ''
+                  : props.form.studioBeds.studioBedsMaxPeople
+              }
+              onChange={props.handleChange}
+            />
+          </div>
+          <span className="errormessage">{props.formErrors.studioBeds}</span>
+        </fieldset>
+      ) : null}
       {/* StudioSocials */}
       <fieldset className="listingForm space-y-2">
         {/* soundcloud */}
@@ -388,6 +550,7 @@ export function StudioFormfields(props) {
           beforeLabel={{
             string: 'Social Links',
             css: 'label-form ',
+            required: true,
             description:
               'Add socials to this studio (at least one). These will be added to each of the studio services you add to this studio later on.',
           }}
@@ -398,8 +561,8 @@ export function StudioFormfields(props) {
             css: 'inputCounter',
           }}
           type="text"
-          id="soundcloud"
           placeholder="https://soundcloud.com/profile"
+          id="soundcloud"
           name="studioSocials"
           required
           pattern="https://.*"
@@ -541,6 +704,7 @@ export function StudioFormfields(props) {
           beforeLabel={{
             string: 'Location',
             css: 'label-form ',
+            required: true,
           }}
           className="input-form peer"
           type="text"

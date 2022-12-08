@@ -253,10 +253,11 @@ function Label(props) {
           props.beforeLabel
             ? `block ${props.beforeLabel.css}`
             : props.afterLabel
-            ? `mr-2 block  ${props.afterLabel.css}`
+            ? `mr-2 block ${props.afterLabel.css}`
             : 'hidden'
         }>
         {props.beforeLabel ? props.beforeLabel.string : props.afterLabel ? props.afterLabel.string : null}
+        {props.beforeLabel?.required ? '*' : null}
         {props.afterLabel?.string2 ? props.afterLabel.string2 : null}
         <p className={props.beforeLabel?.description ? 'text-sm font-thin normal-case md:text-base' : 'hidden'}>
           {props.beforeLabel?.description}

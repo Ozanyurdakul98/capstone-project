@@ -14,16 +14,15 @@ const studioListingSchema = new mongoose.Schema(
     studioName: { type: String, required: true },
     profileText: { type: String, required: true },
     studiotype: { type: String, required: true },
+    studioSize: { type: String },
+    studioRooms: { type: String },
     studioLanguages: { type: Array, required: true },
     openingHours: {
       type: String,
       required: true,
     },
     locationFeatures: { type: Array, required: true },
-
-    studioBeds: { type: String },
-    studioSize: { type: String },
-    studioRooms: { type: String },
+    studioBeds: { type: Object },
     studioSocials: { type: Object, required: true },
     studioLocation: { type: String, required: true },
     user: {

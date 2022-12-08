@@ -28,45 +28,11 @@ import { DateRange } from 'react-date-range';
 import format from 'date-fns/format';
 import { FormInput } from '../../../../../components/Forms/FormInput';
 
-function StudioDetailpage({ serializedStudio, breadCrumb }) {
+function StudioDetailpage({ serializedStudio }) {
   const router = useRouter();
   const studio = serializedStudio[0];
   console.log(studio);
-  const imgs = [
-    { id: 0, value: studio.logo },
-    { id: 1, value: studio.logo },
-    { id: 2, value: studio.logo },
-    { id: 3, value: 'https://source.unsplash.com/user/c_v_r/1900x800' },
-    { id: 4, value: 'https://source.unsplash.com/user/c_v_r/100x100' },
-    { id: 5, value: studio.logo },
-  ];
-  const [wordData, setWordData] = useState(imgs[0]);
-  const handleClick = (index) => {
-    const wordSlider = imgs[index];
-    setWordData(wordSlider);
-  };
-  const [openPanel, setOpenPanel] = useState('');
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
 
-  const selectionRange = {
-    startDate: startDate,
-    endDate: endDate,
-    key: 'selection',
-  };
-  const handleSelect = (ranges) => {
-    setStartDate(ranges.selection.startDate);
-
-    setEndDate(ranges.selection.endDate);
-  };
-  //guests
-  const [noOfGuests, setNoOfGuest] = useState(1);
-  const incrementNumberGuests = () => {
-    setNoOfGuest((counter) => counter + 1);
-  };
-  const decrementNumberGuests = () => {
-    setNoOfGuest((counter) => counter - 1);
-  };
   return (
     <div className="relative">
       <Head>
@@ -474,8 +440,7 @@ export async function getServerSideProps(context) {
   }));
   return {
     props: {
-      serializedStudio: serializedStudio,
-      breadCrumb: breadCrumb || null,
+      serializedStudio: serializedStudio || null,
     },
   };
 }
