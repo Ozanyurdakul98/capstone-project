@@ -5,7 +5,7 @@ import ListingCardCarousell from '../../components/ListingCardCarousell';
 import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../../components/BackgroundOverlay';
 import Link from 'next/link.js';
 import { useRouter } from 'next/router';
-import { StudioFormfields } from '../../components/Forms/StudioFormfields';
+import { StudioFormfields } from '../../components/Forms/AddStudioForm';
 import DashboardLayout from '../../components/Layout/DashboardLayout.js';
 import StudioService from '../../models/StudioService.js';
 import db from '../../lib/dbConnect.js';
@@ -160,10 +160,6 @@ function DashboardAddStudio({ sanitizedServices, userID }) {
       ? setForm({ ...form, images: data.secure_url })
       : setForm({ ...form, images: '/images/Thumbnail-default.png' });
   };
-  console.log('1', JSON.stringify(formErrors));
-  console.log('2', formErrors);
-  console.log('3', form);
-  console.log('4', userID);
 
   return (
     <>

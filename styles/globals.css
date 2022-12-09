@@ -121,6 +121,9 @@
   .button {
     @apply flex max-h-8 transform cursor-pointer items-center rounded-full  border border-black  px-4 py-2 transition duration-100 ease-out  hover:shadow-lg active:scale-95 active:bg-gray-100;
   }
+  .addGuestsStudioservice {
+    @apply flex h-8 w-8 transform items-center justify-center rounded-sm text-[color:var(--secondary-icon)] transition duration-100 active:text-black disabled:text-gray-400 lg:w-12 lg:p-1;
+  }
 
   /* OpenModalInput */
 
@@ -139,6 +142,10 @@
   .inputCounter {
     @apply absolute mt-[2px] w-full px-5 text-end text-xs sm:w-2/3 lg:w-1/2;
   }
+  .StudioserviceFormGuestButtons {
+    @apply bg-secondary flex max-w-max items-center gap-2 rounded-xl p-1;
+  }
+
   /* SelectInputs */
 
   .select-table {
@@ -212,7 +219,7 @@
     @apply w-12 outline-none disabled:bg-slate-300 disabled:text-black/20;
   } */
   .priceInput-form {
-    @apply text-primary h-6 w-12 p-0 text-center outline-none disabled:bg-slate-300 disabled:text-black/20;
+    @apply text-primary h-5 w-12 p-0 text-center outline-none disabled:bg-slate-300 disabled:text-black/20;
   }
   .studiotypeActive {
     @apply border-secondary bg-secondary max-w-[435px] rounded border-2 p-4 font-thin text-white transition duration-75 ease-in  active:scale-95;

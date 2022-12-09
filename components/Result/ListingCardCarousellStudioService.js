@@ -7,7 +7,7 @@ import { RiParkingBoxLine } from 'react-icons/ri';
 import { TbSmoking } from 'react-icons/tb';
 import { MdBed } from 'react-icons/md';
 
-function ListingCardStudioService({
+function ListingCardCarousellStudioService({
   listingTitle,
   images,
   studiotype,
@@ -101,4 +101,4 @@ function ListingCardStudioService({
   );
 }
 
-export default ListingCardStudioService;
+export default ListingCardCarousellStudioService;

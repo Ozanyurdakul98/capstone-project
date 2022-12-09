@@ -7,7 +7,7 @@ import { HomepageHero } from '../components/Homepage/HomepageHero';
 import { HomepageBanner } from '../components/Homepage/HomepageBanner';
 import { HomepageStatsCounter } from '../components/Homepage/HomepageStatsCounter';
 import Layout from '../components/Layout/Layout';
-import StudioService from '../models/StudioService';
+import AdminStudioService from '../models/AdminCreateStudioService';
 import { HomepageStudioServicesGrid } from '../components/Homepage/HomepageStudioServicesGrid';
 import { HomepageStudioTypesGrid } from '../components/Homepage/HomepageStudioTypesGrid';
 
@@ -37,7 +37,7 @@ export async function getStaticProps() {
   const totalUsersCount = await User.find().count();
   const latestAddedStudios = await StudioListing.find().sort({ $natural: -1 }).limit(10);
   const serializedLatestAddedStudios = JSON.parse(JSON.stringify(latestAddedStudios));
-  const services = await StudioService.find();
+  const services = await AdminStudioService.find();
   const sanitizedServices = services.map((service) => ({
     id: service.id,
     image: service.image,

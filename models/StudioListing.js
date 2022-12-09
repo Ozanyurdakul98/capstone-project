@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import './StudioService';
 import './User';
 const { Schema } = mongoose;
 

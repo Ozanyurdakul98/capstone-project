@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../BackgroundOverlay';
 import Link from 'next/link.js';
 import { useRouter } from 'next/router';
-import { StudioServiceFormfields } from './StudioServiceFormfields';
+import { AdminCreateStudioService } from './AdminCreateStudioService';
 import { Spinner } from '../Spinner';
 import { ValidateCreateStudioService } from '../../helpers/Validate';
 
@@ -112,13 +112,13 @@ function EditStudioService({ toUpdateStudioService, setOpenStudioServiceEditView
           <div className=" px-2 sm:ml-5 md:mr-5">
             <div className="sm:px-0">
               <form noValidate className="text-primary w-full" onSubmit={handleFormSubmit}>
-                <StudioServiceFormfields
+                <AdminCreateStudioService
                   form={form}
                   checked={checked}
                   length={Object.keys(formErrors).length}
                   formErrors={formErrors}
                   handleDeleteImage={handleDeleteImage}
-                  handleChange={handleChange}></StudioServiceFormfields>
+                  handleChange={handleChange}></AdminCreateStudioService>
                 {/* ErrorModal */}
                 <fieldset>
                   {submissionFailed ? (

@@ -7,7 +7,7 @@ import { TbSmoking } from 'react-icons/tb';
 import { MdBed } from 'react-icons/md';
 import Link from 'next/link';
 
-function ListingCard({
+function ListingCardWideStudioService({
   id,
   path,
   listingTitle,
@@ -92,4 +92,4 @@ function ListingCard({
   );
 }
 
-export default ListingCard;
+export default ListingCardWideStudioService;

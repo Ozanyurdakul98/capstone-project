@@ -5,7 +5,7 @@ import ListingCardCarousellStudio from '../../components/Result/ListingCardCarou
 import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../../components/BackgroundOverlay';
 import Link from 'next/link.js';
 import { useRouter } from 'next/router';
-import { StudioFormfields } from '../../components/Forms/StudioFormfields';
+import { AddStudioForm } from '../../components/Forms/AddStudioForm';
 import DashboardLayout from '../../components/Layout/DashboardLayout.js';
 import db from '../../lib/dbConnect.js';
 import { getToken } from 'next-auth/jwt';
@@ -209,15 +209,6 @@ function DashboardAddStudio({ userID }) {
         }
         return newArray;
       }
-      if (name === 'images') {
-        let wertImage = target.files[0];
-        setChecked({
-          ...checked,
-          imagesPreview: URL.createObjectURL(wertImage),
-          images: wertImage,
-        });
-        return;
-      }
       if (name === 'logo') {
         setLogoChanged(true);
         const wertImage = target.files[0];
@@ -236,7 +227,6 @@ function DashboardAddStudio({ userID }) {
         }
         setStudioLanguagesSearch('');
         setChecked({ ...checked, studioLanguages: languages });
-
         return newArray;
       } else {
         return wert;
@@ -314,8 +304,6 @@ function DashboardAddStudio({ userID }) {
     data ? setForm({ ...form, logo: data.secure_url }) : setForm({ ...form, logo: '/images/Thumbnail-default.png' });
   };
 
-  console.log('form', form);
-  console.log('checked', checked);
   return (
     <>
       <div className="sm:px-0">
@@ -328,7 +316,7 @@ function DashboardAddStudio({ userID }) {
           </p>
         </div>
         <form noValidate className="text-primary w-full" onSubmit={handleFormSubmit}>
-          <StudioFormfields
+          <AddStudioForm
             defaultForm={defaultForm}
             defaultPic={defaultPic}
             defaultChecked={defaultChecked}
@@ -346,7 +334,7 @@ function DashboardAddStudio({ userID }) {
             handleDelete={handleDelete}
             studioLanguagesSearch={studioLanguagesSearch}
             handleCheck={handleCheck}
-            handleClickToCloseSearch={handleClickToCloseSearch}></StudioFormfields>
+            handleClickToCloseSearch={handleClickToCloseSearch}></AddStudioForm>
           {/* PreviewModal */}
           <fieldset>
             {preview && (

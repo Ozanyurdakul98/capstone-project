@@ -1,4 +1,4 @@
-import StudioService from '../../../models/StudioService';
+import AdminStudioService from '../../../models/AdminCreateStudioService';
 import db from '../../../lib/dbConnect';
 import DashboardLayout from '../../../components/Layout/DashboardLayout';
 import { FormInput } from '../../../components/Forms/FormInput';
@@ -241,7 +241,7 @@ AdminDashboard.getLayout = function getLayout(page) {
 
 export async function getServerSideProps() {
   await db.connect();
-  const studioServices = await StudioService.find({});
+  const studioServices = await AdminStudioService.find({});
   const serializedStudioServices = JSON.parse(JSON.stringify(studioServices));
   return {
     props: {

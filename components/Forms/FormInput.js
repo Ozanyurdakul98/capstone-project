@@ -88,7 +88,9 @@ export function FormInput(props) {
               <p
                 className={
                   counter?.max
-                    ? ` ${props.counter.css} ${counter.val > counter.max ? 'text-red-400' : 'text-gray-400'}`
+                    ? ` ${props.counter.css} ${
+                        counter.min > counter.val || counter.val > counter.max ? 'text-red-400' : 'text-gray-400'
+                      }`
                     : 'hidden'
                 }>
                 {counter?.val + '/' + counter?.max}
@@ -222,7 +224,9 @@ export function FormInput(props) {
               <p
                 className={
                   counter?.max
-                    ? ` ${props.counter.css} ${counter.val > counter.max ? 'text-red-400' : 'text-gray-400'}`
+                    ? ` ${props.counter.css} ${
+                        counter.min > counter.val || counter.val > counter.max ? 'text-red-400' : 'text-gray-400'
+                      }`
                     : 'hidden'
                 }>
                 {counter?.val + '/' + counter?.max}

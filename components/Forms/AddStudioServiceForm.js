@@ -1,22 +1,58 @@
-import { FormInput } from '../../components/Forms/FormInput';
+import { FormInput } from './FormInput';
 import Image from 'next/image.js';
 import { TbHandClick } from 'react-icons/tb';
 import { MdDeleteForever } from 'react-icons/md';
+import { MinusCircleIcon, PlusCircleIcon } from '@heroicons/react/24/solid';
 
-export function StudioFormfields(props) {
+export function AddStudioServiceForm(props) {
   return (
     <>
+      {/* services */}
+      <fieldset className="listingForm  flex flex-col gap-3 ">
+        <legend className="label-form mb-0">Studioservice*</legend>
+        <p className="label-form mb-0 text-sm font-thin normal-case md:text-base">
+          Select the Studioservice you want to create a listing for.
+        </p>
+        {props.studioService.map((service) => (
+          <FormInput
+            key={service.id}
+            labelWrap={{
+              css: props.form.service.includes(service.id) ? 'radio-formActive' : 'radio-form',
+            }}
+            type="radio"
+            name="service"
+            value={service.id}
+            id={service.name}
+            checked={props.form.service.includes(service.id)}
+            onChange={(event) => {
+              props.handleChange(event);
+            }}
+            afterLabel={{
+              string: service.name,
+              css: 'cursor-pointer',
+            }}
+          />
+        ))}
+        <span className="errormessage">{props.formErrors.soundengineer}</span>
+      </fieldset>
       {/* title */}
       <fieldset className="listingForm ">
         <FormInput
           beforeLabel={{
-            string: 'Listing Title',
+            string: 'Listingtitle*',
+            description: 'Choose a proper title for your Studioservice.',
             css: 'label-form ',
           }}
           className="input-form peer block "
           type="text"
           id="titel"
-          placeholder="Listing Title here.."
+          counter={{
+            val: props.form.listingTitle.length,
+            max: 60,
+            min: 10,
+            css: 'inputCounter',
+          }}
+          placeholder="Listingtitle here.."
           name="listingTitle"
           required
           autoComplete="off"
@@ -26,60 +62,93 @@ export function StudioFormfields(props) {
           onChange={props.handleChange}></FormInput>
         <span className="errormessage ">{props.formErrors.listingTitle}</span>
       </fieldset>
-      {/* Mediafiles */}
+      {/* profiletext */}
+      <fieldset className="listingForm">
+        <FormInput
+          beforeLabel={{
+            string: 'Profiletext',
+            css: 'label-form ',
+            required: true,
+            description:
+              'Write what the User should know about this Studioservice. What exactly do you offer? What does the User need to know? Write about References or add some Links to samples.',
+          }}
+          className="input-form peer block resize-none "
+          counter={{
+            val: props.form.description.length,
+            max: 1500,
+            min: 25,
+            css: 'inputCounter',
+          }}
+          textarea={true}
+          id="description"
+          placeholder="Text about this Studioservice.."
+          name="description"
+          required
+          autoComplete="off"
+          pattern="^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){24,1499}$"
+          errorMessage={'Only 25-350 characters and (a-z, A-Z, 0-9, ! äöü ,-_) allowed!'}
+          value={props.form.description}
+          onChange={props.handleChange}></FormInput>
+        <span className="errormessage ">{props.formErrors.description}</span>
+      </fieldset>
+      {/* PrimaryImage */}
       <fieldset className="listingForm ">
         <legend htmlFor="image" className=" label-form">
-          Mediafiles
+          Titleimage
         </legend>
         <div className="relative flex max-w-[1000px] flex-col items-center justify-between md:flex-row ">
-          <label className=" cursor-pointer" htmlFor="images">
-            <input
-              className="hidden"
-              id="images"
-              name="images"
-              type="file"
-              accept=".gif, .jpg, .jpeg, .jfif, .pjpeg, .pjp, .png, .webp"
-              onChange={props.handleChange}
-              required
-            />
-            <div
-              className={
-                props.form.images || props.checked.imagesPreview
-                  ? 'bg-site border-primary  relative  flex h-56 w-48 shrink-0 flex-col items-center justify-center gap-2 rounded-xl border-2 border-dotted text-white transition duration-75 ease-out  active:scale-95 sm:h-60 sm:w-48 md:h-60 md:w-56 md:px-2 lg:h-72 lg:w-64'
-                  : 'bg-primary relative  flex  h-56 w-48 shrink-0 flex-col items-center justify-center gap-2 rounded-xl border-2 border-dotted border-white text-white transition duration-75 ease-out  active:scale-95 sm:h-60 sm:w-48 md:h-60 md:w-56 md:px-2 lg:h-72 lg:w-64'
-              }>
-              {props.form.images || props.checked.imagesPreview || props.checked.images ? (
-                <>
-                  <Image
-                    src={
-                      props.checked.imagesPreview
-                        ? props.checked.imagesPreview
-                        : props.form.images
-                        ? props.form.images
-                        : props.checked.images
-                    }
-                    layout="fill"
-                    alt="Thumbnail"
-                    objectFit="contain"
-                  />
-                  <button onClick={props.handleDeleteImage} className="absolute top-0 right-0">
-                    <MdDeleteForever className="h-8 w-8 text-red-500 hover:text-red-400" />
-                  </button>
-                </>
-              ) : (
-                <>
-                  <p className="text-center text-lg">No picture selected</p>
-                  <p className="text-center text-xs lg:text-sm">
-                    Accepted file formats: .gif, .jpg, .jpeg, .jfif, .pjpeg, .pjp, .png, .webp
-                  </p>
-                  <TbHandClick className="h-6 w-6 lg:h-8 lg:w-8" />
-                </>
-              )}
-            </div>
+          <div className="relative">
+            <label className="flex cursor-pointer justify-center md:block" htmlFor="primary">
+              <input
+                className="absolute hidden"
+                id="primary"
+                name="images"
+                type="file"
+                accept=".gif, .jpg, .jpeg, .jfif, .pjpeg, .pjp, .png, .webp"
+                onChange={props.handleChange}
+                required
+              />
+              <div
+                className={`relative flex h-56 w-48 flex-col items-center justify-center gap-2 rounded-xl border-2 border-double text-white transition duration-75 ease-out  active:scale-95 sm:h-60 sm:w-48 md:h-60 md:w-56 md:px-2 lg:h-72 lg:w-64 ${
+                  props.form.images?.primary || props.checked?.imagesPreview
+                    ? 'bg-site border-primary'
+                    : 'bg-primary border-white'
+                }`}>
+                {props.form.images?.primary || props.checked.imagesPreview ? (
+                  <>
+                    <Image
+                      src={
+                        props.checked.imagesPreview
+                          ? props.checked.imagesPreview
+                          : props.form.images.primary
+                          ? props.form.images.primary
+                          : props.checked.images
+                      }
+                      layout="fill"
+                      alt="Thumbnail"
+                      objectFit="contain"
+                    />
+                  </>
+                ) : (
+                  <>
+                    <p className="text-center text-lg">No picture selected</p>
+                    <p className="text-center text-xs lg:text-sm">
+                      Accepted file formats: .gif, .jpg, .jpeg, .jfif, .pjpeg, .pjp, .png, .webp
+                    </p>
+                    <TbHandClick className="h-6 w-6 lg:h-8 lg:w-8" />
+                  </>
+                )}
+              </div>
+            </label>
             <p className="pl-2 text-sm md:pl-5">
               {props.checked.imageName ? props.checked.imageName : 'Please select a picture'}
             </p>
-          </label>
+            {props.form.images?.primary || props.checked.imagesPreview ? (
+              <button type="button" onClick={props.handleDeleteImage} className="absolute top-0 right-6 p-2 lg:right-2">
+                <MdDeleteForever className="relative z-20 h-8 w-8 text-red-500 hover:text-red-400" />
+              </button>
+            ) : null}
+          </div>
           <ul className="border-primary text-primary bg-primary h-44 w-60 list-disc rounded-xl border-4 p-2 pl-8 text-sm text-white md:mb-4 md:h-56 md:w-64 md:text-base lg:h-60 lg:w-80 xl:text-lg ">
             <li className="h3 list-none pb-2  text-white">Tips for good photos:</li>
             <li className="font-thin">Different perspectives of the studio setup</li>
@@ -88,212 +157,50 @@ export function StudioFormfields(props) {
           </ul>
         </div>
       </fieldset>
-      {/* OpeningHours */}
-      <fieldset className="listingForm  flex gap-3 ">
-        <legend className="label-form">Opening hours</legend>
-        <FormInput
-          labelWrap={{
-            css: props.form.openingHours.includes('Always Available') ? 'radio-formActive' : 'radio-form',
-          }}
-          type="radio"
-          id="openingHours"
-          name="openingHours"
-          value="Always Available"
-          checked={props.form.openingHours.includes('Always Available')}
-          onChange={props.handleChange}
-          afterLabel={{
-            string: 'Always Available',
-            css: 'cursor-pointer',
-          }}
-        />
-        <FormInput
-          labelWrap={{
-            css: props.form.openingHours.includes('On Request') ? 'radio-formActive' : 'radio-form',
-          }}
-          type="radio"
-          id="onRequest"
-          name="openingHours"
-          value="On Request"
-          checked={props.form.openingHours.includes('On Request')}
-          onChange={props.handleChange}
-          afterLabel={{
-            string: 'On Request',
-            css: 'cursor-pointer',
-          }}
-        />
-      </fieldset>
-      {/* Studiotype */}
-      <fieldset className="listingForm flex flex-col gap-3">
-        <legend className="label-form">Studiotype</legend>
-        <h2 className="flex items-center gap-2 pl-5 lg:text-lg">
-          Choose a fitting studiotype <TbHandClick className="h-6 w-6 rotate-[-25deg] lg:h-8 lg:w-8" />
-        </h2>
-        <button
-          type="button"
-          className={props.form.studiotype === 'Premium Studio' ? ' studiotypeActive ' : 'studiotype'}
-          onClick={() => {
-            props.setForm({ ...props.form, studiotype: 'Premium Studio' });
-          }}>
-          <p className="h3 text-white">Premium Studio</p>
-          <p>
-            Studios with premium equipment, atmospheric rooms and many extras. The studio has many years of experience
-            and top references.
-            <br />
-            The studio is in the upper price segment
-          </p>
-        </button>
-        <button
-          type="button"
-          className={props.form.studiotype === 'Medium Studio' ? 'studiotypeActive' : 'studiotype'}
-          onClick={() => {
-            props.setForm({ ...props.form, studiotype: 'Medium Studio' });
-          }}>
-          <p className="h3 text-white">Medium Studio</p>
-          <p>
-            Studios with good facilities. You have experience and already have good references.
-            <br />
-            The studio is in the middle price segment
-          </p>
-        </button>
-        <button
-          type="button"
-          className={props.form.studiotype === 'Home Studio' ? 'studiotypeActive' : 'studiotype'}
-          onClick={() => {
-            props.setForm({ ...props.form, studiotype: 'Home Studio' });
-          }}>
-          <p className="h3 text-white">Home Studio</p>
-          <p>
-            Your equipment serves its purpose. You want to get started and you may already have orders for yours Circle
-            of acquaintances or others done.
-            <br />
-            The studio is in the lower price segment
-          </p>
-        </button>
-      </fieldset>
-      {/* services */}
-      <fieldset className="listingForm flex flex-col gap-2">
-        <legend className="label-form">Studio services</legend>
-        {props.studioService.map((service) => (
+      {/* Max-Guests */}
+      <fieldset className="listingForm  flex flex-col gap-3 ">
+        <legend className="label-form">Maximum Guests</legend>
+        <p className="pl-5 text-sm font-thin normal-case md:text-base">
+          What is the Capacity of Guests your can handle at once for this Studioservice?
+        </p>
+        <div className={`StudioserviceFormGuestButtons`}>
+          <button
+            type="button"
+            className="addGuestsStudioservice [&>*]:disabled:scale-100 [&>*]:disabled:opacity-50"
+            onClick={props.decrementNumberGuests}
+            disabled={props.form.maxGuests === 1}>
+            <MinusCircleIcon className="w-6 cursor-pointer items-center justify-center rounded-sm text-white transition duration-100 active:scale-110 lg:w-12 lg:p-1" />
+          </button>
           <FormInput
-            key={service.id}
-            value={service.id}
-            id={service.name}
-            name="studioService"
-            type="checkbox"
-            labelWrap={{
-              css: props.form.studioService.includes(service.id) ? 'radio-formActive' : 'radio-form',
-            }}
-            checked={props.form.studioService.includes(service.id)}
+            className="priceInput-form disabled:text-primary outline-none disabled:bg-white"
+            type="number"
+            name="maxGuests"
+            id="maxGuests"
+            disabled
+            required
+            min={1}
+            max={15}
+            value={props.form.maxGuests}
             onChange={props.handleChange}
-            afterLabel={{
-              string: service.name,
-              css: 'cursor-pointer',
-            }}
           />
-        ))}
-        <span className="errormessage">{props.formErrors.studioService}</span>
-      </fieldset>
-      {/* location-features */}
-      <fieldset className="listingForm   flex flex-wrap gap-3 ">
-        <legend className="label-form">Location Features</legend>
-        <FormInput
-          labelWrap={{
-            css: props.form.locationFeatures.includes('Parking') ? 'radio-formActive' : 'radio-form',
-          }}
-          type="checkbox"
-          id="parking"
-          value="Parking"
-          name="locationFeatures"
-          checked={props.form.locationFeatures.includes('Parking')}
-          onChange={props.handleChange}
-          afterLabel={{
-            string: 'Parking',
-            css: 'cursor-pointer',
-          }}
-        />
-        <FormInput
-          labelWrap={{
-            css: props.form.locationFeatures.includes('Wi-Fi') ? 'radio-formActive' : 'radio-form',
-          }}
-          type="checkbox"
-          id="wifi"
-          value="Wi-Fi"
-          name="locationFeatures"
-          checked={props.form.locationFeatures.includes('Wi-Fi')}
-          onChange={props.handleChange}
-          afterLabel={{
-            string: 'Wi-Fi',
-            css: 'cursor-pointer',
-          }}
-        />
-        <FormInput
-          labelWrap={{
-            css: props.form.locationFeatures.includes('Snacks') ? 'radio-formActive' : 'radio-form',
-          }}
-          type="checkbox"
-          id="snacks"
-          value="Snacks"
-          name="locationFeatures"
-          checked={props.form.locationFeatures.includes('Snacks')}
-          onChange={props.handleChange}
-          afterLabel={{
-            string: 'Snacks',
-            css: 'cursor-pointer',
-          }}
-        />
-        <FormInput
-          labelWrap={{
-            css: props.form.locationFeatures.includes('WC') ? 'radio-formActive' : 'radio-form',
-          }}
-          type="checkbox"
-          id="wc"
-          value="WC"
-          name="locationFeatures"
-          checked={props.form.locationFeatures.includes('WC')}
-          onChange={props.handleChange}
-          afterLabel={{
-            string: 'WC',
-            css: 'cursor-pointer',
-          }}
-        />
-        <FormInput
-          labelWrap={{
-            css: props.form.locationFeatures.includes('Kitchen') ? 'radio-formActive' : 'radio-form',
-          }}
-          type="checkbox"
-          id="kitchen"
-          value="Kitchen"
-          name="locationFeatures"
-          checked={props.form.locationFeatures.includes('Kitchen')}
-          onChange={props.handleChange}
-          afterLabel={{
-            string: 'Kitchen',
-            css: 'cursor-pointer',
-          }}
-        />
-        <FormInput
-          labelWrap={{
-            css: props.form.locationFeatures.includes('Smoking') ? 'radio-formActive' : 'radio-form',
-          }}
-          type="checkbox"
-          id="smoking"
-          value="Smoking"
-          name="locationFeatures"
-          checked={props.form.locationFeatures.includes('Smoking')}
-          onChange={props.handleChange}
-          afterLabel={{
-            string: 'Smoking',
-            css: 'cursor-pointer',
-          }}
-        />
-        <div className="block">
-          <span className="errormessage block">{props.formErrors.locationFeatures}</span>
+          <button
+            type="button"
+            className="addGuestsStudioservice [&>*]:disabled:scale-100 [&>*]:disabled:opacity-50"
+            onClick={props.incrementNumberGuests}
+            disabled={props.form.maxGuests === 15}>
+            <PlusCircleIcon className="w-6 cursor-pointer items-center justify-center rounded-sm text-white transition duration-100 active:scale-110 lg:w-12 lg:p-1" />
+          </button>
         </div>
       </fieldset>
       {/* Soundengineer */}
       <fieldset className="listingForm  flex flex-col gap-3 ">
         <legend className="label-form">Soundengineer</legend>
         <FormInput
+          beforeLabel={{
+            string:
+              'Does this Studioservice include a Soundengineer who is taking care of the session and is the price inclusive? Select no Soundengineer if, for example, you want to rent out your Studio.',
+            css: 'pl-5 text-sm font-thin normal-case md:text-base',
+          }}
           labelWrap={{
             css: props.form.soundengineer === 'No Soundengineer' ? 'radio-formActive' : 'radio-form',
           }}
@@ -304,11 +211,9 @@ export function StudioFormfields(props) {
           checked={props.form.soundengineer === 'No Soundengineer'}
           onChange={(event) => {
             props.handleChange(event);
-            props.handleCheck(event);
           }}
           afterLabel={{
             string: 'No Soundengineer ',
-            string2: <span className="text-sm">(Studio just for Rent)</span>,
             css: 'cursor-pointer',
           }}
         />
@@ -380,7 +285,6 @@ export function StudioFormfields(props) {
               props.handleChange(event);
             }}></FormInput>
         </div>
-
         <span className="errormessage">{props.formErrors.soundengineer}</span>
       </fieldset>
       {/* studio-price */}

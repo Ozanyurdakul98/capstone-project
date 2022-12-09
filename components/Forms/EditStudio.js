@@ -3,7 +3,7 @@ import { ValidateCreateStudioListing } from '../../helpers/Validate.js';
 import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../BackgroundOverlay';
 import Link from 'next/link.js';
 import { useRouter } from 'next/router';
-import { StudioFormfields } from './StudioFormfields';
+import { AddStudioForm } from './AddStudioForm';
 import { Spinner } from '../Spinner';
 
 function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
@@ -184,7 +184,7 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
           <div className=" px-2 sm:ml-5 md:mr-5">
             <div className="sm:px-0">
               <form noValidate className="text-primary w-full" onSubmit={handleFormSubmit}>
-                <StudioFormfields
+                <AddStudioForm
                   form={form}
                   setForm={setForm}
                   checked={checked}
@@ -192,7 +192,7 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
                   formErrors={formErrors}
                   handleDeleteImage={handleDeleteImage}
                   handleChange={handleChange}
-                  handleCheck={handleCheck}></StudioFormfields>
+                  handleCheck={handleCheck}></AddStudioForm>
                 {/* ErrorModal */}
                 <fieldset>
                   {submissionFailed ? (

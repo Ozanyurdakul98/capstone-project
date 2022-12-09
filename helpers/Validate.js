@@ -46,7 +46,7 @@ export function ValidateEditUser(form) {
   return errors;
 }
 
-export function ValidateCreateStudioListing(form, checked) {
+export function ValidateCreateStudioListing(form) {
   const errors = {};
   const studioName = /^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){4,39}$/i;
   const url = /^((http|https):\/\/)/;
@@ -128,7 +128,7 @@ export function ValidateCreateStudioListing(form, checked) {
   return errors;
 }
 
-export function ValidateCreateStudioListingCOPY(form, checked) {
+export function ValidateCreateStudioServiceListing(form, checked) {
   const errors = {};
   const regex = /^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){9,60}$/i;
   const patternLocation = /^([a-zA-Z-])([a-zA-Z-0-9-,äöü\s]){4,60}$/i;
