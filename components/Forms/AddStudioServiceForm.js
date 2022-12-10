@@ -5,6 +5,8 @@ import { MdDeleteForever } from 'react-icons/md';
 import { MinusCircleIcon, PlusCircleIcon } from '@heroicons/react/24/solid';
 import CurrencyInput from 'react-currency-input-field';
 import { currencyLocales } from '../../helpers/Currencies';
+import { formatValue } from 'react-currency-input-field';
+
 export function AddStudioServiceForm(props) {
   return (
     <>
@@ -252,7 +254,7 @@ export function AddStudioServiceForm(props) {
       </fieldset>
       {/* Additional Services */}
       <fieldset className="listingForm">
-        <div className="bg-primary flex w-full flex-col  gap-[2px] rounded-xl  px-5 py-3 text-white sm:w-2/3 lg:w-1/2">
+        <div className="bg-primary mb-8 flex w-full flex-col  gap-[2px] rounded-xl  px-5 py-3 text-white sm:w-2/3 lg:w-1/2">
           {/* name and description */}
           <div className="relative">
             <FormInput
@@ -345,6 +347,29 @@ export function AddStudioServiceForm(props) {
           </div>
           {/* errors */}
           <p className="text-sm">{props.formErrors.additionalServices}</p>
+        </div>
+        <div className="flex flex-col gap-3">
+          {props.form.additionalServices.map((service) => (
+            <article
+              key={service.name}
+              className="bg-secondary flex w-full flex-col gap-2 rounded-xl px-5 py-2 text-white  shadow-lg sm:w-2/3 lg:w-1/2">
+              <h3 className="text-lg font-semibold">{service.name}</h3>
+              <p className="pl-5 font-thin">{service.description}</p>
+              <section className="mt-4 flex justify-start gap-10 pl-10">
+                <p className="font-thin">{service.priceOption}</p>
+                <p className=" font-thin">
+                  {formatValue({
+                    value: service.price,
+                    decimalSeparator: ',',
+                    intlConfig: {
+                      locale: props.form.subInformations.locale,
+                      currency: props.form.subInformations.currency,
+                    },
+                  })}
+                </p>
+              </section>
+            </article>
+          ))}
         </div>
       </fieldset>
       {/* Soundengineer */}

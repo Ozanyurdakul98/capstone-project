@@ -41,7 +41,7 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
     images: { primary: '', other: '' },
     maxGuests: 3,
     equipment: '',
-    additionalServices: {},
+    additionalServices: [],
     openingHours: 'Always Available',
     soundengineer: 'On Request',
     studioPricing: {},
@@ -223,7 +223,10 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
   };
   const handleAdditionalStudioServices = () => {
     const indexAsName = additionalService.name;
-    const alreadyUsedNames = Object.keys(form.additionalServices);
+    const alreadyUsedNames = form.additionalServices.map((i) => {
+      return i.name;
+    });
+    console.log('alreadyusedNames', alreadyUsedNames);
     const name = additionalService.name.trim();
     const description = additionalService.description.trim();
     const priceOption = additionalService.priceOption.trim();
@@ -251,10 +254,15 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
     setFormErrors({ ...formErrors, additionalServices: '' });
     setForm({
       ...form,
-      additionalServices: {
+      additionalServices: [
         ...form.additionalServices,
-        [indexAsName]: { name: name, description: description, price: price, priceOption: priceOption },
-      },
+        {
+          name: name,
+          description: description,
+          price: price,
+          priceOption: priceOption,
+        },
+      ],
     });
     setAdditionalService({ name: '', price: '', description: '', priceOption: '' });
   };
