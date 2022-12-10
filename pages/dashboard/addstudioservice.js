@@ -46,7 +46,9 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
     soundengineer: 'On Request',
     studioPricing: {},
     studioLocation: '',
+    studio: '',
     user: '',
+    subInformations: '',
   });
   const [additionalService, setAdditionalService] = useState({
     name: '',

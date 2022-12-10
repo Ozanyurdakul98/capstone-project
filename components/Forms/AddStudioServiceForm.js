@@ -3,7 +3,8 @@ import Image from 'next/image.js';
 import { TbHandClick } from 'react-icons/tb';
 import { MdDeleteForever } from 'react-icons/md';
 import { MinusCircleIcon, PlusCircleIcon } from '@heroicons/react/24/solid';
-
+import CurrencyInput from 'react-currency-input-field';
+import { currencyLocales } from '../../helpers/Currencies';
 export function AddStudioServiceForm(props) {
   return (
     <>
@@ -219,6 +220,34 @@ export function AddStudioServiceForm(props) {
           onChange={props.handleChange}></FormInput>
         <span className="errormessage ">{props.formErrors.equipment}</span>
       </fieldset>
+      <fieldset>
+        <div>
+          <legend>Choose Currency</legend>
+          <select
+            onChange={(event) => {
+              const valueArr = event.target.value.split(/[, ]+/);
+              const locale = valueArr[0];
+              const currency = valueArr[1];
+              props.setForm({ ...props.form, subInformations: { locale: locale, currency: currency } });
+              console.log('CURR', currency, locale);
+            }}
+            className="form-select m-0 block w-36 grow appearance-none rounded border border-solid border-gray-300 bg-white bg-clip-padding bg-no-repeat px-2 py-1 text-sm font-normal  text-gray-700   focus:bg-white focus:text-gray-700 focus:outline-none">
+            <option hidden selected>
+              Currency
+            </option>
+            {currencyLocales.map((config, i) => {
+              if (config) {
+                const { locale, currency } = config;
+                return (
+                  <option key={i} value={`${locale},${currency}`}>
+                    {currency} {locale}
+                  </option>
+                );
+              }
+            })}
+          </select>
+        </div>
+      </fieldset>
       {/* Additional Services */}
       <fieldset className="listingForm">
         <div className="bg-primary flex w-full flex-col  gap-[2px] rounded-xl  px-5 py-3 text-white sm:w-2/3 lg:w-1/2">
@@ -280,16 +309,30 @@ export function AddStudioServiceForm(props) {
               <option value="per Week">per Week</option>
               <option value="per Month">per Month</option>
             </select>
-            <FormInput
+            {/* <FormInput
               className="addStudioServiceAdditionalServicesNumber flex-1 "
               type="text"
               id="additionalServicePrice"
               required
               min={1}
               max={9999}
-              value={props.additionalService.price.toFormat('$0,0.00')}
+              value={props.additionalService.price}
               onChange={(event) =>
                 props.setAdditionalService({ ...props.additionalService, price: event.target.value })
+              }
+            /> */}
+            <CurrencyInput
+              id="price"
+              name="price"
+              className="addStudioServiceAdditionalServicesNumber flex-1 "
+              defaultValue={10}
+              decimalsLimit={2}
+              maxLength={6}
+              fixedDecimalLength={2}
+              decimalScale={2}
+              intlConfig={{ locale: 'tr-TR', currency: 'TRY' }}
+              onValueChange={(value, name) =>
+                props.setAdditionalService({ ...props.additionalService, price: value, namee: name })
               }
             />
           </div>

@@ -30,6 +30,8 @@ const studioServiceSchema = new mongoose.Schema(
     soundengineer: { type: Object, required: true, trim: true },
     studioPricing: { type: Object, required: true, trim: true },
     studioLocation: { type: String, required: true, trim: true },
+
+    subInformations: { type: Object, trim: true },
     studio: [
       {
         type: Schema.Types.ObjectId,
