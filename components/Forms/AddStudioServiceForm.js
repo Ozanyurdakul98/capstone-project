@@ -220,8 +220,9 @@ export function AddStudioServiceForm(props) {
         <span className="errormessage ">{props.formErrors.equipment}</span>
       </fieldset>
       {/* Additional Services */}
-      <fieldset className="listingForm  flex flex-col gap-3 ">
-        <div className="bg-primary w-full rounded-xl  px-5 py-3 text-white sm:w-2/3 lg:w-1/2">
+      <fieldset className="listingForm">
+        <div className="bg-primary flex w-full flex-col  gap-[2px] rounded-xl  px-5 py-3 text-white sm:w-2/3 lg:w-1/2">
+          {/* name and description */}
           <div className="relative">
             <FormInput
               type="text"
@@ -229,11 +230,11 @@ export function AddStudioServiceForm(props) {
                 string: 'Additional Services*',
                 css: 'label-form text-white',
                 description:
-                  'Add additional Services and choose the pricing options. For example: Food, special Equipment/Amenities, etc.',
+                  'Add additional Services and select a pricing option. For example: Food, special Equipment, additional Guests, etc.',
               }}
               id="ServiceName"
               placeholder="Service name.."
-              className="input-form peer block w-full "
+              className="input-form peer mb-[4px] block w-full"
               counter={{
                 val: props.additionalService.name.length,
                 max: 25,
@@ -243,13 +244,13 @@ export function AddStudioServiceForm(props) {
               required
               autoComplete="off"
               pattern="^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){1,24}$"
-              errorMessage={'2-25 characters and (a-z, A-Z, 0-9, ! äöü ,-_)!'}
+              // errorMessage={'2-25 characters and (a-z, A-Z, 0-9, ! äöü ,-_)!'}
               value={props.additionalService.name}
               onChange={(event) => props.setAdditionalService({ ...props.additionalService, name: event.target.value })}
             />
             <FormInput
               textarea={true}
-              className="input-form peer block w-full resize-none "
+              className="input-form mb-[3px] block w-full resize-none "
               placeholder="Service description"
               counter={{
                 val: props.additionalService.description.length,
@@ -257,25 +258,40 @@ export function AddStudioServiceForm(props) {
                 min: 10,
                 css: 'inputCounter w-full',
               }}
+              required
+              autoComplete="off"
+              pattern="^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){9,199}$"
               value={props.additionalService.description}
               onChange={(event) =>
                 props.setAdditionalService({ ...props.additionalService, description: event.target.value })
               }
             />
           </div>
-          <div className="flex">
-            <select className="form-select m-0 block w-full appearance-none rounded border border-solid border-gray-300 bg-white bg-clip-padding bg-no-repeat px-2 py-1 text-sm font-normal text-gray-700 transition ease-in-out   focus:bg-white focus:text-gray-700 focus:outline-none">
-              <option selected>Price option</option>
-              <option hidden value="1">
-                one time
+          {/* select and price */}
+          <div className="flex gap-[4px]">
+            <select className="form-select m-0 block grow appearance-none rounded border border-solid border-gray-300 bg-white bg-clip-padding bg-no-repeat px-2 py-1 text-sm font-normal text-gray-700 transition ease-in-out   focus:bg-white focus:text-gray-700 focus:outline-none">
+              <option hidden selected>
+                Price option
               </option>
-              <option value="2">per hour</option>
-              <option value="3">per session</option>
-              <option value="3">per day</option>
-              <option value="3">per week</option>
-              <option value="3">per month</option>
+              <option value="one Time">one Time</option>
+              <option value="per Hour">per Hour</option>
+              <option value="per Session">per Session</option>
+              <option value="per Day">per Day</option>
+              <option value="per Week">per Week</option>
+              <option value="per Month">per Month</option>
             </select>
-            <FormInput placeholder="price" value type="number" />
+            <FormInput
+              className="addStudioServiceAdditionalServicesNumber flex-1 "
+              type="text"
+              id="additionalServicePrice"
+              required
+              min={1}
+              max={9999}
+              value={props.additionalService.price.toFormat('$0,0.00')}
+              onChange={(event) =>
+                props.setAdditionalService({ ...props.additionalService, price: event.target.value })
+              }
+            />
           </div>
           <div>
             <button className="form-button hover:bg-secondary-hover text-white">Add Serivce</button>

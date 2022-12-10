@@ -161,6 +161,12 @@
     @apply w-full appearance-none rounded-full border-gray-500  bg-[#edf0f5] py-3 px-5 leading-tight  text-gray-700 focus:border-gray-500/30 focus:bg-white focus:outline-none    lg:w-2/3;
   }
 
+  /* NumberInputs */
+
+  .addStudioServiceAdditionalServicesNumber {
+    @apply text-primary h-8  border-none p-0 text-center outline-none disabled:bg-slate-300 disabled:text-black/20;
+  }
+
   /* Labels */
 
   .sideBarLP-label {

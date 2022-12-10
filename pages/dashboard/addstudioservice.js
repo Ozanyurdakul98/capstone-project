@@ -59,7 +59,7 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
   const [submissionFailed, setSubmissionFailed] = useState(false);
   const [formErrors, setFormErrors] = useState({});
   const [preview, setPreview] = useState(false);
-
+  console.log('addserb', additionalService);
   const handlePreview = () => {
     const passForm = form;
     setFormErrors(ValidateCreateStudioServiceListing(passForm, checked));
