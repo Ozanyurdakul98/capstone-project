@@ -40,6 +40,7 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
     description: '',
     images: { primary: '', other: '' },
     maxGuests: 3,
+    equipment: '',
     openingHours: 'Always Available',
     soundengineer: 'On Request',
     studioPricing: {},

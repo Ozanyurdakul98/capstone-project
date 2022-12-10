@@ -75,7 +75,7 @@ export function AddStudioServiceForm(props) {
           className="input-form peer block resize-none "
           counter={{
             val: props.form.description.length,
-            max: 1500,
+            max: 2500,
             min: 25,
             css: 'inputCounter',
           }}
@@ -158,8 +158,8 @@ export function AddStudioServiceForm(props) {
         </div>
       </fieldset>
       {/* Max-Guests */}
-      <fieldset className="listingForm  flex flex-col gap-3 ">
-        <legend className="label-form">Maximum Guests</legend>
+      <fieldset className="listingForm flex flex-col gap-3 ">
+        <legend className="label-form">Maximum Guests*</legend>
         <p className="pl-5 text-sm font-thin normal-case md:text-base">
           What is the Capacity of Guests your can handle at once for this Studioservice?
         </p>
@@ -179,7 +179,7 @@ export function AddStudioServiceForm(props) {
             disabled
             required
             min={1}
-            max={15}
+            max={20}
             value={props.form.maxGuests}
             onChange={props.handleChange}
           />
@@ -187,13 +187,59 @@ export function AddStudioServiceForm(props) {
             type="button"
             className="addGuestsStudioservice [&>*]:disabled:scale-100 [&>*]:disabled:opacity-50"
             onClick={props.incrementNumberGuests}
-            disabled={props.form.maxGuests === 15}>
+            disabled={props.form.maxGuests === 20}>
             <PlusCircleIcon className="w-6 cursor-pointer items-center justify-center rounded-sm text-white transition duration-100 active:scale-110 lg:w-12 lg:p-1" />
           </button>
         </div>
       </fieldset>
+      {/* equipment */}
+      <fieldset className="listingForm">
+        <FormInput
+          beforeLabel={{
+            string: 'Equipment*',
+            css: 'label-form ',
+            description: 'What Equipment is used/available for this Studioservice? List it right here.',
+          }}
+          className="input-form peer block resize-none "
+          counter={{
+            val: props.form.equipment.length,
+            max: 550,
+            min: 10,
+            css: 'inputCounter',
+          }}
+          textarea={true}
+          id="equipment"
+          placeholder="EquipmentXY, EquipmentXY,.."
+          name="equipment"
+          required
+          autoComplete="off"
+          pattern="^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){9,349}$"
+          errorMessage={'10-350 characters and (a-z, A-Z, 0-9, ! äöü ,-_)!'}
+          value={props.form.equipment}
+          onChange={props.handleChange}></FormInput>
+        <span className="errormessage ">{props.formErrors.equipment}</span>
+      </fieldset>
       {/* Soundengineer */}
       <fieldset className="listingForm  flex flex-col gap-3 ">
+        <div>
+          <FormInput type="text" beforeLabel={{ string: 'Add additional Services' }} placeholder="Service title" />
+          <FormInput textarea={true} placeholder="Service description" />
+        </div>
+        <div className="flex">
+          <select className="form-select m-0 block w-full appearance-none rounded border border-solid border-gray-300 bg-white bg-clip-padding bg-no-repeat px-2 py-1 text-sm font-normal text-gray-700 transition ease-in-out focus:border-blue-600 focus:bg-white focus:text-gray-700 focus:outline-none">
+            <option selected>Select pricing option</option>
+            <option value="1">fixed</option>
+            <option value="2">per hour</option>
+            <option value="3">per session</option>
+            <option value="3">per day</option>
+            <option value="3">per week</option>
+            <option value="3">per month</option>
+          </select>
+          <FormInput placeholder="price" type="number" />
+        </div>
+      </fieldset>
+      {/* Soundengineer */}
+      <fieldset className="listingForm flex flex-col gap-3 ">
         <legend className="label-form">Soundengineer</legend>
         <FormInput
           beforeLabel={{
@@ -288,7 +334,7 @@ export function AddStudioServiceForm(props) {
         <span className="errormessage">{props.formErrors.soundengineer}</span>
       </fieldset>
       {/* studio-price */}
-      <fieldset className="listingForm  flex flex-col gap-3 ">
+      <fieldset className="listingForm flex flex-col gap-3 ">
         <legend className="label-form">Studio Pricing</legend>
         <div className={props.checked.studioPricing.includes('studioPricingHour') ? 'radio-formActive' : 'radio-form'}>
           <FormInput

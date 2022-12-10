@@ -219,7 +219,7 @@
     @apply w-12 outline-none disabled:bg-slate-300 disabled:text-black/20;
   } */
   .priceInput-form {
-    @apply text-primary h-5 w-12 p-0 text-center outline-none disabled:bg-slate-300 disabled:text-black/20;
+    @apply text-primary h-5 w-12 border-none p-0 text-center outline-none disabled:bg-slate-300 disabled:text-black/20;
   }
   .studiotypeActive {
     @apply border-secondary bg-secondary max-w-[435px] rounded border-2 p-4 font-thin text-white transition duration-75 ease-in  active:scale-95;
