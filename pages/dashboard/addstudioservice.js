@@ -48,7 +48,7 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
     studioLocation: '',
     studio: '',
     user: '',
-    subInformations: '',
+    subInformations: { locale: 'de-DE', currency: 'EUR' },
   });
   const [additionalService, setAdditionalService] = useState({
     name: '',
@@ -221,8 +221,45 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
     const number = form.maxGuests - 1;
     setForm({ ...form, maxGuests: number });
   };
+  const handleAdditionalStudioServices = () => {
+    const indexAsName = additionalService.name;
+    const alreadyUsedNames = Object.keys(form.additionalServices);
+    const name = additionalService.name.trim();
+    const description = additionalService.description.trim();
+    const priceOption = additionalService.priceOption.trim();
+    const price = additionalService.price.trim();
+
+    if (!name || name.length >= 26 || name.length <= 1) {
+      return setFormErrors({ ...formErrors, additionalServices: 'name: 2-25 characters and (a-zA-Z-0-9-!äöü,-_)!' });
+    }
+    if (!description || description.length >= 200 || description.length <= 9) {
+      return setFormErrors({
+        ...formErrors,
+        additionalServices: 'description: 10-200 characters and (a-zA-Z-0-9-!äöü,-_)!',
+      });
+    }
+    if (!priceOption) {
+      return setFormErrors({ ...formErrors, additionalServices: 'Select a price option!' });
+    }
+    if (!price) {
+      return setFormErrors({ ...formErrors, additionalServices: 'Please enter a price!' });
+    }
+    if (alreadyUsedNames.includes(indexAsName)) {
+      return setFormErrors({ ...formErrors, additionalServices: 'Please use a unique service name!' });
+    }
+
+    setFormErrors({ ...formErrors, additionalServices: '' });
+    setForm({
+      ...form,
+      additionalServices: {
+        ...form.additionalServices,
+        [indexAsName]: { name: name, description: description, price: price, priceOption: priceOption },
+      },
+    });
+    setAdditionalService({ name: '', price: '', description: '', priceOption: '' });
+  };
   // console.log('def', defaultForm);
-  console.log('checked, form', checked, form);
+  console.log('checked, form', checked, form, formErrors);
   return (
     <div>
       {/* welcome */}
@@ -300,7 +337,8 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
                 incrementNumberGuests={incrementNumberGuests}
                 decrementNumberGuests={decrementNumberGuests}
                 additionalService={additionalService}
-                setAdditionalService={setAdditionalService}></AddStudioServiceForm>
+                setAdditionalService={setAdditionalService}
+                handleAdditionalStudioServices={handleAdditionalStudioServices}></AddStudioServiceForm>
               {/* PreviewModal */}
               <fieldset>
                 {preview && (

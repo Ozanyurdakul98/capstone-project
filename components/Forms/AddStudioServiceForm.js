@@ -220,33 +220,35 @@ export function AddStudioServiceForm(props) {
           onChange={props.handleChange}></FormInput>
         <span className="errormessage ">{props.formErrors.equipment}</span>
       </fieldset>
-      <fieldset>
-        <div>
-          <legend>Choose Currency</legend>
-          <select
-            onChange={(event) => {
-              const valueArr = event.target.value.split(/[, ]+/);
-              const locale = valueArr[0];
-              const currency = valueArr[1];
-              props.setForm({ ...props.form, subInformations: { locale: locale, currency: currency } });
-              console.log('CURR', currency, locale);
-            }}
-            className="form-select m-0 block w-36 grow appearance-none rounded border border-solid border-gray-300 bg-white bg-clip-padding bg-no-repeat px-2 py-1 text-sm font-normal  text-gray-700   focus:bg-white focus:text-gray-700 focus:outline-none">
-            <option hidden selected>
-              Currency
-            </option>
-            {currencyLocales.map((config, i) => {
-              if (config) {
-                const { locale, currency } = config;
-                return (
-                  <option key={i} value={`${locale},${currency}`}>
-                    {currency} {locale}
-                  </option>
-                );
-              }
-            })}
-          </select>
-        </div>
+      {/* currency */}
+      <fieldset className="listingForm w-full sm:w-2/3 lg:w-1/2">
+        <label htmlFor="currency" className="label-form">
+          Select your Currency*
+        </label>
+        <select
+          id="currency"
+          defaultValue={'1'}
+          className=" border-primary form-select m-0 block h-12 w-full appearance-none rounded border border-solid bg-white bg-no-repeat px-2 py-1 text-sm text-gray-700 outline-none focus:bg-white focus:text-gray-700 focus:outline-none focus:ring-0"
+          onChange={(event) => {
+            const valueArr = event.target.value.split(/[, ]+/);
+            const locale = valueArr[0];
+            const currency = valueArr[1];
+            props.setForm({ ...props.form, subInformations: { locale: locale, currency: currency } });
+          }}>
+          <option hidden value={'1'}>
+            Currency
+          </option>
+          {currencyLocales.map((config, i) => {
+            if (config) {
+              const { locale, currency } = config;
+              return (
+                <option key={i} value={`${locale},${currency}`}>
+                  {currency} {locale}
+                </option>
+              );
+            }
+          })}
+        </select>
       </fieldset>
       {/* Additional Services */}
       <fieldset className="listingForm">
@@ -256,7 +258,7 @@ export function AddStudioServiceForm(props) {
             <FormInput
               type="text"
               beforeLabel={{
-                string: 'Additional Services*',
+                string: 'Additional Services',
                 css: 'label-form text-white',
                 description:
                   'Add additional Services and select a pricing option. For example: Food, special Equipment, additional Guests, etc.',
@@ -265,7 +267,7 @@ export function AddStudioServiceForm(props) {
               placeholder="Service name.."
               className="input-form peer mb-[4px] block w-full"
               counter={{
-                val: props.additionalService.name.length,
+                val: props.additionalService.name?.length,
                 max: 25,
                 min: 2,
                 css: 'inputCounter w-full',
@@ -273,23 +275,22 @@ export function AddStudioServiceForm(props) {
               required
               autoComplete="off"
               pattern="^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){1,24}$"
-              // errorMessage={'2-25 characters and (a-z, A-Z, 0-9, ! äöü ,-_)!'}
               value={props.additionalService.name}
               onChange={(event) => props.setAdditionalService({ ...props.additionalService, name: event.target.value })}
             />
             <FormInput
               textarea={true}
               className="input-form mb-[3px] block w-full resize-none "
-              placeholder="Service description"
+              placeholder="Service description.."
               counter={{
-                val: props.additionalService.description.length,
+                val: props.additionalService.description?.length,
                 max: 200,
                 min: 10,
                 css: 'inputCounter w-full',
               }}
               required
               autoComplete="off"
-              pattern="^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){9,199}$"
+              pattern="^([a- zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){9,199}$"
               value={props.additionalService.description}
               onChange={(event) =>
                 props.setAdditionalService({ ...props.additionalService, description: event.target.value })
@@ -298,8 +299,16 @@ export function AddStudioServiceForm(props) {
           </div>
           {/* select and price */}
           <div className="flex gap-[4px]">
-            <select className="form-select m-0 block grow appearance-none rounded border border-solid border-gray-300 bg-white bg-clip-padding bg-no-repeat px-2 py-1 text-sm font-normal text-gray-700 transition ease-in-out   focus:bg-white focus:text-gray-700 focus:outline-none">
-              <option hidden selected>
+            <select
+              onChange={(event) =>
+                props.setAdditionalService({
+                  ...props.additionalService,
+                  priceOption: event.target.value,
+                })
+              }
+              value={props.additionalService.priceOption}
+              className="form-select m-0 block grow appearance-none rounded border border-solid border-gray-300 bg-white bg-clip-padding bg-no-repeat px-2 py-1 text-sm font-normal text-gray-700 transition ease-in-out   focus:bg-white focus:text-gray-700 focus:outline-none">
+              <option hidden value="">
                 Price option
               </option>
               <option value="one Time">one Time</option>
@@ -309,36 +318,33 @@ export function AddStudioServiceForm(props) {
               <option value="per Week">per Week</option>
               <option value="per Month">per Month</option>
             </select>
-            {/* <FormInput
-              className="addStudioServiceAdditionalServicesNumber flex-1 "
-              type="text"
-              id="additionalServicePrice"
-              required
-              min={1}
-              max={9999}
-              value={props.additionalService.price}
-              onChange={(event) =>
-                props.setAdditionalService({ ...props.additionalService, price: event.target.value })
-              }
-            /> */}
             <CurrencyInput
               id="price"
               name="price"
               className="addStudioServiceAdditionalServicesNumber flex-1 "
-              defaultValue={10}
+              placeholder="enter price"
               decimalsLimit={2}
-              maxLength={6}
+              maxLength={10}
               fixedDecimalLength={2}
+              autoComplete="off"
               decimalScale={2}
-              intlConfig={{ locale: 'tr-TR', currency: 'TRY' }}
-              onValueChange={(value, name) =>
-                props.setAdditionalService({ ...props.additionalService, price: value, namee: name })
-              }
+              value={props.additionalService.price}
+              intlConfig={{ locale: props.form.subInformations.locale, currency: props.form.subInformations.currency }}
+              onValueChange={(value) => props.setAdditionalService({ ...props.additionalService, price: value })}
             />
           </div>
-          <div>
-            <button className="form-button hover:bg-secondary-hover text-white">Add Serivce</button>
+          {/* button */}
+          <div className="flex items-center justify-between">
+            <button
+              type="button"
+              onClick={() => props.handleAdditionalStudioServices()}
+              className="form-button hover:bg-secondary-hover text-white">
+              Add Serivce
+            </button>
+            <span className="w-14 text-end text-lg font-semibold leading-loose">0 / 5</span>
           </div>
+          {/* errors */}
+          <p className="text-sm">{props.formErrors.additionalServices}</p>
         </div>
       </fieldset>
       {/* Soundengineer */}

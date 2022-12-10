@@ -31,7 +31,12 @@ const studioServiceSchema = new mongoose.Schema(
     studioPricing: { type: Object, required: true, trim: true },
     studioLocation: { type: String, required: true, trim: true },
 
-    subInformations: { type: Object, trim: true },
+    subInformations: {
+      type: Object,
+      trim: true,
+      currency: { type: String, default: 'USD' },
+      locale: { type: String, default: 'en-US' },
+    },
     studio: [
       {
         type: Schema.Types.ObjectId,
