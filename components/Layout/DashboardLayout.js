@@ -22,7 +22,7 @@ export default function DashboardLayout({ children }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <div className="bg-secondary relative flex min-h-screen 2xl:container  2xl:mx-auto">
+      <div className="bg-secondary relative flex min-h-screen  2xl:container  2xl:mx-auto">
         <Navigation />
         <main className="my-2 mr-2 grow overflow-x-hidden rounded-3xl bg-white p-5 2xl:mr-[175px]">{children}</main>
       </div>

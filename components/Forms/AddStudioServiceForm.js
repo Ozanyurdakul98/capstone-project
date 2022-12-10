@@ -166,13 +166,13 @@ export function AddStudioServiceForm(props) {
         <div className={`StudioserviceFormGuestButtons`}>
           <button
             type="button"
-            className="addGuestsStudioservice [&>*]:disabled:scale-100 [&>*]:disabled:opacity-50"
+            className="addGuestsStudioservice mr-4 w-6 cursor-pointer disabled:cursor-default lg:w-12 lg:p-1 [&>*]:disabled:scale-100 [&>*]:disabled:opacity-50"
             onClick={props.decrementNumberGuests}
             disabled={props.form.maxGuests === 1}>
-            <MinusCircleIcon className="w-6 cursor-pointer items-center justify-center rounded-sm text-white transition duration-100 active:scale-110 lg:w-12 lg:p-1" />
+            <MinusCircleIcon className="h-full w-full items-center justify-center rounded-sm text-white transition duration-100 active:scale-110 " />
           </button>
           <FormInput
-            className="priceInput-form disabled:text-primary outline-none disabled:bg-white"
+            className="priceInput-form disabled:text-primary h-7 outline-none disabled:bg-white"
             type="number"
             name="maxGuests"
             id="maxGuests"
@@ -185,10 +185,10 @@ export function AddStudioServiceForm(props) {
           />
           <button
             type="button"
-            className="addGuestsStudioservice [&>*]:disabled:scale-100 [&>*]:disabled:opacity-50"
+            className="addGuestsStudioservice ml-4 w-6 cursor-pointer disabled:cursor-default lg:w-12 lg:p-1 [&>*]:disabled:scale-100 [&>*]:disabled:opacity-50"
             onClick={props.incrementNumberGuests}
             disabled={props.form.maxGuests === 20}>
-            <PlusCircleIcon className="w-6 cursor-pointer items-center justify-center rounded-sm text-white transition duration-100 active:scale-110 lg:w-12 lg:p-1" />
+            <PlusCircleIcon className="h-full w-full items-center justify-center rounded-sm text-white transition duration-100 active:scale-110" />
           </button>
         </div>
       </fieldset>
@@ -219,23 +219,67 @@ export function AddStudioServiceForm(props) {
           onChange={props.handleChange}></FormInput>
         <span className="errormessage ">{props.formErrors.equipment}</span>
       </fieldset>
-      {/* Soundengineer */}
+      {/* Additional Services */}
       <fieldset className="listingForm  flex flex-col gap-3 ">
-        <div>
-          <FormInput type="text" beforeLabel={{ string: 'Add additional Services' }} placeholder="Service title" />
-          <FormInput textarea={true} placeholder="Service description" />
-        </div>
-        <div className="flex">
-          <select className="form-select m-0 block w-full appearance-none rounded border border-solid border-gray-300 bg-white bg-clip-padding bg-no-repeat px-2 py-1 text-sm font-normal text-gray-700 transition ease-in-out focus:border-blue-600 focus:bg-white focus:text-gray-700 focus:outline-none">
-            <option selected>Select pricing option</option>
-            <option value="1">fixed</option>
-            <option value="2">per hour</option>
-            <option value="3">per session</option>
-            <option value="3">per day</option>
-            <option value="3">per week</option>
-            <option value="3">per month</option>
-          </select>
-          <FormInput placeholder="price" type="number" />
+        <div className="bg-primary w-full rounded-xl  px-5 py-3 text-white sm:w-2/3 lg:w-1/2">
+          <div className="relative">
+            <FormInput
+              type="text"
+              beforeLabel={{
+                string: 'Additional Services*',
+                css: 'label-form text-white',
+                description:
+                  'Add additional Services and choose the pricing options. For example: Food, special Equipment/Amenities, etc.',
+              }}
+              id="ServiceName"
+              placeholder="Service name.."
+              className="input-form peer block w-full "
+              counter={{
+                val: props.additionalService.name.length,
+                max: 25,
+                min: 2,
+                css: 'inputCounter w-full',
+              }}
+              required
+              autoComplete="off"
+              pattern="^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){1,24}$"
+              errorMessage={'2-25 characters and (a-z, A-Z, 0-9, ! äöü ,-_)!'}
+              value={props.additionalService.name}
+              onChange={(event) => props.setAdditionalService({ ...props.additionalService, name: event.target.value })}
+            />
+            <FormInput
+              textarea={true}
+              className="input-form peer block w-full resize-none "
+              placeholder="Service description"
+              counter={{
+                val: props.additionalService.description.length,
+                max: 200,
+                min: 10,
+                css: 'inputCounter w-full',
+              }}
+              value={props.additionalService.description}
+              onChange={(event) =>
+                props.setAdditionalService({ ...props.additionalService, description: event.target.value })
+              }
+            />
+          </div>
+          <div className="flex">
+            <select className="form-select m-0 block w-full appearance-none rounded border border-solid border-gray-300 bg-white bg-clip-padding bg-no-repeat px-2 py-1 text-sm font-normal text-gray-700 transition ease-in-out   focus:bg-white focus:text-gray-700 focus:outline-none">
+              <option selected>Price option</option>
+              <option hidden value="1">
+                one time
+              </option>
+              <option value="2">per hour</option>
+              <option value="3">per session</option>
+              <option value="3">per day</option>
+              <option value="3">per week</option>
+              <option value="3">per month</option>
+            </select>
+            <FormInput placeholder="price" value type="number" />
+          </div>
+          <div>
+            <button className="form-button hover:bg-secondary-hover text-white">Add Serivce</button>
+          </div>
         </div>
       </fieldset>
       {/* Soundengineer */}

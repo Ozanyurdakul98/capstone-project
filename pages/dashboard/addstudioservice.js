@@ -41,11 +41,18 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
     images: { primary: '', other: '' },
     maxGuests: 3,
     equipment: '',
+    additionalServices: {},
     openingHours: 'Always Available',
     soundengineer: 'On Request',
     studioPricing: {},
     studioLocation: '',
     user: '',
+  });
+  const [additionalService, setAdditionalService] = useState({
+    name: '',
+    description: '',
+    priceOption: '',
+    price: 0,
   });
   const [checked, setChecked] = useState(defaultChecked);
   const [isSubmit, setIsSubmit] = useState(false);
@@ -289,7 +296,9 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
                 handleCheck={handleCheck}
                 handleDeleteImage={handleDeleteImage}
                 incrementNumberGuests={incrementNumberGuests}
-                decrementNumberGuests={decrementNumberGuests}></AddStudioServiceForm>
+                decrementNumberGuests={decrementNumberGuests}
+                additionalService={additionalService}
+                setAdditionalService={setAdditionalService}></AddStudioServiceForm>
               {/* PreviewModal */}
               <fieldset>
                 {preview && (
@@ -462,7 +471,7 @@ export async function getServerSideProps({ req }) {
     name: service.name,
     description: service.description,
   }));
-  console.log('services', services);
+
   const email = session.email;
   const fetchingStudios = await StudioListing.find({ userEmail: email }).populate({
     path: 'user',
@@ -470,7 +479,6 @@ export async function getServerSideProps({ req }) {
     select: 'avatar email name lastname username',
   });
   const serializing = JSON.parse(JSON.stringify(fetchingStudios));
-
   const serializedAndUpdatedStudios = serializing.map((studio) => ({
     ...studio,
     createdAtDate: moment(studio.createdAt).format('DD/MM/yyyy'),

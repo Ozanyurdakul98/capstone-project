@@ -6,7 +6,7 @@ export default function StudioInformation({ studio, setOpenModal }) {
   };
   return (
     <>
-      <div className="searchFadein fixed inset-0 z-50 m-auto h-80 max-w-md rounded-2xl bg-none text-black shadow-xxl lg:h-80">
+      <div className="searchFadein fixed inset-0 z-50 m-auto h-96 max-w-md rounded-2xl bg-none text-black shadow-xxl lg:h-80">
         <div className="relative flex h-full flex-col gap-4 overflow-y-scroll rounded-2xl bg-white pt-5 text-sm">
           {/* heading */}
           <section className="mb-2 text-center text-black">

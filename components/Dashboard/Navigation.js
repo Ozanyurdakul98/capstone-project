@@ -168,7 +168,7 @@ export default function Navigation() {
     },
   ];
   return (
-    <aside className="bg-secondary z-0 p-1 py-12 pr-0 text-white md:p-5 md:pt-16 md:pr-0">
+    <aside className="bg-secondary z-0 shrink-0 p-1 py-12 pr-0 text-white md:p-5 md:pt-16 md:pr-0">
       <nav className="sticky top-6">
         {adminLinks.map((link) => (
           <MyLink key={link.url} href={link.url} className={pathname === link.url ? activeClasses : inactiveClasses}>
