@@ -19,7 +19,7 @@ function DashboardAddStudio({ userID }) {
     studioLanguages: [],
     openingHours: 'Always Available',
     locationFeatures: [],
-    studioBeds: {},
+    sleepOver: {},
     studioSocials: {
       soundcloud: '',
       spotify: '',
@@ -93,7 +93,7 @@ function DashboardAddStudio({ userID }) {
     studioSocials: [],
     studioInformation: [],
     studioLanguages: languages,
-    studioBeds: [],
+    sleepOver: [],
   };
   const [form, setForm] = useState(defaultForm);
   const [checked, setChecked] = useState(defaultChecked);
@@ -149,7 +149,6 @@ function DashboardAddStudio({ userID }) {
       }
     }
   };
-
   const handleDeleteImage = () => {
     setLogoChanged(true);
     setForm({ ...form, logo: '' });
@@ -186,7 +185,7 @@ function DashboardAddStudio({ userID }) {
         const deleteUndefined = Object.fromEntries(Object.entries(currentForm).filter(([v]) => v));
         return deleteUndefined;
       }
-      if (name === 'studioBeds') {
+      if (name === 'sleepOver') {
         const currentForm = {
           ...form[name],
           [id]: wert,
@@ -249,7 +248,7 @@ function DashboardAddStudio({ userID }) {
         }
         return newArray;
       }
-      if (name === 'studioBeds') {
+      if (name === 'sleepOver') {
         let newArray = [...checked[name], id];
         if (checked[name].includes(id)) {
           newArray = newArray.filter((val) => val !== id);
@@ -303,7 +302,7 @@ function DashboardAddStudio({ userID }) {
     const data = await res.json();
     data ? setForm({ ...form, logo: data.secure_url }) : setForm({ ...form, logo: '/images/Thumbnail-default.png' });
   };
-
+  console.log(form);
   return (
     <>
       <div className="sm:px-0">
@@ -364,6 +363,7 @@ function DashboardAddStudio({ userID }) {
                         <h3 className="h3 pb-12">Startpage preview</h3>
                         <div className="-ml-4 ">
                           <ListingCardCarousellStudio
+                            preview={true}
                             logo={checked.logoPreview ? checked.logoPreview : '/images/Thumbnail-default.png'}
                             studioName={form.studioName}
                             studiotype={form.studiotype}

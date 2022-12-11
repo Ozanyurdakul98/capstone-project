@@ -166,8 +166,10 @@ export function AddStudioForm(props) {
       {/* Studiodetails */}
       {props.form.studiotype.includes('Medium Studio') || props.form.studiotype.includes('Premium Studio') ? (
         <fieldset className="listingForm flex flex-col gap-3 whitespace-nowrap ">
-          <legend className="pl-5 pb-2">Additional Studio informations</legend>
-          <div className={props.checked.studioInformation.includes('studioSize') ? 'radio-formActive' : 'radio-form'}>
+          <legend className="label-form">Additional Studio informations</legend>
+          <label
+            htmlFor="studioSize"
+            className={props.checked.studioInformation.includes('studioSize') ? 'radio-formActive' : 'radio-form'}>
             <FormInput
               labelWrap={{
                 css: 'cursor-pointer',
@@ -204,8 +206,10 @@ export function AddStudioForm(props) {
                   : props.form.studioInformation.studioSize
               }
               onChange={props.handleChange}></FormInput>
-          </div>
-          <div className={props.checked.studioInformation.includes('studioRooms') ? 'radio-formActive' : 'radio-form'}>
+          </label>
+          <label
+            htmlFor="studioRooms"
+            className={props.checked.studioInformation.includes('studioRooms') ? 'radio-formActive' : 'radio-form'}>
             <FormInput
               type="checkbox"
               labelWrap={{
@@ -241,7 +245,7 @@ export function AddStudioForm(props) {
               }
               onChange={props.handleChange}
             />
-          </div>
+          </label>
           <p className="max-w-[400px] whitespace-normal pl-5 pb-2">
             The size is square meters and Studio rooms are the total count of rooms your Studio has.
           </p>
@@ -275,7 +279,8 @@ export function AddStudioForm(props) {
           value={props.form.studioLanguages}
           handleCheck={props.handleCheck}
           checked={props.checked}
-          onChange={props.handleChange}></FormInput>
+          onChange={props.handleChange}
+        />
         <span className="errormessage ">{props.formErrors.studioLanguages}</span>
       </fieldset>
       {/* OpeningHours */}
@@ -472,18 +477,20 @@ export function AddStudioForm(props) {
       {/* StudioSleepover */}
       {props.form.locationFeatures.includes('Sleepover') ? (
         <fieldset className="listingForm  flex flex-col gap-3 ">
-          <legend className="pl-5 pb-2">Sleepover informations*</legend>
-          <div className={props.checked.studioBeds.includes('studioBedsCount') ? 'radio-formActive' : 'radio-form'}>
+          <legend className="label-form">Sleepover informations*</legend>
+          <label
+            htmlFor="bedsCount"
+            className={props.checked.sleepOver.includes('bedsCount') ? 'radio-formActive' : 'radio-form'}>
             <FormInput
               labelWrap={{
                 css: 'cursor-pointer',
-                string: 'Beds in total',
+                string: 'Beds available',
               }}
               type="checkbox"
               className="mr-2"
-              name="studioBeds"
-              id="studioBedsCount"
-              checked={props.checked.studioBeds.includes('studioBedsCount')}
+              name="sleepOver"
+              id="bedsCount"
+              checked={props.checked.sleepOver.includes('bedsCount')}
               onChange={(event) => {
                 props.handleCheck(event);
               }}
@@ -491,23 +498,25 @@ export function AddStudioForm(props) {
             <FormInput
               className="priceInput-form peer outline-none"
               type="number"
-              name="studioBeds"
-              id="studioBedsCount"
+              name="sleepOver"
+              id="bedsCount"
               required
               min={1}
               max={1000}
               errorMessage={'Min 1 max 1000'}
-              disabled={!props.checked.studioBeds.includes('studioBedsCount')}
+              disabled={!props.checked.sleepOver.includes('bedsCount')}
               value={
-                !props.checked.studioBeds.includes('studioBedsCount')
+                !props.checked.sleepOver.includes('bedsCount')
                   ? 0
-                  : props.form.studioBeds.studioBedsCount === undefined
+                  : props.form.sleepOver.bedsCount === undefined
                   ? ''
-                  : props.form.studioBeds.studioBedsCount
+                  : props.form.sleepOver.bedsCount
               }
               onChange={props.handleChange}></FormInput>
-          </div>
-          <div className={props.checked.studioBeds.includes('studioBedsMaxPeople') ? 'radio-formActive' : 'radio-form'}>
+          </label>
+          <label
+            htmlFor="maxPeople"
+            className={props.checked.sleepOver.includes('maxPeople') ? 'radio-formActive' : 'radio-form'}>
             <FormInput
               type="checkbox"
               labelWrap={{
@@ -515,9 +524,9 @@ export function AddStudioForm(props) {
                 string: 'Max persons',
               }}
               className="mr-2"
-              name="studioBeds"
-              id="studioBedsMaxPeople"
-              checked={props.checked.studioBeds.includes('studioBedsMaxPeople')}
+              name="sleepOver"
+              id="maxPeople"
+              checked={props.checked.sleepOver.includes('maxPeople')}
               onChange={(event) => {
                 props.handleChange(event);
                 props.handleCheck(event);
@@ -526,24 +535,24 @@ export function AddStudioForm(props) {
             <FormInput
               className="priceInput-form peer"
               type="number"
-              name="studioBeds"
-              id="studioBedsMaxPeople"
+              name="sleepOver"
+              id="maxPeople"
               required
               max={1000}
               min={1}
               errorMessage={'From 1 to 1000'}
-              disabled={!props.checked.studioBeds.includes('studioBedsMaxPeople')}
+              disabled={!props.checked.sleepOver.includes('maxPeople')}
               value={
-                !props.checked.studioBeds.includes('studioBedsMaxPeople')
+                !props.checked.sleepOver.includes('maxPeople')
                   ? 0
-                  : props.form.studioBeds.studioBedsMaxPeople === undefined
+                  : props.form.sleepOver.maxPeople === undefined
                   ? ''
-                  : props.form.studioBeds.studioBedsMaxPeople
+                  : props.form.sleepOver.maxPeople
               }
               onChange={props.handleChange}
             />
-          </div>
-          <span className="errormessage">{props.formErrors.studioBeds}</span>
+          </label>
+          <span className="errormessage">{props.formErrors.sleepOver}</span>
         </fieldset>
       ) : null}
       {/* StudioSocials */}

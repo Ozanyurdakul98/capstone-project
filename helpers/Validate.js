@@ -71,9 +71,9 @@ export function ValidateCreateStudioListing(form) {
   }
   if (!form.studioLanguages) {
     errors.studioLanguages = 'Add at least one languag to your studio!';
-  } else if (form.studioLanguages.length >= 71) {
+  } else if (form.studioLanguages.length >= 11) {
     errors.studioLanguages = 'Your iput is too long!';
-  } else if (form.studioLanguages.length <= 2) {
+  } else if (form.studioLanguages.length < 1) {
     errors.studioLanguages = 'Your input is too short! Min length is 3';
   }
 

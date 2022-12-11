@@ -169,7 +169,9 @@ export function FormInput(props) {
                       </label>
                       {/* arrow button */}
                       <div className="flex w-8 items-center border-l border-gray-200 py-1 pl-2 pr-1 text-gray-300">
-                        <button className="h-6 w-6 cursor-pointer text-gray-600 outline-none focus:outline-none">
+                        <button
+                          type="button"
+                          className="h-6 w-6 cursor-pointer text-gray-600 outline-none focus:outline-none">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="100%"
@@ -212,12 +214,6 @@ export function FormInput(props) {
                 </div>
               </div>
               <Label id={props.id} afterLabel={afterLabel} />
-              <ErrorMessage
-                type={props.type}
-                disabled={props.disabled}
-                focused={focused}
-                errorMessage={errorMessage}></ErrorMessage>
-              <span>{submitErrors?.[name]}</span>
             </>
           ) : (
             <>

@@ -13,8 +13,7 @@ const studioListingSchema = new mongoose.Schema(
     studioName: { type: String, required: true, trim: true },
     profileText: { type: String, required: true, trim: true },
     studiotype: { type: String, required: true, trim: true },
-    studioSize: { type: String, trim: true },
-    studioRooms: { type: String, trim: true },
+    studioInformation: { type: Object, trim: true },
     studioLanguages: { type: Array, required: true, trim: true },
     openingHours: {
       type: String,
@@ -22,7 +21,7 @@ const studioListingSchema = new mongoose.Schema(
       trim: true,
     },
     locationFeatures: { type: Array, required: true, trim: true },
-    studioBeds: { type: Object, trim: true },
+    sleepOver: { type: Object, trim: true },
     studioSocials: { type: Object, required: true, trim: true },
     studioLocation: { type: String, required: true, trim: true },
     user: {

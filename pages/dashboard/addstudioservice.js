@@ -22,14 +22,6 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
   const [step, setStep] = useState('selectStudio');
   const defaultPic = '/images/Thumbnail-default.png';
   const router = useRouter();
-
-  const selectingStudio = (val) => {
-    const thisStudio = fetchedStudios.filter((studio) => studio._id === val.id);
-    setSelectedStudio(thisStudio[0]._id);
-    setForm({ ...form, user: thisStudio[0].user._id });
-    setSelectedStudioInformation(thisStudio[0]);
-    setOpenModal(true);
-  };
   const defaultChecked = {
     soundengineer: false,
     studioPricing: [],
@@ -62,6 +54,14 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
   const [formErrors, setFormErrors] = useState({});
   const [preview, setPreview] = useState(false);
   console.log('addserb', additionalService);
+
+  const selectingStudio = (val) => {
+    const thisStudio = fetchedStudios.filter((studio) => studio._id === val.id);
+    setSelectedStudio(thisStudio[0]._id);
+    setForm({ ...form, user: thisStudio[0].user._id, studio: thisStudio[0]._id });
+    setSelectedStudioInformation(thisStudio[0]);
+    setOpenModal(true);
+  };
   const handlePreview = () => {
     const passForm = form;
     setFormErrors(ValidateCreateStudioServiceListing(passForm, checked));
@@ -285,10 +285,6 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
     }
   };
 
-  // console.log('def', defaultForm);
-  console.log('checked', checked);
-  console.log('form', form.studioPricing, formErrors);
-  console.log('form', form, formErrors);
   return (
     <div>
       {/* welcome */}
@@ -428,7 +424,7 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
                     </div>
                     <ClickToCloseMax
                       style={'bg-black/50 searchBarModal  z-40 h-full'}
-                      onClick={(event) => handleClickToCloseSearch(event)}
+                      onClick={() => setPreview(false)}
                     />
                   </>
                 )}
@@ -470,7 +466,7 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
                     </div>
                     <ClickToCloseMax
                       style={'bg-black/50 searchBarModal  z-40 h-full'}
-                      onClick={(event) => handleClickToCloseSearch(event)}
+                      onClick={() => setSubmissionFailed(false)}
                     />
                   </>
                 ) : null}
