@@ -10,6 +10,8 @@ import { formatValue } from 'react-currency-input-field';
 export function AddStudioServiceForm(props) {
   return (
     <>
+      {/* Seperator */}
+      <div className="h2 border-primary mt-16 w-full border-b-2">Main informations</div>
       {/* services */}
       <fieldset className="listingForm  flex flex-col gap-3 ">
         <legend className="label-form mb-0">Studioservice*</legend>
@@ -222,10 +224,13 @@ export function AddStudioServiceForm(props) {
           onChange={props.handleChange}></FormInput>
         <span className="errormessage ">{props.formErrors.equipment}</span>
       </fieldset>
+      {/* Seperator */}
+      <div className="h2 border-primary mt-20 w-full border-b-2">Pricing</div>
       {/* currency */}
       <fieldset className="listingForm w-full sm:w-2/3 lg:w-1/2">
-        <label htmlFor="currency" className="label-form">
+        <label htmlFor="currency" className="label-form block">
           Select your Currency*
+          <p className="text-sm font-normal normal-case">Select your currency for all pricings of this Studioservice</p>
         </label>
         <select
           id="currency"
@@ -324,12 +329,11 @@ export function AddStudioServiceForm(props) {
               id="price"
               name="price"
               className="addStudioServiceAdditionalServicesNumber flex-1 "
-              placeholder="enter price"
               maxLength={6}
               allowDecimals={false}
               allowNegativeValue={false}
               autoComplete="off"
-              value={props.additionalService.price}
+              value={props.additionalService.price || 0}
               intlConfig={{ locale: props.form.subInformations.locale, currency: props.form.subInformations.currency }}
               onValueChange={(value) => props.setAdditionalService({ ...props.additionalService, price: value })}
             />
@@ -342,7 +346,12 @@ export function AddStudioServiceForm(props) {
               className="form-button hover:bg-secondary-hover text-white">
               Add Serivce
             </button>
-            <span className="w-14 text-end text-lg font-semibold leading-loose">0 / 5</span>
+            <span
+              className={`w-14 text-end text-lg font-semibold leading-loose ${
+                props.form.additionalServices.length >= 5 ? 'text-red-500 ' : 'text-white'
+              }`}>
+              {props.form.additionalServices.length} / 5
+            </span>
           </div>
           {/* errors */}
           <p className="text-sm">{props.formErrors.additionalServices}</p>
@@ -396,19 +405,20 @@ export function AddStudioServiceForm(props) {
         <FormInput
           beforeLabel={{
             string:
-              'Does this Studioservice include a Soundengineer who is taking care of the session and is the price inclusive? Select no Soundengineer if, for example, you want to rent out your Studio.',
+              'Does this Studioservice include a Soundengineer who is taking care of the session and is the price for this service inclusive or not? Select no Soundengineer if, for example, you want to rent out your Studio.',
             css: 'pl-5 text-sm font-thin normal-case md:text-base',
           }}
           labelWrap={{
-            css: props.form.soundengineer === 'No Soundengineer' ? 'radio-formActive' : 'radio-form',
+            css: props.checked.soundengineer === 'soundengineerNo' ? 'radio-formActive' : 'radio-form',
           }}
           type="radio"
           id="soundengineerNo"
           name="soundengineer"
           value="No Soundengineer"
-          checked={props.form.soundengineer === 'No Soundengineer'}
+          checked={props.checked.soundengineer === 'soundengineerNo'}
           onChange={(event) => {
             props.handleChange(event);
+            props.handleCheck(event);
           }}
           afterLabel={{
             string: 'No Soundengineer ',
@@ -417,13 +427,13 @@ export function AddStudioServiceForm(props) {
         />
         <FormInput
           labelWrap={{
-            css: props.form.soundengineer === 'On Request' ? 'radio-formActive' : 'radio-form',
+            css: props.checked.soundengineer === 'soundengineerOnRequest' ? 'radio-formActive' : 'radio-form',
           }}
           type="radio"
           id="soundengineerOnRequest"
           name="soundengineer"
           value="On Request"
-          checked={props.form.soundengineer === 'On Request'}
+          checked={props.checked.soundengineer === 'soundengineerOnRequest'}
           onChange={(event) => {
             props.handleChange(event);
             props.handleCheck(event);
@@ -435,13 +445,13 @@ export function AddStudioServiceForm(props) {
         />
         <FormInput
           labelWrap={{
-            css: props.form.soundengineer === 'Inclusive' ? 'radio-formActive' : 'radio-form',
+            css: props.checked.soundengineer === 'soundengineerInclusive' ? 'radio-formActive' : 'radio-form',
           }}
           type="radio"
           id="soundengineerInclusive"
           name="soundengineer"
           value="Inclusive"
-          checked={props.form.soundengineer === 'Inclusive'}
+          checked={props.checked.soundengineer === 'soundengineerInclusive'}
           onChange={(event) => {
             props.handleChange(event);
             props.handleCheck(event);
@@ -451,48 +461,69 @@ export function AddStudioServiceForm(props) {
             css: 'cursor-pointer',
           }}
         />
-        <div className={props.form.soundengineer.soundengineerPrice ? 'radio-formActive' : 'radio-form'}>
-          <FormInput
-            labelWrap={{
-              css: 'cursor-pointer',
-              string: 'Price per hour',
-            }}
-            className="mr-2 "
+        <label
+          htmlFor={`${props.checked.soundengineer === 'soundengineerPrice' ? '' : 'soundengineerPrice'}`}
+          className={`gap-0 active:scale-100 ${
+            props.checked.soundengineer === 'soundengineerPrice' ? 'radio-formActive' : 'radio-form'
+          }`}>
+          <input
             type="radio"
+            className="mr-2"
             name="soundengineer"
             id="soundengineerPrice"
             checked={props.checked.soundengineer === 'soundengineerPrice'}
             onChange={(event) => {
-              props.handleChange(event);
               props.handleCheck(event);
-            }}></FormInput>
-          <FormInput
-            className="priceInput-form peer"
-            type="number"
-            name="soundengineer"
-            id="soundengineerPrice"
-            required
-            min={1}
-            max={9999}
-            errorMessage={'From 1 to 9999'}
+              props.setForm({ ...props.form, soundengineer: '' });
+            }}
+          />
+          <select
             disabled={props.checked.soundengineer != 'soundengineerPrice'}
-            value={
-              props.checked.soundengineer === 'soundengineerPrice' ? props.form.soundengineer.soundengineerPrice : 0
+            onChange={(event) =>
+              props.setForm({
+                ...props.form,
+                soundengineer: { ...props.form.soundengineer, priceOption: event.target.value },
+              })
             }
-            onChange={(event) => {
-              props.handleChange(event);
-            }}></FormInput>
-        </div>
+            value={props.form.soundengineer.priceOption || ''}
+            className="form-select m-0 mr-2 block h-[22px] w-32 appearance-none rounded border border-solid border-gray-300 bg-white  px-2 py-0 text-sm font-normal text-gray-700  focus:bg-white focus:text-gray-700 focus:outline-none">
+            <option hidden value="">
+              Price option
+            </option>
+            <option value="one Time">one Time</option>
+            <option value="per Hour">per Hour</option>
+            <option value="per Session">per Session</option>
+          </select>
+          <CurrencyInput
+            id="price"
+            name="soundengineer"
+            className="priceInput-form mr-2 w-14"
+            maxLength={6}
+            required
+            disabled={props.checked.soundengineer != 'soundengineerPrice'}
+            allowDecimals={false}
+            allowNegativeValue={false}
+            autoComplete="off"
+            value={props.form.soundengineer.price || 0}
+            intlConfig={{ locale: props.form.subInformations.locale, currency: props.form.subInformations.currency }}
+            onValueChange={(value, name) => props.handleChange(value, name)}
+          />
+        </label>
         <span className="errormessage">{props.formErrors.soundengineer}</span>
       </fieldset>
       {/* studio-price */}
       <fieldset className="listingForm flex flex-col gap-3 ">
         <legend className="label-form">Studio Pricing</legend>
-        <div className={props.checked.studioPricing.includes('studioPricingHour') ? 'radio-formActive' : 'radio-form'}>
+        <p className="pl-5 text-sm">
+          Choose here the the booking options, the User should have, for this Studioservice
+        </p>
+        <label
+          htmlFor="studioPricingHour"
+          className={props.checked.studioPricing.includes('studioPricingHour') ? 'radio-formActive' : 'radio-form'}>
           <FormInput
             labelWrap={{
               css: 'cursor-pointer',
-              string: 'Per hour',
+              string: 'per Hour',
             }}
             type="checkbox"
             className="mr-2"
@@ -503,62 +534,62 @@ export function AddStudioServiceForm(props) {
               props.handleCheck(event);
             }}
           />
-          <FormInput
-            className="priceInput-form peer outline-none"
-            type="number"
+          <CurrencyInput
             name="studioPricing"
             id="studioPricingHour"
+            className="priceInput-form mr-2 w-14"
+            placeholder="price"
+            maxLength={6}
             required
-            min={1}
-            max={9999}
-            errorMessage={'From 1 to 9999'}
             disabled={!props.checked.studioPricing.includes('studioPricingHour')}
-            value={
-              !props.checked.studioPricing.includes('studioPricingHour')
-                ? 0
-                : props.form.studioPricing.studioPricingHour === undefined
-                ? ''
-                : props.form.studioPricing.studioPricingHour
+            allowDecimals={false}
+            allowNegativeValue={false}
+            autoComplete="off"
+            value={props.form.studioPricing.studioPricingHour || 0}
+            intlConfig={{ locale: props.form.subInformations.locale, currency: props.form.subInformations.currency }}
+            onValueChange={(value, name) =>
+              props.setForm({ ...props.form, [name]: { ...props.form.studioPricing, studioPricingHour: value } })
             }
-            onChange={props.handleChange}></FormInput>
-        </div>
-        <div className={props.checked.studioPricing.includes('studioPricingDay') ? 'radio-formActive' : 'radio-form'}>
+          />
+        </label>
+        <label
+          htmlFor="studioPricingDay"
+          className={props.checked.studioPricing.includes('studioPricingDay') ? 'radio-formActive' : 'radio-form'}>
           <FormInput
             type="checkbox"
             labelWrap={{
               css: 'cursor-pointer',
-              string: 'Per day',
+              string: 'per Day',
             }}
             className="mr-2"
             name="studioPricing"
             id="studioPricingDay"
             checked={props.checked.studioPricing.includes('studioPricingDay')}
             onChange={(event) => {
-              props.handleChange(event);
               props.handleCheck(event);
             }}
           />
-          <FormInput
-            className="priceInput-form peer"
-            type="number"
+          <CurrencyInput
             name="studioPricing"
             id="studioPricingDay"
+            className="priceInput-form mr-2 w-14"
+            placeholder="price"
+            maxLength={6}
             required
-            max={9999}
-            min={1}
-            errorMessage={'From 1 to 9999'}
             disabled={!props.checked.studioPricing.includes('studioPricingDay')}
-            value={
-              !props.checked.studioPricing.includes('studioPricingDay')
-                ? 0
-                : props.form.studioPricing.studioPricingDay === undefined
-                ? ''
-                : props.form.studioPricing.studioPricingDay
+            allowDecimals={false}
+            allowNegativeValue={false}
+            autoComplete="off"
+            value={props.form.studioPricing.studioPricingDay || 0}
+            intlConfig={{ locale: props.form.subInformations.locale, currency: props.form.subInformations.currency }}
+            onValueChange={(value, name) =>
+              props.setForm({ ...props.form, [name]: { ...props.form.studioPricing, studioPricingDay: value } })
             }
-            onChange={props.handleChange}
           />
-        </div>
-        <div className={props.checked.studioPricing.includes('studioPricingWeek') ? 'radio-formActive' : 'radio-form'}>
+        </label>
+        <label
+          htmlFor="studioPricingWeek"
+          className={props.checked.studioPricing.includes('studioPricingWeek') ? 'radio-formActive' : 'radio-form'}>
           <FormInput
             type="checkbox"
             name="studioPricing"
@@ -567,33 +598,33 @@ export function AddStudioServiceForm(props) {
             checked={props.checked.studioPricing.includes('studioPricingWeek')}
             labelWrap={{
               css: 'cursor-pointer',
-              string: 'Per week',
+              string: 'per Week',
             }}
             onChange={(event) => {
               props.handleCheck(event);
             }}
           />
-          <FormInput
-            className="priceInput-form peer"
-            type="number"
+          <CurrencyInput
             name="studioPricing"
             id="studioPricingWeek"
+            className="priceInput-form mr-2 w-14"
+            placeholder="price"
+            maxLength={6}
             required
-            min={1}
-            max={9999}
-            errorMessage={'From 1 to 9999'}
             disabled={!props.checked.studioPricing.includes('studioPricingWeek')}
-            value={
-              !props.checked.studioPricing.includes('studioPricingWeek')
-                ? 0
-                : props.form.studioPricing.studioPricingWeek === undefined
-                ? ''
-                : props.form.studioPricing.studioPricingWeek
+            allowDecimals={false}
+            allowNegativeValue={false}
+            autoComplete="off"
+            value={props.form.studioPricing.studioPricingWeek || 0}
+            intlConfig={{ locale: props.form.subInformations.locale, currency: props.form.subInformations.currency }}
+            onValueChange={(value, name) =>
+              props.setForm({ ...props.form, [name]: { ...props.form.studioPricing, studioPricingWeek: value } })
             }
-            onChange={props.handleChange}
           />
-        </div>
-        <div className={props.checked.studioPricing.includes('studioPricingMonth') ? 'radio-formActive' : 'radio-form'}>
+        </label>
+        <label
+          htmlFor="studioPricingMonth"
+          className={props.checked.studioPricing.includes('studioPricingMonth') ? 'radio-formActive' : 'radio-form'}>
           <FormInput
             type="checkbox"
             name="studioPricing"
@@ -602,53 +633,31 @@ export function AddStudioServiceForm(props) {
             checked={props.checked.studioPricing.includes('studioPricingMonth')}
             labelWrap={{
               css: 'cursor-pointer',
-              string: 'Per month',
+              string: 'per Month',
             }}
             onChange={(event) => {
               props.handleCheck(event);
             }}
           />
-          <FormInput
-            className="priceInput-form peer "
-            type="number"
+          <CurrencyInput
             name="studioPricing"
             id="studioPricingMonth"
+            className="priceInput-form mr-2 w-14"
+            placeholder="price"
+            maxLength={6}
             required
-            errorMessage={'From 1 to 9999'}
-            min={1}
-            max={9999}
             disabled={!props.checked.studioPricing.includes('studioPricingMonth')}
-            value={
-              !props.checked.studioPricing.includes('studioPricingMonth')
-                ? 0
-                : props.form.studioPricing.studioPricingMonth === undefined
-                ? ''
-                : props.form.studioPricing.studioPricingMonth
+            allowDecimals={false}
+            allowNegativeValue={false}
+            autoComplete="off"
+            value={props.form.studioPricing.studioPricingMonth || 0}
+            intlConfig={{ locale: props.form.subInformations.locale, currency: props.form.subInformations.currency }}
+            onValueChange={(value, name) =>
+              props.setForm({ ...props.form, [name]: { ...props.form.studioPricing, studioPricingMonth: value } })
             }
-            onChange={props.handleChange}
           />
-        </div>
+        </label>
         <span className="errormessage">{props.formErrors.studioPricing}</span>
-      </fieldset>
-      {/* location */}
-      <fieldset className="listingForm mb-52">
-        <FormInput
-          beforeLabel={{
-            string: 'Location',
-            css: 'label-form ',
-          }}
-          className="input-form peer"
-          type="text"
-          name="studioLocation"
-          placeholder="Type [City], [Address]"
-          required
-          autoComplete="off"
-          errorMessage={'Only 5-60 characters and (a-z, A-Z, 0-9, äöü ,-) allowed!'}
-          pattern="^([a-zA-Z-])([a-zA-Z-0-9-,äöü\s]){4,60}$"
-          value={props.form.studioLocation}
-          onChange={props.handleChange}
-        />
-        <span className="errormessage">{props.formErrors.studioLocation}</span>
       </fieldset>
       {/* Errormessage */}
       <fieldset>

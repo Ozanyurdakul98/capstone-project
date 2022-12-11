@@ -106,7 +106,16 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
       }
     }
   };
-  const handleChange = (event) => {
+  const handleChange = (event, other) => {
+    console.log('eve', event, other);
+    if (other) {
+      if (other === 'soundengineer') {
+        return setForm({ ...form, soundengineer: { ...form.soundengineer, price: event } });
+      }
+      if (other === 'studioPricing') {
+        return;
+      }
+    }
     const target = event.target;
     const type = target.type;
     const name = target.name;
@@ -117,9 +126,9 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
   };
   function checkValues(type, form, name, wert, id, target) {
     return () => {
-      if (name === 'studioPricing' || id === 'soundengineerPrice') {
+      if (name === 'studioPricing') {
         const currentForm = {
-          ...form[name === 'studioPricing' ? name : id],
+          ...form[name],
           [id]: wert,
         };
         const deleteUndefined = Object.fromEntries(Object.entries(currentForm).filter(([v]) => v));
@@ -250,7 +259,9 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
     if (alreadyUsedNames.includes(indexAsName)) {
       return setFormErrors({ ...formErrors, additionalServices: 'Please use a unique service name!' });
     }
-
+    if (form.additionalServices.length >= 5) {
+      return setFormErrors({ ...formErrors, additionalServices: 'Max of additional services reached!' });
+    }
     setFormErrors({ ...formErrors, additionalServices: '' });
     setForm({
       ...form,
@@ -275,7 +286,9 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
   };
 
   // console.log('def', defaultForm);
-  console.log('checked, form', checked, form, formErrors);
+  console.log('checked', checked);
+  console.log('form', form.studioPricing, formErrors);
+  console.log('form', form, formErrors);
   return (
     <div>
       {/* welcome */}

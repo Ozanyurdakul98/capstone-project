@@ -25,12 +25,9 @@ const studioServiceSchema = new mongoose.Schema(
     },
     maxGuests: { type: Number, default: 3, trim: true },
     equipment: { type: String, required: true, trim: true },
-    additionalServices: { type: Object, trim: true },
-
+    additionalServices: { type: Array, trim: true },
     soundengineer: { type: Object, required: true, trim: true },
     studioPricing: { type: Object, required: true, trim: true },
-    studioLocation: { type: String, required: true, trim: true },
-
     subInformations: {
       type: Object,
       trim: true,

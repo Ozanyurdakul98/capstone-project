@@ -76,7 +76,10 @@ export default function StudioInformation({ studio, setOpenModal }) {
           </section>
         </div>
       </div>
-      <ClickToCloseMax style={'editModal  z-40 h-full'} onClick={(event) => handleClickToCloseInfoModal(event)} />
+      <ClickToCloseMax
+        style={'editModal backdrop-blur-sm z-40 h-full'}
+        onClick={(event) => handleClickToCloseInfoModal(event)}
+      />
     </>
   );
 }
