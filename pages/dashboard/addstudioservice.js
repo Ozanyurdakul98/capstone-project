@@ -23,8 +23,8 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
   const defaultPic = '/images/Thumbnail-default.png';
   const router = useRouter();
   const defaultChecked = {
-    soundengineer: false,
-    studioPricing: [],
+    soundengineer: 'soundengineerOnRequest',
+    pricing: [],
   };
   const [form, setForm] = useState({
     service: '',
@@ -36,8 +36,7 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
     additionalServices: [],
     openingHours: 'Always Available',
     soundengineer: 'On Request',
-    studioPricing: {},
-    studioLocation: '',
+    pricing: {},
     studio: '',
     user: '',
     subInformations: { locale: 'de-DE', currency: 'EUR' },
@@ -52,8 +51,9 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
   const [isSubmit, setIsSubmit] = useState(false);
   const [submissionFailed, setSubmissionFailed] = useState(false);
   const [formErrors, setFormErrors] = useState({});
-  const [preview, setPreview] = useState(false);
-  console.log('addserb', additionalService);
+  const [preview, setPreview] = useState(true);
+  console.log('addserb', selectedStudio);
+  console.log('addserb', selectedStudioInformation);
 
   const selectingStudio = (val) => {
     const thisStudio = fetchedStudios.filter((studio) => studio._id === val.id);
@@ -63,12 +63,12 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
     setOpenModal(true);
   };
   const handlePreview = () => {
-    const passForm = form;
-    setFormErrors(ValidateCreateStudioServiceListing(passForm, checked));
-    if (Object.keys(ValidateCreateStudioServiceListing(passForm, checked)).length === 0) {
-      handleUploadInput();
-      setPreview(true);
-    }
+    // const passForm = form;
+    // setFormErrors(ValidateCreateStudioServiceListing(passForm, checked));
+    // if (Object.keys(ValidateCreateStudioServiceListing(passForm, checked)).length === 0) {
+    //   handleUploadInput();
+    setPreview(true);
+    // }
   };
   const handleFormSubmit = async (event) => {
     const passForm = form;
@@ -112,7 +112,7 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
       if (other === 'soundengineer') {
         return setForm({ ...form, soundengineer: { ...form.soundengineer, price: event } });
       }
-      if (other === 'studioPricing') {
+      if (other === 'pricing') {
         return;
       }
     }
@@ -126,7 +126,7 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
   };
   function checkValues(type, form, name, wert, id, target) {
     return () => {
-      if (name === 'studioPricing') {
+      if (name === 'pricing') {
         const currentForm = {
           ...form[name],
           [id]: wert,
@@ -182,7 +182,7 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
       if (name === 'studioService') {
         return id;
       }
-      if (name === 'studioPricing') {
+      if (name === 'pricing') {
         let newArray = [...checked[name], id];
         if (checked[name].includes(id)) {
           newArray = newArray.filter((pricing) => pricing !== id);
@@ -284,7 +284,7 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
       setForm({ ...form, additionalServices: newArr });
     }
   };
-
+  console.log(form, checked);
   return (
     <div>
       {/* welcome */}
@@ -380,30 +380,32 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
                           <div>
                             <h3 className="h3 ml-5">Searchpage preview</h3>
                             <ListingCardWideStudioService
+                              preview={true}
                               listingTitle={form.listingTitle}
-                              images={form.images ? form.images : '/images/Thumbnail-default.png'}
+                              images={form.images.primary ? form.images.primary : '/images/Thumbnail-default.png'}
                               studiotype={form.studiotype}
-                              studioService={form.studioService}
+                              service={form.service}
+                              maxGuests={form.maxGuests}
                               soundengineer={form.soundengineer}
-                              studioPricing={form.studioPricing}
+                              pricing={form.pricing}
                               locationFeatures={form.locationFeatures}
-                              studioLocation={form.studioLocation}
+                              studio={selectedStudioInformation}
                             />
                           </div>
                           <div className="ml-5 pb-4">
                             <h3 className="h3">Startpage preview</h3>
                             <div className="-ml-4">
-                              <ListingCardCarousellStudioService
+                              {/* <ListingCardCarousellStudioService
                                 listingTitle={form.listingTitle}
                                 images={form.images ? form.images : '/images/Thumbnail-default.png'}
                                 studiotype={form.studiotype}
-                                studioService={form.studioService}
+                                studioService={form.service}
                                 soundengineer={form.soundengineer}
-                                studioPricing={form.studioPricing}
+                                pricing={form.pricing}
                                 locationFeatures={form.locationFeatures}
                                 openingHours={form.openingHours}
                                 studioLocation={form.studioLocation}
-                              />
+                              /> */}
                             </div>
                           </div>
                         </div>

@@ -27,7 +27,7 @@ const studioServiceSchema = new mongoose.Schema(
     equipment: { type: String, required: true, trim: true },
     additionalServices: { type: Array, trim: true },
     soundengineer: { type: Object, required: true, trim: true },
-    studioPricing: { type: Object, required: true, trim: true },
+    pricing: { type: Object, required: true, trim: true },
     subInformations: {
       type: Object,
       trim: true,

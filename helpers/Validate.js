@@ -131,59 +131,64 @@ export function ValidateCreateStudioListing(form) {
 export function ValidateCreateStudioServiceListing(form, checked) {
   const errors = {};
   const regex = /^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){9,60}$/i;
-  const patternLocation = /^([a-zA-Z-])([a-zA-Z-0-9-,äöü\s]){4,60}$/i;
+
+  if (!form.service) {
+    errors.service = 'Select a Service please!';
+  }
+  if (form.service.length === 0) {
+    errors.service = 'Select at least 1 service!';
+  }
 
   if (!form.listingTitle) {
-    errors.listingTitle = 'A listing title is required!';
+    errors.listingTitle = 'A Title for this Studioservice is required!';
   } else if (!regex.test(form.listingTitle)) {
     errors.listingTitle = 'Your input is not valid!';
   }
 
-  if (checked.studioPricing.indexOf('studioPricingHour') > -1 && !form.studioPricing.studioPricingHour) {
-    errors.studioPricing = 'Enter your price!';
-  } else if (form.studioPricing.studioPricingHour?.length >= 5) {
-    errors.studioPricing = 'The max length is 4 numbers';
+  if (!form.description) {
+    errors.description = 'Type your description for this Studioservice please!';
   }
 
-  if (checked.studioPricing.indexOf('studioPricingDay') > -1 && !form.studioPricing.studioPricingDay) {
-    errors.studioPricing = 'Enter your price!';
-  } else if (form.studioPricing.studioPricingDay?.length >= 5) {
-    errors.studioPricing = 'The max length is 4 numbers';
+  if (!form.maxGuests) {
+    errors.description = 'Choose your max Guests!';
   }
 
-  if (checked.studioPricing.indexOf('studioPricingWeek') > -1 && !form.studioPricing.studioPricingWeek) {
-    errors.studioPricing = 'Enter your price!';
-  } else if (form.studioPricing.studioPricingWeek?.length >= 5) {
-    errors.studioPricing = 'The max length is 4 numbers';
+  if (!form.equipment) {
+    errors.equipment = 'You need to type in your Equipment details for this Studioservice listing!!';
   }
 
-  if (checked.studioPricing.indexOf('studioPricingMonth') > -1 && !form.studioPricing.studioPricingMonth) {
-    errors.studioPricing = 'Enter your price!';
-  } else if (form.studioPricing.studioPricingMonth?.length >= 5) {
-    errors.studioPricing = 'The max length is 4 numbers';
-  }
-  if (form.studioService.length === 0) {
-    errors.studioService = 'Select at least 1 service!';
+  if (checked.pricing.indexOf('pricingHour') > -1 && !form.pricing.pricingHour) {
+    errors.pricing = 'Enter your price!';
+  } else if (form.pricing.pricingHour?.length >= 5) {
+    errors.pricing = 'The max length is 4 numbers';
   }
 
-  if (Object.keys(form.studioPricing).length === 0 && form.studioPricing.constructor === Object) {
-    errors.studioPricing = 'Select at least 1 studio pricing option!';
+  if (checked.pricing.indexOf('pricingDay') > -1 && !form.pricing.pricingDay) {
+    errors.pricing = 'Enter your price!';
+  } else if (form.pricing.pricingDay?.length >= 5) {
+    errors.pricing = 'The max length is 4 numbers';
   }
 
-  if (form.locationFeatures.length === 0) {
-    errors.locationFeatures = 'Select at least 1 location feature!';
+  if (checked.pricing.indexOf('pricingWeek') > -1 && !form.pricing.pricingWeek) {
+    errors.pricing = 'Enter your price!';
+  } else if (form.pricing.pricingWeek?.length >= 5) {
+    errors.pricing = 'The max length is 4 numbers';
+  }
+
+  if (checked.pricing.indexOf('pricingMonth') > -1 && !form.pricing.pricingMonth) {
+    errors.pricing = 'Enter your price!';
+  } else if (form.pricing.pricingMonth?.length >= 5) {
+    errors.pricing = 'The max length is 4 numbers';
+  }
+
+  if (Object.keys(form.pricing).length === 0 && form.pricing.constructor === Object) {
+    errors.pricing = 'Select at least 1 studio pricing option!';
   }
 
   if (!form.soundengineer) {
     errors.soundengineer = 'Select a option for Soundengineer!';
   } else if (form.soundengineer.soundengineerPrice?.length >= 5) {
     errors.soundengineer = 'The max length is 4 numbers';
-  }
-
-  if (!form.studioLocation) {
-    errors.studioLocation = 'A studio location is required!';
-  } else if (!patternLocation.test(form.studioLocation)) {
-    errors.studioLocation = 'Your input is not valid';
   }
   return errors;
 }
