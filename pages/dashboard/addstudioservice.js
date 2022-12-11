@@ -54,7 +54,7 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
     name: '',
     description: '',
     priceOption: '',
-    price: 0,
+    price: '',
   });
   const [checked, setChecked] = useState(defaultChecked);
   const [isSubmit, setIsSubmit] = useState(false);
@@ -235,7 +235,7 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
     if (!name || name.length >= 26 || name.length <= 1) {
       return setFormErrors({ ...formErrors, additionalServices: 'name: 2-25 characters and (a-zA-Z-0-9-!äöü,-_)!' });
     }
-    if (!description || description.length >= 200 || description.length <= 9) {
+    if (!description || description.length >= 201 || description.length <= 9) {
       return setFormErrors({
         ...formErrors,
         additionalServices: 'description: 10-200 characters and (a-zA-Z-0-9-!äöü,-_)!',
@@ -266,6 +266,14 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
     });
     setAdditionalService({ name: '', price: '', description: '', priceOption: '' });
   };
+  const handleDelete = (id) => {
+    if (id) {
+      const newArr = form.additionalServices.filter((v) => v.name !== id);
+      console.log(newArr);
+      setForm({ ...form, additionalServices: newArr });
+    }
+  };
+
   // console.log('def', defaultForm);
   console.log('checked, form', checked, form, formErrors);
   return (
@@ -346,7 +354,8 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
                 decrementNumberGuests={decrementNumberGuests}
                 additionalService={additionalService}
                 setAdditionalService={setAdditionalService}
-                handleAdditionalStudioServices={handleAdditionalStudioServices}></AddStudioServiceForm>
+                handleAdditionalStudioServices={handleAdditionalStudioServices}
+                handleDelete={handleDelete}></AddStudioServiceForm>
               {/* PreviewModal */}
               <fieldset>
                 {preview && (

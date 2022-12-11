@@ -325,11 +325,10 @@ export function AddStudioServiceForm(props) {
               name="price"
               className="addStudioServiceAdditionalServicesNumber flex-1 "
               placeholder="enter price"
-              decimalsLimit={2}
-              maxLength={10}
-              fixedDecimalLength={2}
+              maxLength={6}
+              allowDecimals={false}
+              allowNegativeValue={false}
               autoComplete="off"
-              decimalScale={2}
               value={props.additionalService.price}
               intlConfig={{ locale: props.form.subInformations.locale, currency: props.form.subInformations.currency }}
               onValueChange={(value) => props.setAdditionalService({ ...props.additionalService, price: value })}
@@ -348,19 +347,38 @@ export function AddStudioServiceForm(props) {
           {/* errors */}
           <p className="text-sm">{props.formErrors.additionalServices}</p>
         </div>
-        <div className="flex flex-col gap-3">
+        <div className="flex w-full flex-col items-center gap-3 sm:w-2/3 lg:w-1/2">
           {props.form.additionalServices.map((service) => (
             <article
               key={service.name}
-              className="bg-secondary flex w-full flex-col gap-2 rounded-xl px-5 py-2 text-white  shadow-lg sm:w-2/3 lg:w-1/2">
-              <h3 className="text-lg font-semibold">{service.name}</h3>
+              className="bg-secondary flex w-full flex-col gap-2 rounded-xl px-5 py-2 text-white  shadow-lg">
+              <div className="flex justify-between">
+                <h3 className="text-lg font-semibold">{service.name}</h3>
+                <button type="button" onClick={() => props.handleDelete(service.name)}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="100%"
+                    height="100%"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="ml-2 h-4 w-4 cursor-pointer rounded-full duration-100 hover:-rotate-12 hover:scale-150 hover:text-red-500">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </button>
+              </div>
               <p className="pl-5 font-thin">{service.description}</p>
               <section className="mt-4 flex justify-start gap-10 pl-10">
                 <p className="font-thin">{service.priceOption}</p>
                 <p className=" font-thin">
                   {formatValue({
                     value: service.price,
-                    decimalSeparator: ',',
+                    // decimalSeparator: ',',
+                    // groupSeparator: '.',
                     intlConfig: {
                       locale: props.form.subInformations.locale,
                       currency: props.form.subInformations.currency,
