@@ -4,13 +4,14 @@ import StudioListing from '../../../../../models/StudioListing';
 import StudioService from '../../../../../models/StudioService';
 //components
 import StudiosDetailpage from '../../../../../components/Layout/StudiosDetailpage';
+import ListingCardCarousellStudioService from '../../../../../components/Result/ListingCardCarousellStudioService';
 import moment from 'moment';
 import Image from 'next/image';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
 //tools
-function StudioDetailpage({ serializedStudio }) {
+function StudioDetailpage({ serializedStudio, serializedStudioservices }) {
   // eslint-disable-next-line no-unused-vars
   const router = useRouter();
   const studio = serializedStudio[0];
@@ -35,9 +36,9 @@ function StudioDetailpage({ serializedStudio }) {
       {/* Main*/}
       <section className="container relative bottom-52 mx-auto px-[15px] lg:gap-5">
         {/* WelcomeSection */}
-        <section className="mb-4 flex justify-center rounded-md bg-white pt-16 text-black shadow-lg">
+        <section className="mb-4 justify-center rounded-md bg-white pt-16 text-black shadow-lg sm:flex">
           {/* Headersection */}
-          <section className="mb-5 flex flex-col gap-2 px-7 text-xs">
+          <section className="flex flex-col gap-2 px-7 text-xs sm:mb-5">
             <div className="flex flex-wrap justify-center">
               {/* ProfilePic */}
               <div className="absolute top-1 -m-16 -ml-20 h-[150px] w-[150px] rounded-full border-none align-middle shadow-xl">
@@ -54,9 +55,9 @@ function StudioDetailpage({ serializedStudio }) {
                 {/* headerh1 and h3 */}
                 <div className="flex w-full flex-col items-center px-10">
                   <div className="max-w-max">
-                    <h3 className="flex items-center justify-start gap-2 text-gray-500">
+                    <h3 className="flex items-center justify-start gap-1 truncate text-gray-500">
                       <svg
-                        className="h-5 w-5 text-black"
+                        className="h-3 w-3 text-black sm:h-4 sm:w-4"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -78,7 +79,7 @@ function StudioDetailpage({ serializedStudio }) {
                   </div>
                 </div>
                 {/* CounterSection */}
-                <div className="flex justify-center pt-2 pb-0 lg:pt-4">
+                <div className="flex justify-center pb-0 sm:pt-2 lg:pt-4">
                   {/* <div className="p-3 text-center">
                     <span className="block text-xl font-bold uppercase tracking-wide text-slate-700">60</span>
                     <span className="text-sm text-slate-400">Studios</span>
@@ -96,18 +97,34 @@ function StudioDetailpage({ serializedStudio }) {
             </div>
           </section>
           {/* Profiledescription */}
-          <section className="mb-5 flex max-w-lg flex-col  justify-center px-7 text-sm text-gray-600">
+          <section className="mb-5 flex max-w-lg flex-col justify-center  px-7 pb-5 text-sm text-gray-600 sm:pb-0">
             <div>
               <h2 className="h2LandingP">About this Studio</h2>
             </div>
             <div>
-              <p className="pt-5">{studio.profileText}</p>
+              <p className="sm:pt-5">{studio.profileText}</p>
             </div>
           </section>
         </section>
         {/* StudioservicesSection */}
         <section className="min-h-[350px] px-7">
           <h2 className="h2LandingP">Our Studio services</h2>
+          {serializedStudioservices.map(
+            ({ _id, service, listingTitle, description, maxGuests, images, soundengineer, pricing }) => (
+              <ListingCardCarousellStudioService
+                key={_id}
+                listingTitle={listingTitle}
+                images={images}
+                studiotype={studio.studiotype}
+                maxGuests={maxGuests}
+                description={description}
+                soundengineer={soundengineer}
+                pricing={pricing}
+                locationFeatures={studio.locationFeatures}
+                studio={studio}
+              />
+            )
+          )}
         </section>
         {/* DetailsSection */}
         <section className="rounded-md bg-white py-16 text-black shadow-lg">
