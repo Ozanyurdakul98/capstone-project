@@ -15,6 +15,11 @@ export default function Layout({ children }) {
       signOut({
         callbackUrl: '/signin',
       });
+      if (!session?.token) {
+        signOut({
+          callbackUrl: '/signin',
+        });
+      }
     }
   }, [status]);
   return (

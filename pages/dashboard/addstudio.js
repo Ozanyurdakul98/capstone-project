@@ -172,7 +172,6 @@ function DashboardAddStudio({ userID }) {
     const wert = target.value;
     const id = target.id;
     const value = checkValues(type, form, name, wert, id, target, val);
-    console.log('val', val, value(), 'name', name);
     setForm({ ...form, [name]: value() });
   };
   function checkValues(type, form, name, wert, id, target, val) {
@@ -271,11 +270,9 @@ function DashboardAddStudio({ userID }) {
         return newArray;
       }
       if (name === 'studioLanguages') {
-        const t = languages.filter((lang) => lang.toLowerCase().includes(wert));
+        const newMatches = languages.filter((lang) => lang.toLowerCase().includes(wert.toLowerCase()));
         setStudioLanguagesSearch(wert);
-        console.log('tT', t, checked);
-
-        return t;
+        return newMatches;
       }
     };
     setChecked({ ...checked, [name]: isChecked() });
@@ -293,16 +290,16 @@ function DashboardAddStudio({ userID }) {
     const formData = new FormData();
     const preset = 'cy1wyxej';
     const url = 'https://api.cloudinary.com/v1_1/drt9lfnfg/image/upload';
-    formData.append('file', checked.logo);
+    formData.append('file', logo);
     formData.append('upload_preset', preset);
     const res = await fetch(url, {
       method: 'POST',
       body: formData,
     });
     const data = await res.json();
-    data ? setForm({ ...form, logo: data.secure_url }) : setForm({ ...form, logo: '/images/Thumbnail-default.png' });
+    if (data) return data.secure_url;
+    else if (!data) return defaultPic;
   };
-  console.log(form);
   return (
     <>
       <div className="sm:px-0">

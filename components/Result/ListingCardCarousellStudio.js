@@ -9,20 +9,9 @@ import Link from 'next/link';
 
 function ListingCard({ preview, id, logo, studioName, studiotype, openingHours, locationFeatures, studioLocation }) {
   const studiotypeSanitized = studiotype?.toLowerCase().replace(/ /g, '');
+  const studioNameSanitized = studioName?.toLowerCase().replace(/ /g, '');
   return (
-    <Link
-      href={
-        preview
-          ? '#'
-          : {
-              pathname: '/studiotype/[studiotype]/id/[studioName]/[id]',
-              query: {
-                studiotype: `${studiotypeSanitized}`,
-                studioName: `${studioName}`,
-                id: `${id}`,
-              },
-            }
-      }>
+    <Link href={preview ? '#' : `/studiotype/${studiotypeSanitized}/id/${studioNameSanitized}/${id}`}>
       <div className="mx-1">
         <article className="relative mx-auto mb-10   flex min-h-[333px] w-full max-w-[250px] cursor-pointer flex-col items-center rounded-lg bg-white shadow-xl hover:opacity-90 hover:shadow-lg">
           <div className="relative h-40 w-40 shrink-0">

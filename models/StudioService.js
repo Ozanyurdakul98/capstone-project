@@ -34,14 +34,12 @@ const studioServiceSchema = new mongoose.Schema(
       currency: { type: String, default: 'USD' },
       locale: { type: String, default: 'en-US' },
     },
-    studio: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'StudioListing',
-        required: true,
-        trim: true,
-      },
-    ],
+    studio: {
+      type: Schema.Types.ObjectId,
+      ref: 'StudioListing',
+      required: true,
+      trim: true,
+    },
     user: {
       type: Schema.Types.ObjectId,
       ref: 'users',
@@ -54,5 +52,5 @@ const studioServiceSchema = new mongoose.Schema(
   }
 );
 
-const StudioService = mongoose.models.StudioListing || mongoose.model('StudioService', studioServiceSchema);
+const StudioService = mongoose.models.StudioService || mongoose.model('StudioService', studioServiceSchema);
 export default StudioService;

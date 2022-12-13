@@ -303,7 +303,6 @@ export default function MyStudiosTable({ fetchedStudios }) {
     previousPage,
     setPageSize,
   } = tableInstance;
-  console.log(fetchedStudios);
   return (
     <>
       <div className="mb-20 mt-10 block max-w-full">

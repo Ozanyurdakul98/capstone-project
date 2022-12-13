@@ -30,7 +30,7 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
     service: '',
     listingTitle: '',
     description: '',
-    images: { primary: '', other: '' },
+    images: { primary: '', other: {} },
     maxGuests: 3,
     equipment: '',
     additionalServices: [],
@@ -52,8 +52,6 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
   const [submissionFailed, setSubmissionFailed] = useState(false);
   const [formErrors, setFormErrors] = useState({});
   const [preview, setPreview] = useState(true);
-  console.log('addserb', selectedStudio);
-  console.log('addserb', selectedStudioInformation);
 
   const selectingStudio = (val) => {
     const thisStudio = fetchedStudios.filter((studio) => studio._id === val.id);
@@ -78,9 +76,9 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       try {
         const resPrimaryImage = await handleUploadInput(form.images.primary);
-        const res = await fetch('/api/dashboard/studio/1', {
+        const res = await fetch('/api/dashboard/studioservice/1', {
           method: 'POST',
-          body: JSON.stringify({ ...form, images: { primary: resPrimaryImage, other: '' } }),
+          body: JSON.stringify({ ...form, images: { primary: resPrimaryImage, other: {} } }),
           headers: {
             'Content-Type': 'application/json',
           },
@@ -107,7 +105,6 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
     }
   };
   const handleChange = (event, other) => {
-    console.log('eve', event, other);
     if (other) {
       if (other === 'soundengineer') {
         return setForm({ ...form, soundengineer: { ...form.soundengineer, price: event } });
@@ -211,16 +208,15 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
     const formData = new FormData();
     const preset = 'cy1wyxej';
     const url = 'https://api.cloudinary.com/v1_1/drt9lfnfg/image/upload';
-    formData.append('file', checked.images.primary);
+    formData.append('file', images);
     formData.append('upload_preset', preset);
     const res = await fetch(url, {
       method: 'POST',
       body: formData,
     });
     const data = await res.json();
-    data
-      ? setForm({ ...form, images: { primary: data.secure_url, other: '' } })
-      : setForm({ ...form, images: { primary: '/images/Thumbnail-default.png', other: '' } });
+    if (data) return data.secure_url;
+    else if (!data) return defaultPic;
   };
   const incrementNumberGuests = () => {
     const number = form.maxGuests + 1;
@@ -235,7 +231,6 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
     const alreadyUsedNames = form.additionalServices.map((i) => {
       return i.name;
     });
-    console.log('alreadyusedNames', alreadyUsedNames);
     const name = additionalService.name.trim();
     const description = additionalService.description.trim();
     const priceOption = additionalService.priceOption.trim();
@@ -280,11 +275,9 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
   const handleDelete = (id) => {
     if (id) {
       const newArr = form.additionalServices.filter((v) => v.name !== id);
-      console.log(newArr);
       setForm({ ...form, additionalServices: newArr });
     }
   };
-  console.log(form, checked);
   return (
     <div>
       {/* welcome */}
@@ -382,7 +375,7 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
                             <ListingCardWideStudioService
                               preview={true}
                               listingTitle={form.listingTitle}
-                              images={form.images.primary ? form.images.primary : '/images/Thumbnail-default.png'}
+                              images={checked.imagesPreview ? checked.imagesPreview : '/images/Thumbnail-default.png'}
                               studiotype={form.studiotype}
                               maxGuests={form.maxGuests}
                               soundengineer={form.soundengineer}
@@ -444,7 +437,7 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
                             error message, or try again and see if the problem is resolved.
                           </p>
                           <p>This is the Error message: </p>
-                          <p className="text-red-500">{Object.entries(formErrors)}</p>
+                          <p className="text-red-500">{JSON.stringify(formErrors)}</p>
                         </div>
                       </div>
                       {/* Buttons */}
@@ -455,7 +448,6 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
                           onClick={() => router.reload()}>
                           Try again
                         </button>
-
                         <Link href="/contact">
                           <button
                             type="button"

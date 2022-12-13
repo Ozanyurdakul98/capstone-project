@@ -13,7 +13,6 @@ function StudioDetailpage({ serializedStudio }) {
   // eslint-disable-next-line no-unused-vars
   const router = useRouter();
   const studio = serializedStudio[0];
-  console.log(studio);
 
   return (
     <div className="relative">
