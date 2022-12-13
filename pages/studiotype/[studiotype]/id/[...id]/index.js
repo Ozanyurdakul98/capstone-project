@@ -1,6 +1,7 @@
 //db
 import db from '../../../../../lib/dbConnect';
 import StudioListing from '../../../../../models/StudioListing';
+import StudioService from '../../../../../models/StudioService';
 //components
 import StudiosDetailpage from '../../../../../components/Layout/StudiosDetailpage';
 import moment from 'moment';
@@ -34,21 +35,19 @@ function StudioDetailpage({ serializedStudio }) {
       {/* Main*/}
       <section className="container relative bottom-52 mx-auto px-[15px] lg:gap-5">
         {/* WelcomeSection */}
-        <section className="mb-4 rounded-md bg-white pt-16 text-black shadow-lg">
+        <section className="mb-4 flex justify-center rounded-md bg-white pt-16 text-black shadow-lg">
           {/* Headersection */}
           <section className="mb-5 flex flex-col gap-2 px-7 text-xs">
             <div className="flex flex-wrap justify-center">
               {/* ProfilePic */}
-              <div className="flex w-full justify-center">
-                <div className="absolute top-1 -m-16 -ml-20 h-[150px] w-[150px] rounded-full border-none align-middle shadow-xl">
-                  <Image
-                    src={studio.user.avatar}
-                    alt="profile picture"
-                    className="rounded-full "
-                    layout="fill"
-                    objectFit="cover"
-                  />
-                </div>
+              <div className="absolute top-1 -m-16 -ml-20 h-[150px] w-[150px] rounded-full border-none align-middle shadow-xl">
+                <Image
+                  src={studio.user.avatar}
+                  alt="profile picture"
+                  className="rounded-full "
+                  layout="fill"
+                  objectFit="cover"
+                />
               </div>
               {/* HeaderSection */}
               <div className="mt-10 w-full text-center">
@@ -97,7 +96,7 @@ function StudioDetailpage({ serializedStudio }) {
             </div>
           </section>
           {/* Profiledescription */}
-          <section className="border-b px-7 pb-14 text-sm text-gray-600">
+          <section className="mb-5 flex max-w-lg flex-col  justify-center px-7 text-sm text-gray-600">
             <div>
               <h2 className="h2LandingP">About this Studio</h2>
             </div>
@@ -399,17 +398,11 @@ export async function getServerSideProps(context) {
   const id = context.query.id[1];
   let breadCrumb = context.query.service;
   if (breadCrumb === 'recording') breadCrumb = 'Recording';
-  const fetchStudio = await StudioListing.findById(id)
-    // .populate({
-    //   path: 'studioService',
-    //   model: 'StudioService',
-    //   select: 'name -_id',
-    // })
-    .populate({
-      path: 'user',
-      model: 'users',
-      select: 'avatar email name lastname username',
-    });
+  const fetchStudio = await StudioListing.findById(id).populate({
+    path: 'user',
+    model: 'users',
+    select: 'avatar email name lastname username',
+  });
   const serializeStudio = [JSON.parse(JSON.stringify(fetchStudio))];
   const serializedStudio = serializeStudio.map((studio) => ({
     ...studio,
@@ -419,9 +412,27 @@ export async function getServerSideProps(context) {
     updatedAt: moment(studio.updatedAt).format('DD/MM/yyyy'),
     updatedAtTime: moment(studio.updatedAt).format('kk:mm'),
   }));
+  const fetchStudioservices = await StudioService.find({ studio: id });
+  // .populate({
+  //   path: 'user',
+  //   model: 'users',
+  //   select: 'avatar email name lastname username',
+  // });
+  const serializeStudioservices = JSON.parse(JSON.stringify(fetchStudioservices));
+  // const serializedStudioservices = serializeStudio.map((studio) => ({
+  //   ...studio,
+  //   // studioService: studio.studioService.map((service) => service.name),
+  //   createdAt: moment(studio.createdAt).format('DD/MM/yyyy'),
+  //   createdAtTime: moment(studio.createdAt).format('kk:mm'),
+  //   updatedAt: moment(studio.updatedAt).format('DD/MM/yyyy'),
+  //   updatedAtTime: moment(studio.updatedAt).format('kk:mm'),
+  // }));
+
+  console.log(serializeStudioservices);
   return {
     props: {
       serializedStudio: serializedStudio || null,
+      serializedStudioservices: serializeStudioservices || null,
     },
   };
 }
