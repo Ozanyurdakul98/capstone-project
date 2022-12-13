@@ -1,5 +1,5 @@
 import db from '../../../../lib/dbConnect';
-import User from '../../../../models/ User';
+import User from '../../../../models/User';
 import { getToken } from 'next-auth/jwt';
 
 export default async function handler(req, res) {

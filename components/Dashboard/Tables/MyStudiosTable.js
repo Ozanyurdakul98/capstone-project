@@ -9,7 +9,7 @@ import { TbEdit } from 'react-icons/tb';
 import { MdDeleteForever, MdInfo } from 'react-icons/md';
 import { useRouter } from 'next/router';
 import { DeleteModal } from '../../Modals/DeleteModal';
-import { MoreInfoModal } from '../../Modals/MoreInfoModal';
+import MoreInfoModal from '../../Modals/MoreInfoModal';
 
 export default function MyStudiosTable({ fetchedStudios }) {
   const [toUpdateStudio, setToUpdateStudio] = useState();

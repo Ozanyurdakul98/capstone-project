@@ -10,7 +10,7 @@ import { useRouter } from 'next/router';
 import AdminStudioService from '../../models/AdminCreateStudioService';
 import { ValidateCreateStudioServiceListing } from '../../helpers/Validate';
 import ListingCardWideStudioService from '../../components/Result/ListingCardWideStudioService';
-import ListingCardCarousellStudioService from '../../components/Result/ListingCardCarousellStudioService';
+// import ListingCardCarousellStudioService from '../../components/Result/ListingCardCarousellStudioService';
 import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../../components/BackgroundOverlay';
 import Link from 'next/link.js';
 import { AddStudioServiceForm } from '../../components/Forms/AddStudioServiceForm';
@@ -102,7 +102,7 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
         setFormErrors(error);
         setPreview(false);
         setSubmissionFailed(true);
-        // console.error('Failed to add', error);
+        console.error('Failed to add', error);
       }
     }
   };
@@ -384,7 +384,6 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
                               listingTitle={form.listingTitle}
                               images={form.images.primary ? form.images.primary : '/images/Thumbnail-default.png'}
                               studiotype={form.studiotype}
-                              service={form.service}
                               maxGuests={form.maxGuests}
                               soundengineer={form.soundengineer}
                               pricing={form.pricing}
@@ -485,7 +484,7 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
               type="button"
               className="form-button bg-black text-white hover:bg-black"
               onClick={() => {
-                setForm(defaultForm);
+                // setForm(defaultForm);
                 setChecked(defaultChecked);
               }}>
               Reset

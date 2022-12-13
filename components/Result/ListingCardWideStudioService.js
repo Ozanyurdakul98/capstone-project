@@ -15,7 +15,6 @@ function ListingCardWideStudioService({
   listingTitle,
   images,
   studiotype,
-  service,
   soundengineer,
   pricing,
   maxGuests,

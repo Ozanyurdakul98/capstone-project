@@ -1,4 +1,4 @@
-import ListingCard from '../../components/ListingCardWideStudioService';
+import ListingCard from '../../components/Result/ListingCardWideStudioService';
 
 export function Resultpage(props) {
   return (
