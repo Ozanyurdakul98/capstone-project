@@ -545,7 +545,6 @@ export async function getServerSideProps({ req }) {
     updatedAtDate: moment(studio.updatedAt).format('DD/MM/yyyy'),
     updatedAtTime: moment(studio.updatedAt).format('kk:mm'),
   }));
-
   return {
     props: {
       fetchedStudios: serializedAndUpdatedStudios || null,
