@@ -43,7 +43,7 @@ function StudioDetailpage({ serializedStudio, serializedStudioservices }) {
               {/* ProfilePic */}
               <div className="absolute top-1 -m-16 -ml-20 h-[150px] w-[150px] rounded-full border-none align-middle shadow-xl">
                 <Image
-                  src={studio.user.avatar}
+                  src={studio.logo}
                   alt="profile picture"
                   className="rounded-full "
                   layout="fill"

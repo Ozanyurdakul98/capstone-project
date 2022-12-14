@@ -2,12 +2,11 @@ import WelcomeRow from '../../components/Dashboard/WelcomeRow';
 import DashboardStats from '../../components/Dashboard/DashboardStatsTotal';
 import db from '../../lib/dbConnect';
 import StudioListing from '../../models/StudioListing';
-import User from '../../models/User';
 import DashboardLayout from '../../components/Layout/DashboardLayout';
 import MyStudiosTable from '../../components/Dashboard/Tables/MyStudiosTable';
 import moment from 'moment';
 import { getToken } from 'next-auth/jwt';
-export default function Dashboard({ totalUsers, totalListings, fetchedStudios }) {
+export default function Dashboard({ totalListings, fetchedStudios }) {
   return (
     <div className="flex flex-col gap-14">
       <div>
@@ -16,9 +15,13 @@ export default function Dashboard({ totalUsers, totalListings, fetchedStudios })
       </div>
       <div className="gap-10 md:flex">
         <div className="grow md:w-8/12">
-          <DashboardStats totalUsers={totalUsers} totalListings={totalListings}></DashboardStats>
+          <DashboardStats totalListings={totalListings}></DashboardStats>
         </div>
       </div>
+      <section>
+        <h1 className="mt-4 text-2xl font-bold leading-tight text-secondary-color">My Studios</h1>
+        <MyStudiosTable fetchedStudios={fetchedStudios} />
+      </section>
       <section>
         <h1 className="mt-4 text-2xl font-bold leading-tight text-secondary-color">My Studios</h1>
         <MyStudiosTable fetchedStudios={fetchedStudios} />
@@ -36,7 +39,6 @@ export async function getServerSideProps({ req }) {
   const session = await getToken({ req });
 
   const totalListingsCount = await StudioListing.find().count();
-  const totalUsersCount = await User.find().count();
 
   const email = session.email;
   const fetchingStudios = await StudioListing.find({ userEmail: email });
@@ -54,7 +56,6 @@ export async function getServerSideProps({ req }) {
     props: {
       fetchedStudios: serializedAndUpdatedStudios || null,
       totalListings: totalListingsCount || null,
-      totalUsers: totalUsersCount || null,
     },
   };
 }

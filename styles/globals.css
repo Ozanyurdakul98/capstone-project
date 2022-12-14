@@ -175,13 +175,13 @@
 
   /* Fieldsets */
   .fset-editUser {
-    @apply my-8 w-full leading-tight;
+    @apply w-full leading-tight;
   }
   .fset-adminsettings {
     @apply mt-5 mb-5 w-full leading-tight;
   }
   .listingForm {
-    @apply relative my-10 w-full leading-tight xl:my-20;
+    @apply relative w-full leading-tight;
   }
   .searchBarModal {
     @apply fixed top-0 left-0 z-30 h-screen w-screen cursor-default;
@@ -243,7 +243,7 @@
     @apply bg-secondary checked:bg-secondary flex max-w-max cursor-pointer items-center gap-2 rounded-xl p-1 pl-2 text-white shadow-lg transition duration-75 ease-in active:scale-95;
   }
   .label-form {
-    @apply mb-2 ml-5 block text-base font-bold uppercase tracking-wide text-[color:var(--primary-text)] lg:text-lg;
+    @apply mb-2 block pl-5 text-base font-bold uppercase tracking-wide text-[color:var(--primary-text)] lg:text-lg;
   }
   .number-search {
     @apply mb-1 h-10 w-14 rounded-full border  bg-[#1e90ff] px-4  text-white outline-none disabled:text-white;

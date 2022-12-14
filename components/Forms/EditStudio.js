@@ -9,15 +9,74 @@ import { Spinner } from '../Spinner';
 function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
   const data = toUpdateStudio;
   const defaultPic = '/images/Thumbnail-default.png';
+  const languages = [
+    'Afrikaans',
+    'Albanian',
+    'Arabic',
+    'Armenian',
+    'Azerbaijani',
+    'Belarusian',
+    'Bulgarian',
+    'Catalan',
+    'Chinese',
+    'Croatian',
+    'Czech',
+    'Danish',
+    'Dutch',
+    'English',
+    'Filipino',
+    'Finnish',
+    'French',
+    'Georgian',
+    'German',
+    'Greek',
+    'Hebrew',
+    'Hindi',
+    'Hungarian',
+    'Indonesian',
+    'Irish',
+    'Italian',
+    'Japanese',
+    'Kannada',
+    'Korean',
+    'Latin',
+    'Lithuanian',
+    'Macedonian',
+    'Maltese',
+    'Mongolian',
+    'Nepali',
+    'Norwegian',
+    'Persian',
+    'Polish',
+    'Portuguese',
+    'Romanian',
+    'Russian',
+    'Scottish',
+    'Serbian',
+    'Slovenian',
+    'Spanish',
+    'Swedish',
+    'Thai',
+    'Turkish',
+    'Turkmen',
+    'Ukrainian',
+    'Urdu',
+    'Uyghur',
+    'Uzbek',
+    'Vietnamese',
+  ];
   const defaultChecked = {
-    soundengineer: '',
-    studioPricing: [],
+    studioSocials: [],
+    studioInformation: [],
+    studioLanguages: languages,
+    sleepOver: [],
   };
   const [form, setForm] = useState(data);
   const [checked, setChecked] = useState(defaultChecked);
-  const [imageChanged, setImageChanged] = useState(false);
+  const [logoChanged, setLogoChanged] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [studioLanguagesSearch, setStudioLanguagesSearch] = useState('');
   const [submissionFailed, setSubmissionFailed] = useState(false);
   const [formErrors, setFormErrors] = useState({});
   const router = useRouter();
@@ -26,16 +85,15 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
     setOpenEditView(false);
   };
   const handleDeleteImage = () => {
-    setImageChanged(true);
-    setForm({ ...form, images: defaultPic });
-    setChecked({ ...checked, imagesPreview: defaultPic });
+    setLogoChanged(true);
+    setForm({ ...form, logo: defaultPic });
+    setChecked({ ...checked, logoPreview: defaultPic });
     setChecked((prev) => ({ ...prev, images: defaultPic }));
   };
   const handleClickToCloseErrorModal = () => {};
   useEffect(() => {
     return MatchDataWithChecked();
   }, []);
-
   const handleFormSubmit = async (event) => {
     const passForm = form;
     event.preventDefault();
@@ -44,10 +102,10 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       setLoading(true);
       try {
-        const resImage = await handleUploadInput(form.images);
+        const resLogo = await handleUploadInput(form.logo);
         const res = await fetch(`/api/dashboard/admin/studio/${studioID}`, {
           method: 'PATCH',
-          body: JSON.stringify({ ...form, images: resImage }),
+          body: JSON.stringify({ ...form, logo: resLogo }),
           headers: {
             'Content-Type': 'application/json',
           },
@@ -60,7 +118,6 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
         }
         if (res.ok) {
           setLoading(false);
-          setOpenEditView(false);
           router.reload();
         }
       } catch (error) {
@@ -71,38 +128,37 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
       }
     }
   };
-
-  const handleChange = (event) => {
+  const handleChange = (event, val) => {
     const target = event.target;
     const type = target.type;
-    const name = target.name;
+    let name = target.name;
+    if (val) name = 'studioLanguages';
     const wert = target.value;
     const id = target.id;
-    const value = checkValues(type, form, name, wert, id, target);
+    const value = checkValues(type, form, name, wert, id, target, val);
     setForm({ ...form, [name]: value() });
   };
-
-  function MatchDataWithChecked() {
-    const pricing = data.studioPricing;
-    const engineer = data.soundengineer;
+  function checkValues(type, form, name, wert, id, target, val) {
     return () => {
-      if (pricing) {
-        let pricingArray = [];
-        Object.keys(pricing).map((price) => (pricingArray = [...pricingArray, price]));
-        setChecked({ ...checked, studioPricing: pricingArray });
-      }
-      if (typeof engineer === 'object') {
-        const string = 'soundengineerPrice';
-        setChecked((prev) => ({ ...prev, soundengineer: string }));
-      }
-    };
-  }
-
-  function checkValues(type, form, name, wert, id, target) {
-    return () => {
-      if (name === 'studioPricing' || id === 'soundengineerPrice') {
+      if (name === 'studioInformation') {
         const currentForm = {
-          ...form?.[name === 'studioPricing' ? name : id],
+          ...form[name],
+          [id]: wert,
+        };
+        const deleteUndefined = Object.fromEntries(Object.entries(currentForm).filter(([v]) => v));
+        return deleteUndefined;
+      }
+      if (name === 'sleepOver') {
+        const currentForm = {
+          ...form[name],
+          [id]: wert,
+        };
+        const deleteUndefined = Object.fromEntries(Object.entries(currentForm).filter(([v]) => v));
+        return deleteUndefined;
+      }
+      if (name === 'studioSocials') {
+        const currentForm = {
+          ...form[name],
           [id]: wert,
         };
         const deleteUndefined = Object.fromEntries(Object.entries(currentForm).filter(([v]) => v));
@@ -115,71 +171,136 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
         }
         return newArray;
       }
-      if (name === 'images') {
-        setImageChanged(true);
+      if (name === 'logo') {
+        setLogoChanged(true);
         let wertImage = target.files[0];
+        const logoName = wertImage.name;
         setChecked({
           ...checked,
-          imagesPreview: URL.createObjectURL(wertImage),
-          images: wertImage,
+          logoPreview: URL.createObjectURL(wertImage),
+          logoName: logoName,
         });
         return wertImage;
+      }
+      if (val) {
+        let newArray = [...form[name], val];
+        if (form[name].includes(val)) {
+          newArray = newArray.filter((service) => service !== val);
+        }
+        setStudioLanguagesSearch('');
+        setChecked({ ...checked, studioLanguages: languages });
+        return newArray;
       } else {
         return wert;
       }
     };
   }
+  function MatchDataWithChecked() {
+    console.log(data);
+    const pricing = data.studioPricing;
+    const engineer = data.soundengineer;
+    const studioInfo = data.studioInformation;
+    const studioSleepover = data.sleepOver;
+    return () => {
+      if (pricing) {
+        let pricingArray = [];
+        Object.keys(pricing).map((price) => (pricingArray = [...pricingArray, price]));
+        setChecked({ ...checked, studioPricing: pricingArray });
+      }
+      if (typeof engineer === 'object') {
+        const string = 'soundengineerPrice';
+        setChecked((prev) => ({ ...prev, soundengineer: string }));
+      }
+      if (studioInfo) {
+        setChecked((prev) => ({ ...prev, studioInformation: Object.keys(studioInfo) }));
+      }
+      if (studioSleepover) {
+        setChecked((prev) => ({ ...prev, sleepOver: Object.keys(studioSleepover) }));
+      }
+    };
+  }
+  const handleDelete = (val) => {
+    let newArray = [...form['studioLanguages'], val];
+    if (form['studioLanguages'].includes(val)) {
+      newArray = newArray.filter((lang) => lang !== val);
+      setForm({ ...form, studioLanguages: newArray });
+      setChecked({ ...checked, studioLanguages: languages });
+
+      setStudioLanguagesSearch('');
+    }
+  };
   const handleCheck = (event) => {
     const target = event.target;
     const name = target.name;
     const id = target.id;
     const wert = target.value;
     const isChecked = () => {
-      if (name === 'soundengineer') {
-        return id;
-      }
-      if (name === 'studioPricing') {
+      if (name === 'studioInformation') {
         let newArray = [...checked[name], id];
         if (checked[name].includes(id)) {
-          newArray = newArray.filter((pricing) => pricing !== id);
+          newArray = newArray.filter((val) => val !== id);
           const currentForm = { ...form?.[name], [id]: wert };
-          const deleteUnchecked = Object.fromEntries(
-            Object.entries(currentForm).filter((pricing) => !pricing.includes(id))
-          );
+          const deleteUnchecked = Object.fromEntries(Object.entries(currentForm).filter((val) => !val.includes(id)));
           setForm({ ...form, [name]: deleteUnchecked });
         }
         return newArray;
       }
+      if (name === 'sleepOver') {
+        let newArray = [...checked[name], id];
+        if (checked[name].includes(id)) {
+          newArray = newArray.filter((val) => val !== id);
+          const currentForm = { ...form?.[name], [id]: wert };
+          const deleteUnchecked = Object.fromEntries(Object.entries(currentForm).filter((val) => !val.includes(id)));
+          setForm({ ...form, [name]: deleteUnchecked });
+        }
+        return newArray;
+      }
+      if (name === 'studioSocials') {
+        let newArray = [...checked[name], id];
+        if (checked[name].includes(id)) {
+          newArray = newArray.filter((i) => i !== id);
+          const currentForm = { ...form?.[name], [id]: wert };
+          const deleteUnchecked = Object.fromEntries(Object.entries(currentForm).filter((i) => !i.includes(id)));
+          setForm({ ...form, [name]: deleteUnchecked });
+        }
+        return newArray;
+      }
+      if (name === 'studioLanguages') {
+        const newMatches = languages.filter((lang) => lang.toLowerCase().includes(wert.toLowerCase()));
+        setStudioLanguagesSearch(wert);
+        return newMatches;
+      }
     };
     setChecked({ ...checked, [name]: isChecked() });
   };
-
-  const handleUploadInput = async (wertImage) => {
-    if (!imageChanged) {
+  const handleUploadInput = async (logo) => {
+    if (!logoChanged) {
       return;
     }
-    if (wertImage === defaultPic) {
+    if (logo === defaultPic) {
       return defaultPic;
     }
     const formData = new FormData();
     const preset = 'cy1wyxej';
     const url = 'https://api.cloudinary.com/v1_1/drt9lfnfg/image/upload';
-    formData.append('file', wertImage);
+    formData.append('file', logo);
     formData.append('upload_preset', preset);
     const res = await fetch(url, {
       method: 'POST',
       body: formData,
     });
     const data = await res.json();
-    return data.secure_url;
+    if (data) return data.secure_url;
+    else if (!data) return defaultPic;
   };
+  console.log('checked', checked);
+
   return (
     <>
-      <div className="searchFadein fixed inset-0 z-50 m-auto flex h-4/6 w-full flex-col gap-5 rounded-2xl bg-white   pb-5  shadow-xxl md:min-h-72 md:w-11/12 xl:w-6/12">
+      <div className="searchFadein fixed inset-0 z-50 m-auto flex h-4/6 w-full flex-col gap-5 rounded-2xl bg-white   pb-5  shadow-xxl md:min-h-72 md:w-11/12 lg:w-8/12 xl:w-6/12">
         <div className=" overflow-y-scroll sm:px-0">
           <div className="mt-4 flex flex-col gap-4">
             <h2 className="h2 ml-5 text-2xl">Edit Studio</h2>
-            <p className="text-center ">Keep it nice and smooth!</p>
           </div>
           <div className=" px-2 sm:ml-5 md:mr-5">
             <div className="sm:px-0">
@@ -188,10 +309,14 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
                   form={form}
                   setForm={setForm}
                   checked={checked}
+                  setChecked={setChecked}
+                  handleDeleteImage={handleDeleteImage}
                   length={Object.keys(formErrors).length}
                   formErrors={formErrors}
-                  handleDeleteImage={handleDeleteImage}
+                  languages={languages}
                   handleChange={handleChange}
+                  handleDelete={handleDelete}
+                  studioLanguagesSearch={studioLanguagesSearch}
                   handleCheck={handleCheck}></AddStudioForm>
                 {/* ErrorModal */}
                 <fieldset>
@@ -236,7 +361,7 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
             </div>
           </div>
           {/* Buttons */}
-          <div className=" absolute bottom-0 z-30 flex h-16 w-full items-center  justify-between gap-3  rounded-b-xl border-t-2 bg-white px-2 pb-1 pt-5 ">
+          <div className=" absolute bottom-0 z-40 flex h-16 w-full items-center  justify-between gap-3  rounded-b-xl border-t-2 bg-white px-2 pb-1 pt-5 ">
             <button
               onClick={() => setOpenEditView(false)}
               className="form-button max-w-[250px]  grow justify-center border-none bg-black text-white">

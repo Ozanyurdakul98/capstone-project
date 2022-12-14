@@ -6,120 +6,128 @@ import { MdDeleteForever } from 'react-icons/md';
 export function AddStudioForm(props) {
   return (
     <>
-      {/* Logo */}
-      <fieldset className="fset-editUser">
-        <legend htmlFor="image" className=" label-form">
-          Logo
-        </legend>
-        <div className=" relative flex h-48 w-48 flex-col sm:h-48 sm:w-48 md:h-56 md:w-56 lg:h-64 lg:w-64 ">
-          <label
-            className="flex h-48 w-48 cursor-pointer rounded-full transition duration-75  ease-out active:scale-95 sm:h-48 sm:w-48 md:h-56 md:w-56 md:px-2 lg:h-64 lg:w-64 "
-            htmlFor="logo">
-            <input
-              className="hidden"
-              id="logo"
-              name="logo"
-              type="file"
-              accept=".gif, .jpg, .jpeg, .jfif, .pjpeg, .pjp, .png, .webp"
-              onChange={props.handleChange}
-              required
-            />
-            <div
-              className={
-                'relative flex h-48 w-48 flex-shrink-0 flex-col items-center justify-center gap-2 rounded-full border-2 border-dotted text-white transition duration-75 ease-out  active:scale-95 sm:h-48 sm:w-48 md:h-56 md:w-56 md:px-2 lg:h-64 lg:w-64' +
-                (props.form.logo ? ' bg-site border-primary ' : ' bg-primary ')
-              }>
-              {props.form.logo ? (
-                <>
-                  <Image
-                    src={props.checked.logoPreview ? props.checked.logoPreview : props.form.logo}
-                    className="rounded-full"
-                    layout="fill"
-                    objectFit="cover"
-                    alt="Thumbnail"
-                  />
-                </>
-              ) : (
-                <>
-                  <p className="text-center text-lg">No picture selected</p>
-                  <p className="text-center text-xs lg:text-sm">
-                    Accepted file formats: .gif, .jpg, .jpeg, .jfif, .pjpeg, .pjp, .png, .webp
-                  </p>
-                  <TbHandClick className="h-6 w-6 lg:h-8 lg:w-8" />
-                </>
-              )}
+      <section className="fset-editUser mt-10 lg:flex lg:gap-10 ">
+        {/* Logo */}
+        <fieldset className="mb-4 shrink-0 grow">
+          <legend htmlFor="image" className="label-form w-full">
+            Logo
+          </legend>
+          <div className="relative flex h-48 w-48 flex-col sm:h-48 sm:w-48 md:h-56 md:w-56 lg:mx-auto lg:h-64 lg:w-64 ">
+            <label
+              className="flex h-48 w-48 cursor-pointer rounded-full transition duration-75  ease-out active:scale-95 sm:h-48 sm:w-48 md:h-56 md:w-56 md:px-2 lg:h-64 lg:w-64 "
+              htmlFor="logo">
+              <input
+                className="hidden"
+                id="logo"
+                name="logo"
+                type="file"
+                accept=".gif, .jpg, .jpeg, .jfif, .pjpeg, .pjp, .png, .webp"
+                onChange={props.handleChange}
+                required
+              />
+              <div
+                className={
+                  'relative flex h-48 w-48 flex-shrink-0 flex-col items-center justify-center gap-2 rounded-full border-2 border-double text-white transition duration-75 ease-out  active:scale-95 sm:h-48 sm:w-48 md:h-56 md:w-56 md:px-2 lg:h-64 lg:w-64' +
+                  (props.form.logo ? ' bg-site border-primary ' : ' bg-primary ')
+                }>
+                {props.form.logo ? (
+                  <>
+                    <Image
+                      src={props.checked.logoPreview ? props.checked.logoPreview : props.form.logo}
+                      className="rounded-full"
+                      layout="fill"
+                      objectFit="cover"
+                      alt="Thumbnail"
+                    />
+                  </>
+                ) : (
+                  <>
+                    <p className="text-center text-lg">No picture selected</p>
+                    <p className="text-center text-xs lg:text-sm">
+                      Accepted file formats: .gif, .jpg, .jpeg, .jfif, .pjpeg, .pjp, .png, .webp
+                    </p>
+                    <TbHandClick className="h-6 w-6 lg:h-8 lg:w-8" />
+                  </>
+                )}
+              </div>
+            </label>
+            <button type="button" onClick={props.handleDeleteImage} className="absolute top-0 right-0">
+              <MdDeleteForever className="h-8 w-8 text-red-500 hover:text-red-400" />
+            </button>
+            <div>
+              <p className="pl-2 text-center text-sm line-clamp-1 md:pl-5">
+                {props.checked.logoName ? props.checked.logoName : 'Please select a picture'}
+              </p>
             </div>
-          </label>
-          <button type="button" onClick={props.handleDeleteImage} className="absolute top-0 right-0">
-            <MdDeleteForever className="h-8 w-8 text-red-500 hover:text-red-400" />
-          </button>
-          <div>
-            <p className="pl-2 text-center text-sm line-clamp-1 md:pl-5">
-              {props.checked.logoName ? props.checked.logoName : 'Please select a picture'}
-            </p>
           </div>
-        </div>
-      </fieldset>
-      {/* Studioname */}
-      <fieldset className="listingForm">
-        <FormInput
-          beforeLabel={{
-            string: 'Studioname',
-            required: true,
-            css: 'label-form ',
-            description: 'How do you want to name your Studio?',
-          }}
-          className="input-form peer block "
-          counter={{
-            val: props.form.studioName.length,
-            max: '40',
-            css: 'inputCounter',
-          }}
-          type="text"
-          id="studioName"
-          placeholder="Studioname.."
-          name="studioName"
-          required
-          autoComplete="off"
-          pattern="^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){4,39}$"
-          errorMessage={'Only 5-40 characters and (a-z, A-Z, 0-9, ! äöü ,-_) allowed!'}
-          value={props.form.studioName}
-          onChange={props.handleChange}></FormInput>
-        <span className="errormessage ">{props.formErrors.studioName}</span>
-      </fieldset>
-      {/* Studio profiletext */}
-      <fieldset className="listingForm">
-        <FormInput
-          beforeLabel={{
-            string: 'Profiletext',
-            css: 'label-form ',
-            required: true,
-            description: 'Write a short text about this studio. Visitors of the detailpage of this Studio will see it.',
-          }}
-          className="input-form peer block resize-none "
-          counter={{
-            val: props.form.profileText.length,
-            max: '350',
-            css: 'inputCounter',
-          }}
-          textarea={true}
-          id="profileText"
-          placeholder="Informative short text about this studio.."
-          name="profileText"
-          required
-          autoComplete="off"
-          pattern="^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){24,349}$"
-          errorMessage={'Only 25-350 characters and (a-z, A-Z, 0-9, ! äöü ,-_) allowed!'}
-          value={props.form.profileText}
-          onChange={props.handleChange}></FormInput>
-        <span className="errormessage ">{props.formErrors.profileText}</span>
-      </fieldset>
+        </fieldset>
+        <section className="">
+          {/* Studioname */}
+          <fieldset className="listingForm lg:my-4">
+            <FormInput
+              beforeLabel={{
+                string: 'Studioname',
+                required: true,
+                css: 'label-form w-full sm:w-2/3 lg:w-full',
+                description: 'How do you want to name your Studio?',
+              }}
+              className="input-form peer block lg:w-full "
+              counter={{
+                val: props.form.studioName.length,
+                max: '40',
+                css: 'inputCounter lg:w-full',
+              }}
+              type="text"
+              id="studioName"
+              placeholder="Studioname.."
+              name="studioName"
+              required
+              autoComplete="off"
+              pattern="^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){4,39}$"
+              errorMessage={'Only 5-40 characters and (a-z, A-Z, 0-9, ! äöü ,-_) allowed!'}
+              value={props.form.studioName}
+              onChange={props.handleChange}></FormInput>
+            <span className="errormessage ">{props.formErrors.studioName}</span>
+          </fieldset>
+          {/* Studio profiletext */}
+          <fieldset className="listingForm mb-4 lg:mt-0">
+            <FormInput
+              beforeLabel={{
+                string: 'Profiletext',
+                css: 'label-form w-full sm:w-2/3 lg:w-full',
+                required: true,
+                description:
+                  'Write a short text about this studio. Visitors of the detailpage of this Studio will see it.',
+              }}
+              className="input-form peer block resize-none lg:w-full"
+              counter={{
+                val: props.form.profileText.length,
+                max: '350',
+                css: 'inputCounter lg:w-full',
+              }}
+              textarea={true}
+              id="profileText"
+              placeholder="Informative short text about this studio.."
+              name="profileText"
+              required
+              autoComplete="off"
+              pattern="^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){24,349}$"
+              errorMessage={'Only 25-350 characters and (a-z, A-Z, 0-9, ! äöü ,-_) allowed!'}
+              value={props.form.profileText}
+              onChange={props.handleChange}></FormInput>
+            <span className="errormessage ">{props.formErrors.profileText}</span>
+          </fieldset>
+        </section>
+      </section>
       {/* Studiotype */}
-      <fieldset className="listingForm flex flex-col gap-3">
-        <legend className="label-form">Studiotype*</legend>
-        <h2 className="flex items-center gap-2 pl-5 text-sm font-thin normal-case md:text-base">
-          Choose a fitting studiotype <TbHandClick className="h-6 w-6 rotate-[-25deg] lg:h-8 lg:w-8" />
-        </h2>
+      <fieldset className="listingForm mb-5 flex flex-col gap-3">
+        <legend className="label-form">
+          Studiotype*
+          <h3 className="relative flex items-center gap-2 pl-5 text-sm font-thin normal-case md:text-base">
+            Choose a fitting studiotype
+            <TbHandClick className="absolute -right-10 h-6 w-6 rotate-[-25deg] lg:h-8 lg:w-8" />
+          </h3>
+        </legend>
         <button
           type="button"
           className={props.form.studiotype === 'Premium Studio' ? ' studiotypeActive ' : 'studiotype'}
@@ -165,7 +173,7 @@ export function AddStudioForm(props) {
       </fieldset>
       {/* Studiodetails */}
       {props.form.studiotype.includes('Medium Studio') || props.form.studiotype.includes('Premium Studio') ? (
-        <fieldset className="listingForm flex flex-col gap-3 whitespace-nowrap ">
+        <fieldset className="listingForm mb-5 flex flex-col justify-between gap-3 whitespace-nowrap ">
           <legend className="label-form">Additional Studio informations</legend>
           <label
             htmlFor="studioSize"
@@ -246,14 +254,16 @@ export function AddStudioForm(props) {
               onChange={props.handleChange}
             />
           </label>
-          <p className="max-w-[400px] whitespace-normal pl-5 pb-2">
+          <p className="max-w-[400px] whitespace-normal pl-5">
             The size is square meters and Studio rooms are the total count of rooms your Studio has.
           </p>
-          <span className="errormessage">{props.formErrors.studioInformation}</span>
+          <span className={`errormessage hidden ${props.formErrors.studioInformation ?? 'block'}`}>
+            {props.formErrors.studioInformation}
+          </span>
         </fieldset>
       ) : null}
       {/* Studiolanguages */}
-      <fieldset className="listingForm">
+      <fieldset className="listingForm mb-6">
         <FormInput
           beforeLabel={{
             string: 'Studio languages',
@@ -284,7 +294,7 @@ export function AddStudioForm(props) {
         <span className="errormessage ">{props.formErrors.studioLanguages}</span>
       </fieldset>
       {/* OpeningHours */}
-      <fieldset className="listingForm  flex gap-3 ">
+      <fieldset className="listingForm mb-5 flex gap-3">
         <legend className="label-form">Opening hours*</legend>
         <FormInput
           labelWrap={{
@@ -318,7 +328,7 @@ export function AddStudioForm(props) {
         />
       </fieldset>
       {/* location-features */}
-      <fieldset className="listingForm flex flex-wrap gap-3 ">
+      <fieldset className="listingForm mb-5 flex flex-wrap gap-3">
         <legend className="label-form">Location Features*</legend>
         <FormInput
           labelWrap={{
@@ -470,13 +480,13 @@ export function AddStudioForm(props) {
             css: 'cursor-pointer',
           }}
         />
-        <div className="block">
-          <span className="errormessage block">{props.formErrors.locationFeatures}</span>
+        <div className={`hidden ${props.formErrors.locationFeatures ?? 'block'}`}>
+          <span className="errormessage">{props.formErrors.locationFeatures}</span>
         </div>
       </fieldset>
       {/* StudioSleepover */}
       {props.form.locationFeatures.includes('Sleepover') ? (
-        <fieldset className="listingForm  flex flex-col gap-3 ">
+        <fieldset className="listingForm mb-5 flex flex-col gap-3">
           <legend className="label-form">Sleepover informations*</legend>
           <label
             htmlFor="bedsCount"
@@ -552,11 +562,13 @@ export function AddStudioForm(props) {
               onChange={props.handleChange}
             />
           </label>
-          <span className="errormessage">{props.formErrors.sleepOver}</span>
+          <div className={`hidden ${props.formErrors.sleepOver ?? 'block'}`}>
+            <span className="errormessage">{props.formErrors.sleepOver}</span>
+          </div>
         </fieldset>
       ) : null}
       {/* StudioSocials */}
-      <fieldset className="listingForm space-y-2">
+      <fieldset className="listingForm mb-5 space-y-2">
         {/* soundcloud */}
         <FormInput
           beforeLabel={{

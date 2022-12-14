@@ -260,11 +260,9 @@ function DashboardAddStudio({ userID }) {
       if (name === 'studioSocials') {
         let newArray = [...checked[name], id];
         if (checked[name].includes(id)) {
-          newArray = newArray.filter((pricing) => pricing !== id);
+          newArray = newArray.filter((i) => i !== id);
           const currentForm = { ...form?.[name], [id]: wert };
-          const deleteUnchecked = Object.fromEntries(
-            Object.entries(currentForm).filter((pricing) => !pricing.includes(id))
-          );
+          const deleteUnchecked = Object.fromEntries(Object.entries(currentForm).filter((i) => !i.includes(id)));
           setForm({ ...form, [name]: deleteUnchecked });
         }
         return newArray;
@@ -313,24 +311,18 @@ function DashboardAddStudio({ userID }) {
         </div>
         <form noValidate className="text-primary w-full" onSubmit={handleFormSubmit}>
           <AddStudioForm
-            defaultForm={defaultForm}
-            defaultPic={defaultPic}
-            defaultChecked={defaultChecked}
             form={form}
-            handleDeleteImage={handleDeleteImage}
             setForm={setForm}
             checked={checked}
             setChecked={setChecked}
+            handleDeleteImage={handleDeleteImage}
             length={Object.keys(formErrors).length}
             formErrors={formErrors}
             languages={languages}
-            handlePreview={handlePreview}
-            handleFormSubmit={handleFormSubmit}
             handleChange={handleChange}
             handleDelete={handleDelete}
             studioLanguagesSearch={studioLanguagesSearch}
-            handleCheck={handleCheck}
-            handleClickToCloseSearch={handleClickToCloseSearch}></AddStudioForm>
+            handleCheck={handleCheck}></AddStudioForm>
           {/* PreviewModal */}
           <fieldset>
             {preview && (

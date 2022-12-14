@@ -50,16 +50,18 @@ export default function MyStudiosTable({ fetchedStudios }) {
         const result = await res.json();
         const rawStudio = result.data[0];
         const studio = {
-          maxGuests: rawStudio.maxGuests,
-          listingTitle: rawStudio.listingTitle,
-          images: rawStudio.images,
-          openingHours: rawStudio.openingHours,
+          logo: rawStudio.logo,
+          studioName: rawStudio.studioName,
+          profileText: rawStudio.profileText,
           studiotype: rawStudio.studiotype,
-          studioService: rawStudio.studioService,
+          studioInformation: rawStudio.studioInformation,
+          studioLanguages: rawStudio.studioLanguages,
+          openingHours: rawStudio.openingHours,
           locationFeatures: rawStudio.locationFeatures,
-          soundengineer: rawStudio.soundengineer,
-          studioPricing: rawStudio.studioPricing,
+          sleepOver: rawStudio.sleepOver,
+          studioSocials: rawStudio.studioSocials,
           studioLocation: rawStudio.studioLocation,
+          user: rawStudio.user,
         };
         if (!res.ok || !result.success) {
           throw new Error(res.status);
@@ -307,6 +309,7 @@ export default function MyStudiosTable({ fetchedStudios }) {
     <>
       <div className="mb-20 mt-10 block max-w-full">
         <div className="tableWrap">
+          {/* filters */}
           <div className="filter-table">
             <AllColumnsFilter
               preGlobalFilteredRows={preGlobalFilteredRows}
