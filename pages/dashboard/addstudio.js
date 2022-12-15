@@ -30,6 +30,7 @@ function DashboardAddStudio({ userID }) {
       twitter: '',
       linkedin: '',
     },
+    studioRules: [],
     studioLocation: '',
     user: userID,
   };

@@ -110,7 +110,7 @@ function StudioDetailpage({ serializedStudio, serializedStudioservices }) {
         <section className="min-h-[350px] px-7">
           <h2 className="h2LandingP">Our Studio services</h2>
           {serializedStudioservices.map(
-            ({ _id, service, listingTitle, description, maxGuests, images, soundengineer, pricing }) => (
+            ({ _id, listingTitle, description, maxGuests, images, soundengineer, pricing }) => (
               <ListingCardCarousellStudioService
                 key={_id}
                 listingTitle={listingTitle}

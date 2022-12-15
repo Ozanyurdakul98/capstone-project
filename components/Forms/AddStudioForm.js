@@ -6,13 +6,14 @@ import { MdDeleteForever } from 'react-icons/md';
 export function AddStudioForm(props) {
   return (
     <>
-      <section className="fset-editUser mt-10 lg:flex lg:gap-10 ">
-        {/* Logo */}
-        <fieldset className="mb-4 shrink-0 grow">
-          <legend htmlFor="image" className="label-form w-full">
-            Logo
-          </legend>
-          <div className="relative flex h-48 w-48 flex-col sm:h-48 sm:w-48 md:h-56 md:w-56 lg:mx-auto lg:h-64 lg:w-64 ">
+      {/* Logo, studioname-/text */}
+      <section className="fset-editUser mt-10 lg:flex lg:flex-row-reverse lg:items-center lg:gap-10">
+        {/* Logo, */}
+        <fieldset className="mb-8 shrink-0 grow ">
+          <div className="relative flex h-48 w-48 flex-col sm:h-48 sm:w-48 md:h-56 md:w-56 lg:mx-auto lg:h-64 lg:w-64">
+            <legend htmlFor="image" className="label-form absolute left-0 -top-4 w-full">
+              Logo
+            </legend>
             <label
               className="flex h-48 w-48 cursor-pointer rounded-full transition duration-75  ease-out active:scale-95 sm:h-48 sm:w-48 md:h-56 md:w-56 md:px-2 lg:h-64 lg:w-64 "
               htmlFor="logo">
@@ -61,9 +62,10 @@ export function AddStudioForm(props) {
             </div>
           </div>
         </fieldset>
-        <section className="">
+        {/* studioname-/text */}
+        <section>
           {/* Studioname */}
-          <fieldset className="listingForm lg:my-4">
+          <fieldset className="listingForm mb-4">
             <FormInput
               beforeLabel={{
                 string: 'Studioname',
@@ -721,6 +723,156 @@ export function AddStudioForm(props) {
           onChange={props.handleChange}
         />
         <span className="errormessage ">{props.formErrors.studioSocials}</span>
+      </fieldset>
+      {/* StudioRules */}
+      <fieldset className="listingForm mb-5 flex flex-wrap gap-3">
+        <legend className="label-form">Studiorules</legend>
+        <FormInput
+          type="checkbox"
+          id="pets"
+          value="Pets"
+          name="studioRules"
+          checked={props.form.studioRules.includes('Pets')}
+          onChange={props.handleChange}
+        />
+        <FormInput
+          labelWrap={{
+            css: props.form.studioRules.includes('Wi-Fi') ? 'radio-formActive' : 'radio-form',
+          }}
+          type="checkbox"
+          id="wifi"
+          value="Wi-Fi"
+          name="studioRules"
+          checked={props.form.studioRules.includes('Wi-Fi')}
+          onChange={props.handleChange}
+          afterLabel={{
+            string: 'Wi-Fi',
+            css: 'cursor-pointer',
+          }}
+        />
+        <FormInput
+          labelWrap={{
+            css: props.form.studioRules.includes('Snacks') ? 'radio-formActive' : 'radio-form',
+          }}
+          type="checkbox"
+          id="snacks"
+          value="Snacks"
+          name="studioRules"
+          checked={props.form.studioRules.includes('Snacks')}
+          onChange={props.handleChange}
+          afterLabel={{
+            string: 'Snacks',
+            css: 'cursor-pointer',
+          }}
+        />
+        <FormInput
+          labelWrap={{
+            css: props.form.studioRules.includes('WC') ? 'radio-formActive' : 'radio-form',
+          }}
+          type="checkbox"
+          id="wc"
+          value="WC"
+          name="studioRules"
+          checked={props.form.studioRules.includes('WC')}
+          onChange={props.handleChange}
+          afterLabel={{
+            string: 'WC',
+            css: 'cursor-pointer',
+          }}
+        />
+        <FormInput
+          labelWrap={{
+            css: props.form.studioRules.includes('Kitchen') ? 'radio-formActive' : 'radio-form',
+          }}
+          type="checkbox"
+          id="kitchen"
+          value="Kitchen"
+          name="studioRules"
+          checked={props.form.studioRules.includes('Kitchen')}
+          onChange={props.handleChange}
+          afterLabel={{
+            string: 'Kitchen',
+            css: 'cursor-pointer',
+          }}
+        />
+        <FormInput
+          labelWrap={{
+            css: props.form.studioRules.includes('Smoking') ? 'radio-formActive' : 'radio-form',
+          }}
+          type="checkbox"
+          id="smoking"
+          value="Smoking"
+          name="studioRules"
+          checked={props.form.studioRules.includes('Smoking')}
+          onChange={props.handleChange}
+          afterLabel={{
+            string: 'Smoking',
+            css: 'cursor-pointer',
+          }}
+        />
+        <FormInput
+          labelWrap={{
+            css: props.form.studioRules.includes('Sleepover') ? 'radio-formActive' : 'radio-form',
+          }}
+          type="checkbox"
+          id="sleepover"
+          value="Sleepover"
+          name="studioRules"
+          checked={props.form.studioRules.includes('Sleepover')}
+          onChange={props.handleChange}
+          afterLabel={{
+            string: 'Sleepover',
+            css: 'cursor-pointer',
+          }}
+        />
+        {/* <FormInput
+          labelWrap={{
+            css: props.form.locationFeatures.includes('Party') ? 'radio-formActive' : 'radio-form',
+          }}
+          type="checkbox"
+          id="party"
+          value="Party"
+          name="locationFeatures"
+          checked={props.form.locationFeatures.includes('Party')}
+          onChange={props.handleChange}
+          afterLabel={{
+            string: 'Party',
+            css: 'cursor-pointer',
+          }}
+        />
+        <FormInput
+          labelWrap={{
+            css: props.form.locationFeatures.includes('Drinks') ? 'radio-formActive' : 'radio-form',
+          }}
+          type="checkbox"
+          id="drinks"
+          value="Drinks"
+          name="locationFeatures"
+          checked={props.form.locationFeatures.includes('Drinks')}
+          onChange={props.handleChange}
+          afterLabel={{
+            string: 'Drinks',
+            css: 'cursor-pointer',
+          }}
+        />
+        <FormInput
+          labelWrap={{
+            css: props.form.locationFeatures.includes('Microwave') ? 'radio-formActive' : 'radio-form',
+          }}
+          type="checkbox"
+          id="microwave"
+          value="Microwave"
+          name="locationFeatures"
+          checked={props.form.locationFeatures.includes('Microwave')}
+          onChange={props.handleChange}
+          afterLabel={{
+            string: 'Microwave',
+            css: 'cursor-pointer',
+          }}
+        /> */}
+        <div className={`hidden ${props.formErrors.locationFeatures ?? 'block'}`}>
+          <span className="errormessage">{props.formErrors.locationFeatures}</span>
+        </div>
       </fieldset>
       {/* location */}
       <fieldset className="listingForm mb-52">
