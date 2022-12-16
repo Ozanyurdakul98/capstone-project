@@ -725,9 +725,10 @@ export function AddStudioForm(props) {
         <span className="errormessage ">{props.formErrors.studioSocials}</span>
       </fieldset>
       {/* StudioRules */}
-      <fieldset className="listingForm mb-5 flex flex-wrap gap-3">
+      <fieldset className="listingForm mb-5 flex w-full flex-wrap gap-3 sm:w-2/3 lg:w-1/2">
         <legend className="label-form">Studiorules</legend>
-        <div className="grid w-full grid-cols-bgsm items-center justify-items-start gap-2 sm:w-2/3 lg:w-1/2">
+        {/* tick rules */}
+        <div className="grid w-full grid-cols-bgsm items-center justify-items-start gap-2 ">
           <h2 className="col-start-1">Are these rules allowed in your Studio?</h2>
           <div className="col-start-2 flex w-full justify-center">
             <p className="">Allow ✅</p>
@@ -780,142 +781,46 @@ export function AddStudioForm(props) {
               onChange={props.handleChange}
             />
           </div>
+          <p className="col-start-1 pl-5">Is partying allowed?</p>
+          <div className="col-start-2 flex w-full justify-center">
+            <FormInput
+              type="checkbox"
+              id="party"
+              value="Party"
+              name="studioRules"
+              className="col-start-2 h-4"
+              checked={props.form.studioRules.includes('Party')}
+              onChange={props.handleChange}
+            />
+          </div>
         </div>
-        {/* <FormInput
-          labelWrap={{
-            css: props.form.studioRules.includes('Wi-Fi') ? 'radio-formActive' : 'radio-form',
-          }}
-          type="checkbox"
-          id="wifi"
-          value="Wi-Fi"
-          name="studioRules"
-          checked={props.form.studioRules.includes('Wi-Fi')}
-          onChange={props.handleChange}
-          afterLabel={{
-            string: 'Wi-Fi',
-            css: 'cursor-pointer',
-          }}
-        />
-        <FormInput
-          labelWrap={{
-            css: props.form.studioRules.includes('Snacks') ? 'radio-formActive' : 'radio-form',
-          }}
-          type="checkbox"
-          id="snacks"
-          value="Snacks"
-          name="studioRules"
-          checked={props.form.studioRules.includes('Snacks')}
-          onChange={props.handleChange}
-          afterLabel={{
-            string: 'Snacks',
-            css: 'cursor-pointer',
-          }}
-        />
-        <FormInput
-          labelWrap={{
-            css: props.form.studioRules.includes('WC') ? 'radio-formActive' : 'radio-form',
-          }}
-          type="checkbox"
-          id="wc"
-          value="WC"
-          name="studioRules"
-          checked={props.form.studioRules.includes('WC')}
-          onChange={props.handleChange}
-          afterLabel={{
-            string: 'WC',
-            css: 'cursor-pointer',
-          }}
-        />
-        <FormInput
-          labelWrap={{
-            css: props.form.studioRules.includes('Kitchen') ? 'radio-formActive' : 'radio-form',
-          }}
-          type="checkbox"
-          id="kitchen"
-          value="Kitchen"
-          name="studioRules"
-          checked={props.form.studioRules.includes('Kitchen')}
-          onChange={props.handleChange}
-          afterLabel={{
-            string: 'Kitchen',
-            css: 'cursor-pointer',
-          }}
-        />
-        <FormInput
-          labelWrap={{
-            css: props.form.studioRules.includes('Smoking') ? 'radio-formActive' : 'radio-form',
-          }}
-          type="checkbox"
-          id="smoking"
-          value="Smoking"
-          name="studioRules"
-          checked={props.form.studioRules.includes('Smoking')}
-          onChange={props.handleChange}
-          afterLabel={{
-            string: 'Smoking',
-            css: 'cursor-pointer',
-          }}
-        />
-        <FormInput
-          labelWrap={{
-            css: props.form.studioRules.includes('Sleepover') ? 'radio-formActive' : 'radio-form',
-          }}
-          type="checkbox"
-          id="sleepover"
-          value="Sleepover"
-          name="studioRules"
-          checked={props.form.studioRules.includes('Sleepover')}
-          onChange={props.handleChange}
-          afterLabel={{
-            string: 'Sleepover',
-            css: 'cursor-pointer',
-          }}
-        /> */}
-        {/* <FormInput
-          labelWrap={{
-            css: props.form.locationFeatures.includes('Party') ? 'radio-formActive' : 'radio-form',
-          }}
-          type="checkbox"
-          id="party"
-          value="Party"
-          name="locationFeatures"
-          checked={props.form.locationFeatures.includes('Party')}
-          onChange={props.handleChange}
-          afterLabel={{
-            string: 'Party',
-            css: 'cursor-pointer',
-          }}
-        />
-        <FormInput
-          labelWrap={{
-            css: props.form.locationFeatures.includes('Drinks') ? 'radio-formActive' : 'radio-form',
-          }}
-          type="checkbox"
-          id="drinks"
-          value="Drinks"
-          name="locationFeatures"
-          checked={props.form.locationFeatures.includes('Drinks')}
-          onChange={props.handleChange}
-          afterLabel={{
-            string: 'Drinks',
-            css: 'cursor-pointer',
-          }}
-        />
-        <FormInput
-          labelWrap={{
-            css: props.form.locationFeatures.includes('Microwave') ? 'radio-formActive' : 'radio-form',
-          }}
-          type="checkbox"
-          id="microwave"
-          value="Microwave"
-          name="locationFeatures"
-          checked={props.form.locationFeatures.includes('Microwave')}
-          onChange={props.handleChange}
-          afterLabel={{
-            string: 'Microwave',
-            css: 'cursor-pointer',
-          }}
-        /> */}
+        <fieldset className="listingForm mb-4 lg:mt-0">
+          <FormInput
+            // beforeLabel={{
+            //   string: 'Profiletext',
+            //   css: 'label-form w-full sm:w-2/3 lg:w-full',
+            //   required: true,
+            //   description:
+            //     'Write a short text about this studio. Visitors of the detailpage of this Studio will see it.',
+            // }}
+            className="input-form peer block resize-none lg:w-full"
+            counter={{
+              val: props.form.profileText.length,
+              max: '350',
+              css: 'inputCounter lg:w-full',
+            }}
+            textarea={true}
+            id="profileText"
+            placeholder="Write some additional rules here.. "
+            name="profileText"
+            required
+            autoComplete="off"
+            pattern="^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){24,349}$"
+            errorMessage={'Only 25-350 characters and (a-z, A-Z, 0-9, ! äöü ,-_) allowed!'}
+            value={props.form.profileText}
+            onChange={props.handleChange}></FormInput>
+          <span className="errormessage ">{props.formErrors.profileText}</span>
+        </fieldset>
         <div className={`hidden ${props.formErrors.locationFeatures ?? 'block'}`}>
           <span className="errormessage">{props.formErrors.locationFeatures}</span>
         </div>
