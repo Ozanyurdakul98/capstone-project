@@ -8,7 +8,14 @@ import MyStudiosTable from '../../components/Dashboard/Tables/MyStudiosTable';
 import StudioServicesTable from '../../components/Dashboard/Tables/StudioServicesTable';
 import moment from 'moment';
 import { getToken } from 'next-auth/jwt';
-export default function Dashboard({ totalListings, fetchedStudios, fetchedStudioServices, role }) {
+import AdminStudioService from '../../models/AdminCreateStudioService';
+export default function Dashboard({
+  totalListings,
+  fetchedStudios,
+  fetchedStudioServices,
+  sanitizedAdminStudioServices,
+  role,
+}) {
   return (
     <div className="flex flex-col gap-14">
       <div>
@@ -26,7 +33,11 @@ export default function Dashboard({ totalListings, fetchedStudios, fetchedStudio
       </section>
       <section>
         <h1 className="mt-4 text-2xl font-bold leading-tight text-secondary-color">My Studioservices</h1>
-        <StudioServicesTable role={role} fetchedStudioServices={fetchedStudioServices} />
+        <StudioServicesTable
+          role={role}
+          sanitizedAdminStudioServices={sanitizedAdminStudioServices}
+          fetchedStudioServices={fetchedStudioServices}
+        />
       </section>
     </div>
   );
@@ -57,6 +68,13 @@ export async function getServerSideProps({ req }) {
     updatedAtTime: moment(studio.updatedAt).format('kk:mm'),
   }));
 
+  const services = await AdminStudioService.find();
+  const sanitizedAdminStudioServices = services.map((service) => ({
+    id: service.id,
+    name: service.name,
+    description: service.description,
+  }));
+
   const fetchingStudioServices = await StudioService.find({ user: userID })
     .populate({
       path: 'user',
@@ -73,7 +91,6 @@ export async function getServerSideProps({ req }) {
       model: 'StudioListing',
       select: 'studioName _id',
     });
-  console.log(fetchingStudioServices);
   const serializingServices = JSON.parse(JSON.stringify(fetchingStudioServices));
   const serializedAndUpdatedStudioServices = serializingServices.map((service) => ({
     ...service,
@@ -87,6 +104,7 @@ export async function getServerSideProps({ req }) {
     props: {
       fetchedStudios: serializedAndUpdatedStudios || null,
       fetchedStudioServices: serializedAndUpdatedStudioServices || null,
+      sanitizedAdminStudioServices: sanitizedAdminStudioServices || null,
       totalListings: totalListingsCount || null,
       role: role || null,
     },

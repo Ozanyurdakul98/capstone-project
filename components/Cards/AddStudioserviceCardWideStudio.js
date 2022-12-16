@@ -23,7 +23,7 @@ function AddStudioserviceCardWideStudio(props) {
       <article>
         <div
           className={`${
-            selectedStudio === id ? 'bg-secondary text-white' : null
+            selectedStudio.studio === id ? 'bg-secondary text-white' : null
           } flex w-full cursor-pointer items-center rounded-lg p-2 shadow-lg hover:opacity-80`}>
           <div className="flex h-24 w-28 shrink-0 items-center justify-center sm:h-32 sm:w-44 md:h-36 md:w-52">
             <div className="relative h-20 w-20  shrink-0 sm:h-28 sm:w-28 md:h-32 md:w-32  ">

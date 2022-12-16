@@ -204,20 +204,14 @@ export default function MyStudiosTable({ fetchedStudios, role }) {
         disableSortBy: false,
       },
       {
-        Header: 'Time',
-        accessor: 'createdAtTime',
-        collapse: true,
-        disableSortBy: false,
-      },
-      {
         Header: 'Updated',
         accessor: 'updatedAtDate',
         collapse: false,
         disableSortBy: false,
       },
       {
-        Header: 'Time',
-        accessor: 'updatedAtTime',
+        Header: 'ID',
+        accessor: '_id',
         collapse: true,
         disableSortBy: false,
       },

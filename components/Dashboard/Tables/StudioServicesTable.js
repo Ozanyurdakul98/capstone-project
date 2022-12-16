@@ -4,14 +4,16 @@ import { useTable, useSortBy, useGlobalFilter, useFilters, usePagination } from 
 import AllColumnsFilter from '../TableComponents/AllColumnsFilter';
 import ServicesFilter from '../TableComponents/ServicesFilter';
 import StudioTypeFilter from '../TableComponents/StudioTypeFilter';
-import EditStudio from '../../Forms/EditStudio';
 import { TbEdit } from 'react-icons/tb';
 import { MdDeleteForever, MdInfo } from 'react-icons/md';
 import { useRouter } from 'next/router';
 import { DeleteModal } from '../../Modals/DeleteModal';
-import StudioInformation from '../../Modals/StudioInformation';
+import StudioServiceInformation from '../../Modals/StudioServiceInformation';
+import { formatValue } from 'react-currency-input-field';
+import { StudioServiceForm } from '../../Forms/StudioServiceForm';
+import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../../BackgroundOverlay';
 
-export default function StudioServicesTable({ fetchedStudioServices, role }) {
+export default function StudioServicesTable({ fetchedStudioServices, role, sanitizedAdminStudioServices }) {
   const [toUpdateStudioService, setToUpdateStudioService] = useState();
   const [studioServiceID, setStudioServiceID] = useState('');
   const [openEditView, setOpenEditView] = useState(false);
@@ -33,9 +35,10 @@ export default function StudioServicesTable({ fetchedStudioServices, role }) {
   async function handleEdit(values) {
     if (values) {
       const id = values._id;
+      console.log('value', values);
       try {
         const res = await fetch(
-          `${role === 'admin' ? '/api/dashboard/admin/studio/' : '/api/dashboard/studio/'}${id}`,
+          `${role === 'admin' ? '/api/dashboard/admin/studioservice/' : '/api/dashboard/studioservice/'}${id}`,
           {
             method: 'GET',
             headers: {
@@ -44,34 +47,35 @@ export default function StudioServicesTable({ fetchedStudioServices, role }) {
           }
         );
         const result = await res.json();
-        const rawStudio = result.data[0];
-        const studio = {
-          logo: rawStudio.logo,
-          studioName: rawStudio.studioName,
-          profileText: rawStudio.profileText,
-          studiotype: rawStudio.studiotype,
-          studioInformation: rawStudio.studioInformation,
-          studioLanguages: rawStudio.studioLanguages,
-          openingHours: rawStudio.openingHours,
-          locationFeatures: rawStudio.locationFeatures,
-          sleepOver: rawStudio.sleepOver,
-          studioSocials: rawStudio.studioSocials,
-          studioLocation: rawStudio.studioLocation,
-          studioRules: rawStudio.studioRules,
-          additionalStudioRules: rawStudio.additionalStudioRules,
-          user: rawStudio.user,
+        const studioServiceRaw = result.data[0];
+        const studioService = {
+          id: studioServiceRaw._id,
+          images: studioServiceRaw.images,
+          listingTitle: studioServiceRaw.listingTitle,
+          service: studioServiceRaw.service,
+          description: studioServiceRaw.description,
+          maxGuests: studioServiceRaw.maxGuests,
+          equipment: studioServiceRaw.equipment,
+          additionalServices: studioServiceRaw.additionalServices,
+          soundengineer: studioServiceRaw.soundengineer,
+          pricing: studioServiceRaw.pricing,
+          subInformations: studioServiceRaw.subInformations,
+          studio: studioServiceRaw.studio,
+          user: studioServiceRaw.user,
+          createdAtDate: studioServiceRaw.createdAtDate,
+          updatedAtDate: studioServiceRaw.updatedAtDate,
         };
         if (!res.ok || !result.success) {
           throw new Error(res.status);
         }
         if (res.ok) {
-          setToUpdateStudioService(studio);
-          setStudioServiceID(rawStudio._id);
+          setToUpdateStudioService(studioService);
+          setStudioServiceID(studioServiceRaw._id);
           setOpenEditView(true);
         }
       } catch (error) {
         alert('Something went wrong, Contact us if you need help!', error);
-        console.error('Failed to find Studio', error);
+        console.error('Failed to find Studioservice', error);
       }
     }
   }
@@ -80,7 +84,7 @@ export default function StudioServicesTable({ fetchedStudioServices, role }) {
       setLoading((prev) => !prev);
       try {
         const res = await fetch(
-          `${role === 'admin' ? '/api/dashboard/admin/studio/' : '/api/dashboard/studio/'}${ID}`,
+          `${role === 'admin' ? '/api/dashboard/admin/studioservice/' : '/api/dashboard/studioservice/'}${ID}`,
           {
             method: 'DELETE',
             headers: {
@@ -105,7 +109,7 @@ export default function StudioServicesTable({ fetchedStudioServices, role }) {
       } catch (error) {
         setDeleteModalStrings({ ...deleteModalStrings, message: "It didn't work", error: error });
         setLoading(false);
-        console.error('Failed to find Studio', error);
+        console.error('Failed to find Studioservice', error);
       }
     }
   }
@@ -119,7 +123,7 @@ export default function StudioServicesTable({ fetchedStudioServices, role }) {
       const id = values._id;
       try {
         const res = await fetch(
-          `${role === 'admin' ? '/api/dashboard/admin/studio/' : '/api/dashboard/studio/'}${id}`,
+          `${role === 'admin' ? '/api/dashboard/admin/studioservice/' : '/api/dashboard/studioservice/'}${id}`,
           {
             method: 'GET',
             headers: {
@@ -128,32 +132,30 @@ export default function StudioServicesTable({ fetchedStudioServices, role }) {
           }
         );
         const result = await res.json();
-        const rawStudio = result.data[0];
-        const studio = {
-          _id: rawStudio._id,
-          logo: rawStudio.logo,
-          studioName: rawStudio.studioName,
-          profileText: rawStudio.profileText,
-          studiotype: rawStudio.studiotype,
-          studioInformation: rawStudio.studioInformation,
-          studioLanguages: rawStudio.studioLanguages,
-          openingHours: rawStudio.openingHours,
-          locationFeatures: rawStudio.locationFeatures,
-          sleepOver: rawStudio.sleepOver,
-          studioSocials: rawStudio.studioSocials,
-          studioLocation: rawStudio.studioLocation,
-          studioRules: rawStudio.studioRules,
-          additionalStudioRules: rawStudio.additionalStudioRules,
-          user: rawStudio.user,
-          createdAtDate: rawStudio.createdAtDate,
-          updatedAtDate: rawStudio.updatedAtDate,
+        const studioServiceRaw = result.data[0];
+        const studioService = {
+          id: studioServiceRaw._id,
+          images: studioServiceRaw.images,
+          listingTitle: studioServiceRaw.listingTitle,
+          service: studioServiceRaw.service,
+          description: studioServiceRaw.description,
+          maxGuests: studioServiceRaw.maxGuests,
+          equipment: studioServiceRaw.equipment,
+          additionalServices: studioServiceRaw.additionalServices,
+          soundengineer: studioServiceRaw.soundengineer,
+          pricing: studioServiceRaw.pricing,
+          subInformations: studioServiceRaw.subInformations,
+          studio: studioServiceRaw.studio,
+          user: studioServiceRaw.user,
+          createdAtDate: studioServiceRaw.createdAtDate,
+          updatedAtDate: studioServiceRaw.updatedAtDate,
         };
         if (!res.ok || !result.success) {
           throw new Error(res.status);
         }
         if (res.ok) {
           setStudioServiceID(values._id);
-          setSelectedStudioServiceInformation(studio);
+          setSelectedStudioServiceInformation(studioService);
           setInfoModal(true);
         }
       } catch (error) {
@@ -162,12 +164,15 @@ export default function StudioServicesTable({ fetchedStudioServices, role }) {
       }
     }
   }
-
+  const handleClickToCloseModal = () => {
+    setOpenEditView(false);
+  };
   useEffect(() => {
     if (fetchedStudioServices) {
       setStudioServices(fetchedStudioServices);
     }
   }, []);
+
   const studioServiceColumns = useMemo(
     () => [
       {
@@ -194,8 +199,14 @@ export default function StudioServicesTable({ fetchedStudioServices, role }) {
       {
         Header: 'Soundengineer',
         accessor: (row) =>
-          row.soundengineer.includes('soudengineerPricing')
-            ? row.soundengineer.soundengineerPricing
+          row.soundengineer.price
+            ? formatValue({
+                value: row.soundengineer.price,
+                intlConfig: {
+                  locale: row.subInformations.locale,
+                  currency: row.subInformations.currency,
+                },
+              })
             : row.soundengineer,
         disableSortBy: false,
       },
@@ -209,6 +220,12 @@ export default function StudioServicesTable({ fetchedStudioServices, role }) {
         Header: 'Updated',
         accessor: 'updatedAtDate',
         collapse: false,
+        disableSortBy: false,
+      },
+      {
+        Header: 'ID',
+        accessor: '_id',
+        collapse: true,
         disableSortBy: false,
       },
     ],
@@ -280,7 +297,6 @@ export default function StudioServicesTable({ fetchedStudioServices, role }) {
     previousPage,
     setPageSize,
   } = tableInstance;
-  console.log(role);
   return (
     <>
       <div className="mb-20 block max-w-full">
@@ -391,10 +407,28 @@ export default function StudioServicesTable({ fetchedStudioServices, role }) {
         </div>
       </div>
       {openEditView ? (
-        <EditStudio
-          toUpdateStudioService={toUpdateStudioService}
-          studioServiceID={studioServiceID}
-          setOpenEditView={setOpenEditView}></EditStudio>
+        <>
+          <div className="searchFadein fixed inset-0 z-50 m-auto flex h-4/6 w-full flex-col gap-5 rounded-2xl bg-white   pb-5  shadow-xxl md:min-h-72 md:w-11/12 lg:w-8/12 xl:w-6/12">
+            <div className=" overflow-y-scroll sm:px-0">
+              <div className="mt-4 flex flex-col gap-4">
+                <h2 className="h2 ml-5 text-2xl">Edit Studio</h2>
+              </div>
+              <div className=" px-2 sm:ml-5 md:mr-5">
+                <div className="sm:px-0">
+                  <StudioServiceForm
+                    selectedStudioServiceInformation={toUpdateStudioService}
+                    studioService={sanitizedAdminStudioServices}
+                    role={role}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <ClickToCloseMax
+            style={'bg-black/50 editModal   z-40 h-full'}
+            onClick={(event) => handleClickToCloseModal(event)}
+          />
+        </>
       ) : null}
       {deleteModal ? (
         <>
@@ -408,7 +442,7 @@ export default function StudioServicesTable({ fetchedStudioServices, role }) {
       ) : null}
       {infoModal ? (
         <>
-          <StudioInformation setOpenModal={setInfoModal} studio={selectedStudioServiceInformation} />
+          <StudioServiceInformation setOpenModal={setInfoModal} studioService={selectedStudioServiceInformation} />
         </>
       ) : null}
     </>

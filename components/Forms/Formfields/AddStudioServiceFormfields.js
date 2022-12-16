@@ -1,13 +1,13 @@
-import { FormInput } from './FormInput';
+import { FormInput } from '../FormInput';
 import Image from 'next/image.js';
 import { TbHandClick } from 'react-icons/tb';
 import { MdDeleteForever } from 'react-icons/md';
 import { MinusCircleIcon, PlusCircleIcon } from '@heroicons/react/24/solid';
 import CurrencyInput from 'react-currency-input-field';
-import { currencyLocales } from '../../helpers/Currencies';
+import { currencyLocales } from '../../../helpers/Currencies';
 import { formatValue } from 'react-currency-input-field';
 
-export function AddStudioServiceForm(props) {
+export function AddStudioServiceFormfields(props) {
   return (
     <>
       {/* Seperator */}
@@ -67,11 +67,11 @@ export function AddStudioServiceForm(props) {
           onChange={props.handleChange}></FormInput>
         <span className="errormessage ">{props.formErrors.listingTitle}</span>
       </fieldset>
-      {/* profiletext */}
+      {/* description */}
       <fieldset className="listingForm">
         <FormInput
           beforeLabel={{
-            string: 'Profiletext',
+            string: 'Description',
             css: 'label-form ',
             required: true,
             description:

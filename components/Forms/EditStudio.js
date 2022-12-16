@@ -197,20 +197,9 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
   }
   function MatchDataWithChecked() {
     console.log(data);
-    const pricing = data.studioPricing;
-    const engineer = data.soundengineer;
     const studioInfo = data.studioInformation;
     const studioSleepover = data.sleepOver;
     return () => {
-      if (pricing) {
-        let pricingArray = [];
-        Object.keys(pricing).map((price) => (pricingArray = [...pricingArray, price]));
-        setChecked({ ...checked, studioPricing: pricingArray });
-      }
-      if (typeof engineer === 'object') {
-        const string = 'soundengineerPrice';
-        setChecked((prev) => ({ ...prev, soundengineer: string }));
-      }
       if (studioInfo) {
         setChecked((prev) => ({ ...prev, studioInformation: Object.keys(studioInfo) }));
       }
@@ -293,7 +282,7 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
     if (data) return data.secure_url;
     else if (!data) return defaultPic;
   };
-  console.log('checked', checked, form);
+  console.log('checked', checked);
 
   return (
     <>

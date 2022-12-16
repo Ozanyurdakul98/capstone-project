@@ -1,10 +1,12 @@
-import db from '../../../../lib/dbConnect';
-import StudioService from '../../../../models/StudioService';
+import db from '../../../../../lib/dbConnect';
+import StudioService from '../../../../../models/StudioService';
 import { getToken } from 'next-auth/jwt';
+import moment from 'moment';
 
 export default async function handler(req, res) {
   const token = await getToken({ req });
-  if (token.role !== 'user' && token.role !== 'admin') {
+  const { serviceID } = req.query;
+  if (token.role !== 'admin') {
     return res.status(401).json({
       success: false,
       message: 'Your session is invalid. You are not authorized to do this action!',
@@ -12,9 +14,31 @@ export default async function handler(req, res) {
   }
   if (req.method === 'GET') {
     try {
-      const { studioID } = req.query;
-      const fetchingStudio = await StudioService.find({ _id: studioID });
-      return res.status(200).json({ success: true, data: fetchingStudio });
+      const fetchingStudioservice = await StudioService.find({ _id: serviceID })
+        .populate({
+          path: 'user',
+          model: 'users',
+          select: 'avatar email name lastname username',
+        })
+        .populate({
+          path: 'service',
+          model: 'AdminStudioService',
+          select: '_id',
+        })
+        .populate({
+          path: 'studio',
+          model: 'StudioListing',
+          select: '',
+        });
+      const serializingServices = JSON.parse(JSON.stringify(fetchingStudioservice));
+      const serializedAndUpdatedStudioServices = serializingServices.map((service) => ({
+        ...service,
+        createdAtDate: moment(service.createdAt).format('DD/MM/yyyy'),
+        createdAtTime: moment(service.createdAt).format('kk:mm'),
+        updatedAtDate: moment(service.updatedAt).format('DD/MM/yyyy'),
+        updatedAtTime: moment(service.updatedAt).format('kk:mm'),
+      }));
+      return res.status(200).json({ success: true, data: serializedAndUpdatedStudioServices });
     } catch (error) {
       console.error(error);
       return res.status(400).json({ success: false, message: 'Studio not found' });
@@ -31,7 +55,6 @@ export default async function handler(req, res) {
   } else if (req.method === 'PATCH') {
     await db.connect();
     try {
-      const { serviceID } = req.query;
       const listing = await StudioService.findByIdAndUpdate(serviceID, req.body);
       return res.status(201).json({ success: true, data: listing });
     } catch (error) {
@@ -40,7 +63,6 @@ export default async function handler(req, res) {
   } else if (req.method === 'DELETE') {
     await db.connect();
     try {
-      const { serviceID } = req.query;
       const status = await StudioService.findByIdAndDelete(serviceID);
       return res.status(201).json({ success: true, status });
     } catch (error) {
