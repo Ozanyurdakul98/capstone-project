@@ -11,7 +11,7 @@ import { useRouter } from 'next/router';
 import { DeleteModal } from '../../Modals/DeleteModal';
 import StudioInformation from '../../Modals/StudioInformation';
 
-export default function MyStudiosTable({ fetchedStudios, role }) {
+export default function StudioServicesTable({ fetchedStudioServices, role }) {
   const [toUpdateStudio, setToUpdateStudio] = useState();
   const [studioID, setStudioID] = useState('');
   const [openEditView, setOpenEditView] = useState(false);
@@ -25,9 +25,9 @@ export default function MyStudiosTable({ fetchedStudios, role }) {
     error: '',
   });
   const [selectedStudioInformation, setSelectedStudioInformation] = useState('');
-  const [studios, setStudios] = useState([]);
+  const [studioServices, setStudioServices] = useState([]);
   const router = useRouter();
-  const studioData = useMemo(() => [...studios], [studios]);
+  const studioServiceData = useMemo(() => [...studioServices], [studioServices]);
   const isEven = (idx) => idx % 2 !== 0;
 
   async function handleEdit(values) {
@@ -114,7 +114,6 @@ export default function MyStudiosTable({ fetchedStudios, role }) {
     setDeleteModalStrings({ ...deleteModalStrings, studioID: values._id });
     setDeleteModal(true);
   }
-
   async function openInfoModal(values) {
     if (values) {
       const id = values._id;
@@ -165,36 +164,39 @@ export default function MyStudiosTable({ fetchedStudios, role }) {
   }
 
   useEffect(() => {
-    if (fetchedStudios) {
-      setStudios(fetchedStudios);
+    if (fetchedStudioServices) {
+      setStudioServices(fetchedStudioServices);
     }
   }, []);
-  const studioColumns = useMemo(
+  const studioServiceColumns = useMemo(
     () => [
       {
-        Header: 'Logo',
-        accessor: 'logo',
+        Header: 'Image',
+        accessor: 'images.primary',
         disableSortBy: true,
         Cell: ({ value }) => (
           <div className="relative -mx-2 h-14 w-14 sm:h-16 sm:w-16 md:h-24 md:w-24">
-            <Image src={value} layout="fill" className="bg-secondary rounded-full " objectFit="cover" alt="avatar" />
+            <Image src={value} layout="fill" className="bg-secondary rounded-xl " objectFit="cover" alt="avatar" />
           </div>
         ),
       },
       {
-        Header: 'Name',
-        accessor: 'studioName',
+        Header: 'Service',
+        accessor: 'service.name',
         disableSortBy: true,
         collapse: false,
       },
       {
-        Header: 'Studio Type',
-        accessor: 'studiotype',
+        Header: 'Max Guests',
+        accessor: 'maxGuests',
         disableSortBy: false,
       },
       {
-        Header: 'Sleepover',
-        accessor: (row) => (row.locationFeatures.includes('Sleepover') ? 'yes' : 'no'),
+        Header: 'Soundengineer',
+        accessor: (row) =>
+          row.soundengineer.includes('soudengineerPricing')
+            ? row.soundengineer.soundengineerPricing
+            : row.soundengineer,
         disableSortBy: false,
       },
       {
@@ -204,21 +206,9 @@ export default function MyStudiosTable({ fetchedStudios, role }) {
         disableSortBy: false,
       },
       {
-        Header: 'Time',
-        accessor: 'createdAtTime',
-        collapse: true,
-        disableSortBy: false,
-      },
-      {
         Header: 'Updated',
         accessor: 'updatedAtDate',
         collapse: false,
-        disableSortBy: false,
-      },
-      {
-        Header: 'Time',
-        accessor: 'updatedAtTime',
-        collapse: true,
         disableSortBy: false,
       },
     ],
@@ -260,8 +250,8 @@ export default function MyStudiosTable({ fetchedStudios, role }) {
   };
   const tableInstance = useTable(
     {
-      columns: studioColumns,
-      data: studioData,
+      columns: studioServiceColumns,
+      data: studioServiceData,
       disableMultiSort: true,
       initialState: { pageSize: 10 },
     },
@@ -293,7 +283,7 @@ export default function MyStudiosTable({ fetchedStudios, role }) {
   console.log(role);
   return (
     <>
-      <div className="mb-5 block max-w-full">
+      <div className="mb-20 block max-w-full">
         <div className="tableWrap">
           {/* filters */}
           <div className="filter-table">
@@ -301,7 +291,7 @@ export default function MyStudiosTable({ fetchedStudios, role }) {
               preGlobalFilteredRows={preGlobalFilteredRows}
               setGlobalFilter={setGlobalFilter}
               state={state.globalFilter}
-              tableName={'studios'}
+              tableName={'studioServices'}
             />
             <ServicesFilter setFilter={setFilter} />
             <StudioTypeFilter
