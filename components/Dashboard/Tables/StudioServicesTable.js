@@ -12,8 +12,8 @@ import { DeleteModal } from '../../Modals/DeleteModal';
 import StudioInformation from '../../Modals/StudioInformation';
 
 export default function StudioServicesTable({ fetchedStudioServices, role }) {
-  const [toUpdateStudio, setToUpdateStudio] = useState();
-  const [studioID, setStudioID] = useState('');
+  const [toUpdateStudioService, setToUpdateStudioService] = useState();
+  const [studioServiceID, setStudioServiceID] = useState('');
   const [openEditView, setOpenEditView] = useState(false);
   const [loading, setLoading] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
@@ -21,10 +21,10 @@ export default function StudioServicesTable({ fetchedStudioServices, role }) {
   const [deleteModalStrings, setDeleteModalStrings] = useState({
     header: 'Are you sure you want to delete this Studio?',
     message: 'This Studio will be permanently deleted! If you want to delete this Studio, click on Delete.',
-    studioID: '',
+    studioServiceID: '',
     error: '',
   });
-  const [selectedStudioInformation, setSelectedStudioInformation] = useState('');
+  const [selectedStudioServiceInformation, setSelectedStudioServiceInformation] = useState('');
   const [studioServices, setStudioServices] = useState([]);
   const router = useRouter();
   const studioServiceData = useMemo(() => [...studioServices], [studioServices]);
@@ -65,8 +65,8 @@ export default function StudioServicesTable({ fetchedStudioServices, role }) {
           throw new Error(res.status);
         }
         if (res.ok) {
-          setToUpdateStudio(studio);
-          setStudioID(rawStudio._id);
+          setToUpdateStudioService(studio);
+          setStudioServiceID(rawStudio._id);
           setOpenEditView(true);
         }
       } catch (error) {
@@ -95,7 +95,7 @@ export default function StudioServicesTable({ fetchedStudioServices, role }) {
           setDeleteModalStrings({
             ...deleteModalStrings,
             message: `successfully deleted...`,
-            studioID: '',
+            studioServiceID: '',
           });
           setTimeout(() => {
             setLoading(false);
@@ -110,8 +110,8 @@ export default function StudioServicesTable({ fetchedStudioServices, role }) {
     }
   }
   function openDeleteModal(values) {
-    setStudioID(values._id);
-    setDeleteModalStrings({ ...deleteModalStrings, studioID: values._id });
+    setStudioServiceID(values._id);
+    setDeleteModalStrings({ ...deleteModalStrings, studioServiceID: values._id });
     setDeleteModal(true);
   }
   async function openInfoModal(values) {
@@ -152,8 +152,8 @@ export default function StudioServicesTable({ fetchedStudioServices, role }) {
           throw new Error(res.status);
         }
         if (res.ok) {
-          setStudioID(values._id);
-          setSelectedStudioInformation(studio);
+          setStudioServiceID(values._id);
+          setSelectedStudioServiceInformation(studio);
           setInfoModal(true);
         }
       } catch (error) {
@@ -391,12 +391,15 @@ export default function StudioServicesTable({ fetchedStudioServices, role }) {
         </div>
       </div>
       {openEditView ? (
-        <EditStudio toUpdateStudio={toUpdateStudio} studioID={studioID} setOpenEditView={setOpenEditView}></EditStudio>
+        <EditStudio
+          toUpdateStudioService={toUpdateStudioService}
+          studioServiceID={studioServiceID}
+          setOpenEditView={setOpenEditView}></EditStudio>
       ) : null}
       {deleteModal ? (
         <>
           <DeleteModal
-            studioID={studioID}
+            studioServiceID={studioServiceID}
             loading={loading}
             setDeleteModal={setDeleteModal}
             deleteModalStrings={deleteModalStrings}
@@ -405,7 +408,7 @@ export default function StudioServicesTable({ fetchedStudioServices, role }) {
       ) : null}
       {infoModal ? (
         <>
-          <StudioInformation setOpenModal={setInfoModal} studio={selectedStudioInformation} />
+          <StudioInformation setOpenModal={setInfoModal} studio={selectedStudioServiceInformation} />
         </>
       ) : null}
     </>
