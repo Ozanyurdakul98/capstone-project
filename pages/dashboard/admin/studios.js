@@ -1,13 +1,14 @@
-import StudioTable from '../../../components/Dashboard/Tables/StudioTable';
+import MyStudiosTable from '../../../components/Dashboard/Tables/MyStudiosTable';
 import DashboardLayout from '../../../components/Layout/DashboardLayout';
 import db from '../../../lib/dbConnect';
 import StudioListing from '../../../models/StudioListing';
 import moment from 'moment';
-export default function DashboardStudios({ fetchedStudios }) {
+import { getToken } from 'next-auth/jwt';
+export default function DashboardStudios({ fetchedStudios, role }) {
   return (
     <>
       <h1 className="mt-4 mb-2 text-center text-4xl font-bold leading-tight text-secondary-color">Studios</h1>
-      <StudioTable fetchedStudios={fetchedStudios} />
+      <MyStudiosTable role={role} fetchedStudios={fetchedStudios} />
     </>
   );
 }
@@ -16,8 +17,11 @@ DashboardStudios.getLayout = function getLayout(page) {
   return <DashboardLayout>{page}</DashboardLayout>;
 };
 
-export async function getServerSideProps() {
+export async function getServerSideProps({ req }) {
   await db.connect();
+  const session = await getToken({ req });
+  const role = session.role;
+
   const fetchingStudios = await StudioListing.find();
   const serializing = JSON.parse(JSON.stringify(fetchingStudios));
   const serializedAndUpdatedStudios = serializing.map((studio) => ({
@@ -30,6 +34,7 @@ export async function getServerSideProps() {
   return {
     props: {
       fetchedStudios: serializedAndUpdatedStudios || null,
+      role: role || null,
     },
   };
 }

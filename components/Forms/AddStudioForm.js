@@ -728,7 +728,7 @@ export function AddStudioForm(props) {
       <fieldset className="listingForm mb-5 flex w-full flex-wrap gap-3 sm:w-2/3 lg:w-1/2">
         <legend className="label-form">Studiorules</legend>
         {/* tick rules */}
-        <div className="grid w-full grid-cols-bgsm items-center justify-items-start gap-2 ">
+        <div className="mb-3 grid w-full grid-cols-bgsm items-center justify-items-start gap-2 ">
           <h2 className="col-start-1">Are these rules allowed in your Studio?</h2>
           <div className="col-start-2 flex w-full justify-center">
             <p className="">Allow ✅</p>
@@ -794,35 +794,33 @@ export function AddStudioForm(props) {
             />
           </div>
         </div>
-        <fieldset className="listingForm mb-4 lg:mt-0">
+        {/* error */}
+        <div className={`hidden ${props.formErrors.studioRules ?? 'block'}`}>
+          <span className="errormessage">{props.formErrors.studioRules}</span>
+        </div>
+        {/* additionRules */}
+        <fieldset className="listingForm lg:mt-0">
           <FormInput
-            // beforeLabel={{
-            //   string: 'Profiletext',
-            //   css: 'label-form w-full sm:w-2/3 lg:w-full',
-            //   required: true,
-            //   description:
-            //     'Write a short text about this studio. Visitors of the detailpage of this Studio will see it.',
-            // }}
-            className="input-form peer block resize-none lg:w-full"
+            className="input-form peer block w-full resize-none"
             counter={{
-              val: props.form.profileText.length,
+              val: props.form.additionalStudioRules.length,
               max: '350',
-              css: 'inputCounter lg:w-full',
+              css: 'inputCounter w-full',
             }}
             textarea={true}
-            id="profileText"
+            id="additionalStudioRules"
             placeholder="Write some additional rules here.. "
-            name="profileText"
+            name="additionalStudioRules"
             required
             autoComplete="off"
             pattern="^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){24,349}$"
             errorMessage={'Only 25-350 characters and (a-z, A-Z, 0-9, ! äöü ,-_) allowed!'}
-            value={props.form.profileText}
+            value={props.form.additionalStudioRules}
             onChange={props.handleChange}></FormInput>
-          <span className="errormessage ">{props.formErrors.profileText}</span>
         </fieldset>
-        <div className={`hidden ${props.formErrors.locationFeatures ?? 'block'}`}>
-          <span className="errormessage">{props.formErrors.locationFeatures}</span>
+        {/* error */}
+        <div className={`hidden ${props.formErrors.additionalStudioRules ?? 'block'}`}>
+          <span className="errormessage">{props.formErrors.additionalStudioRules}</span>
         </div>
       </fieldset>
       {/* location */}

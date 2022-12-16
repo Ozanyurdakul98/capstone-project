@@ -6,7 +6,7 @@ import DashboardLayout from '../../components/Layout/DashboardLayout';
 import MyStudiosTable from '../../components/Dashboard/Tables/MyStudiosTable';
 import moment from 'moment';
 import { getToken } from 'next-auth/jwt';
-export default function Dashboard({ totalListings, fetchedStudios }) {
+export default function Dashboard({ totalListings, fetchedStudios, role }) {
   return (
     <div className="flex flex-col gap-14">
       <div>
@@ -20,11 +20,11 @@ export default function Dashboard({ totalListings, fetchedStudios }) {
       </div>
       <section>
         <h1 className="mt-4 text-2xl font-bold leading-tight text-secondary-color">My Studios</h1>
-        <MyStudiosTable fetchedStudios={fetchedStudios} />
+        <MyStudiosTable role={role} fetchedStudios={fetchedStudios} />
       </section>
       <section>
         <h1 className="mt-4 text-2xl font-bold leading-tight text-secondary-color">My Studios</h1>
-        <MyStudiosTable fetchedStudios={fetchedStudios} />
+        <MyStudiosTable role={role} fetchedStudios={fetchedStudios} />
       </section>
     </div>
   );
@@ -37,11 +37,15 @@ Dashboard.getLayout = function getLayout(page) {
 export async function getServerSideProps({ req }) {
   await db.connect();
   const session = await getToken({ req });
-
+  const role = session.role;
   const totalListingsCount = await StudioListing.find().count();
 
   const email = session.email;
-  const fetchingStudios = await StudioListing.find({ userEmail: email });
+  const fetchingStudios = await StudioListing.find({ userEmail: email }).populate({
+    path: 'user',
+    model: 'users',
+    select: 'avatar email name lastname username',
+  });
   const serializing = JSON.parse(JSON.stringify(fetchingStudios));
 
   const serializedAndUpdatedStudios = serializing.map((studio) => ({
@@ -56,6 +60,7 @@ export async function getServerSideProps({ req }) {
     props: {
       fetchedStudios: serializedAndUpdatedStudios || null,
       totalListings: totalListingsCount || null,
+      role: role || null,
     },
   };
 }

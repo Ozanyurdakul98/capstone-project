@@ -9,9 +9,9 @@ import { TbEdit } from 'react-icons/tb';
 import { MdDeleteForever, MdInfo } from 'react-icons/md';
 import { useRouter } from 'next/router';
 import { DeleteModal } from '../../Modals/DeleteModal';
-import MoreInfoModal from '../../Modals/MoreInfoModal';
+import StudioInformation from '../../Modals/StudioInformation';
 
-export default function MyStudiosTable({ fetchedStudios }) {
+export default function MyStudiosTable({ fetchedStudios, role }) {
   const [toUpdateStudio, setToUpdateStudio] = useState();
   const [studioID, setStudioID] = useState('');
   const [openEditView, setOpenEditView] = useState(false);
@@ -24,14 +24,7 @@ export default function MyStudiosTable({ fetchedStudios }) {
     studioID: '',
     error: '',
   });
-  const [moreInfoModalStrings, setMoreInfoModalStrings] = useState({
-    header: 'More information about this Studio',
-    message: 'You can use the ID for customer support!',
-    studioID: '',
-    publisherEmail: '',
-    others: [],
-    error: '',
-  });
+  const [selectedStudioInformation, setSelectedStudioInformation] = useState('');
   const [studios, setStudios] = useState([]);
   const router = useRouter();
   const studioData = useMemo(() => [...studios], [studios]);
@@ -41,12 +34,15 @@ export default function MyStudiosTable({ fetchedStudios }) {
     if (values) {
       const id = values._id;
       try {
-        const res = await fetch(`/api/dashboard/studio/${id}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
+        const res = await fetch(
+          `${role === 'admin' ? '/api/dashboard/admin/studio/' : '/api/dashboard/studio/'}${id}`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        );
         const result = await res.json();
         const rawStudio = result.data[0];
         const studio = {
@@ -61,6 +57,8 @@ export default function MyStudiosTable({ fetchedStudios }) {
           sleepOver: rawStudio.sleepOver,
           studioSocials: rawStudio.studioSocials,
           studioLocation: rawStudio.studioLocation,
+          studioRules: rawStudio.studioRules,
+          additionalStudioRules: rawStudio.additionalStudioRules,
           user: rawStudio.user,
         };
         if (!res.ok || !result.success) {
@@ -81,12 +79,15 @@ export default function MyStudiosTable({ fetchedStudios }) {
     if (ID) {
       setLoading((prev) => !prev);
       try {
-        const res = await fetch(`/api/dashboard/admin/studio/${ID}`, {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
+        const res = await fetch(
+          `${role === 'admin' ? '/api/dashboard/admin/studio/' : '/api/dashboard/studio/'}${ID}`,
+          {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        );
         if (!res.ok) {
           throw new Error(res.status);
         }
@@ -113,16 +114,56 @@ export default function MyStudiosTable({ fetchedStudios }) {
     setDeleteModalStrings({ ...deleteModalStrings, studioID: values._id });
     setDeleteModal(true);
   }
-  function openInfoModal(values) {
-    setStudioID(values._id);
-    setMoreInfoModalStrings({
-      ...moreInfoModalStrings,
-      studioID: values._id,
-      publisherEmail: values.userEmail,
-      others: values,
-    });
-    setInfoModal(true);
+
+  async function openInfoModal(values) {
+    if (values) {
+      const id = values._id;
+      try {
+        const res = await fetch(
+          `${role === 'admin' ? '/api/dashboard/admin/studio/' : '/api/dashboard/studio/'}${id}`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        const result = await res.json();
+        const rawStudio = result.data[0];
+        const studio = {
+          _id: rawStudio._id,
+          logo: rawStudio.logo,
+          studioName: rawStudio.studioName,
+          profileText: rawStudio.profileText,
+          studiotype: rawStudio.studiotype,
+          studioInformation: rawStudio.studioInformation,
+          studioLanguages: rawStudio.studioLanguages,
+          openingHours: rawStudio.openingHours,
+          locationFeatures: rawStudio.locationFeatures,
+          sleepOver: rawStudio.sleepOver,
+          studioSocials: rawStudio.studioSocials,
+          studioLocation: rawStudio.studioLocation,
+          studioRules: rawStudio.studioRules,
+          additionalStudioRules: rawStudio.additionalStudioRules,
+          user: rawStudio.user,
+          createdAtDate: rawStudio.createdAtDate,
+          updatedAtDate: rawStudio.updatedAtDate,
+        };
+        if (!res.ok || !result.success) {
+          throw new Error(res.status);
+        }
+        if (res.ok) {
+          setStudioID(values._id);
+          setSelectedStudioInformation(studio);
+          setInfoModal(true);
+        }
+      } catch (error) {
+        alert('Something went wrong, Contact us if you need help!', error);
+        console.error('Failed to find Studio', error);
+      }
+    }
   }
+
   useEffect(() => {
     if (fetchedStudios) {
       setStudios(fetchedStudios);
@@ -225,14 +266,8 @@ export default function MyStudiosTable({ fetchedStudios }) {
         collapse: true,
       },
       {
-        Header: 'max guests',
-        accessor: 'maxGuests',
-        disableSortBy: true,
-        collapse: true,
-      },
-      {
         Header: 'Publisher Email',
-        accessor: 'userEmail',
+        accessor: 'user.email',
         disableSortBy: true,
         collapse: true,
       },
@@ -305,6 +340,7 @@ export default function MyStudiosTable({ fetchedStudios }) {
     previousPage,
     setPageSize,
   } = tableInstance;
+  console.log(role);
   return (
     <>
       <div className="mb-20 mt-10 block max-w-full">
@@ -429,11 +465,7 @@ export default function MyStudiosTable({ fetchedStudios }) {
       ) : null}
       {infoModal ? (
         <>
-          <MoreInfoModal
-            studioID={studioID}
-            loading={loading}
-            setInfoModal={setInfoModal}
-            moreInfoModalStrings={moreInfoModalStrings}></MoreInfoModal>
+          <StudioInformation setOpenModal={setInfoModal} studio={selectedStudioInformation} />
         </>
       ) : null}
     </>

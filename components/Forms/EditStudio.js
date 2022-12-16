@@ -293,7 +293,7 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
     if (data) return data.secure_url;
     else if (!data) return defaultPic;
   };
-  console.log('checked', checked);
+  console.log('checked', checked, form);
 
   return (
     <>

@@ -4,6 +4,7 @@ export default function StudioInformation({ studio, setOpenModal }) {
   const handleClickToCloseInfoModal = () => {
     setOpenModal(false);
   };
+  console.log(studio);
   return (
     <>
       <div className="searchFadein fixed inset-0 z-50 m-auto h-96 max-w-md rounded-2xl bg-none text-black shadow-xxl lg:h-96">

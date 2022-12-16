@@ -31,6 +31,7 @@ function DashboardAddStudio({ userID }) {
       linkedin: '',
     },
     studioRules: [],
+    additionalStudioRules: '',
     studioLocation: '',
     user: userID,
   };

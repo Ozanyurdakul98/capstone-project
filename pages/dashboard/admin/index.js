@@ -30,8 +30,8 @@ AdminDashboard.getLayout = function getLayout(page) {
 export async function getServerSideProps() {
   await db.connect();
 
-  const totalListingsCount = await StudioListing.find().count();
   const totalUsersCount = await User.find().count();
+  const totalListingsCount = await StudioListing.find().count();
   const startToday = new Date(new Date().setUTCHours(0, 0, 0, 0));
   const endToday = new Date(new Date().setUTCHours(23, 59, 59, 999));
   const studiosCreatedToday = await StudioListing.find({
