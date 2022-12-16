@@ -125,7 +125,7 @@ export function AddStudioForm(props) {
       <fieldset className="listingForm mb-5 flex flex-col gap-3">
         <legend className="label-form">
           Studiotype*
-          <h3 className="relative flex items-center gap-2 pl-5 text-sm font-thin normal-case md:text-base">
+          <h3 className="relative flex items-center gap-2 text-sm font-thin normal-case md:text-base">
             Choose a fitting studiotype
             <TbHandClick className="absolute -right-10 h-6 w-6 rotate-[-25deg] lg:h-8 lg:w-8" />
           </h3>
@@ -727,15 +727,61 @@ export function AddStudioForm(props) {
       {/* StudioRules */}
       <fieldset className="listingForm mb-5 flex flex-wrap gap-3">
         <legend className="label-form">Studiorules</legend>
-        <FormInput
-          type="checkbox"
-          id="pets"
-          value="Pets"
-          name="studioRules"
-          checked={props.form.studioRules.includes('Pets')}
-          onChange={props.handleChange}
-        />
-        <FormInput
+        <div className="grid w-full grid-cols-bgsm items-center justify-items-start gap-2 sm:w-2/3 lg:w-1/2">
+          <h2 className="col-start-1">Are these rules allowed in your Studio?</h2>
+          <div className="col-start-2 flex w-full justify-center">
+            <p className="">Allow ✅</p>
+          </div>
+          <p className="col-start-1 pl-5">Are Pets allowed?</p>
+          <div className="col-start-2 flex w-full justify-center">
+            <FormInput
+              type="checkbox"
+              id="pets"
+              value="Pets"
+              name="studioRules"
+              className="col-start-2 h-4"
+              checked={props.form.studioRules.includes('Pets')}
+              onChange={props.handleChange}
+            />
+          </div>
+          <p className="col-start-1 pl-5">Are Kids allowed?</p>
+          <div className="col-start-2 flex w-full justify-center">
+            <FormInput
+              type="checkbox"
+              id="kids"
+              value="Kids"
+              name="studioRules"
+              className="col-start-2 h-4"
+              checked={props.form.studioRules.includes('Kids')}
+              onChange={props.handleChange}
+            />
+          </div>
+          <p className="col-start-1 pl-5">Is Smoking allowed?</p>
+          <div className="col-start-2 flex w-full justify-center">
+            <FormInput
+              type="checkbox"
+              id="smoking"
+              value="Smoking"
+              name="studioRules"
+              className="col-start-2 h-4"
+              checked={props.form.studioRules.includes('Smoking')}
+              onChange={props.handleChange}
+            />
+          </div>
+          <p className="col-start-1 pl-5">Is eating allowed?</p>
+          <div className="col-start-2 flex w-full justify-center">
+            <FormInput
+              type="checkbox"
+              id="eating"
+              value="Eating"
+              name="studioRules"
+              className="col-start-2 h-4"
+              checked={props.form.studioRules.includes('Eating')}
+              onChange={props.handleChange}
+            />
+          </div>
+        </div>
+        {/* <FormInput
           labelWrap={{
             css: props.form.studioRules.includes('Wi-Fi') ? 'radio-formActive' : 'radio-form',
           }}
@@ -824,7 +870,7 @@ export function AddStudioForm(props) {
             string: 'Sleepover',
             css: 'cursor-pointer',
           }}
-        />
+        /> */}
         {/* <FormInput
           labelWrap={{
             css: props.form.locationFeatures.includes('Party') ? 'radio-formActive' : 'radio-form',
