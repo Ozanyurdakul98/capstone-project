@@ -149,6 +149,10 @@ export function ValidateCreateStudioServiceListing(form, checked) {
 
   if (!form.description) {
     errors.description = 'Type your description for this Studioservice please!';
+  } else if (form.description.length <= 99) {
+    errors.description = 'The description is too short';
+  } else if (form.description.length >= 2501) {
+    errors.description = 'The description is too long';
   }
 
   if (!form.maxGuests) {

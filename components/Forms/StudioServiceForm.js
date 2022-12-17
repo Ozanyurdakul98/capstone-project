@@ -73,12 +73,12 @@ export function StudioServiceForm({
     MatchDataWithChecked();
   }, []);
   const handlePreview = () => {
-    // const passForm = form;
-    // setFormErrors(ValidateCreateStudioServiceListing(passForm, checked));
-    // if (Object.keys(ValidateCreateStudioServiceListing(passForm, checked)).length === 0) {
-    //   handleUploadInput();
-    setPreview(true);
-    // }
+    const passForm = form;
+    setFormErrors(ValidateCreateStudioServiceListing(passForm, checked));
+    if (Object.keys(ValidateCreateStudioServiceListing(passForm, checked)).length === 0) {
+      handleUploadInput();
+      setPreview(true);
+    }
   };
   // handle Edit || Add page
   const handleFormSubmit = async (event) => {

@@ -21,7 +21,7 @@ function ListingCardCarousellStudioService({
 }) {
   return (
     <div className="mx-1">
-      <article className="relative mb-10  flex min-h-[333px] w-full max-w-[250px] cursor-pointer flex-col rounded-lg bg-white shadow-lg hover:opacity-90 hover:shadow-lg">
+      <article className="relative mb-10  flex min-h-[392px] w-full max-w-[250px] cursor-pointer flex-col rounded-lg bg-white shadow-lg hover:opacity-90 hover:shadow-lg">
         {/* image */}
         <div className="relative h-40 w-full  shrink-0">
           <Image src={images.primary} layout="fill" objectFit="cover" className="rounded-xl" alt="Thumbnail" />
@@ -63,7 +63,7 @@ function ListingCardCarousellStudioService({
             </div>
           </div>
           {/* title */}
-          <div className="mt-1 flex flex-1 flex-col justify-center md:min-h-[60px]">
+          <div className="mt-1 mb-[10px] flex flex-1 flex-col justify-center md:min-h-[60px]">
             <h4 className="line-clamp-2 sm:text-base md:text-lg">{listingTitle}</h4>
             <p className="truncate text-xs font-semibold">{service.name}</p>
             <p className="text-xs line-clamp-2">{description}</p>

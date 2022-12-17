@@ -103,23 +103,25 @@ function StudioDetailpage({
         {/* StudioservicesSection */}
         <section className="min-h-[350px] px-7">
           <h2 className="h2LandingP">Our Studio services</h2>
-          {serializedStudioservices.map(
-            ({ _id, listingTitle, description, service, maxGuests, images, soundengineer, pricing }) => (
-              <ListingCardCarousellStudioService
-                key={_id}
-                listingTitle={listingTitle}
-                images={images}
-                service={service}
-                studiotype={studio.studiotype}
-                maxGuests={maxGuests}
-                description={description}
-                soundengineer={soundengineer}
-                pricing={pricing}
-                locationFeatures={studio.locationFeatures}
-                studio={studio}
-              />
-            )
-          )}
+          <section className="flex ">
+            {serializedStudioservices.map(
+              ({ _id, listingTitle, description, service, maxGuests, images, soundengineer, pricing }) => (
+                <ListingCardCarousellStudioService
+                  key={_id}
+                  listingTitle={listingTitle}
+                  images={images}
+                  service={service}
+                  studiotype={studio.studiotype}
+                  maxGuests={maxGuests}
+                  description={description}
+                  soundengineer={soundengineer}
+                  pricing={pricing}
+                  locationFeatures={studio.locationFeatures}
+                  studio={studio}
+                />
+              )
+            )}
+          </section>
         </section>
         {/* DetailsSection */}
         <section className="rounded-md bg-white py-16 text-black shadow-lg">

@@ -81,7 +81,7 @@ export function AddStudioServiceFormfields(props) {
           counter={{
             val: props.form.description.length,
             max: 2500,
-            min: 25,
+            min: 100,
             css: 'inputCounter',
           }}
           textarea={true}
@@ -91,7 +91,7 @@ export function AddStudioServiceFormfields(props) {
           required
           autoComplete="off"
           pattern="^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){24,1499}$"
-          errorMessage={'Only 25-350 characters and (a-z, A-Z, 0-9, ! äöü ,-_) allowed!'}
+          errorMessage={'100-2500, and (a-z, A-Z, 0-9, ! äöü ,-_) allowed!'}
           value={props.form.description}
           onChange={props.handleChange}></FormInput>
         <span className="errormessage ">{props.formErrors.description}</span>
