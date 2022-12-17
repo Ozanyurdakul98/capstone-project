@@ -9,11 +9,12 @@ const GlobalStyle = createGlobalStyle`
       * {
           box-sizing: border-box;
       }
-  
+ 
       body {
           font-family: 'Noto Sans', sans-serif;
           background-color: var(--background-primary);
           color: var(--primary-text);
+          overflow-x: hidden;
       }
   `;
 

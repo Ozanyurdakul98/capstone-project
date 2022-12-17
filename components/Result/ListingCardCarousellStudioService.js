@@ -12,6 +12,7 @@ function ListingCardCarousellStudioService({
   images,
   studiotype,
   soundengineer,
+  service,
   description,
   maxGuests,
   pricing,
@@ -64,9 +65,10 @@ function ListingCardCarousellStudioService({
           {/* title */}
           <div className="mt-1 flex flex-1 flex-col justify-center md:min-h-[60px]">
             <h4 className="line-clamp-2 sm:text-base md:text-lg">{listingTitle}</h4>
-            <p className="truncate text-xs line-clamp-2">{description}</p>
+            <p className="truncate text-xs font-semibold">{service.name}</p>
+            <p className="text-xs line-clamp-2">{description}</p>
           </div>
-          {/* icons guests */}
+          {/* icons & guests */}
           <div className="flex items-center justify-between">
             <ul className="flex gap-2">
               {locationFeatures.includes('Wi-Fi') ? (
@@ -90,12 +92,12 @@ function ListingCardCarousellStudioService({
                 </li>
               ) : null}
             </ul>
-            <div className="flex gap-1">
+            <div className="flex items-center gap-1">
               <IoPeopleCircleSharp className="icon-carousell" />
               <p className=" font-semibold">{maxGuests}</p>
             </div>
           </div>
-          <div className="  flex w-full  items-end justify-between gap-1 text-right ">
+          <div className="flex w-full  items-end justify-between gap-1 text-right ">
             <p className="truncate rounded-xl border border-slate-700 bg-black px-[6px] text-xs text-white">
               {studio.openingHours}
             </p>

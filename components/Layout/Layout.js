@@ -23,7 +23,7 @@ export default function Layout({ children }) {
     }
   }, [status]);
   return (
-    <div className="bg-site relative overflow-x-hidden">
+    <div className="bg-site relative w-full">
       <Head>
         <title>Tonstudio-Kleinanzeigen</title>
         <link rel="icon" href="/favicon.ico" />

@@ -11,7 +11,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 
 //tools
-function StudioDetailpage({ serializedStudio, serializedStudioservices }) {
+function StudioDetailpage({ serializedStudio, studioServicesCount, serializedStudioservices }) {
   // eslint-disable-next-line no-unused-vars
   const router = useRouter();
   const studio = serializedStudio[0];
@@ -80,18 +80,12 @@ function StudioDetailpage({ serializedStudio, serializedStudioservices }) {
                 </div>
                 {/* CounterSection */}
                 <div className="flex justify-center pb-0 sm:pt-2 lg:pt-4">
-                  {/* <div className="p-3 text-center">
-                    <span className="block text-xl font-bold uppercase tracking-wide text-slate-700">60</span>
-                    <span className="text-sm text-slate-400">Studios</span>
-                  </div> */}
                   <div className="p-3 text-center">
-                    <span className="block text-xl font-bold uppercase tracking-wide text-slate-700">54</span>
+                    <span className="block text-xl font-bold uppercase tracking-wide text-slate-700">
+                      {studioServicesCount}
+                    </span>
                     <span className="text-sm text-slate-400">Services</span>
                   </div>
-                  {/* <div className="p-3 text-center">
-                    <span className="block text-xl font-bold uppercase tracking-wide text-slate-700">2,454</span>
-                    <span className="text-sm text-slate-400">Followers</span>
-                  </div> */}
                 </div>
               </div>
             </div>
@@ -110,11 +104,12 @@ function StudioDetailpage({ serializedStudio, serializedStudioservices }) {
         <section className="min-h-[350px] px-7">
           <h2 className="h2LandingP">Our Studio services</h2>
           {serializedStudioservices.map(
-            ({ _id, listingTitle, description, maxGuests, images, soundengineer, pricing }) => (
+            ({ _id, listingTitle, description, service, maxGuests, images, soundengineer, pricing }) => (
               <ListingCardCarousellStudioService
                 key={_id}
                 listingTitle={listingTitle}
                 images={images}
+                service={service}
                 studiotype={studio.studiotype}
                 maxGuests={maxGuests}
                 description={description}
@@ -415,6 +410,7 @@ export async function getServerSideProps(context) {
   const id = context.query.id[1];
   let breadCrumb = context.query.service;
   if (breadCrumb === 'recording') breadCrumb = 'Recording';
+
   const fetchStudio = await StudioListing.findById(id).populate({
     path: 'user',
     model: 'users',
@@ -429,12 +425,19 @@ export async function getServerSideProps(context) {
     updatedAt: moment(studio.updatedAt).format('DD/MM/yyyy'),
     updatedAtTime: moment(studio.updatedAt).format('kk:mm'),
   }));
-  const fetchStudioservices = await StudioService.find({ studio: id });
-  // .populate({
-  //   path: 'user',
-  //   model: 'users',
-  //   select: 'avatar email name lastname username',
-  // });
+
+  const studioServicesCount = await StudioService.find({ studio: id }).count();
+  const fetchStudioservices = await StudioService.find({ studio: id })
+    .populate({
+      path: 'user',
+      model: 'users',
+      select: 'avatar email name lastname username',
+    })
+    .populate({
+      path: 'service',
+      model: 'AdminStudioService',
+      select: 'name -_id',
+    });
   const serializeStudioservices = JSON.parse(JSON.stringify(fetchStudioservices));
   // const serializedStudioservices = serializeStudio.map((studio) => ({
   //   ...studio,
@@ -444,11 +447,11 @@ export async function getServerSideProps(context) {
   //   updatedAt: moment(studio.updatedAt).format('DD/MM/yyyy'),
   //   updatedAtTime: moment(studio.updatedAt).format('kk:mm'),
   // }));
-
   return {
     props: {
       serializedStudio: serializedStudio || null,
       serializedStudioservices: serializeStudioservices || null,
+      studioServicesCount: studioServicesCount || null,
     },
   };
 }
