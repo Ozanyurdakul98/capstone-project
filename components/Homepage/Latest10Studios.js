@@ -1,8 +1,8 @@
 import Carousel from 'react-multi-carousel';
-import ListingCard from '../ListingCardCarousell';
+import ListingCard from '../Result/ListingCardCarousellStudio';
 import 'react-multi-carousel/lib/styles.css';
 
-export const Latest10Listings = (props) => {
+export const Latest10Studios = (props) => {
   const responsive = {
     desktop: {
       breakpoint: { max: 3000, min: 0 },
@@ -26,7 +26,7 @@ export const Latest10Listings = (props) => {
     },
   };
   return (
-    <section className="mb-40 ">
+    <section className="mb-28 ">
       <Carousel
         swipeable={true}
         draggable={true}
@@ -44,28 +44,28 @@ export const Latest10Listings = (props) => {
         {props.latestListings.map(
           ({
             _id,
-            listingTitle,
-            images,
             studiotype,
-            studioService,
-            soundengineer,
-            studioPricing,
-            maxGuests,
+            logo,
+            studioName,
+            profileText,
+            studioSocials,
+            studioLanguages,
             openingHours,
             locationFeatures,
             studioLocation,
           }) => (
             <ListingCard
               key={_id}
-              listingTitle={listingTitle}
-              images={images}
+              id={_id}
+              logo={logo}
+              preview={false}
+              studioName={studioName}
+              profileText={profileText}
               studiotype={studiotype}
-              studioService={studioService}
-              maxGuests={maxGuests}
+              studioLanguages={studioLanguages}
               openingHours={openingHours}
-              soundengineer={soundengineer}
-              studioPricing={studioPricing}
               locationFeatures={locationFeatures}
+              studioSocials={studioSocials}
               studioLocation={studioLocation}
             />
           )
@@ -78,8 +78,9 @@ export const Latest10Listings = (props) => {
 const CustomButtonGroup = ({ next, previous }) => {
   return (
     <>
-      <div className="absolute inset-x-0 top-0 flex w-full items-end justify-between px-5">
-        <h2 className="h2">The 10 latest added Studio Listings</h2>
+      <div className="absolute inset-x-0 top-0 flex w-full flex-col items-start justify-between px-5">
+        <h2 className="h2">The 10 latest added Studios</h2>
+        <p className="pl-3">Each Studio profile lists its own studio services</p>
       </div>
       <div className="absolute inset-x-0 top-12 flex w-full items-end justify-between">
         <div className="flex w-full justify-end gap-2 pb-1 pr-1 2xl:gap-4">

@@ -1,6 +1,6 @@
 import UserTable from '../../../components/Dashboard/Tables/UserTable';
 import db from '../../../lib/dbConnect';
-import User from '../../../models/UserModel';
+import User from '../../../models/User';
 import DashboardLayout from '../../../components/Layout/DashboardLayout';
 import moment from 'moment';
 

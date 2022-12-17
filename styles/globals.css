@@ -6,7 +6,7 @@
   --primary-color: #0f3c69;
   --primary-color-hover: #0f3c6957;
   --secondary-color: #1e90ff;
-  --secondary-color-hover: #277ed4fb;
+  --secondary-color-hover: #559de444;
 
   --site-bg: #edf0f5;
   --primary-bg: #0f3c69;
@@ -78,7 +78,7 @@
     @apply h-4 w-4 cursor-pointer rounded-sm  md:h-5 md:w-5;
   }
   .icon-carousell {
-    @apply h-6 w-6 cursor-pointer rounded-md  border border-slate-800 text-[color:var(--primary-icon)] lg:h-7 lg:w-7  lg:hover:bg-gray-100;
+    @apply h-5 w-5 cursor-pointer rounded-md  text-black md:h-5 md:w-5 lg:h-6 lg:w-6 lg:hover:bg-gray-100;
   }
   .adminSettings-icon {
     @apply text-primary h-4 w-4 cursor-pointer rounded-sm active:bg-gray-100/20 md:h-5 md:w-5 md:hover:bg-white/30 md:hover:text-blue-900/60 md:active:bg-none lg:h-6 lg:w-6;
@@ -87,7 +87,7 @@
     @apply h-6 w-6 cursor-pointer  text-[color:var(--primary-icon)] lg:h-7 lg:w-7  lg:hover:bg-gray-100;
   }
   .icon {
-    @apply h-6 w-6 cursor-pointer rounded-sm text-[color:var(--primary-icon)] lg:h-9 lg:w-9 lg:p-1 lg:hover:bg-gray-100;
+    @apply h-4 w-4 cursor-pointer rounded-sm text-[color:var(--primary-icon)] sm:h-5 sm:w-5 lg:h-7 lg:w-7 lg:p-1 lg:hover:bg-gray-100;
   }
   .icon-sm {
     @apply h-9 w-6 cursor-pointer rounded-sm  lg:w-9 lg:p-1 lg:hover:bg-gray-100;
@@ -121,6 +121,9 @@
   .button {
     @apply flex max-h-8 transform cursor-pointer items-center rounded-full  border border-black  px-4 py-2 transition duration-100 ease-out  hover:shadow-lg active:scale-95 active:bg-gray-100;
   }
+  .addGuestsStudioservice {
+    @apply flex h-8 w-8 transform items-center justify-center rounded-sm text-[color:var(--secondary-icon)] transition duration-100 active:text-black disabled:text-gray-400 lg:w-12 lg:p-1;
+  }
 
   /* OpenModalInput */
 
@@ -132,6 +135,15 @@
   }
   .date-search {
     @apply mb-2 cursor-pointer rounded-full text-center outline-none;
+  }
+
+  /* InputCounter */
+
+  .inputCounter {
+    @apply absolute mt-[2px] w-full px-5 text-end text-xs sm:w-2/3 lg:w-1/2;
+  }
+  .StudioserviceFormGuestButtons {
+    @apply bg-secondary flex max-w-max items-center justify-evenly rounded-xl p-1;
   }
 
   /* SelectInputs */
@@ -149,6 +161,12 @@
     @apply w-full appearance-none rounded-full border-gray-500  bg-[#edf0f5] py-3 px-5 leading-tight  text-gray-700 focus:border-gray-500/30 focus:bg-white focus:outline-none    lg:w-2/3;
   }
 
+  /* NumberInputs */
+
+  .addStudioServiceAdditionalServicesNumber {
+    @apply text-primary h-8  border-none p-0 text-center outline-none disabled:bg-slate-300 disabled:text-black/20;
+  }
+
   /* Labels */
 
   .sideBarLP-label {
@@ -157,13 +175,13 @@
 
   /* Fieldsets */
   .fset-editUser {
-    @apply my-8 w-full leading-tight;
+    @apply w-full leading-tight;
   }
   .fset-adminsettings {
     @apply mt-5 mb-5 w-full leading-tight;
   }
   .listingForm {
-    @apply my-10 w-full leading-tight xl:my-20;
+    @apply relative w-full leading-tight;
   }
   .searchBarModal {
     @apply fixed top-0 left-0 z-30 h-screen w-screen cursor-default;
@@ -172,7 +190,7 @@
   input,
   select,
   textarea {
-    @apply rounded border p-2 outline-none ring-indigo-300;
+    @apply rounded border p-2 outline-none ring-indigo-300 focus:outline-none;
   }
 
   .errormessage {
@@ -207,7 +225,7 @@
     @apply w-12 outline-none disabled:bg-slate-300 disabled:text-black/20;
   } */
   .priceInput-form {
-    @apply text-primary h-6 w-12 p-0 text-center outline-none disabled:bg-slate-300 disabled:text-black/20;
+    @apply text-primary h-5 w-12 border-none p-0 text-center outline-none disabled:bg-slate-300 disabled:text-black/20;
   }
   .studiotypeActive {
     @apply border-secondary bg-secondary max-w-[435px] rounded border-2 p-4 font-thin text-white transition duration-75 ease-in  active:scale-95;
@@ -225,7 +243,7 @@
     @apply bg-secondary checked:bg-secondary flex max-w-max cursor-pointer items-center gap-2 rounded-xl p-1 pl-2 text-white shadow-lg transition duration-75 ease-in active:scale-95;
   }
   .label-form {
-    @apply mb-2 ml-5 block text-base font-bold uppercase tracking-wide text-[color:var(--primary-text)] lg:text-lg;
+    @apply mb-2 block pl-5 text-base font-bold uppercase tracking-wide text-[color:var(--primary-text)] lg:text-lg;
   }
   .number-search {
     @apply mb-1 h-10 w-14 rounded-full border  bg-[#1e90ff] px-4  text-white outline-none disabled:text-white;
@@ -346,5 +364,12 @@
     background: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAyMC4wLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiDQoJIHZpZXdCb3g9IjAgMCA0LjkgMTAiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDQuOSAxMDsiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4NCgkuc3Qwe2ZpbGw6I2ZmZmZmZjt9DQo8L3N0eWxlPg0KPHRpdGxlPmFycm93czwvdGl0bGU+DQo8cG9seWdvbiBjbGFzcz0ic3QwIiBwb2ludHM9IjEuNCw0LjcgMi41LDMuMiAzLjUsNC43ICIvPg0KPHBvbHlnb24gY2xhc3M9InN0MCIgcG9pbnRzPSIzLjUsNS4zIDIuNSw2LjggMS40LDUuMyAiLz4NCjwvc3ZnPg==')
       no-repeat 95% 50%;
     margin: 0;
+    appearance: none;
+    outline: none;
+  }
+  button:focus,
+  a:focus,
+  a:active {
+    outline: none;
   }
 }

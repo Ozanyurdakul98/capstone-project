@@ -2,36 +2,25 @@ import Image from 'next/image';
 import { useEffect, useMemo, useState } from 'react';
 import { useTable, useSortBy, useGlobalFilter, useFilters, usePagination } from 'react-table';
 import AllColumnsFilter from '../TableComponents/AllColumnsFilter';
-import ServicesFilter from '../TableComponents/ServicesFilter';
 import StudioTypeFilter from '../TableComponents/StudioTypeFilter';
 import EditStudio from '../../Forms/EditStudio';
 import { TbEdit } from 'react-icons/tb';
 import { MdDeleteForever, MdInfo } from 'react-icons/md';
 import { useRouter } from 'next/router';
 import { DeleteModal } from '../../Modals/DeleteModal';
-import { MoreInfoModal } from '../../Modals/MoreInfoModal';
+import StudioInformation from '../../Modals/StudioInformation';
 
-export default function MyStudiosTable({ fetchedStudios }) {
+export default function MyStudiosTable({ fetchedStudios, role }) {
   const [toUpdateStudio, setToUpdateStudio] = useState();
-  const [studioID, setStudioID] = useState('');
-  const [openEditView, setOpenEditView] = useState(false);
+  const [openView, setOpenView] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [deleteModal, setDeleteModal] = useState(false);
-  const [infoModal, setInfoModal] = useState(false);
   const [deleteModalStrings, setDeleteModalStrings] = useState({
     header: 'Are you sure you want to delete this Studio?',
     message: 'This Studio will be permanently deleted! If you want to delete this Studio, click on Delete.',
     studioID: '',
     error: '',
   });
-  const [moreInfoModalStrings, setMoreInfoModalStrings] = useState({
-    header: 'More information about this Studio',
-    message: 'You can use the ID for customer support!',
-    studioID: '',
-    publisherEmail: '',
-    others: [],
-    error: '',
-  });
+  const [selectedStudioInformation, setSelectedStudioInformation] = useState('');
   const [studios, setStudios] = useState([]);
   const router = useRouter();
   const studioData = useMemo(() => [...studios], [studios]);
@@ -41,33 +30,40 @@ export default function MyStudiosTable({ fetchedStudios }) {
     if (values) {
       const id = values._id;
       try {
-        const res = await fetch(`/api/dashboard/studio/${id}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
+        const res = await fetch(
+          `${role === 'admin' ? '/api/dashboard/admin/studio/' : '/api/dashboard/studio/'}${id}`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        );
         const result = await res.json();
         const rawStudio = result.data[0];
         const studio = {
-          maxGuests: rawStudio.maxGuests,
-          listingTitle: rawStudio.listingTitle,
-          images: rawStudio.images,
-          openingHours: rawStudio.openingHours,
+          id: rawStudio._id,
+          logo: rawStudio.logo,
+          studioName: rawStudio.studioName,
+          profileText: rawStudio.profileText,
           studiotype: rawStudio.studiotype,
-          studioService: rawStudio.studioService,
+          studioInformation: rawStudio.studioInformation,
+          studioLanguages: rawStudio.studioLanguages,
+          openingHours: rawStudio.openingHours,
           locationFeatures: rawStudio.locationFeatures,
-          soundengineer: rawStudio.soundengineer,
-          studioPricing: rawStudio.studioPricing,
+          sleepOver: rawStudio.sleepOver,
+          studioSocials: rawStudio.studioSocials,
           studioLocation: rawStudio.studioLocation,
+          studioRules: rawStudio.studioRules,
+          additionalStudioRules: rawStudio.additionalStudioRules,
+          user: rawStudio.user,
         };
         if (!res.ok || !result.success) {
           throw new Error(res.status);
         }
         if (res.ok) {
           setToUpdateStudio(studio);
-          setStudioID(rawStudio._id);
-          setOpenEditView(true);
+          setOpenView('edit');
         }
       } catch (error) {
         alert('Something went wrong, Contact us if you need help!', error);
@@ -79,12 +75,15 @@ export default function MyStudiosTable({ fetchedStudios }) {
     if (ID) {
       setLoading((prev) => !prev);
       try {
-        const res = await fetch(`/api/dashboard/admin/studio/${ID}`, {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
+        const res = await fetch(
+          `${role === 'admin' ? '/api/dashboard/admin/studio/' : '/api/dashboard/studio/'}${ID}`,
+          {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        );
         if (!res.ok) {
           throw new Error(res.status);
         }
@@ -107,20 +106,55 @@ export default function MyStudiosTable({ fetchedStudios }) {
     }
   }
   function openDeleteModal(values) {
-    setStudioID(values._id);
-    setDeleteModalStrings({ ...deleteModalStrings, studioID: values._id });
-    setDeleteModal(true);
+    setToUpdateStudio(values._id);
+    setOpenView('delete');
   }
-  function openInfoModal(values) {
-    setStudioID(values._id);
-    setMoreInfoModalStrings({
-      ...moreInfoModalStrings,
-      studioID: values._id,
-      publisherEmail: values.userEmail,
-      others: values,
-    });
-    setInfoModal(true);
+  async function openInfoModal(values) {
+    if (values) {
+      const id = values._id;
+      try {
+        const res = await fetch(
+          `${role === 'admin' ? '/api/dashboard/admin/studio/' : '/api/dashboard/studio/'}${id}`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        const result = await res.json();
+        const rawStudio = result.data[0];
+        const studio = {
+          _id: rawStudio._id,
+          logo: rawStudio.logo,
+          studioName: rawStudio.studioName,
+          profileText: rawStudio.profileText,
+          studiotype: rawStudio.studiotype,
+          studioInformation: rawStudio.studioInformation,
+          studioLanguages: rawStudio.studioLanguages,
+          openingHours: rawStudio.openingHours,
+          locationFeatures: rawStudio.locationFeatures,
+          sleepOver: rawStudio.sleepOver,
+          studioSocials: rawStudio.studioSocials,
+          studioLocation: rawStudio.studioLocation,
+          studioRules: rawStudio.studioRules,
+          additionalStudioRules: rawStudio.additionalStudioRules,
+          user: rawStudio.user,
+          createdAtDate: rawStudio.createdAtDate,
+          updatedAtDate: rawStudio.updatedAtDate,
+        };
+        if (!res.ok || !result.success) {
+          throw new Error(res.status);
+        }
+        setSelectedStudioInformation(studio);
+        setOpenView('info');
+      } catch (error) {
+        alert('Something went wrong, Contact us if you need help!', error);
+        console.error('Failed to find Studio', error);
+      }
+    }
   }
+
   useEffect(() => {
     if (fetchedStudios) {
       setStudios(fetchedStudios);
@@ -129,18 +163,18 @@ export default function MyStudiosTable({ fetchedStudios }) {
   const studioColumns = useMemo(
     () => [
       {
-        Header: 'Image',
-        accessor: 'images',
+        Header: 'Logo',
+        accessor: 'logo',
         disableSortBy: true,
         Cell: ({ value }) => (
-          <div className="relative -mx-2 h-12 w-14 sm:h-16 sm:w-24 md:h-24 md:w-32">
-            <Image src={value} layout="fill" className="bg-secondary rounded-lg " objectFit="cover" alt="avatar" />
+          <div className="relative -mx-2 h-14 w-14 sm:h-16 sm:w-16 md:h-24 md:w-24">
+            <Image src={value} layout="fill" className="bg-secondary rounded-full " objectFit="cover" alt="avatar" />
           </div>
         ),
       },
       {
-        Header: 'Title',
-        accessor: 'listingTitle',
+        Header: 'Name',
+        accessor: 'studioName',
         disableSortBy: true,
         collapse: false,
       },
@@ -150,84 +184,27 @@ export default function MyStudiosTable({ fetchedStudios }) {
         disableSortBy: false,
       },
       {
-        Header: 'Hourly',
-        accessor: (row) => (row.studioPricing.studioPricingHour ? row.studioPricing.studioPricingHour + ' €' : ''),
+        Header: 'Sleepover',
+        accessor: (row) => (row.locationFeatures.includes('Sleepover') ? 'yes' : 'no'),
         disableSortBy: false,
       },
       {
-        Header: 'Daily',
-        accessor: (row) => (row.studioPricing.studioPricingDay ? row.studioPricing.studioPricingDay + ' €' : ''),
-        disableSortBy: false,
-      },
-      {
-        Header: 'Weekly',
-        accessor: (row) => (row.studioPricing.studioPricingWeek ? row.studioPricing.studioPricingWeek + ' €' : ''),
-        disableSortBy: false,
-      },
-      {
-        Header: 'Monthly',
-        accessor: (row) => (row.studioPricing.studioPricingMonth ? row.studioPricing.studioPricingMonth + ' €' : ''),
-        disableSortBy: false,
-      },
-      {
-        Header: 'Soundengineer',
-        accessor: (row) =>
-          row.soundengineer.soundengineerPrice ? row.soundengineer.soundengineerPrice + ' €' : row.soundengineer,
-        disableSortBy: false,
-      },
-      {
-        Header: 'Opening Hours',
-        accessor: 'openingHours',
-        disableSortBy: false,
-      },
-      {
-        Header: 'Date',
+        Header: 'Created',
         accessor: 'createdAtDate',
-        collapse: true,
+        collapse: false,
         disableSortBy: false,
       },
       {
-        Header: 'Time',
-        accessor: 'createdAtTime',
-        collapse: true,
-        disableSortBy: false,
-      },
-      {
-        Header: 'Date',
+        Header: 'Updated',
         accessor: 'updatedAtDate',
-        collapse: true,
+        collapse: false,
         disableSortBy: false,
       },
-      {
-        Header: 'Time',
-        accessor: 'updatedAtTime',
-        collapse: true,
-        disableSortBy: false,
-      },
-      {
-        Header: 'Location',
-        accessor: 'studioLocation',
-        disableSortBy: true,
-        collapse: true,
-      },
-      { Header: 'Services', accessor: 'studioService', collapse: true, disableSortBy: true },
       {
         Header: 'ID',
         accessor: '_id',
-        disableSortBy: true,
         collapse: true,
-      },
-      {
-        Header: 'max guests',
-        accessor: 'maxGuests',
-        disableSortBy: true,
-        collapse: true,
-      },
-      {
-        Header: 'Publisher Email',
-        accessor: 'userEmail',
-        disableSortBy: true,
-        collapse: true,
+        disableSortBy: false,
       },
     ],
     []
@@ -245,21 +222,21 @@ export default function MyStudiosTable({ fetchedStudios }) {
               onClick={() => {
                 openInfoModal(row.values);
               }}>
-              <MdInfo className="table-icon" />
+              <MdInfo className="table-icon" title="more information" />
             </button>
             <button
               className=""
               onClick={() => {
                 handleEdit(row.values);
               }}>
-              <TbEdit className="table-icon" />
+              <TbEdit className="table-icon" title="edit studio" />
             </button>
             <button
               className=""
               onClick={() => {
                 openDeleteModal(row.values);
               }}>
-              <MdDeleteForever className="table-icon" />
+              <MdDeleteForever className="table-icon" title="delete studio" />
             </button>
           </div>
         ),
@@ -298,11 +275,11 @@ export default function MyStudiosTable({ fetchedStudios }) {
     previousPage,
     setPageSize,
   } = tableInstance;
-
   return (
     <>
-      <div className="mt-20 block max-w-full">
+      <div className="mb-5 block max-w-full">
         <div className="tableWrap">
+          {/* filters */}
           <div className="filter-table">
             <AllColumnsFilter
               preGlobalFilteredRows={preGlobalFilteredRows}
@@ -310,7 +287,6 @@ export default function MyStudiosTable({ fetchedStudios }) {
               state={state.globalFilter}
               tableName={'studios'}
             />
-            <ServicesFilter setFilter={setFilter} />
             <StudioTypeFilter
               preGlobalFilteredRows={preGlobalFilteredRows}
               setGlobalFilter={setGlobalFilter}
@@ -407,28 +383,19 @@ export default function MyStudiosTable({ fetchedStudios }) {
           </div>
         </div>
       </div>
-      {openEditView ? (
-        <EditStudio toUpdateStudio={toUpdateStudio} studioID={studioID} setOpenEditView={setOpenEditView}></EditStudio>
+      {openView === 'edit' ? (
+        <EditStudio toUpdateStudio={toUpdateStudio} role={role} setOpenView={setOpenView} />
       ) : null}
-      {deleteModal ? (
-        <>
-          <DeleteModal
-            studioID={studioID}
-            loading={loading}
-            setDeleteModal={setDeleteModal}
-            deleteModalStrings={deleteModalStrings}
-            deleteFunction={handleDelete}></DeleteModal>
-        </>
+      {openView === 'delete' ? (
+        <DeleteModal
+          loading={loading}
+          id={toUpdateStudio}
+          setOpenView={setOpenView}
+          deleteModalStrings={deleteModalStrings}
+          deleteFunction={handleDelete}
+        />
       ) : null}
-      {infoModal ? (
-        <>
-          <MoreInfoModal
-            studioID={studioID}
-            loading={loading}
-            setInfoModal={setInfoModal}
-            moreInfoModalStrings={moreInfoModalStrings}></MoreInfoModal>
-        </>
-      ) : null}
+      {openView === 'info' ? <StudioInformation setOpenView={setOpenView} studio={selectedStudioInformation} /> : null}
     </>
   );
 }

@@ -1,6 +1,6 @@
 import db from '../../lib/dbConnect';
 import StudioListing from '../../models/StudioListing';
-import ListingCards from '../../components/ListingCardWide';
+import ListingCards from '../../components/Result/ListingCardWideStudioService';
 import Layout from '../../components/Layout/Layout';
 
 function All({ listings }) {

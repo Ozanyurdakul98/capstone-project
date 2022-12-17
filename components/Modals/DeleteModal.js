@@ -1,16 +1,10 @@
 import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../BackgroundOverlay';
 import { Spinner } from '../Spinner';
 
-//expects deleteModalStrings (= header, message, error, studioID)
-//expects setDeleteModal(false) prop
-//deleteFunction
-//studioID
-
 export function DeleteModal(props) {
   const handleClickToCloseDeleteModal = () => {
-    props.setDeleteModal(false);
+    props.setOpenView('');
   };
-
   return (
     <>
       <div className="searchFadein fixed inset-0 z-50 m-auto h-52 max-w-md rounded-2xl bg-white shadow-xxl lg:h-56">
@@ -43,7 +37,7 @@ export function DeleteModal(props) {
                 <Spinner />
               </div>
             ) : (
-              <button onClick={() => props.deleteFunction(props.ID)} className="modal-deleteButton bg-red-600">
+              <button onClick={() => props.deleteFunction(props.id)} className="modal-deleteButton bg-red-600">
                 Delete
               </button>
             )}

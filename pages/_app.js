@@ -16,7 +16,6 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
     };
     use();
   }, []);
-
   return (
     <>
       <GlobalStyle />

@@ -6,7 +6,7 @@ import StudioListing from '../../models/StudioListing';
 //tools
 import format from 'date-fns/format';
 //components
-import ListingCard from '../../components/ListingCardWide';
+import ListingCard from '../../components/Result/ListingCardWideStudioService';
 import Layout from '../../components/Layout/Layout';
 
 function Search({ listings, query }) {

@@ -1,9 +1,9 @@
-import { FormInput } from './FormInput';
+import { FormInput } from '../FormInput';
 import Image from 'next/image.js';
 import { TbHandClick } from 'react-icons/tb';
 import { MdDeleteForever } from 'react-icons/md';
 
-export function StudioServiceFormfields(props) {
+export function AdminCreateStudioService(props) {
   return (
     <>
       {/* Image */}

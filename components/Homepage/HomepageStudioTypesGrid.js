@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-export function HomepageStudioTypes() {
+export function HomepageStudioTypesGrid() {
   const links = [
     {
       header: 'Home Studio',

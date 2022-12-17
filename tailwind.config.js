@@ -14,6 +14,8 @@ module.exports = {
         smbgbg: '1fr, 2fr, 2fr',
         smbgsm: '1fr, 2fr, 1fr',
         smbg: '80px, 2fr',
+        fr2fr: '1fr, 2fr',
+        bgsm: '3fr, 100px',
         sm3: '1fr, 1fr, 1fr',
         footer: '200px minmax(900px, 1fr) 100px',
       },

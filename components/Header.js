@@ -10,14 +10,13 @@ import { HeaderSignupButton } from './HeaderSignupButton';
 import { HeaderSigninButton } from './HeaderSigninButton';
 import SignUpComponent from './Forms/SignUpFormModal';
 import SignInComponent from './Forms/SignInFormModal';
-import { useRouter } from 'next/router';
+import { MyLink } from './MyLink';
 function Header() {
   const [previewSigning, setPreviewSigning] = useState('');
   const { data: session, status } = useSession();
-  const router = useRouter();
   return (
     <header id="top" className="relative z-50">
-      <nav className="grid grid-cols-sm3 bg-white p-2 shadow-md md:px-4 md:pt-4 md:pb-2 lg:grid-cols-3">
+      <nav className="grid grid-cols-sm3 bg-white p-2 shadow-md md:px-4 md:pt-4 md:pb-2 lg:grid-cols-smbgbg">
         {/* Left */}
         <div className="flex  flex-auto items-center">
           {/* Logo */}
@@ -32,24 +31,30 @@ function Header() {
         <SearchBar />
         {/* Righth */}
         <div className="flex flex-1 items-center justify-end">
-          <div className="mx-6 hidden items-center space-x-2 text-gray-500 lg:inline-flex xl:mx-6">
-            <Link href="/search/all">
-              <GlobeAsiaAustraliaIcon title="show all studios" className="icon" />
-            </Link>
-            <hr className="h-10 border border-gray-100" />
-            <button
-              title="add a studio"
-              className="icon-header disabled:cursor-default disabled:text-gray-500/50"
-              disabled={status === 'loading' || status === 'unauthenticated'}
-              onClick={() => router.push('/dashboard/addstudio')}>
-              <PlusIcon />
+          <div className="mx-6 hidden items-center text-gray-500 lg:inline-flex ">
+            <button type="button" className="">
+              <MyLink className="cursor-default" href="/search/all">
+                <GlobeAsiaAustraliaIcon title="show all studios" className="icon" />
+              </MyLink>
             </button>
-            <button
-              title="add a studio"
-              className="icon-header disabled:cursor-default disabled:text-gray-500/50"
-              disabled={status === 'loading' || status === 'unauthenticated'}
-              onClick={() => router.push('/dashboard')}>
-              <HomeIcon />
+            <hr className="h-10 border border-gray-100" />
+            <button type="button" title="go to dashboard" className="icon-header cursor-default ">
+              <MyLink href={`${status === 'loading' || status === 'unauthenticated' ? '/#' : '/dashboard/addstudio'}`}>
+                <PlusIcon
+                  className={`icon ${
+                    status === 'loading' || status === 'unauthenticated' ? ' cursor-default text-gray-500' : ''
+                  }`}
+                />
+              </MyLink>
+            </button>
+            <button type="button" title="go to dashboard" className="icon-header cursor-default ">
+              <MyLink href={`${status === 'loading' || status === 'unauthenticated' ? '/#' : '/dashboard'}`}>
+                <HomeIcon
+                  className={`icon ${
+                    status === 'loading' || status === 'unauthenticated' ? ' cursor-default text-gray-500' : ''
+                  }`}
+                />
+              </MyLink>
             </button>
           </div>
           {/* HeaderUsermenu */}

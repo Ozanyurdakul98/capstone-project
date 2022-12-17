@@ -10,7 +10,7 @@ export default function StudioTypeFilter({ preGlobalFilteredRows, setFilter }) {
 
   return (
     <div>
-      <h2>Studio Type:</h2>
+      <h2>Type:</h2>
       <select
         className="select-table"
         value={value || ''}

@@ -1,72 +1,131 @@
 import { useState } from 'react';
 import { ValidateCreateStudioListing } from '../../helpers/Validate.js';
-import ListingCardWide from '../../components/ListingCardWide';
-import ListingCardCarousell from '../../components/ListingCardCarousell';
+import ListingCardWideStudio from '../../components/Result/ListingCardWideStudio';
+import ListingCardCarousellStudio from '../../components/Result/ListingCardCarousellStudio';
 import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../../components/BackgroundOverlay';
 import Link from 'next/link.js';
 import { useRouter } from 'next/router';
-import { StudioFormfields } from '../../components/Forms/StudioFormfields';
+import { AddStudioForm } from '../../components/Forms/AddStudioForm';
 import DashboardLayout from '../../components/Layout/DashboardLayout.js';
-import StudioService from '../../models/StudioService.js';
 import db from '../../lib/dbConnect.js';
-import User from '../../models/User.js';
 import { getToken } from 'next-auth/jwt';
-function DashboardAddStudio({ sanitizedServices, userID }) {
+function DashboardAddStudio({ userID }) {
   const defaultForm = {
-    listingTitle: '',
-    images: '',
-    openingHours: 'Always Available',
+    logo: '',
+    studioName: '',
+    profileText: '',
     studiotype: 'Home Studio',
-    studioService: '',
+    studioInformation: {},
+    studioLanguages: [],
+    openingHours: 'Always Available',
     locationFeatures: [],
-    soundengineer: 'On Request',
-    studioPricing: {},
+    sleepOver: {},
+    studioSocials: {
+      soundcloud: '',
+      spotify: '',
+      instagram: '',
+      youtube: '',
+      facebook: '',
+      pinterest: '',
+      twitter: '',
+      linkedin: '',
+    },
+    studioRules: [],
+    additionalStudioRules: '',
     studioLocation: '',
     user: userID,
   };
+  const languages = [
+    'Afrikaans',
+    'Albanian',
+    'Arabic',
+    'Armenian',
+    'Azerbaijani',
+    'Belarusian',
+    'Bulgarian',
+    'Catalan',
+    'Chinese',
+    'Croatian',
+    'Czech',
+    'Danish',
+    'Dutch',
+    'English',
+    'Filipino',
+    'Finnish',
+    'French',
+    'Georgian',
+    'German',
+    'Greek',
+    'Hebrew',
+    'Hindi',
+    'Hungarian',
+    'Indonesian',
+    'Irish',
+    'Italian',
+    'Japanese',
+    'Kannada',
+    'Korean',
+    'Latin',
+    'Lithuanian',
+    'Macedonian',
+    'Maltese',
+    'Mongolian',
+    'Nepali',
+    'Norwegian',
+    'Persian',
+    'Polish',
+    'Portuguese',
+    'Romanian',
+    'Russian',
+    'Scottish',
+    'Serbian',
+    'Slovenian',
+    'Spanish',
+    'Swedish',
+    'Thai',
+    'Turkish',
+    'Turkmen',
+    'Ukrainian',
+    'Urdu',
+    'Uyghur',
+    'Uzbek',
+    'Vietnamese',
+  ];
   const defaultChecked = {
-    soundengineer: false,
-    studioPricing: [],
+    studioSocials: [],
+    studioInformation: [],
+    studioLanguages: languages,
+    sleepOver: [],
   };
-  console.log('IDADD', userID);
   const [form, setForm] = useState(defaultForm);
   const [checked, setChecked] = useState(defaultChecked);
   const [isSubmit, setIsSubmit] = useState(false);
   const [submissionFailed, setSubmissionFailed] = useState(false);
+  const [studioLanguagesSearch, setStudioLanguagesSearch] = useState('');
   const [formErrors, setFormErrors] = useState({});
   const [preview, setPreview] = useState(false);
+  const [logoChanged, setLogoChanged] = useState(false);
+  const defaultPic = '/images/Thumbnail-default.png';
   const router = useRouter();
-  // useEffect(() => {
-  //   async function myFunction() {
-  //     const session = await getSession();
-  //     const userEmail = session.user.email;
-  //     try {
-  //       setForm({ ...form, userEmail: userEmail });
-  //       return;
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   }
-  //   myFunction();
-  // }, []);
+
   const handlePreview = () => {
     const passForm = form;
-    setFormErrors(ValidateCreateStudioListing(passForm, checked));
-    if (Object.keys(ValidateCreateStudioListing(passForm, checked)).length === 0) {
-      handleUploadInput();
+    setFormErrors(ValidateCreateStudioListing(passForm));
+    if (Object.keys(ValidateCreateStudioListing(passForm)).length === 0) {
       setPreview(true);
     }
   };
   const handleFormSubmit = async (event) => {
     const passForm = form;
     event.preventDefault();
-    setFormErrors(ValidateCreateStudioListing(passForm, checked));
+    setFormErrors(ValidateCreateStudioListing(passForm));
     setIsSubmit(true);
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       try {
+        const resLogo = await handleUploadInput(form.logo);
         const res = await fetch('/api/dashboard/studio/1', {
           method: 'POST',
-          body: JSON.stringify(form),
+          body: JSON.stringify({ ...form, logo: resLogo }),
           headers: {
             'Content-Type': 'application/json',
           },
@@ -92,20 +151,52 @@ function DashboardAddStudio({ sanitizedServices, userID }) {
       }
     }
   };
-  const handleChange = (event) => {
+  const handleDeleteImage = () => {
+    setLogoChanged(true);
+    setForm({ ...form, logo: '' });
+    setChecked({ ...checked, logoPreview: '', logoName: '' });
+  };
+  const handleDelete = (val) => {
+    let newArray = [...form['studioLanguages'], val];
+    if (form['studioLanguages'].includes(val)) {
+      newArray = newArray.filter((lang) => lang !== val);
+      setForm({ ...form, studioLanguages: newArray });
+      setChecked({ ...checked, studioLanguages: languages });
+
+      setStudioLanguagesSearch('');
+    }
+  };
+  const handleChange = (event, val) => {
     const target = event.target;
     const type = target.type;
-    const name = target.name;
+    let name = target.name;
+    if (val) name = 'studioLanguages';
     const wert = target.value;
     const id = target.id;
-    const value = checkValues(type, form, name, wert, id, target);
+    const value = checkValues(type, form, name, wert, id, target, val);
     setForm({ ...form, [name]: value() });
   };
-  function checkValues(type, form, name, wert, id, target) {
+  function checkValues(type, form, name, wert, id, target, val) {
     return () => {
-      if (name === 'studioPricing' || id === 'soundengineerPrice') {
+      if (name === 'studioInformation') {
         const currentForm = {
-          ...form[name === 'studioPricing' ? name : id],
+          ...form[name],
+          [id]: wert,
+        };
+        const deleteUndefined = Object.fromEntries(Object.entries(currentForm).filter(([v]) => v));
+        return deleteUndefined;
+      }
+      if (name === 'sleepOver') {
+        const currentForm = {
+          ...form[name],
+          [id]: wert,
+        };
+        const deleteUndefined = Object.fromEntries(Object.entries(currentForm).filter(([v]) => v));
+        return deleteUndefined;
+      }
+      if (name === 'studioSocials') {
+        const currentForm = {
+          ...form[name],
           [id]: wert,
         };
         const deleteUndefined = Object.fromEntries(Object.entries(currentForm).filter(([v]) => v));
@@ -113,20 +204,30 @@ function DashboardAddStudio({ sanitizedServices, userID }) {
       }
       if (type === 'checkbox') {
         let newArray = [...form[name], wert];
-
         if (form[name].includes(wert)) {
           newArray = newArray.filter((service) => service !== wert);
         }
         return newArray;
       }
-      if (name === 'images') {
-        let wertImage = target.files[0];
+      if (name === 'logo') {
+        setLogoChanged(true);
+        const wertImage = target.files[0];
+        const logoName = wertImage.name;
         setChecked({
           ...checked,
-          imagesPreview: URL.createObjectURL(wertImage),
-          images: wertImage,
+          logoPreview: URL.createObjectURL(wertImage),
+          logoName: logoName,
         });
-        return;
+        return wertImage;
+      }
+      if (val) {
+        let newArray = [...form[name], val];
+        if (form[name].includes(val)) {
+          newArray = newArray.filter((service) => service !== val);
+        }
+        setStudioLanguagesSearch('');
+        setChecked({ ...checked, studioLanguages: languages });
+        return newArray;
       } else {
         return wert;
       }
@@ -138,20 +239,40 @@ function DashboardAddStudio({ sanitizedServices, userID }) {
     const id = target.id;
     const wert = target.value;
     const isChecked = () => {
-      if (name === 'soundengineer') {
-        return id;
-      }
-      if (name === 'studioPricing') {
+      if (name === 'studioInformation') {
         let newArray = [...checked[name], id];
         if (checked[name].includes(id)) {
-          newArray = newArray.filter((pricing) => pricing !== id);
+          newArray = newArray.filter((val) => val !== id);
           const currentForm = { ...form?.[name], [id]: wert };
-          const deleteUnchecked = Object.fromEntries(
-            Object.entries(currentForm).filter((pricing) => !pricing.includes(id))
-          );
+          const deleteUnchecked = Object.fromEntries(Object.entries(currentForm).filter((val) => !val.includes(id)));
           setForm({ ...form, [name]: deleteUnchecked });
         }
         return newArray;
+      }
+      if (name === 'sleepOver') {
+        let newArray = [...checked[name], id];
+        if (checked[name].includes(id)) {
+          newArray = newArray.filter((val) => val !== id);
+          const currentForm = { ...form?.[name], [id]: wert };
+          const deleteUnchecked = Object.fromEntries(Object.entries(currentForm).filter((val) => !val.includes(id)));
+          setForm({ ...form, [name]: deleteUnchecked });
+        }
+        return newArray;
+      }
+      if (name === 'studioSocials') {
+        let newArray = [...checked[name], id];
+        if (checked[name].includes(id)) {
+          newArray = newArray.filter((i) => i !== id);
+          const currentForm = { ...form?.[name], [id]: wert };
+          const deleteUnchecked = Object.fromEntries(Object.entries(currentForm).filter((i) => !i.includes(id)));
+          setForm({ ...form, [name]: deleteUnchecked });
+        }
+        return newArray;
+      }
+      if (name === 'studioLanguages') {
+        const newMatches = languages.filter((lang) => lang.toLowerCase().includes(wert.toLowerCase()));
+        setStudioLanguagesSearch(wert);
+        return newMatches;
       }
     };
     setChecked({ ...checked, [name]: isChecked() });
@@ -159,43 +280,51 @@ function DashboardAddStudio({ sanitizedServices, userID }) {
   const handleClickToCloseSearch = () => {
     setPreview(false);
   };
-  const handleUploadInput = async () => {
+  const handleUploadInput = async (logo) => {
+    if (!logoChanged) {
+      return;
+    }
+    if (logo === defaultPic) {
+      return defaultPic;
+    }
     const formData = new FormData();
     const preset = 'cy1wyxej';
     const url = 'https://api.cloudinary.com/v1_1/drt9lfnfg/image/upload';
-    formData.append('file', checked.images);
+    formData.append('file', logo);
     formData.append('upload_preset', preset);
     const res = await fetch(url, {
       method: 'POST',
       body: formData,
     });
     const data = await res.json();
-    data
-      ? setForm({ ...form, images: data.secure_url })
-      : setForm({ ...form, images: '/images/Thumbnail-default.png' });
+    if (data) return data.secure_url;
+    else if (!data) return defaultPic;
   };
-
   return (
     <>
       <div className="sm:px-0">
-        <h1 className="text-primary mt-4 mb-2 text-center text-4xl font-bold leading-tight">Add Studio Listing</h1>
+        <div>
+          <h1 className="text-primary mt-4 mb-2 text-center text-4xl font-bold leading-tight">Add a Studio </h1>
+          <p className="text-center">
+            Add a Studio to your account. The details you include here (like socials or studio location) will be used in
+            the studio-services you can add to this studio later on. To submit a service, a studio is required. So go on
+            and add a studio.
+          </p>
+        </div>
         <form noValidate className="text-primary w-full" onSubmit={handleFormSubmit}>
-          <StudioFormfields
-            defaultForm={defaultForm}
-            defaultChecked={defaultChecked}
+          <AddStudioForm
             form={form}
             setForm={setForm}
             checked={checked}
             setChecked={setChecked}
+            handleDeleteImage={handleDeleteImage}
             length={Object.keys(formErrors).length}
             formErrors={formErrors}
-            studioService={sanitizedServices}
-            router={router}
-            handlePreview={handlePreview}
-            handleFormSubmit={handleFormSubmit}
+            languages={languages}
             handleChange={handleChange}
-            handleCheck={handleCheck}
-            handleClickToCloseSearch={handleClickToCloseSearch}></StudioFormfields>
+            handleDelete={handleDelete}
+            studioLanguagesSearch={studioLanguagesSearch}
+            handleCheck={handleCheck}></AddStudioForm>
           {/* PreviewModal */}
           <fieldset>
             {preview && (
@@ -208,31 +337,29 @@ function DashboardAddStudio({ sanitizedServices, userID }) {
                         <h2 className="h2 ml-5">Preview of your Listings</h2>
                         <p className="text-center ">Thank you for beeing part of Tonstudio-Kleinanzeigen!</p>
                       </div>
-                      <div>
-                        <h3 className="h3 ml-5">Searchpage preview</h3>
-                        <ListingCardWide
-                          listingTitle={form.listingTitle}
-                          images={form.images ? form.images : '/images/Thumbnail-default.png'}
+                      <div className="ml-5">
+                        <h3 className="h3">Searchpage preview</h3>
+                        <ListingCardWideStudio
+                          preview={true}
+                          logo={checked.logoPreview ? checked.logoPreview : '/images/Thumbnail-default.png'}
+                          studioName={form.studioName}
                           studiotype={form.studiotype}
-                          studioService={form.studioService}
-                          soundengineer={form.soundengineer}
-                          studioPricing={form.studioPricing}
+                          studioLanguages={form.studioLanguages}
+                          openingHours={form.openingHours}
                           locationFeatures={form.locationFeatures}
                           studioLocation={form.studioLocation}
                         />
                       </div>
-                      <div className="ml-5 pb-4">
-                        <h3 className="h3">Startpage preview</h3>
-                        <div className="-ml-4">
-                          <ListingCardCarousell
-                            listingTitle={form.listingTitle}
-                            images={form.images ? form.images : '/images/Thumbnail-default.png'}
+                      <div className="ml-5">
+                        <h3 className="h3 pb-12">Startpage preview</h3>
+                        <div className="-ml-4 ">
+                          <ListingCardCarousellStudio
+                            preview={true}
+                            logo={checked.logoPreview ? checked.logoPreview : '/images/Thumbnail-default.png'}
+                            studioName={form.studioName}
                             studiotype={form.studiotype}
-                            studioService={form.studioService}
-                            soundengineer={form.soundengineer}
-                            studioPricing={form.studioPricing}
-                            locationFeatures={form.locationFeatures}
                             openingHours={form.openingHours}
+                            locationFeatures={form.locationFeatures}
                             studioLocation={form.studioLocation}
                           />
                         </div>
@@ -338,19 +465,9 @@ export async function getServerSideProps({ req }) {
   await db.connect();
   const token = await getToken({ req });
   const userID = token.id;
-  const user = await User.findById(userID);
-  console.log(user, 'ID');
-  const services = await StudioService.find();
-  console.log('Token', token);
-  const sanitizedServices = services.map((service) => ({
-    id: service.id,
-    name: service.name,
-    description: service.description,
-  }));
   return {
     props: {
-      sanitizedServices: sanitizedServices || null,
-      userID: userID || null,
+      userID: userID || token.sub,
     },
   };
 }

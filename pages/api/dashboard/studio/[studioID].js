@@ -1,53 +1,66 @@
-import db from "../../../../lib/dbConnect";
-import StudioListing from "../../../../models/StudioListing";
-import { getToken } from "next-auth/jwt";
+import db from '../../../../lib/dbConnect';
+import StudioListing from '../../../../models/StudioListing';
+import { getToken } from 'next-auth/jwt';
+import moment from 'moment';
 
 export default async function handler(req, res) {
   const token = await getToken({ req });
-  if (token.role !== "user" && token.role !== "admin") {
+  if (token.role !== 'user' && token.role !== 'admin') {
     return res.status(401).json({
       success: false,
-      message: "Your session is invalid. You are not authorized to do this action!",
+      message: 'Your session is invalid. You are not authorized to do this action!',
     });
   }
-  if (req.method === "GET") {
+  if (req.method === 'GET') {
     try {
       const { studioID } = req.query;
-      const fetchingStudio = await StudioListing.find({ _id: studioID });
-      return res.status(200).json({ success: true, data: fetchingStudio });
+      const fetchingStudio = await StudioListing.find({ _id: studioID }).populate({
+        path: 'user',
+        model: 'users',
+        select: 'avatar email name lastname username',
+      });
+      const serializing = JSON.parse(JSON.stringify(fetchingStudio));
+      const serializedStudio = serializing.map((studio) => ({
+        ...studio,
+        createdAtDate: moment(studio.createdAt).format('DD/MM/yyyy'),
+        createdAtTime: moment(studio.createdAt).format('kk:mm'),
+        updatedAtDate: moment(studio.updatedAt).format('DD/MM/yyyy'),
+        updatedAtTime: moment(studio.updatedAt).format('kk:mm'),
+      }));
+      return res.status(200).json({ success: true, data: serializedStudio });
     } catch (error) {
-      return res.status(400).json({ success: false, message: "Studio not found" });
+      return res.status(400).json({ success: false, message: 'Studio not found' });
     }
-  } else if (req.method === "POST") {
+  } else if (req.method === 'POST') {
     await db.connect();
     try {
       const listing = await StudioListing.create(req.body); /* create a new model in the database */
 
       return res.status(201).json({ success: true, data: listing });
     } catch (error) {
-      return res.status(400).json({ success: false, message: "Unauthorized" });
+      return res.status(400).json({ success: false, message: 'Unauthorized' });
     }
-  } else if (req.method === "PATCH") {
+  } else if (req.method === 'PATCH') {
     await db.connect();
     try {
       const { studioID } = req.query;
       const listing = await StudioListing.findByIdAndUpdate(studioID, req.body);
       return res.status(201).json({ success: true, data: listing });
     } catch (error) {
-      return res.status(400).json({ success: false, message: "Unauthorized", error });
+      return res.status(400).json({ success: false, message: 'Unauthorized', error });
     }
-  } else if (req.method === "DELETE") {
+  } else if (req.method === 'DELETE') {
     await db.connect();
     try {
       const { studioID } = req.query;
       const status = await StudioListing.findByIdAndDelete(studioID);
       return res.status(201).json({ success: true, status });
     } catch (error) {
-      return res.status(400).json({ success: false, message: "Unauthorized", error });
+      return res.status(400).json({ success: false, message: 'Unauthorized', error });
     }
   }
   return res.status(400).json({
     success: false,
-    message: "HTTP method is not allowed, Unauthorized",
+    message: 'HTTP method is not allowed, Unauthorized',
   });
 }

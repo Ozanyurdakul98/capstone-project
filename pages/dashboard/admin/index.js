@@ -3,7 +3,7 @@ import WelcomeRow from '../../../components/Dashboard/WelcomeRow';
 import DashboardAdminStatsTotal from '../../../components/Dashboard/DashboardAdminStatsTotal';
 import db from '../../../lib/dbConnect';
 import StudioListing from '../../../models/StudioListing';
-import User from '../../../models/UserModel';
+import User from '../../../models/User';
 import DashboardLayout from '../../../components/Layout/DashboardLayout';
 export default function AdminDashboard({ totalUsers, totalListings, studiosCreatedToday, usersCreatedToday }) {
   return (
@@ -30,8 +30,8 @@ AdminDashboard.getLayout = function getLayout(page) {
 export async function getServerSideProps() {
   await db.connect();
 
-  const totalListingsCount = await StudioListing.find().count();
   const totalUsersCount = await User.find().count();
+  const totalListingsCount = await StudioListing.find().count();
   const startToday = new Date(new Date().setUTCHours(0, 0, 0, 0));
   const endToday = new Date(new Date().setUTCHours(23, 59, 59, 999));
   const studiosCreatedToday = await StudioListing.find({

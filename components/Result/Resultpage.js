@@ -1,4 +1,4 @@
-import ListingCards from '../../components/ListingCardWide';
+import ListingCard from '../../components/Result/ListingCardWideStudioService';
 
 export function Resultpage(props) {
   return (
@@ -19,7 +19,7 @@ export function Resultpage(props) {
             locationFeatures,
             studioLocation,
           }) => (
-            <ListingCards
+            <ListingCard
               key={_id}
               id={_id}
               path={props.path}
@@ -30,7 +30,7 @@ export function Resultpage(props) {
               soundengineer={soundengineer}
               studioPricing={studioPricing}
               locationFeatures={locationFeatures}
-              studioLocation={studioLocation}></ListingCards>
+              studioLocation={studioLocation}></ListingCard>
           )
         )}
       </div>

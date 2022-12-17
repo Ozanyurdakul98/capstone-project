@@ -135,26 +135,26 @@ export function HeaderUsermenu(props) {
                     <Menu.Item>
                       {({ active }) => (
                         <MyLink
-                          href="/dashboard/mystudios"
-                          title="see all your studios"
+                          href="/dashboard/addstudio"
+                          title="add studio"
                           className={classNames(
                             active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                             'block px-4 py-3 text-sm'
                           )}>
-                          My Studios
+                          Add Studio
                         </MyLink>
                       )}
                     </Menu.Item>
                     <Menu.Item>
                       {({ active }) => (
                         <MyLink
-                          href="/dashboard/addstudio"
-                          title="add a studio"
+                          href="/dashboard/addstudioservice"
+                          title="Add service to studio"
                           className={classNames(
                             active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                             'block px-4 py-3 text-sm'
                           )}>
-                          Add Studio
+                          Add Studioservice
                         </MyLink>
                       )}
                     </Menu.Item>

@@ -1,38 +1,36 @@
 import mongoose from 'mongoose';
-import './StudioService';
 import './User';
 const { Schema } = mongoose;
 
 const studioListingSchema = new mongoose.Schema(
   {
-    maxGuests: { type: Number, default: 3 },
-    listingTitle: { type: String, required: true },
-    images: {
+    logo: {
       type: String,
       default: '/images/Thumbnail-default.png',
       set: (v) => (v === '' || undefined || null ? '/images/Thumbnail-default.png' : v),
       required: true,
     },
+    studioName: { type: String, required: true, trim: true },
+    profileText: { type: String, required: true, trim: true },
+    studiotype: { type: String, required: true, trim: true },
+    studioInformation: { type: Object, trim: true },
+    studioLanguages: { type: Array, required: true, trim: true },
     openingHours: {
       type: String,
       required: true,
+      trim: true,
     },
-    studiotype: { type: String, required: true },
-    studioService: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'StudioService',
-        required: true,
-      },
-    ],
-    locationFeatures: { type: Array, required: true },
-    soundengineer: { type: Object, required: true },
-    studioPricing: { type: Object, required: true },
-    studioLocation: { type: String, required: true },
+    locationFeatures: { type: Array, required: true, trim: true },
+    sleepOver: { type: Object, trim: true },
+    studioSocials: { type: Object, required: true, trim: true },
+    studioRules: { type: Array, trim: true, index: true, default: [''] },
+    additionalStudioRules: { type: String, trim: true, index: true, default: '' },
+    studioLocation: { type: String, required: true, trim: true },
     user: {
       type: Schema.Types.ObjectId,
       ref: 'users',
       required: true,
+      trim: true,
     },
   },
   {

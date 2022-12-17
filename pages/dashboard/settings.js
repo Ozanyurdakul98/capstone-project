@@ -4,7 +4,7 @@ import { unstable_getServerSession } from 'next-auth';
 import { authOptions } from '../api/auth/[...nextauth]';
 import { DeleteModal } from '../../components/Modals/DeleteModal';
 import { useEffect, useState } from 'react';
-import User from '../../models/UserModel';
+import User from '../../models/User';
 import { signOut } from 'next-auth/react';
 
 export default function DashboardSettings({ userData }) {
