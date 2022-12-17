@@ -2,13 +2,15 @@ export function ValidateSignUp(form) {
   const errors = {};
   const patternEmail = /^([^\s@]+@[^\s@]+\.[^\s@]+$)$/i;
   const patternPassword = /^([a-zA-Z-0-9-!äöü#@.,-_]){8,60}$/i;
-  const userName = /^[a-zA-Z][a-zA-Z0-9-_]{4,24}/;
+  const userName = /^[a-zA-Z][a-zA-Z0-9-_]{4,19}/;
   // const userName = /^[a-zA-Z][a-zA-Z0-9-_]{4,24}$/i;
   const isMatch = form.password === form.matchpassword;
   if (!form.username) {
     errors.username = 'A Username is required!';
   } else if (!userName.test(form.userName)) {
-    errors.email = 'Your username format is invalid!';
+    errors.username = 'Your username format is invalid!';
+  } else if (form.userName.length >= 21) {
+    errors.username = 'Your username is too long!';
   }
   if (!form.email) {
     errors.email = 'A Email adress is required!';

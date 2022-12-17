@@ -48,11 +48,12 @@ function ListingCardWideStudio({
               {/* studiolocation */}
               <div className="relative flex items-center justify-between">
                 <p className="truncate text-xs text-gray-400">{studioLocation}</p>
-                <div className="absolute right-0 top-0 flex flex-col items-end truncate text-xs text-gray-400">
-                  <div className="relative h-10 w-10 shrink-0 md:h-36 md:w-36 lg:h-52 lg:w-52">
+                {/* user */}
+                <div className="right-0 -top-2 hidden flex-col items-end truncate text-xs text-gray-400 sm:absolute sm:flex lg:-top-7">
+                  <div className="relative h-8 w-8 shrink-0 md:h-10 md:w-10 lg:h-12 lg:w-12">
                     <Image src={user.avatar} layout="fill" objectFit="cover" className="rounded-full" alt="Thumbnail" />
                   </div>
-                  <p className="truncate text-xs text-gray-400">{'uiwnd uawndiuwadiaw feefe'}</p>
+                  <p className="truncate text-xs text-gray-400">{'uiwnd3uawndiuwadi98!'}</p>
                 </div>
               </div>
               {/* studiotype */}
