@@ -196,7 +196,7 @@ function EditStudio({ toUpdateStudio, setOpenView, studioID }) {
     };
   }
   function MatchDataWithChecked() {
- s    const studioInfo = data.studioInformation;
+    const studioInfo = data.studioInformation;
     const studioSleepover = data.sleepOver;
     return () => {
       if (studioInfo) {
@@ -281,7 +281,7 @@ function EditStudio({ toUpdateStudio, setOpenView, studioID }) {
     if (data) return data.secure_url;
     else if (!data) return defaultPic;
   };
- 
+
   return (
     <>
       <div className="searchFadein fixed inset-0 z-50 m-auto flex h-4/6 w-full flex-col gap-5 rounded-2xl bg-white   pb-5  shadow-xxl md:min-h-72 md:w-11/12 lg:w-8/12 xl:w-6/12">
