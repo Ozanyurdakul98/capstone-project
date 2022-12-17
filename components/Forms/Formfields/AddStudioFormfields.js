@@ -4,6 +4,8 @@ import { TbHandClick } from 'react-icons/tb';
 import { MdDeleteForever } from 'react-icons/md';
 
 export function AddStudioFormfields(props) {
+  console.log(props.form);
+  console.log(props.checked);
   return (
     <>
       {/* Logo, studioname-/text */}
@@ -231,7 +233,6 @@ export function AddStudioFormfields(props) {
               id="studioRooms"
               checked={props.checked.studioInformation.includes('studioRooms')}
               onChange={(event) => {
-                props.handleChange(event);
                 props.handleCheck(event);
               }}
             />
