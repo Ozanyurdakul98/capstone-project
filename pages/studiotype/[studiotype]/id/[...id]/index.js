@@ -10,12 +10,11 @@ import Image from 'next/image';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
-//tools
 function StudioDetailpage({ serializedStudio, studioServicesCount, serializedStudioservices }) {
   // eslint-disable-next-line no-unused-vars
   const router = useRouter();
   const studio = serializedStudio[0];
-  console.log(studio.locationFeatures);
+  console.log(studio.studioRules);
   return (
     <div className="relative">
       <Head>
@@ -140,6 +139,22 @@ function StudioDetailpage({ serializedStudio, studioServicesCount, serializedStu
                 </svg>
                 ID: <span className=" pl-1 font-semibold">{studio._id}</span>
               </li>
+              <li className="col-start-2 row-start-2 flex items-center">
+                <svg
+                  className="mr-1 h-4 w-4"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    fillRule="evenodd"
+                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                    clipRule="evenodd"></path>
+                </svg>
+                Beds:
+                <span className="pl-1 font-semibold">
+                  {studio.sleepOver ? studio.sleepOver.bedsCount : 'No Sleepover'}
+                </span>
+              </li>
               <li className="col-start-2 row-start-3 flex items-center">
                 <svg
                   className="mr-1 h-4 w-4"
@@ -151,23 +166,7 @@ function StudioDetailpage({ serializedStudio, studioServicesCount, serializedStu
                     d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                     clipRule="evenodd"></path>
                 </svg>
-                Beds:{' '}
-                <span className="pl-1 font-semibold">
-                  {studio.sleepOver ? studio.sleepOver.bedsCount : 'No Sleepover'}
-                </span>
-              </li>
-              <li className="col-start-2 row-start-4 flex items-center">
-                <svg
-                  className="mr-1 h-4 w-4"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    fillRule="evenodd"
-                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                    clipRule="evenodd"></path>
-                </svg>
-                Sleepover Capacity:
+                Max Sleepover Guests:
                 <span className="pl-1 font-semibold">
                   {studio.sleepOver ? studio.sleepOver.maxPeople : 'No Sleepover'}
                 </span>
@@ -183,9 +182,12 @@ function StudioDetailpage({ serializedStudio, studioServicesCount, serializedStu
                     d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                     clipRule="evenodd"></path>
                 </svg>
-                Studio size: <span className="pl-1 font-semibold">78 sqm</span>
+                Studio size:
+                <span className="pl-1 font-semibold">
+                  {studio.studioInformation.studioSize ? studio.studioInformation.studioSize : '/'}
+                </span>
               </li>
-              <li className="col-start-2 row-start-6 flex items-center sm:col-start-3 sm:row-start-1">
+              <li className="col-start-2 row-start-6 flex items-center sm:col-start-3 sm:row-start-2">
                 <svg
                   className="mr-1 h-4 w-4"
                   fill="currentColor"
@@ -196,12 +198,12 @@ function StudioDetailpage({ serializedStudio, studioServicesCount, serializedStu
                     d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                     clipRule="evenodd"></path>
                 </svg>
-                Studio Rooms:{' '}
+                Studio Rooms:
                 <span className="pl-1 font-semibold">
                   {studio.studioInformation.studioRooms ? studio.studioInformation.studioRooms : '/'}
                 </span>
               </li>
-              <li className="col-start-2 row-start-7 flex items-center sm:col-start-3 sm:row-start-2">
+              <li className="col-start-2 row-start-7 flex items-center sm:col-start-3 sm:row-start-3">
                 <svg
                   className="mr-1 h-4 w-4"
                   fill="currentColor"
@@ -248,85 +250,168 @@ function StudioDetailpage({ serializedStudio, studioServicesCount, serializedStu
             <ul className="grid grid-cols-smbg gap-2 sm:grid-cols-smbgbg">
               <li className="h2LandingP col-start-1 row-span-2 text-sm font-bold lg:text-base">Studio Rules</li>
               <ul className="grid max-w-md list-inside gap-2 space-y-1 dark:text-gray-400 sm:col-span-2">
+                {/* smoking */}
                 <li className="flex items-center justify-between">
                   <span className="flex">
-                    <svg
-                      className="mr-1.5 h-5 w-5 shrink-0 text-red-400"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        fillRule="evenodd"
-                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                        clipRule="evenodd"></path>
-                    </svg>
+                    {studio.studioRules.includes('Smoking') ? (
+                      <svg
+                        className="mr-1.5 h-5 w-5 shrink-0 text-green-500 dark:text-green-400"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          fillRule="evenodd"
+                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                          clipRule="evenodd"></path>
+                      </svg>
+                    ) : (
+                      <svg
+                        className="mr-1.5 h-5 w-5 shrink-0 text-red-400"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          fillRule="evenodd"
+                          d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                          clipRule="evenodd"></path>
+                      </svg>
+                    )}
                     Smoking allowed:
                   </span>
-                  <span className="font-semibold">No</span>
+                  <span className="font-semibold">{studio.studioRules.includes('Smoking') ? 'Yes' : 'No'}</span>
                 </li>
+                {/* pets */}
                 <li className="flex items-center justify-between">
                   <span className="flex">
-                    <svg
-                      className="mr-1.5 h-5 w-5 shrink-0 text-green-500 dark:text-green-400"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        fillRule="evenodd"
-                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                        clipRule="evenodd"></path>
-                    </svg>
+                    {studio.studioRules.includes('Pets') ? (
+                      <svg
+                        className="mr-1.5 h-5 w-5 shrink-0 text-green-500 dark:text-green-400"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          fillRule="evenodd"
+                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                          clipRule="evenodd"></path>
+                      </svg>
+                    ) : (
+                      <svg
+                        className="mr-1.5 h-5 w-5 shrink-0 text-red-400"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          fillRule="evenodd"
+                          d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                          clipRule="evenodd"></path>
+                      </svg>
+                    )}
                     Pets allowed:
                   </span>
-                  <span className="font-semibold">Yes</span>
+                  <span className="font-semibold">{studio.studioRules.includes('Pets') ? 'Yes' : 'No'}</span>
                 </li>
+                {/* kids */}
                 <li className="flex items-center justify-between">
                   <span className="flex">
-                    <svg
-                      className="mr-1.5 h-5 w-5 shrink-0 text-green-500 dark:text-green-400"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        fillRule="evenodd"
-                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                        clipRule="evenodd"></path>
-                    </svg>
-                    Party allowed:
-                  </span>
-                  <span className="font-semibold">Yes</span>
-                </li>
-                <li className="flex items-center justify-between">
-                  <span className="flex">
-                    <svg
-                      className="mr-1.5 h-5 w-5 shrink-0 text-green-500 dark:text-green-400"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        fillRule="evenodd"
-                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                        clipRule="evenodd"></path>
-                    </svg>
+                    {studio.studioRules.includes('Kids') ? (
+                      <svg
+                        className="mr-1.5 h-5 w-5 shrink-0 text-green-500 dark:text-green-400"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          fillRule="evenodd"
+                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                          clipRule="evenodd"></path>
+                      </svg>
+                    ) : (
+                      <svg
+                        className="mr-1.5 h-5 w-5 shrink-0 text-red-400"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          fillRule="evenodd"
+                          d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                          clipRule="evenodd"></path>
+                      </svg>
+                    )}
                     Kids allowed:
                   </span>
-                  <span className="font-semibold">Yes</span>
+                  <span className="font-semibold">{studio.studioRules.includes('Kids') ? 'Yes' : 'No'}</span>
+                </li>
+                <li className="flex items-center justify-between">
+                  <span className="flex">
+                    {studio.studioRules.includes('Eating') ? (
+                      <svg
+                        className="mr-1.5 h-5 w-5 shrink-0 text-green-500 dark:text-green-400"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          fillRule="evenodd"
+                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                          clipRule="evenodd"></path>
+                      </svg>
+                    ) : (
+                      <svg
+                        className="mr-1.5 h-5 w-5 shrink-0 text-red-400"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          fillRule="evenodd"
+                          d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                          clipRule="evenodd"></path>
+                      </svg>
+                    )}
+                    Eating allowed:
+                  </span>
+                  <span className="font-semibold">{studio.studioRules.includes('Eating') ? 'Yes' : 'No'}</span>
+                </li>
+                <li className="flex items-center justify-between">
+                  <span className="flex">
+                    {studio.studioRules.includes('Party') ? (
+                      <svg
+                        className="mr-1.5 h-5 w-5 shrink-0 text-green-500 dark:text-green-400"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          fillRule="evenodd"
+                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                          clipRule="evenodd"></path>
+                      </svg>
+                    ) : (
+                      <svg
+                        className="mr-1.5 h-5 w-5 shrink-0 text-red-400"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          fillRule="evenodd"
+                          d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                          clipRule="evenodd"></path>
+                      </svg>
+                    )}
+                    Party allowed:
+                  </span>
+                  <span className="font-semibold">{studio.studioRules.includes('Party') ? 'Yes' : 'No'}</span>
                 </li>
               </ul>
             </ul>
           </section>
           {/* Additional StudioRules */}
-          <section className="px-7 text-xs text-gray-600 lg:text-sm">
-            <div className="grid grid-cols-smbg gap-2 sm:grid-cols-smbgbg">
-              <div className="col-span-2 col-start-2 flex flex-col gap-2">
-                <h4 className="font-semibold text-black">Additional Rules</h4>
-                <p className="">
-                  Adipisicing quis sint nisi occaecat nisi adipisicing Lorem sunt tempor anim excepteur. Cupidatat
-                  eiusmod consectetur aute exercitation commodo anim nulla esse incididunt culpa dolore in sint.
-                </p>
+          {studio.additionalStudioRules ? (
+            <section className="px-7 text-xs text-gray-600 lg:text-sm">
+              <div className="grid grid-cols-smbg gap-2 sm:grid-cols-smbgbg">
+                <div className="col-span-2 col-start-2 flex flex-col gap-2">
+                  <h4 className="font-semibold text-black">Additional Rules</h4>
+                  <p className="">{studio.additionalStudioRules}</p>
+                </div>
               </div>
-            </div>
-          </section>
+            </section>
+          ) : null}
         </section>
       </section>
       {/* StudioOwner Card */}

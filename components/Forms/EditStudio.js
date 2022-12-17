@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import { AddStudioForm } from './AddStudioForm';
 import { Spinner } from '../Spinner';
 
-function EditStudio({ toUpdateStudio, setOpenView, studioID }) {
+function EditStudio({ toUpdateStudio, setOpenView, role }) {
   const data = toUpdateStudio;
   const defaultPic = '/images/Thumbnail-default.png';
   const languages = [
@@ -80,7 +80,6 @@ function EditStudio({ toUpdateStudio, setOpenView, studioID }) {
   const [submissionFailed, setSubmissionFailed] = useState(false);
   const [formErrors, setFormErrors] = useState({});
   const router = useRouter();
-
   const handleClickToCloseModal = () => {
     setOpenView('');
   };
@@ -90,6 +89,7 @@ function EditStudio({ toUpdateStudio, setOpenView, studioID }) {
     setChecked({ ...checked, logoPreview: defaultPic });
     setChecked((prev) => ({ ...prev, images: defaultPic }));
   };
+  console.log(form);
   const handleClickToCloseErrorModal = () => {};
   useEffect(() => {
     return MatchDataWithChecked();
@@ -103,13 +103,16 @@ function EditStudio({ toUpdateStudio, setOpenView, studioID }) {
       setLoading(true);
       try {
         const resLogo = await handleUploadInput(form.logo);
-        const res = await fetch(`/api/dashboard/admin/studio/${studioID}`, {
-          method: 'PATCH',
-          body: JSON.stringify({ ...form, logo: resLogo }),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
+        const res = await fetch(
+          `${role === 'admin' ? '/api/dashboard/admin/studio/' : '/api/dashboard/studio/'}${form.id ? form.id : '1'}`,
+          {
+            method: 'PATCH',
+            body: JSON.stringify({ ...form, logo: resLogo }),
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        );
         await res.json();
 
         if (!res.ok) {

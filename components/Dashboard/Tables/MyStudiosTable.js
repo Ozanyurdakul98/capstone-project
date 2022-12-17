@@ -42,6 +42,7 @@ export default function MyStudiosTable({ fetchedStudios, role }) {
         const result = await res.json();
         const rawStudio = result.data[0];
         const studio = {
+          id: rawStudio._id,
           logo: rawStudio.logo,
           studioName: rawStudio.studioName,
           profileText: rawStudio.profileText,
@@ -384,7 +385,9 @@ export default function MyStudiosTable({ fetchedStudios, role }) {
           </div>
         </div>
       </div>
-      {openView === 'edit' ? <EditStudio toUpdateStudio={toUpdateStudio} setOpenView={setOpenView} /> : null}
+      {openView === 'edit' ? (
+        <EditStudio toUpdateStudio={toUpdateStudio} role={role} setOpenView={setOpenView} />
+      ) : null}
       {openView === 'delete' ? (
         <DeleteModal
           loading={loading}
