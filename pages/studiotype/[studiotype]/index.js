@@ -27,7 +27,7 @@ export async function getServerSideProps(context) {
   } else if (type === 'premiumstudio') {
     studioType = 'Premium Studio';
   }
-  const getStudiosWithType = await StudioListing.find({ studiotype: 'Home Studio' })
+  const getStudiosWithType = await StudioListing.find({ studiotype: studioType })
     .populate({
       path: 'studioService',
       model: 'StudioService',
