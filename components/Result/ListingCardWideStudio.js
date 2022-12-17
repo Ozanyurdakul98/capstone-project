@@ -30,8 +30,8 @@ function ListingCardWideStudio({
         preview
           ? '#'
           : {
-              pathname: '/studiotype/[path]/id/[type]/[title]/[id]',
-              query: { path: `${path}`, type: `${type}`, title: `${title}`, id: `${id}` },
+              pathname: '/studiotype/[type]/id/[title]/[id]',
+              query: { type: `${type}`, title: `${title}`, id: `${id}` },
             }
       }>
       <article>

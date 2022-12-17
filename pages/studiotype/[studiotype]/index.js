@@ -18,7 +18,6 @@ StudioTypeResults.getLayout = function getLayout(page) {
 export async function getServerSideProps(context) {
   await db.connect();
   const { studiotype } = context.query;
-  let sanitizedStudios;
   let type;
   if (studiotype === 'homestudio') {
     type = 'Home Studio';
