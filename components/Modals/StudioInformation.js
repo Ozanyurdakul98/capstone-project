@@ -31,24 +31,15 @@ export default function StudioInformation({ studio, setOpenView }) {
             </div>
           </section>
           {/* sideinfo */}
-          <section className="pb-20 pl-5">
-            {/* location */}
-            <p className="flex gap-1">
-              Location: <span className="font-semibold">{studio.studioLocation}</span>
-            </p>
-            {/* OpeningHours */}
-            <p className="flex gap-1">
-              Opening Hours: <span className="font-semibold">{studio.openingHours}</span>
-            </p>
-            {/* StudioType */}
-            <p className="flex gap-1">
-              Studio Type: <span className="font-semibold">{studio.studiotype}</span>
-            </p>
-            {/* StudioSocials */}
-            <p className="flex gap-1 whitespace-nowrap">
-              Studio Languages:
-              <span className="whitespace-normal font-semibold">{studio.studioLanguages.join(', ')}</span>
-            </p>
+          <section className="grid grid-flow-row grid-cols-fr2fr overflow-x-hidden pb-20 pl-5">
+            <p className="flex gap-1">Location:</p>
+            <p className="font-semibold">{studio.studioLocation}</p>
+            <p className="flex gap-1">Studio Type:</p>
+            <p className="font-semibold">{studio.studiotype}</p>
+            <p className="flex gap-1">Studio Languages:</p>
+            <p className="font-semibold">{studio.studioLanguages.join(', ')}</p>
+            <p>Location Features:</p>
+            <div className="flex gap-1 break-normal font-semibold">{studio.locationFeatures.join(', ')}</div>
           </section>
         </div>
         <div>

@@ -15,7 +15,7 @@ function StudioDetailpage({ serializedStudio, studioServicesCount, serializedStu
   // eslint-disable-next-line no-unused-vars
   const router = useRouter();
   const studio = serializedStudio[0];
-
+  console.log(studio.locationFeatures);
   return (
     <div className="relative">
       <Head>
@@ -140,19 +140,6 @@ function StudioDetailpage({ serializedStudio, studioServicesCount, serializedStu
                 </svg>
                 ID: <span className=" pl-1 font-semibold">{studio._id}</span>
               </li>
-              <li className="col-start-2 row-start-2 flex items-center">
-                <svg
-                  className="mr-1 h-4 w-4"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    fillRule="evenodd"
-                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                    clipRule="evenodd"></path>
-                </svg>
-                Capacity: <span className="pl-1 font-semibold">{studio.maxGuests + ' Guests max'}</span>
-              </li>
               <li className="col-start-2 row-start-3 flex items-center">
                 <svg
                   className="mr-1 h-4 w-4"
@@ -164,7 +151,10 @@ function StudioDetailpage({ serializedStudio, studioServicesCount, serializedStu
                     d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                     clipRule="evenodd"></path>
                 </svg>
-                Beds: <span className="pl-1 font-semibold">No Sleepover</span>
+                Beds:{' '}
+                <span className="pl-1 font-semibold">
+                  {studio.sleepOver ? studio.sleepOver.bedsCount : 'No Sleepover'}
+                </span>
               </li>
               <li className="col-start-2 row-start-4 flex items-center">
                 <svg
@@ -177,7 +167,10 @@ function StudioDetailpage({ serializedStudio, studioServicesCount, serializedStu
                     d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                     clipRule="evenodd"></path>
                 </svg>
-                Studio rooms: <span className="pl-1 font-semibold">3</span>
+                Sleepover Capacity:
+                <span className="pl-1 font-semibold">
+                  {studio.sleepOver ? studio.sleepOver.maxPeople : 'No Sleepover'}
+                </span>
               </li>
               <li className="col-start-2 row-start-5 flex items-center sm:col-start-3 sm:row-start-1">
                 <svg
@@ -192,7 +185,23 @@ function StudioDetailpage({ serializedStudio, studioServicesCount, serializedStu
                 </svg>
                 Studio size: <span className="pl-1 font-semibold">78 sqm</span>
               </li>
-              <li className="col-start-2 row-start-6 flex items-center sm:col-start-3 sm:row-start-2">
+              <li className="col-start-2 row-start-6 flex items-center sm:col-start-3 sm:row-start-1">
+                <svg
+                  className="mr-1 h-4 w-4"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    fillRule="evenodd"
+                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                    clipRule="evenodd"></path>
+                </svg>
+                Studio Rooms:{' '}
+                <span className="pl-1 font-semibold">
+                  {studio.studioInformation.studioRooms ? studio.studioInformation.studioRooms : '/'}
+                </span>
+              </li>
+              <li className="col-start-2 row-start-7 flex items-center sm:col-start-3 sm:row-start-2">
                 <svg
                   className="mr-1 h-4 w-4"
                   fill="currentColor"
