@@ -7,7 +7,6 @@ export function Resultpage(props) {
         <h1 className="h2">{props.header}</h1>
       </div>
       <div className="mt-5">
-        {console.log(props.studios)}
         {props.studios.map(
           ({
             _id,
