@@ -80,7 +80,7 @@ function StudioDetailpage({ serializedStudio, studioServicesCount, serializedStu
                 <div className="flex justify-center pb-0 sm:pt-2 lg:pt-4">
                   <div className="p-3 text-center">
                     <span className="block text-xl font-bold uppercase tracking-wide text-slate-700">
-                      {studioServicesCount}
+                      {studioServicesCount ? studioServicesCount : '0'}
                     </span>
                     <span className="text-sm text-slate-400">Services</span>
                   </div>
@@ -219,9 +219,9 @@ function StudioDetailpage({ serializedStudio, studioServicesCount, serializedStu
           </section>
           {/* Studiofeatures */}
           <section className="mb-14 px-7 text-xs text-gray-600 md:text-sm">
-            <ul className="grid grid-cols-smbg gap-2 sm:grid-cols-smbgsm ">
+            <ul className="grid grid-cols-smbg gap-2 sm:grid-cols-smbgbg ">
               <li className="h2LandingP col-start-1 row-span-2 text-sm font-bold lg:text-base">Studio Features</li>
-              <ul className="grid grid-cols-2 gap-2 lg:pl-5">
+              <ul className="grid grid-cols-2 gap-2">
                 {studio.locationFeatures.map((feature) => (
                   <li key={feature} className="col-auto flex items-center">
                     <svg

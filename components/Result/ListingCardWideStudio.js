@@ -50,7 +50,7 @@ function ListingCardWideStudio({
                   <div className="relative h-8 w-8 shrink-0 md:h-10 md:w-10 lg:h-12 lg:w-12">
                     <Image src={user.avatar} layout="fill" objectFit="cover" className="rounded-full" alt="Thumbnail" />
                   </div>
-                  <p className="truncate text-xs text-gray-400">{'uiwnd3uawndiuwadi98!'}</p>
+                  <p className="truncate text-xs text-gray-400">{user.username}</p>
                 </div>
               </div>
               {/* studiotype */}
