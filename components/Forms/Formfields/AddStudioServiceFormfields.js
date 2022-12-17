@@ -146,9 +146,9 @@ export function AddStudioServiceFormfields(props) {
               </div>
             </label>
             <p className="pl-2 text-sm md:pl-5">
-              {props.checked.imageName ? props.checked.imageName : 'Please select a picture'}
+              {props.checked?.imageName ? props.checked?.imageName : 'Please select a picture'}
             </p>
-            {props.form.images?.primary || props.checked.imagesPreview ? (
+            {props.form.images?.primary || props.checked?.imagesPreview ? (
               <button type="button" onClick={props.handleDeleteImage} className="absolute top-0 right-6 p-2 lg:right-2">
                 <MdDeleteForever className="relative z-20 h-8 w-8 text-red-500 hover:text-red-400" />
               </button>

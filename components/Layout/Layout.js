@@ -11,7 +11,7 @@ export default function Layout({ children }) {
   const { data: session, status } = useSession();
   useEffect(() => {
     if (status === 'loading') return;
-    if (session && !session?.token.id) {
+    if (session && !session.token.id) {
       signOut({
         callbackUrl: '/signin',
       });
