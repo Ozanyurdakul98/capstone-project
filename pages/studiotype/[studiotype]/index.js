@@ -26,7 +26,6 @@ export async function getServerSideProps(context) {
   } else if (studiotype === 'premiumstudio') {
     type = 'Premium Studio';
   }
-  console.log(type, 'studiotype');
   const getStudiosWithType = await StudioListing.find({ studiotype: type })
     .populate({
       path: 'user',
