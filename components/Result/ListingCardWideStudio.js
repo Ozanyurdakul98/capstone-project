@@ -5,7 +5,7 @@ import { IoIosWifi } from 'react-icons/io';
 import { RiParkingBoxLine } from 'react-icons/ri';
 import { TbSmoking } from 'react-icons/tb';
 import { MdBed, MdFastfood } from 'react-icons/md';
-import Link from 'next/link';
+import { MyLink } from '../MyLink';
 
 function ListingCardWideStudio({
   id,
@@ -22,7 +22,7 @@ function ListingCardWideStudio({
   const type = studiotype?.toLowerCase().replace(/ /g, '');
   const title = studioName?.toLowerCase().replace(/ /g, '-');
   return (
-    <Link
+    <MyLink
       href={
         preview
           ? '#'
@@ -88,7 +88,7 @@ function ListingCardWideStudio({
           </div>
         </div>
       </article>
-    </Link>
+    </MyLink>
   );
 }
 

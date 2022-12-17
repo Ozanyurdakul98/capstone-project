@@ -33,7 +33,8 @@ export function Resultpage(props) {
               openingHours={openingHours}
               locationFeatures={locationFeatures}
               user={user}
-              studioLocation={studioLocation}></ListingCardWideStudio>
+              studioLocation={studioLocation}
+            />
           )
         )}
       </div>

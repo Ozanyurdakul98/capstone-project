@@ -1,9 +1,9 @@
 //db
 import db from '../../../../../lib/dbConnect';
-import StudioListing from '../../../../../models/StudioListing';
+// import StudioListing from '../../../../../models/StudioListing';
 //components
 import StudiosDetailpage from '../../../../../components/Layout/StudiosDetailpage';
-import moment from 'moment';
+// import moment from 'moment';
 import Image from 'next/image';
 import Head from 'next/head';
 import { MyLink } from '../../../../../components/MyLink';
@@ -27,27 +27,29 @@ import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../../../../../c
 import { DateRange } from 'react-date-range';
 import format from 'date-fns/format';
 import { FormInput } from '../../../../../components/Forms/FormInput';
+import StudioService from '../../../../../models/StudioService';
 
-function StudioDetailpage({ serializedStudio, breadCrumb }) {
+function StudioDetailpage({ serializedStudioservice }) {
   const router = useRouter();
-  const studio = serializedStudio[0];
+  const Service = serializedStudioservice;
+  console.log('Serivce', Service);
   const imgs = [
-    { id: 0, value: studio.images },
-    { id: 1, value: studio.images },
-    { id: 2, value: studio.images },
-    { id: 3, value: 'https://source.unsplash.com/user/c_v_r/1900x800' },
-    { id: 4, value: 'https://source.unsplash.com/user/c_v_r/100x100' },
-    { id: 5, value: studio.images },
+    { id: 0, value: Service.images.primary },
+    // { id: 1, value: studio.images },
+    // { id: 2, value: studio.images },
+    // { id: 3, value: 'https://source.unsplash.com/user/c_v_r/1900x800' },
+    // { id: 4, value: 'https://source.unsplash.com/user/c_v_r/100x100' },
+    // { id: 5, value: studio.images },
   ];
   const [wordData, setWordData] = useState(imgs[0]);
-  const handleClick = (index) => {
-    const wordSlider = imgs[index];
-    setWordData(wordSlider);
-  };
   const [openPanel, setOpenPanel] = useState('');
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
 
+  const handleClick = (index) => {
+    const wordSlider = imgs[index];
+    setWordData(wordSlider);
+  };
   const selectionRange = {
     startDate: startDate,
     endDate: endDate,
@@ -75,7 +77,7 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
       {/* HeaderImage */}
       <section className="relative h-[250px] w-screen sm:h-[250px] md:h-[350px] lg:h-[450px] xl:h-[600px] ">
         <Image
-          src={studio.images}
+          src={Service.images.primary}
           layout="fill"
           objectFit="cover"
           objectPosition={'center'}
@@ -89,6 +91,7 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
         <section className="rounded-md bg-white py-16 text-black shadow-lg">
           {/* Headersection */}
           <section className="mb-14 flex flex-col gap-2 px-7 text-xs">
+            {/* breadcrumb */}
             <nav className="flex" aria-label="Breadcrumb">
               <ol className="inline-flex items-center space-x-1 md:space-x-3">
                 <li className="inline-flex items-center">
@@ -121,7 +124,7 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
                       type="button"
                       onClick={() => router.back()}
                       className="ml-1 font-medium text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white md:ml-2">
-                      {breadCrumb}
+                      {Service.service.name}
                     </button>
                   </div>
                 </li>
@@ -144,7 +147,7 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
             </nav>
             <div className="flex items-center justify-between gap-5 sm:pr-7">
               <div className="flex flex-col gap-1">
-                <h1 className="h1LandingP">{studio.listingTitle}</h1>
+                <h1 className="h1LandingP">{Service.listingTitle}</h1>
                 <h3 className="flex items-center gap-2 text-gray-500">
                   <svg
                     className="h-5 w-5 text-black"
@@ -163,12 +166,12 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
                       strokeWidth="2"
                       d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                   </svg>
-                  {studio.studioLocation}
+                  {Service.studio.studioLocation}
                 </h3>
               </div>
               <div className="relative flex h-14 w-14 shrink-0 md:h-16 md:w-16 xl:h-20 xl:w-20">
                 <Image
-                  src={studio.user.avatar}
+                  src={Service.user.avatar}
                   layout="fill"
                   className="rounded-full bg-gray-200 "
                   objectFit="cover"
@@ -180,26 +183,30 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
           </section>
           {/* FeatureSection */}
           <section className=" mb-14 text-sm text-gray-600">
-            <div className="grid grid-cols-4 text-xs sm:text-sm [&>div]:border [&>div]:border-r-0 [&>div]:p-5 [&>div]:md:py-7 [&>_:last-child]:border-r-0 [&>_:first-child]:border-l-0 [&>*]:whitespace-nowrap [&>*]:text-center">
+            <div className="grid grid-cols-4 text-xs sm:text-sm [&>*]:whitespace-nowrap [&>*]:text-center [&>div]:border [&>div]:border-r-0 [&>div]:p-5 [&>div]:md:py-7 [&>_:last-child]:border-r-0 [&>_:first-child]:border-l-0">
               <div className="flex flex-col items-center justify-center gap-1">
                 <HomeIcon className="landingP-icon" />
                 <p>Studio Type</p>
-                <p className="font-bold">{studio.studiotype}</p>
+                <p className="font-bold">{Service.studio.studiotype}</p>
               </div>
               <div className="flex flex-col items-center justify-center gap-1">
                 <UserIcon className="landingP-icon" />
                 <p>Capacity</p>
-                <p className="font-bold">{studio.maxGuests + ' Guests'}</p>
+                <p className="font-bold">{Service.studio.maxGuests + ' Guests'}</p>
               </div>
               <div className="flex flex-col items-center justify-center gap-1">
                 <WifiIcon className="landingP-icon" />
                 <p>Wifi</p>
-                <p className="font-bold">{studio.locationFeatures.includes('Wi-Fi') ? 'Available' : 'Not available'}</p>
+                <p className="font-bold">
+                  {Service.studio.locationFeatures.includes('Wi-Fi') ? 'Available' : 'Not available'}
+                </p>
               </div>
               <div className="flex flex-col items-center justify-center gap-1">
                 <GiCigarette className="landingP-icon" />
                 <p>Smoking</p>
-                <p className="font-bold">{studio.locationFeatures.includes('Smoking') ? 'Allowed' : 'Not allowed'}</p>
+                <p className="font-bold">
+                  {Service.studio.locationFeatures.includes('Smoking') ? 'Allowed' : 'Not allowed'}
+                </p>
               </div>
             </div>
           </section>
@@ -237,7 +244,7 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
                     d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                     clipRule="evenodd"></path>
                 </svg>
-                ID: <span className=" pl-1 font-semibold">{studio._id}</span>
+                Studioservice id: <span className=" pl-1 font-semibold">{Service._id}</span>
               </li>
               <li className="col-start-2 row-start-2 flex items-center">
                 <svg
@@ -250,7 +257,7 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
                     d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                     clipRule="evenodd"></path>
                 </svg>
-                Capacity: <span className="pl-1 font-semibold">{studio.maxGuests + ' Guests max'}</span>
+                Capacity: <span className="pl-1 font-semibold">{Service.maxGuests + ' Guests max'}</span>
               </li>
               <li className="col-start-2 row-start-3 flex items-center">
                 <svg
@@ -302,7 +309,7 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
                     d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                     clipRule="evenodd"></path>
                 </svg>
-                Studio type: <span className="pl-1 font-semibold">{studio.studiotype}</span>
+                Studio type: <span className="pl-1 font-semibold">{Service.studio.studiotype}</span>
               </li>
             </ul>
           </section>
@@ -324,8 +331,7 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
                   </svg>
                   <span className="whitespace-nowrap">Studio services:</span>
                 </div>
-                <span className="pl-1 font-semibold">{studio.studioService.join(', ')}</span>
-                {/* <span className="pl-1 font-semibold">{studio.studioService.map((service) => service + ', ')}</span> */}
+                <span className="pl-1 font-semibold">{Service.service.name}</span>
               </li>
             </ul>
           </section>
@@ -361,7 +367,7 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
                 </svg>
                 Hourly:
                 <span className=" pl-1 font-semibold">
-                  {studio.studioPricing.studioPricingHour ? studio.studioPricing.studioPricingHour + '€' : '/'}
+                  {Service.pricing.pricingHour ? Service.pricing.pricingHour + '€' : '/'}
                 </span>
               </li>
               <li className="col-start-2 row-start-2 flex items-center">
@@ -377,7 +383,7 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
                 </svg>
                 Daily:
                 <span className=" pl-1 font-semibold">
-                  {studio.studioPricing.studioPricingDay ? studio.studioPricing.studioPricingDay + '€' : '/'}
+                  {Service.pricing.pricingHour ? Service.pricing.pricingHour + '€' : '/'}
                 </span>
               </li>
               <li className="col-start-2 row-start-3 flex items-center">
@@ -407,7 +413,7 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
                 </svg>
                 Weekly (7 Days):
                 <span className=" pl-1 font-semibold">
-                  {studio.studioPricing.studioPricingWeek ? studio.studioPricing.studioPricingWeek + '€' : '/'}
+                  {Service.pricing.pricingHour ? Service.pricing.pricingHour + '€' : '/'}
                 </span>
               </li>
               <li className="col-start-2 row-start-5 flex items-center">
@@ -423,7 +429,7 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
                 </svg>
                 Monthly (30 Days):
                 <span className=" pl-1 font-semibold">
-                  {studio.studioPricing.studioPricingMonth ? studio.studioPricing.studioPricingMonth + '€' : '/'}
+                  {Service.pricing.pricingHour ? Service.pricing.pricingHour + '€' : '/'}
                 </span>
               </li>
               <li className="col-start-2 row-start-6 flex items-center sm:col-start-3 sm:row-start-1">
@@ -472,7 +478,7 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
             <ul className="grid grid-cols-smbg gap-2 sm:grid-cols-smbgsm ">
               <li className="h2LandingP col-start-1 row-span-2 text-sm font-bold lg:text-base">Studio Features</li>
               <ul className="grid grid-cols-2 gap-2 lg:pl-5">
-                {studio.locationFeatures.map((feature) => (
+                {Service.studio.locationFeatures.map((feature) => (
                   <li key={feature} className="col-auto flex items-center">
                     <svg
                       className="mr-1 h-4 w-4"
@@ -495,21 +501,7 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
             <ul className="grid grid-cols-smbg gap-2  sm:grid-cols-smbgsm">
               <ul className="col-start-2 grid grid-cols-2 gap-2 lg:pl-5">
                 <li className="col-span-2 font-semibold text-black">Equipment</li>
-                {studio.locationFeatures.map((feature) => (
-                  <li key={feature} className="col-auto flex items-center">
-                    <svg
-                      className="mr-1 h-4 w-4"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        fillRule="evenodd"
-                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                        clipRule="evenodd"></path>
-                    </svg>
-                    {'Equipment XYZ'}
-                  </li>
-                ))}
+                {Service.equipment}
               </ul>
             </ul>
           </section>
@@ -522,84 +514,165 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
             <ul className="grid grid-cols-smbg gap-2 sm:grid-cols-smbgbg">
               <li className="h2LandingP col-start-1 row-span-2 text-sm font-bold lg:text-base">Studio Rules</li>
               <ul className="grid max-w-md list-inside gap-2 space-y-1 dark:text-gray-400 sm:col-span-2">
+                {/* smoking */}
                 <li className="flex items-center justify-between">
                   <span className="flex">
-                    <svg
-                      className="mr-1.5 h-5 w-5 shrink-0 text-red-400"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        fillRule="evenodd"
-                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                        clipRule="evenodd"></path>
-                    </svg>
+                    {Service.studio.studioRules.includes('Smoking') ? (
+                      <svg
+                        className="mr-1.5 h-5 w-5 shrink-0 text-green-500 dark:text-green-400"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          fillRule="evenodd"
+                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                          clipRule="evenodd"></path>
+                      </svg>
+                    ) : (
+                      <svg
+                        className="mr-1.5 h-5 w-5 shrink-0 text-red-400"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          fillRule="evenodd"
+                          d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                          clipRule="evenodd"></path>
+                      </svg>
+                    )}
                     Smoking allowed:
                   </span>
-                  <span className="font-semibold">No</span>
+                  <span className="font-semibold">{Service.studio.studioRules.includes('Smoking') ? 'Yes' : 'No'}</span>
                 </li>
+                {/* pets */}
                 <li className="flex items-center justify-between">
                   <span className="flex">
-                    <svg
-                      className="mr-1.5 h-5 w-5 shrink-0 text-green-500 dark:text-green-400"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        fillRule="evenodd"
-                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                        clipRule="evenodd"></path>
-                    </svg>
+                    {Service.studio.studioRules.includes('Pets') ? (
+                      <svg
+                        className="mr-1.5 h-5 w-5 shrink-0 text-green-500 dark:text-green-400"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          fillRule="evenodd"
+                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                          clipRule="evenodd"></path>
+                      </svg>
+                    ) : (
+                      <svg
+                        className="mr-1.5 h-5 w-5 shrink-0 text-red-400"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          fillRule="evenodd"
+                          d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                          clipRule="evenodd"></path>
+                      </svg>
+                    )}
                     Pets allowed:
                   </span>
-                  <span className="font-semibold">Yes</span>
+                  <span className="font-semibold">{Service.studio.studioRules.includes('Pets') ? 'Yes' : 'No'}</span>
                 </li>
+                {/* kids */}
                 <li className="flex items-center justify-between">
                   <span className="flex">
-                    <svg
-                      className="mr-1.5 h-5 w-5 shrink-0 text-green-500 dark:text-green-400"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        fillRule="evenodd"
-                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                        clipRule="evenodd"></path>
-                    </svg>
-                    Party allowed:
-                  </span>
-                  <span className="font-semibold">Yes</span>
-                </li>
-                <li className="flex items-center justify-between">
-                  <span className="flex">
-                    <svg
-                      className="mr-1.5 h-5 w-5 shrink-0 text-green-500 dark:text-green-400"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        fillRule="evenodd"
-                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                        clipRule="evenodd"></path>
-                    </svg>
+                    {Service.studio.studioRules.includes('Kids') ? (
+                      <svg
+                        className="mr-1.5 h-5 w-5 shrink-0 text-green-500 dark:text-green-400"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          fillRule="evenodd"
+                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                          clipRule="evenodd"></path>
+                      </svg>
+                    ) : (
+                      <svg
+                        className="mr-1.5 h-5 w-5 shrink-0 text-red-400"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          fillRule="evenodd"
+                          d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                          clipRule="evenodd"></path>
+                      </svg>
+                    )}
                     Kids allowed:
                   </span>
-                  <span className="font-semibold">Yes</span>
+                  <span className="font-semibold">{Service.studio.studioRules.includes('Kids') ? 'Yes' : 'No'}</span>
                 </li>
+                <li className="flex items-center justify-between">
+                  <span className="flex">
+                    {Service.studio.studioRules.includes('Eating') ? (
+                      <svg
+                        className="mr-1.5 h-5 w-5 shrink-0 text-green-500 dark:text-green-400"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          fillRule="evenodd"
+                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                          clipRule="evenodd"></path>
+                      </svg>
+                    ) : (
+                      <svg
+                        className="mr-1.5 h-5 w-5 shrink-0 text-red-400"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          fillRule="evenodd"
+                          d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                          clipRule="evenodd"></path>
+                      </svg>
+                    )}
+                    Eating allowed:
+                  </span>
+                  <span className="font-semibold">{Service.studio.studioRules.includes('Eating') ? 'Yes' : 'No'}</span>
+                </li>
+                <li className="mb-5 flex items-center justify-between">
+                  <span className="flex">
+                    {Service.studio.studioRules.includes('Party') ? (
+                      <svg
+                        className="mr-1.5 h-5 w-5 shrink-0 text-green-500 dark:text-green-400"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          fillRule="evenodd"
+                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                          clipRule="evenodd"></path>
+                      </svg>
+                    ) : (
+                      <svg
+                        className="mr-1.5 h-5 w-5 shrink-0 text-red-400"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          fillRule="evenodd"
+                          d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                          clipRule="evenodd"></path>
+                      </svg>
+                    )}
+                    Party allowed:
+                  </span>
+                  <span className="font-semibold">{Service.studio.studioRules.includes('Party') ? 'Yes' : 'No'}</span>
+                </li>
+                {/* Additional StudioRules */}
+                {Service.studio.additionalStudioRules ? (
+                  <li>
+                    <section className="px-2 text-xs text-gray-600 lg:text-sm">
+                      <h4 className="font-semibold text-black">Additional Rules</h4>
+                      <p className="">{Service.studio.additionalStudioRules}</p>
+                    </section>
+                  </li>
+                ) : null}
               </ul>
             </ul>
-          </section>
-          {/* Additional StudioRules */}
-          <section className="mb-14 border-b px-7 pb-14 text-xs text-gray-600 lg:text-sm">
-            <div className="grid grid-cols-smbg gap-2 sm:grid-cols-smbgbg">
-              <div className="col-span-2 col-start-2 flex flex-col gap-2">
-                <h4 className="font-semibold text-black">Additional Rules</h4>
-                <p className="">
-                  Adipisicing quis sint nisi occaecat nisi adipisicing Lorem sunt tempor anim excepteur. Cupidatat
-                  eiusmod consectetur aute exercitation commodo anim nulla esse incididunt culpa dolore in sint.
-                </p>
-              </div>
-            </div>
           </section>
           {/* Availability */}
           <section className="px-7 pb-10 text-xs text-gray-600 lg:text-sm">
@@ -744,25 +817,25 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
               <div className="flex items-center pl-5">
                 <span className="self-start pr-1">€</span>
                 <span className="text-2xl">
-                  {studio.studioPricing.studioPricingHour
-                    ? studio.studioPricing.studioPricingHour
-                    : studio.studioPricing.studioPricingDay
-                    ? studio.studioPricing.studioPricingDay
-                    : studio.studioPricing.studioPricingWeek
-                    ? studio.studioPricing.studioPricingWeek
-                    : studio.studioPricing.studioPricingMonth
-                    ? studio.studioPricing.studioPricingMonth
+                  {Service.pricing.pricingHour
+                    ? Service.pricing.pricingHour
+                    : Service.pricing.pricingHour
+                    ? Service.pricing.pricingHour
+                    : Service.pricing.pricingHour
+                    ? Service.pricing.pricingHour
+                    : Service.pricing.pricingHour
+                    ? Service.pricing.pricingHour
                     : null}
                 </span>
                 <span className="pt-[2px] text-xl">/</span>
                 <span className="pt-1">
-                  {studio.studioPricing.studioPricingHour
+                  {Service.pricing.pricingHour
                     ? 'Hour'
-                    : studio.studioPricing.studioPricingDay
+                    : Service.pricing.pricingHour
                     ? 'Day'
-                    : studio.studioPricing.studioPricingWeek
+                    : Service.pricing.pricingHour
                     ? 'Week'
-                    : studio.studioPricing.studioPricingMonth
+                    : Service.pricing.pricingHour
                     ? 'Month'
                     : null}
                 </span>
@@ -859,7 +932,7 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
                             className="number-search text-center disabled:text-white"
                             type="number"
                             min={1}
-                            max={studio.maxGuests}
+                            max={Service.maxGuests}
                             value={noOfGuests}
                             disabled
                           />
@@ -867,7 +940,7 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
                             type="button"
                             className="icon-big"
                             onClick={incrementNumberGuests}
-                            disabled={noOfGuests === studio.maxGuests}>
+                            disabled={noOfGuests === Service.maxGuests}>
                             <PlusCircleIcon />
                           </button>
                         </div>
@@ -957,7 +1030,7 @@ function StudioDetailpage({ serializedStudio, breadCrumb }) {
                 <div className="relative">
                   <div className="absolute -m-16 -ml-20 h-[150px] w-[150px] rounded-full border-none align-middle shadow-xl">
                     <Image
-                      src={studio.user.avatar}
+                      src={Service.user.avatar}
                       alt="profile picture"
                       className="rounded-full "
                       layout="fill"
@@ -1033,33 +1106,51 @@ StudioDetailpage.getLayout = function getLayout(page) {
 
 export async function getServerSideProps(context) {
   await db.connect();
-  const id = context.query.id[2];
-  let breadCrumb = context.query.service;
-  if (breadCrumb === 'recording') breadCrumb = 'Recording';
-  const fetchStudio = await StudioListing.findById(id)
-    .populate({
-      path: 'studioService',
-      model: 'StudioService',
-      select: 'name -_id',
-    })
+  const id = context.query.id[1];
+  console.log('id', id);
+  // const fetchStudio = await StudioListing.findById(id).populate({
+  //   path: 'user',
+  //   model: 'users',
+  //   select: 'avatar email name lastname username',
+  // });
+  // const serializeStudio = [JSON.parse(JSON.stringify(fetchStudio))];
+  // const serializedStudio = serializeStudio.map((studio) => ({
+  //   ...studio,
+  //   createdAt: moment(studio.createdAt).format('DD/MM/yyyy'),
+  //   createdAtTime: moment(studio.createdAt).format('kk:mm'),
+  //   updatedAt: moment(studio.updatedAt).format('DD/MM/yyyy'),
+  //   updatedAtTime: moment(studio.updatedAt).format('kk:mm'),
+  // }));
+
+  // const userId = serializeStudio[0].user._id;
+  // const studioServicesByStudioCount = await StudioService.find({ studio: id }).count();
+  // const studioServicesByUserCount = await StudioService.find({ user: userId }).count();
+  // const studioListingsCount = await StudioListing.find({ user: userId }).count();
+
+  const fetchStudioservice = await StudioService.findById(id)
     .populate({
       path: 'user',
       model: 'users',
       select: 'avatar email name lastname username',
+    })
+    .populate({
+      path: 'studio',
+      model: 'StudioListing',
+      select: '',
+    })
+    .populate({
+      path: 'service',
+      model: 'AdminStudioService',
+      select: 'name queryString -_id',
     });
-  const serializeStudio = [JSON.parse(JSON.stringify(fetchStudio))];
-  const serializedStudio = serializeStudio.map((studio) => ({
-    ...studio,
-    studioService: studio.studioService.map((service) => service.name),
-    createdAt: moment(studio.createdAt).format('DD/MM/yyyy'),
-    createdAtTime: moment(studio.createdAt).format('kk:mm'),
-    updatedAt: moment(studio.updatedAt).format('DD/MM/yyyy'),
-    updatedAtTime: moment(studio.updatedAt).format('kk:mm'),
-  }));
+  const serializeStudioservice = JSON.parse(JSON.stringify(fetchStudioservice));
   return {
     props: {
-      serializedStudio: serializedStudio,
-      breadCrumb: breadCrumb || null,
+      // serializedStudio: serializedStudio,
+      serializedStudioservice: serializeStudioservice || null,
+      // studioServicesCount: studioServicesByStudioCount || null,
+      // studioServicesByUserCount: studioServicesByUserCount || null,
+      // studioListingsCount: studioListingsCount || null,
     },
   };
 }

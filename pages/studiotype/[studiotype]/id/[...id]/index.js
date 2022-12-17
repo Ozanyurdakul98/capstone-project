@@ -108,6 +108,7 @@ function StudioDetailpage({
               ({ _id, listingTitle, description, service, maxGuests, images, soundengineer, pricing }) => (
                 <ListingCardCarousellStudioService
                   key={_id}
+                  id={_id}
                   listingTitle={listingTitle}
                   images={images}
                   service={service}
@@ -530,7 +531,7 @@ export async function getServerSideProps(context) {
     .populate({
       path: 'service',
       model: 'AdminStudioService',
-      select: 'name -_id',
+      select: 'name queryString -_id',
     });
   const serializeStudioservices = JSON.parse(JSON.stringify(fetchStudioservices));
   return {

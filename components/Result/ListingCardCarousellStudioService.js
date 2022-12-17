@@ -6,8 +6,11 @@ import { IoPeopleCircleSharp } from 'react-icons/io5';
 import { RiParkingBoxLine } from 'react-icons/ri';
 import { TbSmoking } from 'react-icons/tb';
 import { MdBed } from 'react-icons/md';
+import { MyLink } from '../MyLink';
 
 function ListingCardCarousellStudioService({
+  preview,
+  id,
   listingTitle,
   images,
   studiotype,
@@ -19,8 +22,11 @@ function ListingCardCarousellStudioService({
   locationFeatures,
   studio,
 }) {
+  console.log(service);
+  const title = listingTitle?.toLowerCase().replace(/ /g, '-');
+
   return (
-    <div className="mx-1">
+    <MyLink href={preview ? '#' : `/studioservice/${service.queryString}/id/${title}/${id}`} className="mx-1">
       <article className="relative mb-10  flex min-h-[392px] w-full max-w-[250px] cursor-pointer flex-col rounded-lg bg-white shadow-lg hover:opacity-90 hover:shadow-lg">
         {/* image */}
         <div className="relative h-40 w-full  shrink-0">
@@ -123,7 +129,7 @@ function ListingCardCarousellStudioService({
           </div>
         </div>
       </article>
-    </div>
+    </MyLink>
   );
 }
 
