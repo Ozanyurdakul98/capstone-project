@@ -6,7 +6,7 @@ import { AdminCreateStudioService } from './AdminCreateStudioService';
 import { Spinner } from '../Spinner';
 import { ValidateCreateStudioService } from '../../helpers/Validate';
 
-function EditStudioService({ toUpdateStudioService, setOpenStudioServiceEditView }) {
+function EditAdminStudioService({ toUpdateStudioService, setOpenStudioServiceEditView }) {
   const data = toUpdateStudioService;
   const defaultPic = '/images/Thumbnail-default.png';
   const [form, setForm] = useState(data);
@@ -185,4 +185,4 @@ function EditStudioService({ toUpdateStudioService, setOpenStudioServiceEditView
   );
 }
 
-export default EditStudioService;
+export default EditAdminStudioService;
