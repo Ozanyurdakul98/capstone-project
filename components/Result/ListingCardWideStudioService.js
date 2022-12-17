@@ -22,7 +22,6 @@ function ListingCardWideStudioService({
 }) {
   const type = studiotype?.toLowerCase().replace(/ /g, '');
   const title = listingTitle?.toLowerCase().replace(/ /g, '-');
-  console.log('studio', studio);
   return (
     <article>
       <Link

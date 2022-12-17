@@ -2,7 +2,6 @@ import Image from 'next/image';
 import { useEffect, useMemo, useState } from 'react';
 import { useTable, useSortBy, useGlobalFilter, useFilters, usePagination } from 'react-table';
 import AllColumnsFilter from '../TableComponents/AllColumnsFilter';
-import ServicesFilter from '../TableComponents/ServicesFilter';
 import StudioTypeFilter from '../TableComponents/StudioTypeFilter';
 import EditStudio from '../../Forms/EditStudio';
 import { TbEdit } from 'react-icons/tb';
@@ -13,11 +12,8 @@ import StudioInformation from '../../Modals/StudioInformation';
 
 export default function MyStudiosTable({ fetchedStudios, role }) {
   const [toUpdateStudio, setToUpdateStudio] = useState();
-  const [studioID, setStudioID] = useState('');
-  const [openEditView, setOpenEditView] = useState(false);
+  const [openView, setOpenView] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [deleteModal, setDeleteModal] = useState(false);
-  const [infoModal, setInfoModal] = useState(false);
   const [deleteModalStrings, setDeleteModalStrings] = useState({
     header: 'Are you sure you want to delete this Studio?',
     message: 'This Studio will be permanently deleted! If you want to delete this Studio, click on Delete.',
@@ -66,8 +62,7 @@ export default function MyStudiosTable({ fetchedStudios, role }) {
         }
         if (res.ok) {
           setToUpdateStudio(studio);
-          setStudioID(rawStudio._id);
-          setOpenEditView(true);
+          setOpenView('edit');
         }
       } catch (error) {
         alert('Something went wrong, Contact us if you need help!', error);
@@ -110,11 +105,9 @@ export default function MyStudiosTable({ fetchedStudios, role }) {
     }
   }
   function openDeleteModal(values) {
-    setStudioID(values._id);
-    setDeleteModalStrings({ ...deleteModalStrings, studioID: values._id });
-    setDeleteModal(true);
+    setToUpdateStudio(values._id);
+    setOpenView('delete');
   }
-
   async function openInfoModal(values) {
     if (values) {
       const id = values._id;
@@ -153,9 +146,8 @@ export default function MyStudiosTable({ fetchedStudios, role }) {
           throw new Error(res.status);
         }
         if (res.ok) {
-          setStudioID(values._id);
           setSelectedStudioInformation(studio);
-          setInfoModal(true);
+          setOpenView('info');
         }
       } catch (error) {
         alert('Something went wrong, Contact us if you need help!', error);
@@ -284,7 +276,6 @@ export default function MyStudiosTable({ fetchedStudios, role }) {
     previousPage,
     setPageSize,
   } = tableInstance;
-  console.log(role);
   return (
     <>
       <div className="mb-5 block max-w-full">
@@ -297,7 +288,6 @@ export default function MyStudiosTable({ fetchedStudios, role }) {
               state={state.globalFilter}
               tableName={'studios'}
             />
-            <ServicesFilter setFilter={setFilter} />
             <StudioTypeFilter
               preGlobalFilteredRows={preGlobalFilteredRows}
               setGlobalFilter={setGlobalFilter}
@@ -394,24 +384,17 @@ export default function MyStudiosTable({ fetchedStudios, role }) {
           </div>
         </div>
       </div>
-      {openEditView ? (
-        <EditStudio toUpdateStudio={toUpdateStudio} studioID={studioID} setOpenEditView={setOpenEditView}></EditStudio>
+      {openView === 'edit' ? <EditStudio toUpdateStudio={toUpdateStudio} setOpenView={setOpenView} /> : null}
+      {openView === 'delete' ? (
+        <DeleteModal
+          loading={loading}
+          id={toUpdateStudio}
+          setOpenView={setOpenView}
+          deleteModalStrings={deleteModalStrings}
+          deleteFunction={handleDelete}
+        />
       ) : null}
-      {deleteModal ? (
-        <>
-          <DeleteModal
-            studioID={studioID}
-            loading={loading}
-            setDeleteModal={setDeleteModal}
-            deleteModalStrings={deleteModalStrings}
-            deleteFunction={handleDelete}></DeleteModal>
-        </>
-      ) : null}
-      {infoModal ? (
-        <>
-          <StudioInformation setOpenModal={setInfoModal} studio={selectedStudioInformation} />
-        </>
-      ) : null}
+      {openView === 'info' ? <StudioInformation setOpenView={setOpenView} studio={selectedStudioInformation} /> : null}
     </>
   );
 }

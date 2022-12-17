@@ -1,10 +1,9 @@
 import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../BackgroundOverlay';
 
-export default function StudioInformation({ studio, setOpenModal }) {
+export default function StudioInformation({ studio, setOpenView }) {
   const handleClickToCloseInfoModal = () => {
-    setOpenModal(false);
+    setOpenView('');
   };
-  console.log(studio);
   return (
     <>
       <div className="searchFadein fixed inset-0 z-50 m-auto h-96 max-w-md rounded-2xl bg-none text-black shadow-xxl lg:h-96">
@@ -58,7 +57,7 @@ export default function StudioInformation({ studio, setOpenModal }) {
             <button
               className="duration-75 ease-in-out hover:scale-110"
               onClick={() => {
-                setOpenModal(false);
+                setOpenView('');
               }}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"

@@ -4,11 +4,11 @@ import { useAsyncDebounce } from 'react-table';
 export default function ServicesFilter({ setFilter }) {
   const [value, setValue] = useState('none');
   const onChange = useAsyncDebounce((value) => {
-    setFilter('services', value || undefined);
+    setFilter('Service', value || undefined);
   }, 300);
   return (
     <div>
-      <h2>Services:</h2>
+      <h2>Service:</h2>
       <select
         className="select-table"
         value={value || ''}

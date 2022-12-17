@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import { AddStudioForm } from './AddStudioForm';
 import { Spinner } from '../Spinner';
 
-function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
+function EditStudio({ toUpdateStudio, setOpenView, studioID }) {
   const data = toUpdateStudio;
   const defaultPic = '/images/Thumbnail-default.png';
   const languages = [
@@ -82,7 +82,7 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
   const router = useRouter();
 
   const handleClickToCloseModal = () => {
-    setOpenEditView(false);
+    setOpenView('');
   };
   const handleDeleteImage = () => {
     setLogoChanged(true);
@@ -196,8 +196,7 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
     };
   }
   function MatchDataWithChecked() {
-    console.log(data);
-    const studioInfo = data.studioInformation;
+ s    const studioInfo = data.studioInformation;
     const studioSleepover = data.sleepOver;
     return () => {
       if (studioInfo) {
@@ -282,8 +281,7 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
     if (data) return data.secure_url;
     else if (!data) return defaultPic;
   };
-  console.log('checked', checked);
-
+ 
   return (
     <>
       <div className="searchFadein fixed inset-0 z-50 m-auto flex h-4/6 w-full flex-col gap-5 rounded-2xl bg-white   pb-5  shadow-xxl md:min-h-72 md:w-11/12 lg:w-8/12 xl:w-6/12">
@@ -352,7 +350,7 @@ function EditStudio({ toUpdateStudio, setOpenEditView, studioID }) {
           {/* Buttons */}
           <div className=" absolute bottom-0 z-40 flex h-16 w-full items-center  justify-between gap-3  rounded-b-xl border-t-2 bg-white px-2 pb-1 pt-5 ">
             <button
-              onClick={() => setOpenEditView(false)}
+              onClick={() => setOpenView('')}
               className="form-button max-w-[250px]  grow justify-center border-none bg-black text-white">
               Cancel
             </button>

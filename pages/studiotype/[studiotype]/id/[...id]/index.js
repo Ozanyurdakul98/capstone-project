@@ -445,7 +445,6 @@ export async function getServerSideProps(context) {
   //   updatedAtTime: moment(studio.updatedAt).format('kk:mm'),
   // }));
 
-  console.log(serializeStudioservices);
   return {
     props: {
       serializedStudio: serializedStudio || null,

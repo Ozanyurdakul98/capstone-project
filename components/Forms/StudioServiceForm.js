@@ -296,7 +296,6 @@ export function StudioServiceForm({
       setForm({ ...form, additionalServices: newArr });
     }
   };
-  console.log(checked);
   return (
     <form noValidate className="text-primary w-full" onSubmit={handleFormSubmit}>
       <AddStudioServiceFormfields

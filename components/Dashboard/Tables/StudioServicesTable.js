@@ -3,7 +3,6 @@ import { useEffect, useMemo, useState } from 'react';
 import { useTable, useSortBy, useGlobalFilter, useFilters, usePagination } from 'react-table';
 import AllColumnsFilter from '../TableComponents/AllColumnsFilter';
 import ServicesFilter from '../TableComponents/ServicesFilter';
-import StudioTypeFilter from '../TableComponents/StudioTypeFilter';
 import { TbEdit } from 'react-icons/tb';
 import { MdDeleteForever, MdInfo } from 'react-icons/md';
 import { useRouter } from 'next/router';
@@ -15,11 +14,8 @@ import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../../Background
 
 export default function StudioServicesTable({ fetchedStudioServices, role, sanitizedAdminStudioServices }) {
   const [toUpdateStudioService, setToUpdateStudioService] = useState();
-  const [studioServiceID, setStudioServiceID] = useState('');
-  const [openEditView, setOpenEditView] = useState(false);
+  const [openView, setOpenView] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [deleteModal, setDeleteModal] = useState(false);
-  const [infoModal, setInfoModal] = useState(false);
   const [deleteModalStrings, setDeleteModalStrings] = useState({
     header: 'Are you sure you want to delete this Studio?',
     message: 'This Studio will be permanently deleted! If you want to delete this Studio, click on Delete.',
@@ -35,7 +31,6 @@ export default function StudioServicesTable({ fetchedStudioServices, role, sanit
   async function handleEdit(values) {
     if (values) {
       const id = values._id;
-      console.log('value', values);
       try {
         const res = await fetch(
           `${role === 'admin' ? '/api/dashboard/admin/studioservice/' : '/api/dashboard/studioservice/'}${id}`,
@@ -70,8 +65,7 @@ export default function StudioServicesTable({ fetchedStudioServices, role, sanit
         }
         if (res.ok) {
           setToUpdateStudioService(studioService);
-          setStudioServiceID(studioServiceRaw._id);
-          setOpenEditView(true);
+          setOpenView('edit');
         }
       } catch (error) {
         alert('Something went wrong, Contact us if you need help!', error);
@@ -114,9 +108,9 @@ export default function StudioServicesTable({ fetchedStudioServices, role, sanit
     }
   }
   function openDeleteModal(values) {
-    setStudioServiceID(values._id);
+    setToUpdateStudioService(values._id);
     setDeleteModalStrings({ ...deleteModalStrings, studioServiceID: values._id });
-    setDeleteModal(true);
+    setOpenView('delete');
   }
   async function openInfoModal(values) {
     if (values) {
@@ -154,9 +148,8 @@ export default function StudioServicesTable({ fetchedStudioServices, role, sanit
           throw new Error(res.status);
         }
         if (res.ok) {
-          setStudioServiceID(values._id);
           setSelectedStudioServiceInformation(studioService);
-          setInfoModal(true);
+          setOpenView('info');
         }
       } catch (error) {
         alert('Something went wrong, Contact us if you need help!', error);
@@ -165,7 +158,7 @@ export default function StudioServicesTable({ fetchedStudioServices, role, sanit
     }
   }
   const handleClickToCloseModal = () => {
-    setOpenEditView(false);
+    setOpenView('');
   };
   useEffect(() => {
     if (fetchedStudioServices) {
@@ -187,6 +180,7 @@ export default function StudioServicesTable({ fetchedStudioServices, role, sanit
       },
       {
         Header: 'Service',
+        id: 'Service',
         accessor: 'service.name',
         disableSortBy: true,
         collapse: false,
@@ -307,14 +301,9 @@ export default function StudioServicesTable({ fetchedStudioServices, role, sanit
               preGlobalFilteredRows={preGlobalFilteredRows}
               setGlobalFilter={setGlobalFilter}
               state={state.globalFilter}
-              tableName={'studioServices'}
+              tableName={'Studioservices'}
             />
             <ServicesFilter setFilter={setFilter} />
-            <StudioTypeFilter
-              preGlobalFilteredRows={preGlobalFilteredRows}
-              setGlobalFilter={setGlobalFilter}
-              setFilter={setFilter}
-            />
           </div>
           <table className="table" {...getTableProps()}>
             <thead className="thead">
@@ -406,7 +395,7 @@ export default function StudioServicesTable({ fetchedStudioServices, role, sanit
           </div>
         </div>
       </div>
-      {openEditView ? (
+      {openView === 'edit' ? (
         <>
           <div className="searchFadein fixed inset-0 z-50 m-auto flex h-4/6 w-full flex-col gap-5 rounded-2xl bg-white   pb-5  shadow-xxl md:min-h-72 md:w-11/12 lg:w-8/12 xl:w-6/12">
             <div className=" overflow-y-scroll sm:px-0">
@@ -425,25 +414,21 @@ export default function StudioServicesTable({ fetchedStudioServices, role, sanit
             </div>
           </div>
           <ClickToCloseMax
-            style={'bg-black/50 editModal   z-40 h-full'}
+            style={'bg-black/50 editModal z-40 h-full'}
             onClick={(event) => handleClickToCloseModal(event)}
           />
         </>
       ) : null}
-      {deleteModal ? (
-        <>
-          <DeleteModal
-            studioServiceID={studioServiceID}
-            loading={loading}
-            setDeleteModal={setDeleteModal}
-            deleteModalStrings={deleteModalStrings}
-            deleteFunction={handleDelete}></DeleteModal>
-        </>
+      {openView === 'delete' ? (
+        <DeleteModal
+          id={toUpdateStudioService}
+          loading={loading}
+          deleteModalStrings={deleteModalStrings}
+          deleteFunction={handleDelete}
+        />
       ) : null}
-      {infoModal ? (
-        <>
-          <StudioServiceInformation setOpenModal={setInfoModal} studioService={selectedStudioServiceInformation} />
-        </>
+      {openView === 'info' ? (
+        <StudioServiceInformation setOpenView={setOpenView} studioService={selectedStudioServiceInformation} />
       ) : null}
     </>
   );

@@ -47,7 +47,6 @@ export default async function handler(req, res) {
     await db.connect();
     try {
       const studioService = await StudioService.create(req.body); /* create a new model in the database */
-      console.log(studioService);
       return res.status(201).json({ success: true, data: studioService });
     } catch (error) {
       console.error(error);
