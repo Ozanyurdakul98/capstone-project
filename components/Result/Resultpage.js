@@ -1,4 +1,4 @@
-import ListingCard from '../../components/Result/ListingCardWideStudioService';
+import ListingCardWideStudio from '../../components/Result/ListingCardWideStudio';
 
 export function Resultpage(props) {
   return (
@@ -7,30 +7,35 @@ export function Resultpage(props) {
         <h1 className="h2">{props.header}</h1>
       </div>
       <div className="mt-5">
+        {console.log(props.studios)}
         {props.studios.map(
           ({
             _id,
-            listingTitle,
-            images,
+            logo,
+            studioName,
+            profileText,
             studiotype,
-            studioService,
-            soundengineer,
-            studioPricing,
+            studioInformation,
+            studioLanguages,
+            openingHours,
             locationFeatures,
             studioLocation,
+            user,
           }) => (
-            <ListingCard
+            <ListingCardWideStudio
               key={_id}
               id={_id}
               path={props.path}
-              listingTitle={listingTitle}
-              images={images}
+              studioName={studioName}
+              logo={logo}
               studiotype={studiotype}
-              studioService={studioService}
-              soundengineer={soundengineer}
-              studioPricing={studioPricing}
+              profileText={profileText}
+              studioInformation={studioInformation}
+              studioLanguages={studioLanguages}
+              openingHours={openingHours}
               locationFeatures={locationFeatures}
-              studioLocation={studioLocation}></ListingCard>
+              user={user}
+              studioLocation={studioLocation}></ListingCardWideStudio>
           )
         )}
       </div>

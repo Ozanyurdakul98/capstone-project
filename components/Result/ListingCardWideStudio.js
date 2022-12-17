@@ -7,17 +7,20 @@ import { TbSmoking } from 'react-icons/tb';
 import { MdBed, MdFastfood } from 'react-icons/md';
 import Link from 'next/link';
 
-function ListingCard({
+function ListingCardWideStudio({
   id,
   path,
   preview,
   logo,
   studioName,
+  profileText,
   studiotype,
+  studioInformation,
   studioLanguages,
   openingHours,
   locationFeatures,
   studioLocation,
+  user,
 }) {
   const type = studiotype?.toLowerCase().replace(/ /g, '');
   const title = studioName?.toLowerCase().replace(/ /g, '-');
@@ -83,4 +86,4 @@ function ListingCard({
   );
 }
 
-export default ListingCard;
+export default ListingCardWideStudio;

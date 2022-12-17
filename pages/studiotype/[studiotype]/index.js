@@ -17,32 +17,30 @@ StudioTypeResults.getLayout = function getLayout(page) {
 
 export async function getServerSideProps(context) {
   await db.connect();
-  const { type } = context.query;
+  const { studiotype } = context.query;
   let sanitizedStudios;
-  let studioType;
-  if (type === 'homestudio') {
-    studioType = 'Home Studio';
-  } else if (type === 'mediumstudio') {
-    studioType = 'Medium Studio';
-  } else if (type === 'premiumstudio') {
-    studioType = 'Premium Studio';
+  let type;
+  if (studiotype === 'homestudio') {
+    type = 'Home Studio';
+  } else if (studiotype === 'mediumstudio') {
+    type = 'Medium Studio';
+  } else if (studiotype === 'premiumstudio') {
+    type = 'Premium Studio';
   }
-  const getStudiosWithType = await StudioListing.find({ studiotype: studioType })
+  console.log(type, 'studiotype');
+  const getStudiosWithType = await StudioListing.find({ studiotype: type })
     .populate({
-      path: 'studioService',
-      model: 'StudioService',
-      select: 'name -_id',
+      path: 'user',
+      model: 'users',
+      select: 'username avatar -_id',
     })
     .sort({ $natural: -1 });
-  const serializing = JSON.parse(JSON.stringify(getStudiosWithType));
-  sanitizedStudios = serializing.map((studio) => ({
-    ...studio,
-    studioService: studio.studioService.map((service) => service.name),
-  }));
+  const serializedStudios = JSON.parse(JSON.stringify(getStudiosWithType));
+
   return {
     props: {
-      studios: sanitizedStudios || null,
-      studioType: studioType || null,
+      studios: serializedStudios || null,
+      studioType: type || null,
     },
   };
 }
