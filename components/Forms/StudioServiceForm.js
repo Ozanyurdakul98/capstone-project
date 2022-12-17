@@ -103,17 +103,15 @@ export function StudioServiceForm({
         if (!res.ok) {
           throw new Error(res.status);
         }
-        if (res.ok) {
-          setPreview(false);
-          data
-            ? router.reload()
-            : router.push({
-                pathname: '/success',
-                query: {
-                  operation: 'createlisting',
-                },
-              });
-        }
+        setPreview(false);
+        data
+          ? router.reload()
+          : router.push({
+              pathname: '/success',
+              query: {
+                operation: 'createlisting',
+              },
+            });
       } catch (error) {
         setFormErrors(error);
         setPreview(false);

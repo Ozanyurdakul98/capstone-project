@@ -146,10 +146,8 @@ export default function MyStudiosTable({ fetchedStudios, role }) {
         if (!res.ok || !result.success) {
           throw new Error(res.status);
         }
-        if (res.ok) {
-          setSelectedStudioInformation(studio);
-          setOpenView('info');
-        }
+        setSelectedStudioInformation(studio);
+        setOpenView('info');
       } catch (error) {
         alert('Something went wrong, Contact us if you need help!', error);
         console.error('Failed to find Studio', error);

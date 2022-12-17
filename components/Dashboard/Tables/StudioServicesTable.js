@@ -63,10 +63,8 @@ export default function StudioServicesTable({ fetchedStudioServices, role, sanit
         if (!res.ok || !result.success) {
           throw new Error(res.status);
         }
-        if (res.ok) {
-          setToUpdateStudioService(studioService);
-          setOpenView('edit');
-        }
+        setToUpdateStudioService(studioService);
+        setOpenView('edit');
       } catch (error) {
         alert('Something went wrong, Contact us if you need help!', error);
         console.error('Failed to find Studioservice', error);
@@ -89,17 +87,15 @@ export default function StudioServicesTable({ fetchedStudioServices, role, sanit
         if (!res.ok) {
           throw new Error(res.status);
         }
-        if (res.ok) {
-          setDeleteModalStrings({
-            ...deleteModalStrings,
-            message: `successfully deleted...`,
-            studioServiceID: '',
-          });
-          setTimeout(() => {
-            setLoading(false);
-            router.reload();
-          }, 1500);
-        }
+        setDeleteModalStrings({
+          ...deleteModalStrings,
+          message: `successfully deleted...`,
+          studioServiceID: '',
+        });
+        setTimeout(() => {
+          setLoading(false);
+          router.reload();
+        }, 1500);
       } catch (error) {
         setDeleteModalStrings({ ...deleteModalStrings, message: "It didn't work", error: error });
         setLoading(false);
@@ -147,10 +143,8 @@ export default function StudioServicesTable({ fetchedStudioServices, role, sanit
         if (!res.ok || !result.success) {
           throw new Error(res.status);
         }
-        if (res.ok) {
-          setSelectedStudioServiceInformation(studioService);
-          setOpenView('info');
-        }
+        setSelectedStudioServiceInformation(studioService);
+        setOpenView('info');
       } catch (error) {
         alert('Something went wrong, Contact us if you need help!', error);
         console.error('Failed to find Studio', error);
@@ -413,10 +407,7 @@ export default function StudioServicesTable({ fetchedStudioServices, role, sanit
               </div>
             </div>
           </div>
-          <ClickToCloseMax
-            style={'bg-black/50 editModal z-40 h-full'}
-            onClick={(event) => handleClickToCloseModal(event)}
-          />
+          <ClickToCloseMax style={'bg-black/50 editModal z-40 h-full'} onClick={() => handleClickToCloseModal()} />
         </>
       ) : null}
       {openView === 'delete' ? (

@@ -110,15 +110,15 @@ function DashboardAddStudio({ userID }) {
 
   const handlePreview = () => {
     const passForm = form;
-    setFormErrors(ValidateCreateStudioListing(passForm, checked));
-    if (Object.keys(ValidateCreateStudioListing(passForm, checked)).length === 0) {
+    setFormErrors(ValidateCreateStudioListing(passForm));
+    if (Object.keys(ValidateCreateStudioListing(passForm)).length === 0) {
       setPreview(true);
     }
   };
   const handleFormSubmit = async (event) => {
     const passForm = form;
     event.preventDefault();
-    setFormErrors(ValidateCreateStudioListing(passForm, checked));
+    setFormErrors(ValidateCreateStudioListing(passForm));
     setIsSubmit(true);
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       try {

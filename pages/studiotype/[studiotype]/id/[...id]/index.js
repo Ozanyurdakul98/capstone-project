@@ -14,7 +14,6 @@ function StudioDetailpage({ serializedStudio, studioServicesCount, serializedStu
   // eslint-disable-next-line no-unused-vars
   const router = useRouter();
   const studio = serializedStudio[0];
-  console.log(studio.studioRules);
   return (
     <div className="relative">
       <Head>
@@ -502,8 +501,6 @@ StudioDetailpage.getLayout = function getLayout(page) {
 export async function getServerSideProps(context) {
   await db.connect();
   const id = context.query.id[1];
-  let breadCrumb = context.query.service;
-  if (breadCrumb === 'recording') breadCrumb = 'Recording';
 
   const fetchStudio = await StudioListing.findById(id).populate({
     path: 'user',
@@ -543,7 +540,7 @@ export async function getServerSideProps(context) {
   // }));
   return {
     props: {
-      serializedStudio: serializedStudio || null,
+      serializedStudio: serializedStudio,
       serializedStudioservices: serializeStudioservices || null,
       studioServicesCount: studioServicesCount || null,
     },

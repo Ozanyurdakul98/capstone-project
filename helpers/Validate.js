@@ -50,7 +50,7 @@ export function ValidateCreateStudioListing(form) {
   const errors = {};
   const studioName = /^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){4,39}$/i;
   const url = /^((http|https):\/\/)/;
-  const patternLocation = /^([a-zA-Z-])([a-zA-Z-0-9-,äöü\s]){4,60}$/i;
+  const patternLocation = /^([a-zA-Z-])([a-zA-Z-0-9,äöü\s]){4,60}$/i;
 
   if (!form.studioName) {
     errors.listingTitle = 'A Studioname is required!';
@@ -78,14 +78,14 @@ export function ValidateCreateStudioListing(form) {
   }
 
   if (
-    form.studioSocials.soundcloud.length <= 8 &&
-    form.studioSocials.spotify.length <= 8 &&
-    form.studioSocials.youtube.length <= 8 &&
-    form.studioSocials.facebook.length <= 8 &&
-    form.studioSocials.instagram.length <= 8 &&
-    form.studioSocials.twitter.length <= 8 &&
-    form.studioSocials.pinterest.length <= 8 &&
-    form.studioSocials.linkedin.length <= 8
+    form.studioSocials.soundcloud?.length <= 8 &&
+    form.studioSocials.spotify?.length <= 8 &&
+    form.studioSocials.youtube?.length <= 8 &&
+    form.studioSocials.facebook?.length <= 8 &&
+    form.studioSocials.instagram?.length <= 8 &&
+    form.studioSocials.twitter?.length <= 8 &&
+    form.studioSocials.pinterest?.length <= 8 &&
+    form.studioSocials.linkedin?.length <= 8
   ) {
     errors.studioSocials = 'Enter at least one social account link of your studio or yourself!';
   } else if (
@@ -130,7 +130,7 @@ export function ValidateCreateStudioListing(form) {
 
 export function ValidateCreateStudioServiceListing(form, checked) {
   const errors = {};
-  const regex = /^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){9,60}$/i;
+  const regex = /^([a-zA-Z-])([a-zA-Z-0-9!äöü,-_\s]){9,60}$/i;
 
   if (!form.service) {
     errors.service = 'Select a Service please!';

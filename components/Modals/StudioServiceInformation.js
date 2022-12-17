@@ -112,10 +112,7 @@ export default function StudioServiceInformation({ studioService, setOpenView })
           </section>
         </div>
       </div>
-      <ClickToCloseMax
-        style={'editModal backdrop-blur-sm z-40 h-full'}
-        onClick={(event) => handleClickToCloseInfoModal(event)}
-      />
+      <ClickToCloseMax style={'editModal backdrop-blur-sm z-40 h-full'} onClick={() => handleClickToCloseInfoModal()} />
     </>
   );
 }

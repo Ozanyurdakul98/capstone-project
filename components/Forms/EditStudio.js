@@ -97,7 +97,7 @@ function EditStudio({ toUpdateStudio, setOpenView, role }) {
   const handleFormSubmit = async (event) => {
     const passForm = form;
     event.preventDefault();
-    setFormErrors(ValidateCreateStudioListing(passForm, checked));
+    setFormErrors(ValidateCreateStudioListing(passForm));
     setIsSubmit(true);
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       setLoading(true);

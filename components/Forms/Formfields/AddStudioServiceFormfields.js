@@ -119,7 +119,7 @@ export function AddStudioServiceFormfields(props) {
                     ? 'bg-site border-primary'
                     : 'bg-primary border-white'
                 }`}>
-                {props.form.images?.primary || props.checked.imagesPreview ? (
+                {props.form.images?.primary || props.checked?.imagesPreview ? (
                   <>
                     <Image
                       src={
