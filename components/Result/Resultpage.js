@@ -25,7 +25,6 @@ export function Resultpage(props) {
             <ListingCardWideStudio
               key={_id}
               id={_id}
-              path={props.path}
               studioName={studioName}
               logo={logo}
               studiotype={studiotype}

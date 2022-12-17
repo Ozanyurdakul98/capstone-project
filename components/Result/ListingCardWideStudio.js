@@ -9,13 +9,10 @@ import Link from 'next/link';
 
 function ListingCardWideStudio({
   id,
-  path,
   preview,
   logo,
   studioName,
-  profileText,
   studiotype,
-  studioInformation,
   studioLanguages,
   openingHours,
   locationFeatures,
