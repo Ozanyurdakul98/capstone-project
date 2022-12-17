@@ -89,7 +89,6 @@ function EditStudio({ toUpdateStudio, setOpenView, role }) {
     setChecked({ ...checked, logoPreview: defaultPic });
     setChecked((prev) => ({ ...prev, images: defaultPic }));
   };
-  console.log(form);
   const handleClickToCloseErrorModal = () => {};
   useEffect(() => {
     return MatchDataWithChecked();

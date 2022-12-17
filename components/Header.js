@@ -14,7 +14,6 @@ import { MyLink } from './MyLink';
 function Header() {
   const [previewSigning, setPreviewSigning] = useState('');
   const { data: session, status } = useSession();
-  console.log(status);
   return (
     <header id="top" className="relative z-50">
       <nav className="grid grid-cols-sm3 bg-white p-2 shadow-md md:px-4 md:pt-4 md:pb-2 lg:grid-cols-smbgbg">
