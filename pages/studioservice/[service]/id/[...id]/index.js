@@ -10,6 +10,7 @@ import { MyLink } from '../../../../../components/MyLink';
 import { useRouter } from 'next/router';
 import { HomeIcon, MinusCircleIcon, PlusCircleIcon, UserIcon, WifiIcon } from '@heroicons/react/24/solid';
 
+import { MdLocationPin } from 'react-icons/md';
 import { GiCigarette } from 'react-icons/gi';
 import {
   ImFacebook,
@@ -28,11 +29,12 @@ import { DateRange } from 'react-date-range';
 import format from 'date-fns/format';
 import { FormInput } from '../../../../../components/Forms/FormInput';
 import StudioService from '../../../../../models/StudioService';
+import { formatValue } from 'react-currency-input-field';
 
-function StudioDetailpage({ serializedStudioservice }) {
-  const router = useRouter();
+function StudioDetailpage({ serializedStudioservice, studioServicesCount }) {
   const Service = serializedStudioservice;
   console.log('Serivce', Service);
+  const router = useRouter();
   const imgs = [
     { id: 0, value: Service.images.primary },
     // { id: 1, value: studio.images },
@@ -45,7 +47,8 @@ function StudioDetailpage({ serializedStudioservice }) {
   const [openPanel, setOpenPanel] = useState('');
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-
+  const locale = Service.subInformations.locale;
+  const currency = Service.subInformations.currency;
   const handleClick = (index) => {
     const wordSlider = imgs[index];
     setWordData(wordSlider);
@@ -75,13 +78,13 @@ function StudioDetailpage({ serializedStudioservice }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {/* HeaderImage */}
-      <section className="relative h-[250px] w-screen sm:h-[250px] md:h-[350px] lg:h-[450px] xl:h-[600px] ">
+      <section className="relative h-[250px] w-full sm:h-[250px] md:h-[350px] lg:h-[450px] xl:h-[600px] ">
         <Image
           src={Service.images.primary}
           layout="fill"
           objectFit="cover"
           objectPosition={'center'}
-          className="rounded-xl"
+          className=""
           alt="Studio image"
         />
       </section>
@@ -145,41 +148,31 @@ function StudioDetailpage({ serializedStudioservice }) {
                 </li>
               </ol>
             </nav>
-            <div className="flex items-center justify-between gap-5 sm:pr-7">
-              <div className="flex flex-col gap-1">
+            {/* title and location and avatar */}
+            <section className="flex items-center justify-between gap-5 sm:pr-7">
+              {/* title etc. */}
+              <section className="flex flex-col gap-1">
                 <h1 className="h1LandingP">{Service.listingTitle}</h1>
-                <h3 className="flex items-center gap-2 text-gray-500">
-                  <svg
-                    className="h-5 w-5 text-black"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                  </svg>
-                  {Service.studio.studioLocation}
-                </h3>
-              </div>
-              <div className="relative flex h-14 w-14 shrink-0 md:h-16 md:w-16 xl:h-20 xl:w-20">
-                <Image
-                  src={Service.user.avatar}
-                  layout="fill"
-                  className="rounded-full bg-gray-200 "
-                  objectFit="cover"
-                  objectPosition={'center'}
-                  alt="avatar"
-                />
-              </div>
-            </div>
+                <div className="flex gap-1 text-gray-500">
+                  <MdLocationPin className="h-[15px] w-[15px] text-black" />
+                  <h3 className="pt-[1px]">{Service.studio.studioLocation}</h3>
+                </div>
+              </section>
+              {/* avatar username */}
+              <section className="flex flex-col gap-1 text-center text-gray-500">
+                <div className="relative flex h-14 w-14 shrink-0 md:h-16 md:w-16 xl:h-20 xl:w-20">
+                  <Image
+                    src={Service.user.avatar}
+                    layout="fill"
+                    className="rounded-full bg-gray-200 "
+                    objectFit="cover"
+                    objectPosition={'center'}
+                    alt="avatar"
+                  />
+                </div>
+                <p>{Service.user.username}</p>
+              </section>
+            </section>
           </section>
           {/* FeatureSection */}
           <section className=" mb-14 text-sm text-gray-600">
@@ -192,47 +185,34 @@ function StudioDetailpage({ serializedStudioservice }) {
               <div className="flex flex-col items-center justify-center gap-1">
                 <UserIcon className="landingP-icon" />
                 <p>Capacity</p>
-                <p className="font-bold">{Service.studio.maxGuests + ' Guests'}</p>
+                <p className="font-bold">{Service.maxGuests + ' Guests'}</p>
               </div>
               <div className="flex flex-col items-center justify-center gap-1">
                 <WifiIcon className="landingP-icon" />
                 <p>Wifi</p>
-                <p className="font-bold">
-                  {Service.studio.locationFeatures.includes('Wi-Fi') ? 'Available' : 'Not available'}
-                </p>
+                <p className="font-bold">{Service.studio.locationFeatures.includes('Wi-Fi') ? 'Yes' : 'No'}</p>
               </div>
               <div className="flex flex-col items-center justify-center gap-1">
                 <GiCigarette className="landingP-icon" />
                 <p>Smoking</p>
-                <p className="font-bold">
-                  {Service.studio.locationFeatures.includes('Smoking') ? 'Allowed' : 'Not allowed'}
-                </p>
+                <p className="font-bold">{Service.studio.locationFeatures.includes('Smoking') ? 'Yes' : 'No'}</p>
               </div>
             </div>
           </section>
           {/* Studiodescription */}
           <section className=" mb-14 border-b px-7 pb-14 text-sm text-gray-600">
             <div>
-              <h2 className="h2LandingP">About the Studio</h2>
+              <h2 className="h2LandingP">About the Studioservice</h2>
             </div>
             <div>
-              <p className="pt-5">
-                Ut cillum dolore qui velit enim velit minim commodo est voluptate velit ea pariatur sunt. Ullamco
-                incididunt aliqua magna fugiat eiusmod in velit nisi ex Lorem pariatur nostrud. Nisi laborum laborum
-                nulla occaecat. Velit ea dolore ex nostrud aute. Officia sit ipsum minim quis minim labore eu deserunt
-                elit elit enim cillum labore et. Ea dolore velit officia velit anim velit ipsum velit nulla. Commodo
-                sint non commodo do culpa voluptate ea anim irure eu quis minim ipsum et. Esse qui esse nulla in tempor
-                ea proident proident ea. Qui sit esse magna labore id irure aliquip. Eiusmod occaecat laborum ex elit.
-                Id commodo nisi est mollit sit eiusmod magna exercitation laborum cillum anim. Aliquip ea officia qui
-                voluptate tempor in ea Lorem. Laborum laborum aliqua sit in cillum dolore eiusmod consectetur amet nulla
-                magna duis sit minim.
-              </p>
+              <p className="pt-5">{Service.description}</p>
             </div>
           </section>
           {/* Details */}
           <section className="mb-7 px-7 text-xs text-gray-600 md:text-sm">
             <ul className="grid grid-cols-smbg grid-rows-6 gap-2 sm:grid-cols-smbgbg sm:grid-rows-4">
               <li className="h2LandingP col-start-1 row-span-2 text-sm font-bold lg:text-base">Details</li>
+              {/* id */}
               <li className="col-start-2 row-start-1 flex items-center">
                 <svg
                   className="mr-1 h-4 w-4"
@@ -244,8 +224,9 @@ function StudioDetailpage({ serializedStudioservice }) {
                     d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                     clipRule="evenodd"></path>
                 </svg>
-                Studioservice id: <span className=" pl-1 font-semibold">{Service._id}</span>
+                ID: <span className=" pl-1 font-semibold">{Service._id}</span>
               </li>
+              {/* type */}
               <li className="col-start-2 row-start-2 flex items-center">
                 <svg
                   className="mr-1 h-4 w-4"
@@ -257,21 +238,26 @@ function StudioDetailpage({ serializedStudioservice }) {
                     d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                     clipRule="evenodd"></path>
                 </svg>
-                Capacity: <span className="pl-1 font-semibold">{Service.maxGuests + ' Guests max'}</span>
+                Studiotype: <span className="pl-1 font-semibold">{Service.studio.studiotype}</span>
               </li>
+              {/* service */}
               <li className="col-start-2 row-start-3 flex items-center">
-                <svg
-                  className="mr-1 h-4 w-4"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    fillRule="evenodd"
-                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                    clipRule="evenodd"></path>
-                </svg>
-                Beds: <span className="pl-1 font-semibold">No Sleepover</span>
+                <div className="flex items-center">
+                  <svg
+                    className="mr-1 h-4 w-4"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      fillRule="evenodd"
+                      d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                      clipRule="evenodd"></path>
+                  </svg>
+                  <span className="whitespace-nowrap">Studioservice:</span>
+                  <span className="pl-1 font-semibold">{Service.service.name}</span>
+                </div>
               </li>
+              {/* size */}
               <li className="col-start-2 row-start-4 flex items-center">
                 <svg
                   className="mr-1 h-4 w-4"
@@ -283,8 +269,9 @@ function StudioDetailpage({ serializedStudioservice }) {
                     d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                     clipRule="evenodd"></path>
                 </svg>
-                Studio rooms: <span className="pl-1 font-semibold">3</span>
+                Studiosize: <span className="pl-1 font-semibold">78 sqm</span>
               </li>
+              {/* rooms */}
               <li className="col-start-2 row-start-5 flex items-center sm:col-start-3 sm:row-start-1">
                 <svg
                   className="mr-1 h-4 w-4"
@@ -296,8 +283,9 @@ function StudioDetailpage({ serializedStudioservice }) {
                     d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                     clipRule="evenodd"></path>
                 </svg>
-                Studio size: <span className="pl-1 font-semibold">78 sqm</span>
+                Studiorooms: <span className="pl-1 font-semibold">3</span>
               </li>
+              {/* guests */}
               <li className="col-start-2 row-start-6 flex items-center sm:col-start-3 sm:row-start-2">
                 <svg
                   className="mr-1 h-4 w-4"
@@ -309,14 +297,32 @@ function StudioDetailpage({ serializedStudioservice }) {
                     d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                     clipRule="evenodd"></path>
                 </svg>
-                Studio type: <span className="pl-1 font-semibold">{Service.studio.studiotype}</span>
+                Servicecapacity: <span className="pl-1 font-semibold">{Service.maxGuests + ' Guests'}</span>
+              </li>
+              {/* Sleepover */}
+              <li className="col-start-2 row-start-7 flex items-center sm:col-start-3 sm:row-start-3">
+                <svg
+                  className="mr-1 h-4 w-4"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    fillRule="evenodd"
+                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                    clipRule="evenodd"></path>
+                </svg>
+                Sleepover:
+                <span className="pl-1 font-semibold">
+                  {Service.studio.sleepOver.bedsCount
+                    ? Service.studio.sleepOver.bedsCount + ' beds, ' + Service.studio.sleepOver.maxPeople + ' People'
+                    : '/'}
+                </span>
               </li>
             </ul>
           </section>
-          {/* Studioservices */}
+          {/* languages */}
           <section className="mb-14 px-7 text-xs text-gray-600 md:text-sm">
             <ul className="grid grid-cols-smbg grid-rows-1 gap-2 sm:grid-cols-smbgbg sm:grid-rows-1">
-              {/* <li className="h2LandingP col-start-1 row-span-2 text-sm font-bold lg:text-base">Studio services</li> */}
               <li className="col-start-2 row-start-1 flex items-start sm:col-span-2 sm:col-start-2 sm:row-start-1">
                 <div className="flex items-center">
                   <svg
@@ -329,9 +335,9 @@ function StudioDetailpage({ serializedStudioservice }) {
                       d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                       clipRule="evenodd"></path>
                   </svg>
-                  <span className="whitespace-nowrap">Studio services:</span>
+                  <span className="whitespace-nowrap">Languages:</span>
                 </div>
-                <span className="pl-1 font-semibold">{Service.service.name}</span>
+                <span className="pl-1 font-semibold">{Service.studio.studioLanguages.join(', ')}</span>
               </li>
             </ul>
           </section>
@@ -351,9 +357,10 @@ function StudioDetailpage({ serializedStudioservice }) {
             </div>
           </section>
           {/* PricingSection */}
-          <section className="mb-14 truncate border-b px-7 pb-14 text-xs text-gray-600 md:text-sm">
-            <ul className="grid w-full grid-cols-smbg grid-rows-[8] gap-2 space-x-10 sm:grid-cols-smbgbg sm:grid-rows-4 sm:space-x-0">
+          <section className="mb-7 truncate px-7 text-xs text-gray-600 md:text-sm">
+            <ul className="grid w-full grid-cols-smbg grid-rows-[9] gap-2 sm:grid-cols-smbgbg sm:grid-rows-3 sm:space-x-0">
               <li className="h2LandingP col-start-1 text-sm font-bold lg:text-base">Prices</li>
+              {/* hour */}
               <li className="col-start-2 row-start-1 flex items-center">
                 <svg
                   className="mr-1 h-4 w-4"
@@ -367,9 +374,18 @@ function StudioDetailpage({ serializedStudioservice }) {
                 </svg>
                 Hourly:
                 <span className=" pl-1 font-semibold">
-                  {Service.pricing.pricingHour ? Service.pricing.pricingHour + '€' : '/'}
+                  {Service.pricing.pricingHour
+                    ? formatValue({
+                        value: Service.pricing.pricingHour,
+                        intlConfig: {
+                          locale: locale,
+                          currency: currency,
+                        },
+                      })
+                    : '/'}
                 </span>
               </li>
+              {/* day */}
               <li className="col-start-2 row-start-2 flex items-center">
                 <svg
                   className="mr-1 h-4 w-4"
@@ -383,9 +399,18 @@ function StudioDetailpage({ serializedStudioservice }) {
                 </svg>
                 Daily:
                 <span className=" pl-1 font-semibold">
-                  {Service.pricing.pricingHour ? Service.pricing.pricingHour + '€' : '/'}
+                  {Service.pricing.pricingDay
+                    ? formatValue({
+                        value: Service.pricing.pricingDay,
+                        intlConfig: {
+                          locale: locale,
+                          currency: currency,
+                        },
+                      })
+                    : '/'}
                 </span>
               </li>
+              {/* weekends */}
               <li className="col-start-2 row-start-3 flex items-center">
                 <svg
                   className="mr-1 h-4 w-4"
@@ -397,10 +422,21 @@ function StudioDetailpage({ serializedStudioservice }) {
                     d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                     clipRule="evenodd"></path>
                 </svg>
-                Weekends (Sat & Sun):
-                <span className=" pl-1 font-semibold">as daily</span>
+                On Weekend:
+                <span className=" pl-1 font-semibold">
+                  {Service.pricing.pricingWeekend
+                    ? formatValue({
+                        value: Service.pricing.pricingWeekend,
+                        intlConfig: {
+                          locale: locale,
+                          currency: currency,
+                        },
+                      })
+                    : 'as daily'}
+                </span>
               </li>
-              <li className="col-start-2 row-start-4 flex items-center">
+              {/* week */}
+              <li className="col-start-2 row-start-7 flex items-center sm:col-start-3 sm:row-start-1">
                 <svg
                   className="mr-1 h-4 w-4"
                   fill="currentColor"
@@ -413,10 +449,19 @@ function StudioDetailpage({ serializedStudioservice }) {
                 </svg>
                 Weekly (7 Days):
                 <span className=" pl-1 font-semibold">
-                  {Service.pricing.pricingHour ? Service.pricing.pricingHour + '€' : '/'}
+                  {Service.pricing.pricingWeek
+                    ? formatValue({
+                        value: Service.pricing.pricingWeek,
+                        intlConfig: {
+                          locale: locale,
+                          currency: currency,
+                        },
+                      })
+                    : '/'}
                 </span>
               </li>
-              <li className="col-start-2 row-start-5 flex items-center">
+              {/* month */}
+              <li className="col-start-2 row-start-[8] flex items-center sm:col-start-3 sm:row-start-2">
                 <svg
                   className="mr-1 h-4 w-4"
                   fill="currentColor"
@@ -429,10 +474,19 @@ function StudioDetailpage({ serializedStudioservice }) {
                 </svg>
                 Monthly (30 Days):
                 <span className=" pl-1 font-semibold">
-                  {Service.pricing.pricingHour ? Service.pricing.pricingHour + '€' : '/'}
+                  {Service.pricing.pricingMonth
+                    ? formatValue({
+                        value: Service.pricing.pricingMonth,
+                        intlConfig: {
+                          locale: locale,
+                          currency: currency,
+                        },
+                      })
+                    : '/'}
                 </span>
               </li>
-              <li className="col-start-2 row-start-6 flex items-center sm:col-start-3 sm:row-start-1">
+              {/* deposit */}
+              <li className="col-start-2 row-start-[9] flex items-center sm:col-start-3 sm:row-start-3">
                 <svg
                   className="mr-1 h-4 w-4"
                   fill="currentColor"
@@ -443,34 +497,80 @@ function StudioDetailpage({ serializedStudioservice }) {
                     d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                     clipRule="evenodd"></path>
                 </svg>
-                Additional Guests: <span className="pl-1 font-semibold">15€</span>
+                Deposit:
+                <span className=" pl-1 font-semibold">
+                  {Service.pricing.pricingDeposit
+                    ? formatValue({
+                        value: Service.pricing.pricingDeposit,
+                        intlConfig: {
+                          locale: locale,
+                          currency: currency,
+                        },
+                      })
+                    : '/'}
+                </span>
               </li>
-              <li className="col-start-2 row-start-7 flex items-center sm:col-start-3 sm:row-start-2">
-                <svg
-                  className="mr-1 h-4 w-4"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    fillRule="evenodd"
-                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                    clipRule="evenodd"></path>
-                </svg>
-                Cleaning costs: <span className="pl-1 font-semibold">30€ per day</span>
+            </ul>
+          </section>
+          {/* Soundengineer */}
+          <section className="mb-14 px-7 text-xs text-gray-600 md:text-sm">
+            <ul className="grid grid-cols-smbg grid-rows-1 gap-2 sm:grid-cols-smbgbg sm:grid-rows-1">
+              <li className="col-start-2 row-start-1 flex items-start sm:col-span-2 sm:col-start-2 sm:row-start-1">
+                <div className="flex items-center">
+                  <svg
+                    className="mr-1 h-4 w-4"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      fillRule="evenodd"
+                      d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                      clipRule="evenodd"></path>
+                  </svg>
+                  <span className="whitespace-nowrap">Soundengineer:</span>
+                </div>
+                <span className="pl-1 font-semibold">
+                  {Service.soundengineer.priceOption
+                    ? formatValue({
+                        value: Service.soundengineer.price,
+                        intlConfig: {
+                          locale: locale,
+                          currency: currency,
+                        },
+                      }) +
+                      ' ' +
+                      Service.soundengineer.priceOption
+                    : Service.soundengineer}
+                </span>
               </li>
-              <li className="col-start-2 row-start-[8] flex items-center sm:col-start-3 sm:row-start-3">
-                <svg
-                  className="mr-1 h-4 w-4"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    fillRule="evenodd"
-                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                    clipRule="evenodd"></path>
-                </svg>
-                Deposit: <span className="pl-1 font-semibold">300€</span>
-              </li>
+            </ul>
+          </section>
+          {/* AdditionalServices */}
+          <section className="mb-14 border-b px-7 pb-14 text-xs text-gray-600 md:text-sm">
+            <ul className="grid w-full grid-cols-smbg gap-2 space-x-10 sm:grid-cols-smbgbg sm:space-x-0">
+              <ul className="col-start-2 col-end-4 grid grid-cols-2 gap-2 lg:pl-5">
+                <li className="col-span-2 font-semibold text-black">
+                  <h3>Additional Services</h3>
+                </li>
+                {Service.additionalServices?.map(({ name, description, priceOption, price }) => (
+                  <li key={name} className="col-span-2 flex flex-col">
+                    <h4 className="font-semibold">{name}</h4>
+                    <p>{description}</p>
+                    <p className="flex w-full gap-10 text-[11px] md:text-xs">
+                      <span>{priceOption}</span>
+                      <span>
+                        {formatValue({
+                          value: price,
+                          intlConfig: {
+                            locale: locale,
+                            currency: currency,
+                          },
+                        })}
+                      </span>
+                    </p>
+                  </li>
+                ))}
+              </ul>
             </ul>
           </section>
           {/* Studiofeatures */}
@@ -500,8 +600,10 @@ function StudioDetailpage({ serializedStudioservice }) {
           <section className="mb-14 border-b px-7 pb-14 text-xs text-gray-600 md:text-sm">
             <ul className="grid grid-cols-smbg gap-2  sm:grid-cols-smbgsm">
               <ul className="col-start-2 grid grid-cols-2 gap-2 lg:pl-5">
-                <li className="col-span-2 font-semibold text-black">Equipment</li>
-                {Service.equipment}
+                <li className="col-span-2 font-semibold text-black">
+                  <h3>Equipment</h3>
+                </li>
+                <li className="col-span-2">{Service.equipment}</li>
               </ul>
             </ul>
           </section>
@@ -672,140 +774,6 @@ function StudioDetailpage({ serializedStudioservice }) {
                   </li>
                 ) : null}
               </ul>
-            </ul>
-          </section>
-          {/* Availability */}
-          <section className="px-7 pb-10 text-xs text-gray-600 lg:text-sm">
-            <ul className="grid grid-cols-smbg gap-2 space-x-10 sm:grid-cols-smbgbg sm:space-x-0">
-              <li className="h2LandingP col-start-1 text-sm font-bold lg:text-base">Availability</li>
-              <li className="col-start-2 flex items-center gap-2 sm:col-start-2 sm:row-start-1">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="h-5 w-5">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
-                  />
-                </svg>
-                Minimum Hourly: <span className="font-semibold">2 hours</span>
-              </li>
-              <li className="col-start-2 flex items-center gap-2 sm:col-start-3 sm:row-start-1">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="h-5 w-5">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
-                  />
-                </svg>
-                Maximum Hourly: <span className="font-semibold">/</span>
-              </li>
-              <li className="col-start-2 flex items-center gap-2 sm:col-start-2 sm:row-start-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="h-5 w-5">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
-                  />
-                </svg>
-                Minimum Daily: <span className="font-semibold">1 day</span>
-              </li>
-              <li className="col-start-2 flex items-center gap-2 sm:col-start-3 sm:row-start-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="h-5 w-5">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
-                  />
-                </svg>
-                Maximum Daily: <span className="font-semibold">5 days</span>
-              </li>
-              <li className="col-start-2 flex items-center gap-2 sm:col-start-2 sm:row-start-3">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="h-5 w-5">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
-                  />
-                </svg>
-                Minimum Weekly: <span className="font-semibold">1 week</span>
-              </li>
-              <li className="col-start-2 flex items-center gap-2 sm:col-start-3 sm:row-start-3">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="h-5 w-5">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
-                  />
-                </svg>
-                Maximum Weekly: <span className="font-semibold">4 weeks</span>
-              </li>
-              <li className="col-start-2 flex items-center gap-2 sm:col-start-2 sm:row-start-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="h-5 w-5">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
-                  />
-                </svg>
-                Minimum Monthly: <span className="font-semibold">1 month</span>
-              </li>
-              <li className="col-start-2 flex items-center gap-2 sm:col-start-3 sm:row-start-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="h-5 w-5">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
-                  />
-                </svg>
-                Maximum Monthly: <span className="font-semibold">3 months</span>
-              </li>
             </ul>
           </section>
         </section>
@@ -1042,16 +1010,21 @@ function StudioDetailpage({ serializedStudioservice }) {
               {/* CounterSection */}
               <div className="mt-20 w-full text-center">
                 <div className="flex justify-center pt-8 pb-0 lg:pt-4">
+                  {/* studios
                   <div className="p-3 text-center">
-                    <span className="block text-xl font-bold uppercase tracking-wide text-slate-700">60</span>
+                    <span className="block text-xl font-bold uppercase tracking-wide text-slate-700">33</span>
                     <span className="text-sm text-slate-400">Studios</span>
                   </div>
+                  followers
                   <div className="p-3 text-center">
                     <span className="block text-xl font-bold uppercase tracking-wide text-slate-700">2,454</span>
                     <span className="text-sm text-slate-400">Followers</span>
-                  </div>
+                  </div> */}
+                  {/* servicesCount */}
                   <div className="p-3 text-center">
-                    <span className="block text-xl font-bold uppercase tracking-wide text-slate-700">54</span>
+                    <span className="block text-xl font-bold uppercase tracking-wide text-slate-700">
+                      {studioServicesCount}
+                    </span>
                     <span className="text-sm text-slate-400">Services</span>
                   </div>
                 </div>
@@ -1123,7 +1096,6 @@ export async function getServerSideProps(context) {
   // }));
 
   // const userId = serializeStudio[0].user._id;
-  // const studioServicesByStudioCount = await StudioService.find({ studio: id }).count();
   // const studioServicesByUserCount = await StudioService.find({ user: userId }).count();
   // const studioListingsCount = await StudioListing.find({ user: userId }).count();
 
@@ -1144,11 +1116,15 @@ export async function getServerSideProps(context) {
       select: 'name queryString -_id',
     });
   const serializeStudioservice = JSON.parse(JSON.stringify(fetchStudioservice));
+
+  const studioID = serializeStudioservice.studio._id;
+  const studioServicesByStudioCount = await StudioService.find({ studio: studioID }).count();
+
   return {
     props: {
       // serializedStudio: serializedStudio,
       serializedStudioservice: serializeStudioservice || null,
-      // studioServicesCount: studioServicesByStudioCount || null,
+      studioServicesCount: studioServicesByStudioCount || null,
       // studioServicesByUserCount: studioServicesByUserCount || null,
       // studioListingsCount: studioListingsCount || null,
     },
