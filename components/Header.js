@@ -32,30 +32,30 @@ function Header() {
         {/* Righth */}
         <div className="flex flex-1 items-center justify-end">
           <div className="mx-6 hidden items-center text-gray-500 lg:inline-flex ">
-            <button type="button" className="">
-              <MyLink className="cursor-default" href="/search/all">
-                <GlobeAsiaAustraliaIcon title="show all studios" className="icon" />
-              </MyLink>
-            </button>
-            <hr className="h-10 border border-gray-100" />
-            <button type="button" title="go to dashboard" className="icon-header cursor-default ">
-              <MyLink href={`${status === 'loading' || status === 'unauthenticated' ? '/#' : '/dashboard/addstudio'}`}>
-                <PlusIcon
-                  className={`icon ${
-                    status === 'loading' || status === 'unauthenticated' ? ' cursor-default text-gray-500' : ''
-                  }`}
-                />
-              </MyLink>
-            </button>
-            <button type="button" title="go to dashboard" className="icon-header cursor-default ">
-              <MyLink href={`${status === 'loading' || status === 'unauthenticated' ? '/#' : '/dashboard'}`}>
-                <HomeIcon
-                  className={`icon ${
-                    status === 'loading' || status === 'unauthenticated' ? ' cursor-default text-gray-500' : ''
-                  }`}
-                />
-              </MyLink>
-            </button>
+            <MyLink title="show all studioservices" className="mx-1 cursor-default" href="/search/all">
+              <GlobeAsiaAustraliaIcon className="icon" />
+            </MyLink>
+            <hr className="mx-1 h-10 border border-gray-100" />
+            <MyLink
+              className="mx-1"
+              title="add a new studio"
+              href={`${status === 'loading' || status === 'unauthenticated' ? '/#' : '/dashboard/addstudio'}`}>
+              <PlusIcon
+                className={`icon ${
+                  status === 'loading' || status === 'unauthenticated' ? ' cursor-default text-gray-500' : ''
+                }`}
+              />
+            </MyLink>
+            <MyLink
+              className="mx-1"
+              title="go to dashboard"
+              href={`${status === 'loading' || status === 'unauthenticated' ? '/#' : '/dashboard'}`}>
+              <HomeIcon
+                className={`icon ${
+                  status === 'loading' || status === 'unauthenticated' ? ' cursor-default text-gray-500' : ''
+                }`}
+              />
+            </MyLink>
           </div>
           {/* HeaderUsermenu */}
           <HeaderUsermenu setPreviewSigning={setPreviewSigning} session={session} status={status} />

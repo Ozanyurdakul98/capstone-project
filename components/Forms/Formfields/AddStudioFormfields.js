@@ -4,8 +4,6 @@ import { TbHandClick } from 'react-icons/tb';
 import { MdDeleteForever } from 'react-icons/md';
 
 export function AddStudioFormfields(props) {
-  console.log(props.form);
-  console.log(props.checked);
   return (
     <>
       {/* Logo, studioname-/text */}

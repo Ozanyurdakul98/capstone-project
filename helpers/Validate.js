@@ -3,8 +3,8 @@ export function ValidateSignUp(form) {
   const patternEmail = /^([^\s@]+@[^\s@]+\.[^\s@]+$)$/i;
   const patternPassword = /^([a-zA-Z-0-9-!äöü#@.,-_]){8,60}$/i;
   const userName = /^[a-zA-Z][a-zA-Z0-9-_]{4,19}/;
-  // const userName = /^[a-zA-Z][a-zA-Z0-9-_]{4,24}$/i;
   const isMatch = form.password === form.matchpassword;
+
   if (!form.username) {
     errors.username = 'A Username is required!';
   } else if (!userName.test(form.userName)) {
@@ -113,10 +113,6 @@ export function ValidateCreateStudioListing(form) {
   ) {
     errors.studioSocials = 'Url invalid! Max length for socials is 100 and it must begin with https://';
   }
-
-  // if (Object.keys(form.studioPricing).length === 0 && form.studioPricing.constructor === Object) {
-  //   errors.studioPricing = 'Select at least 1 studio pricing option!';
-  // }
 
   if (form.locationFeatures.length === 0) {
     errors.locationFeatures = 'Select at least 1 location feature!';

@@ -43,7 +43,6 @@ export async function getServerSideProps(context) {
 
   const StudioservicesByServiceCount = await StudioService.find({ service: serializedadminServiceId }).count();
 
-  console.log('COunting', StudioservicesByServiceCount);
   return {
     props: {
       studioServices: serializedStudioservicesByService || null,

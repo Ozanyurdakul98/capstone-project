@@ -22,7 +22,6 @@ function ListingCardCarousellStudioService({
   locationFeatures,
   studio,
 }) {
-  console.log(service);
   const title = listingTitle?.toLowerCase().replace(/ /g, '-');
 
   return (

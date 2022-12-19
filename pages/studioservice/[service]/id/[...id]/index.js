@@ -34,7 +34,6 @@ import { isMultiple } from '../../../../../utils';
 
 function StudioDetailpage({ serializedStudioservice, studioServicesCount }) {
   const Service = serializedStudioservice;
-  console.log('Serivce', Service);
   const router = useRouter();
   const imgs = [
     { id: 0, value: Service.images.primary },
@@ -1135,25 +1134,6 @@ StudioDetailpage.getLayout = function getLayout(page) {
 export async function getServerSideProps(context) {
   await db.connect();
   const id = context.query.id[1];
-  console.log('id', id);
-  // const fetchStudio = await StudioListing.findById(id).populate({
-  //   path: 'user',
-  //   model: 'users',
-  //   select: 'avatar email name lastname username',
-  // });
-  // const serializeStudio = [JSON.parse(JSON.stringify(fetchStudio))];
-  // const serializedStudio = serializeStudio.map((studio) => ({
-  //   ...studio,
-  //   createdAt: moment(studio.createdAt).format('DD/MM/yyyy'),
-  //   createdAtTime: moment(studio.createdAt).format('kk:mm'),
-  //   updatedAt: moment(studio.updatedAt).format('DD/MM/yyyy'),
-  //   updatedAtTime: moment(studio.updatedAt).format('kk:mm'),
-  // }));
-
-  // const userId = serializeStudio[0].user._id;
-  // const studioServicesByUserCount = await StudioService.find({ user: userId }).count();
-  // const studioListingsCount = await StudioListing.find({ user: userId }).count();
-
   const fetchStudioservice = await StudioService.findById(id)
     .populate({
       path: 'user',
@@ -1177,11 +1157,8 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
-      // serializedStudio: serializedStudio,
       serializedStudioservice: serializeStudioservice || null,
       studioServicesCount: studioServicesByStudioCount || null,
-      // studioServicesByUserCount: studioServicesByUserCount || null,
-      // studioListingsCount: studioListingsCount || null,
     },
   };
 }

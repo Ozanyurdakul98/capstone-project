@@ -21,7 +21,6 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
     setSelectedStudioInformation(thisStudio[0]);
     setStep('info');
   };
-  console.log(step);
   return (
     <div>
       {/* welcome */}
