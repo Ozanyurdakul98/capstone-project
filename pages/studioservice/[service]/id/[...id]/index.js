@@ -788,13 +788,13 @@ function StudioDetailpage({ serializedStudioservice, studioServicesCount }) {
                   {formatValue({
                     value: Service.pricing.pricingHour
                       ? Service.pricing.pricingHour
-                      : Service.pricing.pricingHour
-                      ? Service.pricing.pricingHour
-                      : Service.pricing.pricingHour
-                      ? Service.pricing.pricingHour
-                      : Service.pricing.pricingHour
-                      ? Service.pricing.pricingHour
-                      : null,
+                      : Service.pricing.pricingDay
+                      ? Service.pricing.pricingDay
+                      : Service.pricing.pricingWeek
+                      ? Service.pricing.pricingWeek
+                      : Service.pricing.pricingMonth
+                      ? Service.pricing.pricingMonth
+                      : '',
                     intlConfig: {
                       locale: locale,
                       currency: currency,
@@ -805,11 +805,11 @@ function StudioDetailpage({ serializedStudioservice, studioServicesCount }) {
                 <span className="pt-1">
                   {Service.pricing.pricingHour
                     ? 'Hour'
-                    : Service.pricing.pricingHour
+                    : Service.pricing.pricingDay
                     ? 'Day'
-                    : Service.pricing.pricingHour
+                    : Service.pricing.pricingWeek
                     ? 'Week'
-                    : Service.pricing.pricingHour
+                    : Service.pricing.pricingMonth
                     ? 'Month'
                     : null}
                 </span>

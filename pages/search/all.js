@@ -1,39 +1,34 @@
 import db from '../../lib/dbConnect';
-import StudioListing from '../../models/StudioListing';
-import ListingCards from '../../components/Result/ListingCardWideStudioService';
+import StudioService from '../../models/StudioService';
 import Layout from '../../components/Layout/Layout';
+import ListingCardWideStudioService from '../../components/Result/ListingCardWideStudioService';
 
-function All({ listings }) {
+function All({ services }) {
   return (
-    <>
-      <h1>All Search results</h1>
-      <>
-        {listings.map(
-          ({
-            _id,
-            listingTitle,
-            images,
-            studiotype,
-            studioService,
-            soundengineer,
-            studioPricing,
-            locationFeatures,
-            studioLocation,
-          }) => (
-            <ListingCards
+    <section className="min-h-screen">
+      <div>
+        <h1 className="h2 mb-14 mt-10">All Search results</h1>
+      </div>
+      <section>
+        {services.map(
+          ({ _id, listingTitle, description, service, maxGuests, images, user, soundengineer, pricing, studio }) => (
+            <ListingCardWideStudioService
               key={_id}
+              id={_id}
               listingTitle={listingTitle}
               images={images}
-              studiotype={studiotype}
-              studioService={studioService}
+              service={service}
+              maxGuests={maxGuests}
+              description={description}
               soundengineer={soundengineer}
-              studioPricing={studioPricing}
-              locationFeatures={locationFeatures}
-              studioLocation={studioLocation}></ListingCards>
+              pricing={pricing}
+              studio={studio}
+              user={user}
+            />
           )
         )}
-      </>
-    </>
+      </section>
+    </section>
   );
 }
 
@@ -46,12 +41,27 @@ All.getLayout = function getLayout(page) {
 export async function getServerSideProps() {
   await db.connect();
 
-  const fetchingListings = await StudioListing.find();
-  const fetchedListings = JSON.parse(JSON.stringify(fetchingListings));
+  const fetchingStudioServices = await StudioService.find()
+    .populate({
+      path: 'studio',
+      model: 'StudioListing',
+    })
+    .populate({
+      path: 'service',
+      model: 'AdminStudioService',
+      select: 'name queryString -_id',
+    })
+    .populate({
+      path: 'user',
+      model: 'users',
+      select: 'avatar email name lastname username',
+    });
 
+  const fetchedStudioServices = JSON.parse(JSON.stringify(fetchingStudioServices));
+  console.log(fetchedStudioServices);
   return {
     props: {
-      listings: fetchedListings || null,
+      services: fetchedStudioServices || null,
     },
   };
 }

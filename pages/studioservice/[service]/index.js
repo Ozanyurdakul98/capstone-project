@@ -4,10 +4,10 @@ import StudioListing from '../../../models/StudioListing';
 //components
 import Layout from '../../../components/Layout/Layout';
 import StudioService from '../../../models/StudioService';
-import { Resultpage } from '../../../components/Result/Resultpage';
+import { ResultpageStudioservices } from '../../../components/Result/ResultpageStudioservices';
 
 function StudioServiceResults({ studios, serviceName, path }) {
-  return <Resultpage studios={studios} path={path} header={serviceName}></Resultpage>;
+  return <ResultpageStudioservices studios={studios} path={path} header={serviceName}></ResultpageStudioservices>;
 }
 export default StudioServiceResults;
 

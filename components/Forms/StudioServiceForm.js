@@ -342,6 +342,7 @@ export function StudioServiceForm({
                       pricing={form.pricing}
                       locationFeatures={form.locationFeatures}
                       studio={selectedStudioInformation || studio}
+                      user={selectedStudioInformation?.user || studio.user}
                     />
                   </div>
                   <div className="ml-5 pb-4">

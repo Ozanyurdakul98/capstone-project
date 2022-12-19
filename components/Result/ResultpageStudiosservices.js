@@ -1,6 +1,6 @@
-import ListingCardWideStudio from '../../components/Result/ListingCardWideStudio';
+import ListingCardWideStudio from './ListingCardWideStudio';
 
-export function Resultpage(props) {
+export function ResultpageStudioservices(props) {
   return (
     <div className="my-20">
       <div>
