@@ -1,9 +1,9 @@
-import { FormInput } from './FormInput';
+import { FormInput } from '../FormInput';
 import Image from 'next/image.js';
 import { TbHandClick } from 'react-icons/tb';
 import { MdDeleteForever } from 'react-icons/md';
 
-export function AddStudioForm(props) {
+export function AddStudioFormfields(props) {
   return (
     <>
       {/* Logo, studioname-/text */}
@@ -231,7 +231,6 @@ export function AddStudioForm(props) {
               id="studioRooms"
               checked={props.checked.studioInformation.includes('studioRooms')}
               onChange={(event) => {
-                props.handleChange(event);
                 props.handleCheck(event);
               }}
             />

@@ -5,7 +5,7 @@ import ListingCardCarousellStudio from '../../components/Result/ListingCardCarou
 import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../../components/BackgroundOverlay';
 import Link from 'next/link.js';
 import { useRouter } from 'next/router';
-import { AddStudioForm } from '../../components/Forms/AddStudioForm';
+import { AddStudioFormfields } from '../../components/Forms/Formfields/AddStudioFormfields';
 import DashboardLayout from '../../components/Layout/DashboardLayout.js';
 import db from '../../lib/dbConnect.js';
 import { getToken } from 'next-auth/jwt';
@@ -312,7 +312,7 @@ function DashboardAddStudio({ userID }) {
           </p>
         </div>
         <form noValidate className="text-primary w-full" onSubmit={handleFormSubmit}>
-          <AddStudioForm
+          <AddStudioFormfields
             form={form}
             setForm={setForm}
             checked={checked}
@@ -324,7 +324,8 @@ function DashboardAddStudio({ userID }) {
             handleChange={handleChange}
             handleDelete={handleDelete}
             studioLanguagesSearch={studioLanguagesSearch}
-            handleCheck={handleCheck}></AddStudioForm>
+            handleCheck={handleCheck}
+          />
           {/* PreviewModal */}
           <fieldset>
             {preview && (

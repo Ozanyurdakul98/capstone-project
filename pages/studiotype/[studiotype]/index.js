@@ -3,10 +3,11 @@ import db from '../../../lib/dbConnect';
 import StudioListing from '../../../models/StudioListing';
 //components
 import Layout from '../../../components/Layout/Layout';
-import { Resultpage } from '../../../components/Result/Resultpage';
+import { ResultpageStudios } from '../../../components/Result/ResultpageStudios';
+import { wordCapitalize } from '../../../utils';
 
-function StudioTypeResults({ studios, studioType }) {
-  return <Resultpage studios={studios} header={studioType}></Resultpage>;
+function StudioTypeResults({ studios, studiosCount, studioType }) {
+  return <ResultpageStudios count={studiosCount} studios={studios} header={studioType}></ResultpageStudios>;
 }
 
 export default StudioTypeResults;
@@ -17,32 +18,24 @@ StudioTypeResults.getLayout = function getLayout(page) {
 
 export async function getServerSideProps(context) {
   await db.connect();
-  const { type } = context.query;
-  let sanitizedStudios;
-  let studioType;
-  if (type === 'homestudio') {
-    studioType = 'Home Studio';
-  } else if (type === 'mediumstudio') {
-    studioType = 'Medium Studio';
-  } else if (type === 'premiumstudio') {
-    studioType = 'Premium Studio';
-  }
-  const getStudiosWithType = await StudioListing.find({ studiotype: 'Home Studio' })
+  const { studiotype } = context.query;
+  const type = wordCapitalize(studiotype.replace(/-/g, ' '));
+
+  const getStudiosWithType = await StudioListing.find({ studiotype: type })
     .populate({
-      path: 'studioService',
-      model: 'StudioService',
-      select: 'name -_id',
+      path: 'user',
+      model: 'users',
     })
     .sort({ $natural: -1 });
-  const serializing = JSON.parse(JSON.stringify(getStudiosWithType));
-  sanitizedStudios = serializing.map((studio) => ({
-    ...studio,
-    studioService: studio.studioService.map((service) => service.name),
-  }));
+  const serializedStudios = JSON.parse(JSON.stringify(getStudiosWithType));
+
+  const getStudiosWithTypeCount = await StudioListing.find({ studiotype: type }).count();
+
   return {
     props: {
-      studios: sanitizedStudios || null,
-      studioType: studioType || null,
+      studios: serializedStudios || null,
+      studiosCount: getStudiosWithTypeCount,
+      studioType: type || null,
     },
   };
 }

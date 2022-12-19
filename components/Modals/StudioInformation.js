@@ -1,8 +1,8 @@
 import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../BackgroundOverlay';
 
-export default function StudioInformation({ studio, setOpenView }) {
+export default function StudioInformation({ studio, setStep }) {
   const handleClickToCloseInfoModal = () => {
-    setOpenView('');
+    setStep('selectStudio');
   };
   return (
     <>
@@ -48,7 +48,7 @@ export default function StudioInformation({ studio, setOpenView }) {
             <button
               className="duration-75 ease-in-out hover:scale-110"
               onClick={() => {
-                setOpenView('');
+                setStep('selectStudio');
               }}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"

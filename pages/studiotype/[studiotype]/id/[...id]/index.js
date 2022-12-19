@@ -9,8 +9,15 @@ import moment from 'moment';
 import Image from 'next/image';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { MyLink } from '../../../../../components/MyLink';
 
-function StudioDetailpage({ serializedStudio, studioServicesCount, serializedStudioservices }) {
+function StudioDetailpage({
+  serializedStudio,
+  studioServicesCount,
+  studioServicesByUserCount,
+  studioListingsCount,
+  serializedStudioservices,
+}) {
   // eslint-disable-next-line no-unused-vars
   const router = useRouter();
   const studio = serializedStudio[0];
@@ -27,7 +34,7 @@ function StudioDetailpage({ serializedStudio, studioServicesCount, serializedStu
           layout="fill"
           objectFit="cover"
           objectPosition={'center'}
-          className="rounded-xl"
+          className=""
           alt="Studio image"
         />
       </section>
@@ -80,7 +87,7 @@ function StudioDetailpage({ serializedStudio, studioServicesCount, serializedStu
                 <div className="flex justify-center pb-0 sm:pt-2 lg:pt-4">
                   <div className="p-3 text-center">
                     <span className="block text-xl font-bold uppercase tracking-wide text-slate-700">
-                      {studioServicesCount}
+                      {studioServicesCount ? studioServicesCount : '0'}
                     </span>
                     <span className="text-sm text-slate-400">Services</span>
                   </div>
@@ -89,35 +96,34 @@ function StudioDetailpage({ serializedStudio, studioServicesCount, serializedStu
             </div>
           </section>
           {/* Profiledescription */}
-          <section className="mb-5 flex max-w-lg flex-col justify-center  px-7 pb-5 text-sm text-gray-600 sm:pb-0">
-            <div>
-              <h2 className="h2LandingP">About this Studio</h2>
-            </div>
-            <div>
-              <p className="sm:pt-5">{studio.profileText}</p>
-            </div>
+          <section className="mx-auto mb-5 flex max-w-lg flex-col justify-center overflow-x-clip px-7  pb-5 text-sm text-gray-600 sm:pb-0 md:mx-0">
+            <h2 className="h2LandingP">About this Studio</h2>
+            <p className="break-words sm:pt-5">{studio.profileText}</p>
           </section>
         </section>
         {/* StudioservicesSection */}
         <section className="min-h-[350px] px-7">
           <h2 className="h2LandingP">Our Studio services</h2>
-          {serializedStudioservices.map(
-            ({ _id, listingTitle, description, service, maxGuests, images, soundengineer, pricing }) => (
-              <ListingCardCarousellStudioService
-                key={_id}
-                listingTitle={listingTitle}
-                images={images}
-                service={service}
-                studiotype={studio.studiotype}
-                maxGuests={maxGuests}
-                description={description}
-                soundengineer={soundengineer}
-                pricing={pricing}
-                locationFeatures={studio.locationFeatures}
-                studio={studio}
-              />
-            )
-          )}
+          <section className="flex ">
+            {serializedStudioservices.map(
+              ({ _id, listingTitle, description, service, maxGuests, images, soundengineer, pricing }) => (
+                <ListingCardCarousellStudioService
+                  key={_id}
+                  id={_id}
+                  listingTitle={listingTitle}
+                  images={images}
+                  service={service}
+                  studiotype={studio.studiotype}
+                  maxGuests={maxGuests}
+                  description={description}
+                  soundengineer={soundengineer}
+                  pricing={pricing}
+                  locationFeatures={studio.locationFeatures}
+                  studio={studio}
+                />
+              )
+            )}
+          </section>
         </section>
         {/* DetailsSection */}
         <section className="rounded-md bg-white py-16 text-black shadow-lg">
@@ -219,9 +225,9 @@ function StudioDetailpage({ serializedStudio, studioServicesCount, serializedStu
           </section>
           {/* Studiofeatures */}
           <section className="mb-14 px-7 text-xs text-gray-600 md:text-sm">
-            <ul className="grid grid-cols-smbg gap-2 sm:grid-cols-smbgsm ">
+            <ul className="grid grid-cols-smbg gap-2 sm:grid-cols-smbgbg ">
               <li className="h2LandingP col-start-1 row-span-2 text-sm font-bold lg:text-base">Studio Features</li>
-              <ul className="grid grid-cols-2 gap-2 lg:pl-5">
+              <ul className="grid grid-cols-2 gap-2">
                 {studio.locationFeatures.map((feature) => (
                   <li key={feature} className="col-auto flex items-center">
                     <svg
@@ -368,7 +374,7 @@ function StudioDetailpage({ serializedStudio, studioServicesCount, serializedStu
                   </span>
                   <span className="font-semibold">{studio.studioRules.includes('Eating') ? 'Yes' : 'No'}</span>
                 </li>
-                <li className="flex items-center justify-between">
+                <li className="mb-5 flex items-center justify-between">
                   <span className="flex">
                     {studio.studioRules.includes('Party') ? (
                       <svg
@@ -397,24 +403,22 @@ function StudioDetailpage({ serializedStudio, studioServicesCount, serializedStu
                   </span>
                   <span className="font-semibold">{studio.studioRules.includes('Party') ? 'Yes' : 'No'}</span>
                 </li>
+                {/* Additional StudioRules */}
+                {studio.additionalStudioRules ? (
+                  <li>
+                    <section className="px-2 text-xs text-gray-600 lg:text-sm">
+                      <h4 className="font-semibold text-black">Additional Rules</h4>
+                      <p className="">{studio.additionalStudioRules}</p>
+                    </section>
+                  </li>
+                ) : null}
               </ul>
             </ul>
           </section>
-          {/* Additional StudioRules */}
-          {studio.additionalStudioRules ? (
-            <section className="px-7 text-xs text-gray-600 lg:text-sm">
-              <div className="grid grid-cols-smbg gap-2 sm:grid-cols-smbgbg">
-                <div className="col-span-2 col-start-2 flex flex-col gap-2">
-                  <h4 className="font-semibold text-black">Additional Rules</h4>
-                  <p className="">{studio.additionalStudioRules}</p>
-                </div>
-              </div>
-            </section>
-          ) : null}
         </section>
       </section>
       {/* StudioOwner Card */}
-      <section className="container relative bottom-44 mx-auto mt-28 mb-10 lg:mt-20 lg:grid lg:grid-cols-landingpage lg:gap-5">
+      <section className="container relative bottom-44 mx-auto mt-28 mb-10 px-[30px] lg:mt-20">
         <div className="relative mx-auto my-6 mt-16 w-full min-w-0 break-words rounded-xl bg-white shadow-lg ">
           <div className="px-6">
             {/* top */}
@@ -437,15 +441,19 @@ function StudioDetailpage({ serializedStudio, studioServicesCount, serializedStu
               <div className="mt-20 w-full text-center">
                 <div className="flex justify-center pt-8 pb-0 lg:pt-4">
                   <div className="p-3 text-center">
-                    <span className="block text-xl font-bold uppercase tracking-wide text-slate-700">60</span>
+                    <span className="block text-xl font-bold uppercase tracking-wide text-slate-700">
+                      {studioListingsCount}
+                    </span>
                     <span className="text-sm text-slate-400">Studios</span>
                   </div>
-                  <div className="p-3 text-center">
+                  {/* <div className="p-3 text-center">
                     <span className="block text-xl font-bold uppercase tracking-wide text-slate-700">2,454</span>
                     <span className="text-sm text-slate-400">Followers</span>
-                  </div>
+                  </div> */}
                   <div className="p-3 text-center">
-                    <span className="block text-xl font-bold uppercase tracking-wide text-slate-700">54</span>
+                    <span className="block text-xl font-bold uppercase tracking-wide text-slate-700">
+                      {studioServicesByUserCount}
+                    </span>
                     <span className="text-sm text-slate-400">Services</span>
                   </div>
                 </div>
@@ -453,26 +461,22 @@ function StudioDetailpage({ serializedStudio, studioServicesCount, serializedStu
             </div>
             {/* middle */}
             <div className="mt-2 text-center">
-              <h3 className="mb-1 text-2xl font-bold leading-normal text-slate-700">Marvellous Soundstudio 24</h3>
-              <div className="mt-0 mb-2 text-xs font-bold uppercase text-slate-400">
-                <i className="mr-2 text-slate-400 opacity-75">Paris, France</i>
-              </div>
-            </div>
-            <div className="mt-0 mb-2 text-xs font-bold uppercase text-slate-400">
-              Languages: <span className="text-sm font-thin normal-case">English, Francais, German</span>
+              <h3 className="mb-4 text-2xl font-bold leading-normal text-slate-700">{studio.user.username}</h3>
             </div>
             {/* buttons */}
             <div className="mt-3 flex gap-3 text-slate-400">
-              <button
-                type="button"
-                className="w-full rounded-md border py-2 hover:bg-gray-200/70 hover:text-gray-400/70">
-                Contact Studio
-              </button>
-              <button
-                type="button"
-                className="w-full rounded-md border py-2 hover:bg-gray-200/70 hover:text-gray-400/70">
-                View Studio
-              </button>
+              <MyLink
+                href={`mailto:${encodeURIComponent(studio.user.email)}?subject=${encodeURIComponent(
+                  'Request for ' + studio.studioName
+                )}&body=${encodeURIComponent('Hello, I am interested in in your Studio ' + studio.studioName + '.')}`}
+                className="w-full rounded-md border py-2 text-center hover:bg-gray-200/70 hover:text-gray-400/70">
+                Contact User
+              </MyLink>
+              <MyLink
+                href={`/#`}
+                className="w-full rounded-md border py-2 text-center hover:bg-gray-200/70 hover:text-gray-400/70">
+                View Profile
+              </MyLink>
             </div>
             {/* bottom */}
             <div className="mt-3 border-t border-slate-200 py-6 text-center">
@@ -510,14 +514,17 @@ export async function getServerSideProps(context) {
   const serializeStudio = [JSON.parse(JSON.stringify(fetchStudio))];
   const serializedStudio = serializeStudio.map((studio) => ({
     ...studio,
-    // studioService: studio.studioService.map((service) => service.name),
     createdAt: moment(studio.createdAt).format('DD/MM/yyyy'),
     createdAtTime: moment(studio.createdAt).format('kk:mm'),
     updatedAt: moment(studio.updatedAt).format('DD/MM/yyyy'),
     updatedAtTime: moment(studio.updatedAt).format('kk:mm'),
   }));
 
-  const studioServicesCount = await StudioService.find({ studio: id }).count();
+  const userId = serializeStudio[0].user._id;
+  const studioServicesByStudioCount = await StudioService.find({ studio: id }).count();
+  const studioServicesByUserCount = await StudioService.find({ user: userId }).count();
+  const studioListingsCount = await StudioListing.find({ user: userId }).count();
+
   const fetchStudioservices = await StudioService.find({ studio: id })
     .populate({
       path: 'user',
@@ -527,22 +534,16 @@ export async function getServerSideProps(context) {
     .populate({
       path: 'service',
       model: 'AdminStudioService',
-      select: 'name -_id',
+      select: 'name queryString -_id',
     });
   const serializeStudioservices = JSON.parse(JSON.stringify(fetchStudioservices));
-  // const serializedStudioservices = serializeStudio.map((studio) => ({
-  //   ...studio,
-  //   // studioService: studio.studioService.map((service) => service.name),
-  //   createdAt: moment(studio.createdAt).format('DD/MM/yyyy'),
-  //   createdAtTime: moment(studio.createdAt).format('kk:mm'),
-  //   updatedAt: moment(studio.updatedAt).format('DD/MM/yyyy'),
-  //   updatedAtTime: moment(studio.updatedAt).format('kk:mm'),
-  // }));
   return {
     props: {
       serializedStudio: serializedStudio,
       serializedStudioservices: serializeStudioservices || null,
-      studioServicesCount: studioServicesCount || null,
+      studioServicesCount: studioServicesByStudioCount || null,
+      studioServicesByUserCount: studioServicesByUserCount || null,
+      studioListingsCount: studioListingsCount || null,
     },
   };
 }

@@ -1,13 +1,14 @@
 //db
 import db from '../../../lib/dbConnect';
-import StudioListing from '../../../models/StudioListing';
+// import StudioListing from '../../../models/StudioListing';
 //components
 import Layout from '../../../components/Layout/Layout';
 import StudioService from '../../../models/StudioService';
-import { Resultpage } from '../../../components/Result/Resultpage';
+import { ResultpageStudioservices } from '../../../components/Result/ResultpageStudioservices';
+import AdminStudioService from '../../../models/AdminCreateStudioService';
 
-function StudioServiceResults({ studios, serviceName, path }) {
-  return <Resultpage studios={studios} path={path} header={serviceName}></Resultpage>;
+function StudioServiceResults({ studioServices, studioServicesCount, header }) {
+  return <ResultpageStudioservices count={studioServicesCount} studioServices={studioServices} header={header} />;
 }
 export default StudioServiceResults;
 
@@ -18,28 +19,35 @@ StudioServiceResults.getLayout = function getLayout(page) {
 export async function getServerSideProps(context) {
   await db.connect();
   const serviceQueryName = context.query.service;
-  const serviceName = await StudioService.find({ queryString: serviceQueryName }).select('name -_id');
-  const sanitizeServiceName = serviceName[0].name;
-  const serviceID = await StudioService.find({ queryString: serviceQueryName }).select('_id');
-  const serializedServiceID = JSON.parse(JSON.stringify(serviceID[0]._id));
-  const studiosWithID = await StudioListing.find({ studioService: serializedServiceID })
+
+  const adminService = await AdminStudioService.find({ queryString: serviceQueryName });
+  const adminServiceName = adminService[0].name;
+  const adminServiceId = adminService[0]._id;
+  const serializedadminServiceId = JSON.parse(JSON.stringify(adminServiceId));
+
+  const StudioservicesByService = await StudioService.find({ service: serializedadminServiceId })
     .populate({
-      path: 'studioService',
-      model: 'StudioService',
-      select: 'name -_id',
+      path: 'service',
+      model: 'AdminStudioService',
+    })
+    .populate({
+      path: 'studio',
+      model: 'StudioListing',
+    })
+    .populate({
+      path: 'user',
+      model: 'users',
     })
     .sort({ $natural: -1 });
+  const serializedStudioservicesByService = JSON.parse(JSON.stringify(StudioservicesByService));
 
-  const serializingStudiosWithID = JSON.parse(JSON.stringify(studiosWithID));
-  const serializedStudiosWithID = serializingStudiosWithID.map((studio) => ({
-    ...studio,
-    studioService: studio.studioService.map((service) => service.name),
-  }));
+  const StudioservicesByServiceCount = await StudioService.find({ service: serializedadminServiceId }).count();
+
   return {
     props: {
-      studios: serializedStudiosWithID || null,
-      serviceName: sanitizeServiceName || null,
-      path: serviceQueryName || null,
+      studioServices: serializedStudioservicesByService || null,
+      studioServicesCount: StudioservicesByServiceCount,
+      header: adminServiceName || null,
     },
   };
 }

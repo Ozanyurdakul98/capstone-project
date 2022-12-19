@@ -8,7 +8,7 @@ import { ValidateCreateStudioService } from '../../../helpers/Validate';
 import { DeleteModal } from '../../../components/Modals/DeleteModal';
 import { useRouter } from 'next/router';
 import { TbEdit } from 'react-icons/tb';
-import EditStudioService from '../../../components/Forms/EditStudioService';
+import EditAdminStudioService from '../../../components/Forms/EditAdminStudioService';
 
 export default function AdminDashboard({ studioServices }) {
   const [ID, setID] = useState('');
@@ -156,9 +156,10 @@ export default function AdminDashboard({ studioServices }) {
               </span>
             ))}
             {openStudioServiceEditView ? (
-              <EditStudioService
+              <EditAdminStudioService
                 toUpdateStudioService={toUpdateStudioService}
-                setOpenStudioServiceEditView={setOpenStudioServiceEditView}></EditStudioService>
+                setOpenStudioServiceEditView={setOpenStudioServiceEditView}
+              />
             ) : null}
             {deleteModal ? (
               <DeleteModal

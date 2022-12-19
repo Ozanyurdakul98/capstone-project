@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { MyLink } from '../MyLink';
 
 export function HomepageStudioTypesGrid() {
   const links = [
@@ -6,21 +6,21 @@ export function HomepageStudioTypesGrid() {
       header: 'Home Studio',
       p1: 'The Studio equipment serves its purpose. It has already some (private) customers/projects.',
       p2: 'The studio is in the lower price segment',
-      link: '/studiotype/homestudio',
+      link: '/studiotype/home-studio',
       btn: 'Home Studio',
     },
     {
       header: 'Medium Studio',
       p1: 'The Studio has good facilities. There is already a greater customer experience experience and good references.',
       p2: 'The studio is in the middle price segment',
-      link: '/studiotype/mediumstudio',
+      link: '/studiotype/medium-studio',
       btn: 'Medium Studio',
     },
     {
       header: 'Premium Studio',
       p1: 'Studios with premium equipment, atmospheric rooms and many extras. The studio has many years of experience and top references.',
       p2: 'The studio is in the upper price segment',
-      link: '/studiotype/premiumstudio',
+      link: '/studiotype/premium-studio',
       btn: 'Premium Studio',
     },
   ];
@@ -41,13 +41,12 @@ export function HomepageStudioTypesGrid() {
                   {link.p2}
                 </p>
               </div>
-              <Link href={link.link}>
-                <button
-                  type="button"
-                  className=" bg-secondary inline-block rounded-xl px-6 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg">
-                  {link.btn}
-                </button>
-              </Link>
+              <MyLink
+                type="button"
+                href={link.link}
+                className=" bg-secondary inline-block rounded-xl px-6 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg">
+                {link.btn}
+              </MyLink>
             </div>
           </article>
         ))}

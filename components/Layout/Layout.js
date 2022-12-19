@@ -16,7 +16,7 @@ export default function Layout({ children }) {
         callbackUrl: '/signin',
       });
     }
-    if (!session?.token) {
+    if (session && !session.token) {
       signOut({
         callbackUrl: '/signin',
       });

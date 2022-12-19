@@ -1,40 +1,10 @@
 import db from '../../lib/dbConnect';
-import StudioListing from '../../models/StudioListing';
-import ListingCards from '../../components/Result/ListingCardWideStudioService';
+import StudioService from '../../models/StudioService';
 import Layout from '../../components/Layout/Layout';
+import { ResultpageStudioservices } from '../../components/Result/ResultpageStudioservices';
 
-function All({ listings }) {
-  return (
-    <>
-      <h1>All Search results</h1>
-      <>
-        {listings.map(
-          ({
-            _id,
-            listingTitle,
-            images,
-            studiotype,
-            studioService,
-            soundengineer,
-            studioPricing,
-            locationFeatures,
-            studioLocation,
-          }) => (
-            <ListingCards
-              key={_id}
-              listingTitle={listingTitle}
-              images={images}
-              studiotype={studiotype}
-              studioService={studioService}
-              soundengineer={soundengineer}
-              studioPricing={studioPricing}
-              locationFeatures={locationFeatures}
-              studioLocation={studioLocation}></ListingCards>
-          )
-        )}
-      </>
-    </>
-  );
+function All({ studioServices, studioServicesCount, header }) {
+  return <ResultpageStudioservices count={studioServicesCount} studioServices={studioServices} header={header} />;
 }
 
 export default All;
@@ -46,12 +16,31 @@ All.getLayout = function getLayout(page) {
 export async function getServerSideProps() {
   await db.connect();
 
-  const fetchingListings = await StudioListing.find();
-  const fetchedListings = JSON.parse(JSON.stringify(fetchingListings));
+  const fetchingStudioServices = await StudioService.find()
+    .populate({
+      path: 'studio',
+      model: 'StudioListing',
+    })
+    .populate({
+      path: 'service',
+      model: 'AdminStudioService',
+      select: 'name queryString -_id',
+    })
+    .populate({
+      path: 'user',
+      model: 'users',
+      select: 'avatar email name lastname username',
+    });
+  const fetchedStudioServices = JSON.parse(JSON.stringify(fetchingStudioServices));
 
+  const studioServicesCount = await StudioService.find().count();
+
+  const header = 'All Studioservices';
   return {
     props: {
-      listings: fetchedListings || null,
+      studioServices: fetchedStudioServices || null,
+      studioServicesCount: studioServicesCount || null,
+      header: header || null,
     },
   };
 }

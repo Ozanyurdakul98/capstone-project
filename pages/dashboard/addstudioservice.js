@@ -8,20 +8,19 @@ import StudioListing from '../../models/StudioListing';
 import StudioInformation from '../../components/Modals/StudioInformation';
 import AdminStudioService from '../../models/AdminCreateStudioService';
 import { StudioServiceForm } from '../../components/Forms/StudioServiceForm';
+import { MyLink } from '../../components/MyLink';
 
 export default function DashboardAddStudioservice({ fetchedStudios, sanitizedServices, role }) {
   const [step, setStep] = useState('selectStudio');
   const [selectedStudio, setSelectedStudio] = useState(false);
   const [selectedStudioInformation, setSelectedStudioInformation] = useState('');
-  const [openModal, setOpenModal] = useState(false);
 
   const selectingStudio = (val) => {
     const thisStudio = fetchedStudios.filter((studio) => studio._id === val.id);
     setSelectedStudio({ studio: thisStudio[0]._id, user: thisStudio[0].user._id });
     setSelectedStudioInformation(thisStudio[0]);
-    setOpenModal(true);
+    setStep('info');
   };
-
   return (
     <div>
       {/* welcome */}
@@ -35,7 +34,7 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
       {/* studios and addstudioForm */}
       <section className="mt-10">
         {/* studiorow */}
-        {step === 'selectStudio' ? (
+        {step === 'selectStudio' || step === 'info' ? (
           <section>
             {/* heading */}
             <div className="mb-5">
@@ -43,7 +42,7 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
               <p>Choose the Studio you want add a Studioservice to. Then you will be able to click on Next</p>
             </div>
             {/* studios */}
-            <section>
+            <section aria-label="select your studio">
               {fetchedStudios.map(
                 ({
                   _id,
@@ -72,10 +71,12 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
                 )
               )}
             </section>
-            {/* StudioInformationModal */}
-            <section>
-              {openModal ? <StudioInformation setOpenModal={setOpenModal} studio={selectedStudioInformation} /> : null}
-            </section>
+          </section>
+        ) : null}
+        {/* StudioInformationModal */}
+        {step === 'info' ? (
+          <section aria-label="info modal for studio you just selected">
+            <StudioInformation setStep={setStep} studio={selectedStudioInformation} />
           </section>
         ) : null}
         {/* addstudioservice */}
@@ -88,21 +89,11 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
               role={role}
             />
           </section>
-        ) : null}
-      </section>
-      {/* buttons */}
-      <section className="flex max-w-6xl justify-between gap-3 sm:gap-20 md:gap-80 ">
-        {step === 'addStudioservice' ? (
-          <></>
         ) : (
-          <>
-            <button
-              type="button"
-              className="form-button bg-black text-white hover:bg-black"
-              onClick={() => {
-                // router.push('/dashboard/addstudio');
-              }}>
-              Add Studio
+          // buttons if no studio selected
+          <section className="flex max-w-6xl justify-between gap-3 sm:gap-20 md:gap-80 ">
+            <button type="button" className="form-button bg-black text-white hover:bg-black">
+              <MyLink href="/dashboard/addstudio">Add Studio instead</MyLink>
             </button>
             <button
               type="button"
@@ -113,7 +104,7 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
               className="form-button text-white">
               {!selectedStudio ? 'Select a Studio' : 'Next'}
             </button>
-          </>
+          </section>
         )}
       </section>
     </div>

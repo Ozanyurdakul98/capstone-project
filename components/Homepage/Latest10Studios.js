@@ -79,8 +79,8 @@ const CustomButtonGroup = ({ next, previous }) => {
   return (
     <>
       <div className="absolute inset-x-0 top-0 flex w-full flex-col items-start justify-between px-5">
-        <h2 className="h2">The 10 latest added Studios</h2>
-        <p className="pl-3">Each Studio profile lists its own studio services</p>
+        <h2 className="h2">10 latest added Studios</h2>
+        <p className="pl-3">Each Studioprofile has its own studio services</p>
       </div>
       <div className="absolute inset-x-0 top-12 flex w-full items-end justify-between">
         <div className="flex w-full justify-end gap-2 pb-1 pr-1 2xl:gap-4">

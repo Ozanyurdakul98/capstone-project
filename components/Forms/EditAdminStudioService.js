@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../BackgroundOverlay';
 import Link from 'next/link.js';
 import { useRouter } from 'next/router';
-import { AdminCreateStudioService } from './AdminCreateStudioService';
+import { AdminCreateStudioService } from './Formfields/AdminCreateStudioService';
 import { Spinner } from '../Spinner';
 import { ValidateCreateStudioService } from '../../helpers/Validate';
 
-function EditStudioService({ toUpdateStudioService, setOpenStudioServiceEditView }) {
+function EditAdminStudioService({ toUpdateStudioService, setOpenStudioServiceEditView }) {
   const data = toUpdateStudioService;
   const defaultPic = '/images/Thumbnail-default.png';
   const [form, setForm] = useState(data);
@@ -118,7 +118,8 @@ function EditStudioService({ toUpdateStudioService, setOpenStudioServiceEditView
                   length={Object.keys(formErrors).length}
                   formErrors={formErrors}
                   handleDeleteImage={handleDeleteImage}
-                  handleChange={handleChange}></AdminCreateStudioService>
+                  handleChange={handleChange}
+                />
                 {/* ErrorModal */}
                 <fieldset>
                   {submissionFailed ? (
@@ -185,4 +186,4 @@ function EditStudioService({ toUpdateStudioService, setOpenStudioServiceEditView
   );
 }
 
-export default EditStudioService;
+export default EditAdminStudioService;

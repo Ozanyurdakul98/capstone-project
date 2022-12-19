@@ -4,66 +4,91 @@ import Image from 'next/image';
 import { IoIosWifi } from 'react-icons/io';
 import { RiParkingBoxLine } from 'react-icons/ri';
 import { TbSmoking } from 'react-icons/tb';
-import { MdBed, MdFastfood } from 'react-icons/md';
-import Link from 'next/link';
+import { MdBed, MdFastfood, MdLocationPin } from 'react-icons/md';
+import { MyLink } from '../MyLink';
 
-function ListingCard({
+function ListingCardWideStudio({
   id,
-  path,
   preview,
   logo,
   studioName,
   studiotype,
   studioLanguages,
+  profileText,
   openingHours,
   locationFeatures,
   studioLocation,
+  user,
 }) {
   const type = studiotype?.toLowerCase().replace(/ /g, '');
-  const title = studioName?.toLowerCase().replace(/ /g, '-');
+  const name = studioName?.toLowerCase().replace(/ /g, '-');
   return (
-    <Link
+    <MyLink
       href={
         preview
           ? '#'
           : {
-              pathname: '/studiotype/[path]/id/[type]/[title]/[id]',
-              query: { path: `${path}`, type: `${type}`, title: `${title}`, id: `${id}` },
+              pathname: '/studiotype/[type]/id/[name]/[id]',
+              query: { type: `${type}`, name: `${name}`, id: `${id}` },
             }
       }>
-      <article>
-        <div className="flex w-full cursor-pointer items-center rounded-lg border-b py-7 px-2 first:border hover:opacity-80 hover:shadow-lg">
-          <div className="flex h-24 w-32 shrink-0 justify-center sm:h-32 sm:w-48 md:h-36 md:w-56 lg:h-52 lg:w-80">
-            <div className="relative h-24 w-24  shrink-0 sm:h-32 sm:w-32 md:h-36 md:w-36 lg:h-52 lg:w-52">
+      <article className="relative">
+        <div className="flex w-full cursor-pointer items-center rounded-lg border-b bg-white p-2 first:border hover:opacity-80 hover:shadow-lg">
+          {/* image */}
+          <div className="relative flex h-20 w-24 shrink-0 items-center justify-center sm:h-24 sm:w-32 md:h-28 md:w-36 lg:h-44 lg:w-52">
+            <div className="relative h-20 w-20  shrink-0 sm:h-24 sm:w-24 md:h-28 md:w-28 lg:h-44 lg:w-44">
               <Image src={logo} layout="fill" objectFit="cover" className="rounded-full" alt="Thumbnail" />
             </div>
           </div>
+          {/* informations */}
           <div className="flex w-full flex-col justify-between pl-2 sm:pl-5">
-            <div className="flex flex-col md:gap-2">
-              {/* studiolocation */}
-              <div className="flex items-center justify-between">
-                <p className="truncate text-xs text-gray-400">{studioLocation}</p>
+            {/* user */}
+            <div
+              title="user information"
+              className="right-2 top-2 hidden flex-col items-end truncate text-xs text-gray-400 sm:absolute sm:flex ">
+              <div className="relative h-8 w-8 shrink-0 md:h-10 md:w-10 lg:h-12 lg:w-12">
+                <Image src={user.avatar} layout="fill" objectFit="cover" className="rounded-full" alt="Thumbnail" />
               </div>
-              {/* studiotype */}
+              <p className="w-full truncate text-center text-xs text-gray-400">{user.username}</p>
+            </div>
+            {/* firstline */}
+            <section className="flex flex-col md:gap-2">
+              {/* studiolocation */}
+              <div className="relative flex items-center justify-between">
+                <p className="flex gap-1 truncate text-xs text-gray-400">
+                  <MdLocationPin className="h-[15px] w-[15px]" />
+                  {studioLocation}
+                </p>
+              </div>
+              {/* studiotype and openinghours*/}
               <div className="flex gap-2">
-                <p className="bg-secondary border-secondary flex truncate rounded border px-1  text-xs text-white sm:text-sm md:text-sm  ">
+                <p className="bg-secondary border-secondary flex truncate rounded border px-1 text-xs text-white">
                   {studiotype}
                 </p>
                 <p
-                  className={
-                    'bg-primary truncate  rounded border border-slate-700 px-1  text-xs text-white sm:text-sm md:text-sm  '
-                  }>
+                  title="studio openinghours"
+                  className={'bg-primary border-primary  truncate rounded border px-1 text-xs text-white'}>
                   {openingHours}
                 </p>
               </div>
-            </div>
-            {/* StudioName */}
-            <h4 className="pt-1 text-[16px] sm:text-xl md:text-2xl">{studioName}</h4>
-            <div className="flex   items-center  ">
-              <p className=" pr-1 text-sm line-clamp-1 sm:text-sm md:text-sm lg:text-base xl:text-lg">
-                {studioLanguages.join('  ')}
-              </p>
-            </div>
+            </section>
+            {/* middle */}
+            <section className="flex w-full max-w-md flex-col justify-between">
+              {/* StudioName */}
+              <h3 title="studio name" className="pt-1 text-[16px] sm:text-xl lg:text-xl">
+                {studioName}
+              </h3>
+              {/* languages and profiletext*/}
+              <div className="flex flex-col justify-center">
+                <p title="languages the studio speaks" className="pr-1 text-xs line-clamp-1">
+                  {studioLanguages.join(' ° ')}
+                </p>
+                <p title="studio profiletext" className="max-w-sm break-words text-xs text-gray-400 line-clamp-2">
+                  {profileText}
+                </p>
+              </div>
+            </section>
+            {/* icons */}
             <div className="flex items-center justify-between">
               <div className="flex gap-2 pt-2">
                 {locationFeatures.includes('Wi-Fi') ? <IoIosWifi className="icon" title="Wi-Fi" /> : null}
@@ -79,8 +104,8 @@ function ListingCard({
           </div>
         </div>
       </article>
-    </Link>
+    </MyLink>
   );
 }
 
-export default ListingCard;
+export default ListingCardWideStudio;

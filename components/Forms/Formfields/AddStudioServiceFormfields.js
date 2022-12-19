@@ -11,7 +11,7 @@ export function AddStudioServiceFormfields(props) {
   return (
     <>
       {/* Seperator */}
-      <div className="h2 border-primary mt-16 w-full border-b-2">Main informations</div>
+      <div className="h2 border-primary w-full border-b-2">Main informations</div>
       {/* services */}
       <fieldset className="listingForm  flex flex-col gap-3 ">
         <legend className="label-form mb-0">Studioservice*</legend>
@@ -81,7 +81,7 @@ export function AddStudioServiceFormfields(props) {
           counter={{
             val: props.form.description.length,
             max: 2500,
-            min: 25,
+            min: 100,
             css: 'inputCounter',
           }}
           textarea={true}
@@ -91,7 +91,7 @@ export function AddStudioServiceFormfields(props) {
           required
           autoComplete="off"
           pattern="^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){24,1499}$"
-          errorMessage={'Only 25-350 characters and (a-z, A-Z, 0-9, ! äöü ,-_) allowed!'}
+          errorMessage={'100-2500, and (a-z, A-Z, 0-9, ! äöü ,-_) allowed!'}
           value={props.form.description}
           onChange={props.handleChange}></FormInput>
         <span className="errormessage ">{props.formErrors.description}</span>
@@ -268,7 +268,7 @@ export function AddStudioServiceFormfields(props) {
                 string: 'Additional Services',
                 css: 'label-form text-white',
                 description:
-                  'Add additional Services and select a pricing option. For example: Food, special Equipment, additional Guests, etc.',
+                  'Add additional Services which are optional for the User and select a pricing option for them. For example: Food, special Equipment, additional Guests, etc.',
               }}
               id="ServiceName"
               placeholder="Service name.."
@@ -511,11 +511,12 @@ export function AddStudioServiceFormfields(props) {
         </label>
         <span className="errormessage">{props.formErrors.soundengineer}</span>
       </fieldset>
-      {/* studio-price */}
+      {/* service-price */}
       <fieldset className="listingForm flex flex-col gap-3 ">
-        <legend className="label-form">Studio Pricing</legend>
+        <legend className="label-form">Studioservice Pricing</legend>
         <p className="pl-5 text-sm">
-          Choose here the the booking options, the User should have, for this Studioservice
+          Check the Pricing-options you want to make available for this Studioservice. If your weekend prices differs,
+          you can set a different price for it.
         </p>
         <label
           htmlFor="pricingHour"
@@ -587,6 +588,43 @@ export function AddStudioServiceFormfields(props) {
             }
           />
         </label>
+        {/* weekend */}
+        <label
+          htmlFor="pricingWeekend"
+          className={props.checked.pricing.includes('pricingWeekend') ? 'radio-formActive' : 'radio-form'}>
+          <FormInput
+            type="checkbox"
+            name="pricing"
+            id="pricingWeekend"
+            className="mr-2"
+            checked={props.checked.pricing.includes('pricingWeekend')}
+            labelWrap={{
+              css: 'cursor-pointer',
+              string: 'on Weekend',
+            }}
+            onChange={(event) => {
+              props.handleCheck(event);
+            }}
+          />
+          <CurrencyInput
+            name="pricing"
+            id="pricingWeekend"
+            className="priceInput-form mr-2 w-14"
+            placeholder="price"
+            maxLength={6}
+            required
+            disabled={!props.checked.pricing.includes('pricingWeekend')}
+            allowDecimals={false}
+            allowNegativeValue={false}
+            autoComplete="off"
+            value={props.form.pricing.pricingWeekend || 0}
+            intlConfig={{ locale: props.form.subInformations.locale, currency: props.form.subInformations.currency }}
+            onValueChange={(value, name) =>
+              props.setForm({ ...props.form, [name]: { ...props.form.pricing, pricingWeekend: value } })
+            }
+          />
+        </label>
+        {/* week */}
         <label
           htmlFor="pricingWeek"
           className={props.checked.pricing.includes('pricingWeek') ? 'radio-formActive' : 'radio-form'}>
@@ -622,6 +660,7 @@ export function AddStudioServiceFormfields(props) {
             }
           />
         </label>
+        {/* Month */}
         <label
           htmlFor="pricingMonth"
           className={props.checked.pricing.includes('pricingMonth') ? 'radio-formActive' : 'radio-form'}>
@@ -654,6 +693,42 @@ export function AddStudioServiceFormfields(props) {
             intlConfig={{ locale: props.form.subInformations.locale, currency: props.form.subInformations.currency }}
             onValueChange={(value, name) =>
               props.setForm({ ...props.form, [name]: { ...props.form.pricing, pricingMonth: value } })
+            }
+          />
+        </label>
+        {/* Deposit */}
+        <label
+          htmlFor="pricingDeposit"
+          className={props.checked.pricing.includes('pricingDeposit') ? 'radio-formActive' : 'radio-form'}>
+          <FormInput
+            type="checkbox"
+            name="pricing"
+            id="pricingDeposit"
+            className="mr-2"
+            checked={props.checked.pricing.includes('pricingDeposit')}
+            labelWrap={{
+              css: 'cursor-pointer',
+              string: 'Deposit',
+            }}
+            onChange={(event) => {
+              props.handleCheck(event);
+            }}
+          />
+          <CurrencyInput
+            name="pricing"
+            id="pricingDeposit"
+            className="priceInput-form mr-2 w-14"
+            placeholder="price"
+            maxLength={6}
+            required
+            disabled={!props.checked.pricing.includes('pricingDeposit')}
+            allowDecimals={false}
+            allowNegativeValue={false}
+            autoComplete="off"
+            value={props.form.pricing.pricingDeposit || 0}
+            intlConfig={{ locale: props.form.subInformations.locale, currency: props.form.subInformations.currency }}
+            onValueChange={(value, name) =>
+              props.setForm({ ...props.form, [name]: { ...props.form.pricing, pricingDeposit: value } })
             }
           />
         </label>
