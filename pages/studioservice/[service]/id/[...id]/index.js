@@ -573,7 +573,7 @@ function StudioDetailpage({ serializedStudioservice, studioServicesCount }) {
               <ul className="grid w-full grid-cols-smbg gap-2 space-x-10 sm:grid-cols-smbgbg sm:space-x-0">
                 <ul className="col-start-2 col-end-4 grid grid-cols-2 gap-2 lg:pl-5">
                   <li className="col-span-2 font-semibold text-black">
-                    <h3>Additional Service{isMultiple(Service.additionalServices.length)}</h3>
+                    <h3>Additional Service{isMultiple(Service.additionalServices?.length)}</h3>
                   </li>
                   {Service.additionalServices?.map(({ name, description, priceOption, price }) => (
                     <li key={name} className="col-span-2 flex flex-col">
