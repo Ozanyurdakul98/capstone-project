@@ -784,17 +784,22 @@ function StudioDetailpage({ serializedStudioservice, studioServicesCount }) {
             {/* Top */}
             <section className="flex items-center rounded-t-sm bg-gray-400 text-white">
               <div className="flex items-center pl-5">
-                <span className="self-start pr-1">€</span>
                 <span className="text-2xl">
-                  {Service.pricing.pricingHour
-                    ? Service.pricing.pricingHour
-                    : Service.pricing.pricingHour
-                    ? Service.pricing.pricingHour
-                    : Service.pricing.pricingHour
-                    ? Service.pricing.pricingHour
-                    : Service.pricing.pricingHour
-                    ? Service.pricing.pricingHour
-                    : null}
+                  {formatValue({
+                    value: Service.pricing.pricingHour
+                      ? Service.pricing.pricingHour
+                      : Service.pricing.pricingHour
+                      ? Service.pricing.pricingHour
+                      : Service.pricing.pricingHour
+                      ? Service.pricing.pricingHour
+                      : Service.pricing.pricingHour
+                      ? Service.pricing.pricingHour
+                      : null,
+                    intlConfig: {
+                      locale: locale,
+                      currency: currency,
+                    },
+                  })}
                 </span>
                 <span className="pt-[2px] text-xl">/</span>
                 <span className="pt-1">
@@ -881,7 +886,7 @@ function StudioDetailpage({ serializedStudioservice, studioServicesCount }) {
                         id="guests"
                         className="inputOpenGuestsLP"
                         placeholder="Guests"
-                        value={'Guests ' + noOfGuests}
+                        value={noOfGuests + ' Guests '}
                         onClick={() => {
                           setOpenPanel('guests');
                         }}
@@ -953,9 +958,20 @@ function StudioDetailpage({ serializedStudioservice, studioServicesCount }) {
                 {/* Button */}
                 <div className="col-span-2 row-start-5">
                   <div className="flex h-full w-full flex-col gap-[2px]">
-                    <button type="button" className="bg-primary h-8 w-full rounded-md text-white">
+                    <MyLink
+                      href={`mailto:${encodeURIComponent(Service.user.email)}?subject=${encodeURIComponent(
+                        'Booking request for ' + Service.studio.studioName
+                      )}&body=${encodeURIComponent(
+                        'Hello, I am interested in a ' +
+                          Service.service.name +
+                          ' session in your Studio ' +
+                          Service.studio.studioName +
+                          '.'
+                      )}`}
+                      type="button"
+                      className="bg-primary h-8 w-full rounded-md text-white">
                       Submit booking request
-                    </button>
+                    </MyLink>
                     <p className="flex items-center justify-center gap-1 text-center text-xs text-gray-400">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
