@@ -3,10 +3,10 @@ import db from '../../../lib/dbConnect';
 import StudioListing from '../../../models/StudioListing';
 //components
 import Layout from '../../../components/Layout/Layout';
-import { Resultpage } from '../../../components/Result/Resultpage';
+import { ResultpageStudios } from '../../../components/Result/ResultpageStudios';
 
-function StudioTypeResults({ studios, studioType }) {
-  return <Resultpage studios={studios} header={studioType}></Resultpage>;
+function StudioTypeResults({ studios, studiosCount, studioType }) {
+  return <ResultpageStudios count={studiosCount} studios={studios} header={studioType}></ResultpageStudios>;
 }
 
 export default StudioTypeResults;
@@ -30,14 +30,16 @@ export async function getServerSideProps(context) {
     .populate({
       path: 'user',
       model: 'users',
-      select: 'username avatar -_id',
     })
     .sort({ $natural: -1 });
   const serializedStudios = JSON.parse(JSON.stringify(getStudiosWithType));
 
+  const getStudiosWithTypeCount = await StudioListing.find({ studiotype: type }).count();
+
   return {
     props: {
       studios: serializedStudios || null,
+      studiosCount: getStudiosWithTypeCount,
       studioType: type || null,
     },
   };

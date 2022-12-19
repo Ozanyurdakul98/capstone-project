@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { MyLink } from '../MyLink';
 
 export function HomepageStudioTypesGrid() {
   const links = [
@@ -41,13 +41,12 @@ export function HomepageStudioTypesGrid() {
                   {link.p2}
                 </p>
               </div>
-              <Link href={link.link}>
-                <button
-                  type="button"
-                  className=" bg-secondary inline-block rounded-xl px-6 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg">
-                  {link.btn}
-                </button>
-              </Link>
+              <MyLink
+                type="button"
+                href={link.link}
+                className=" bg-secondary inline-block rounded-xl px-6 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg">
+                {link.btn}
+              </MyLink>
             </div>
           </article>
         ))}

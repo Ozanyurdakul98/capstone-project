@@ -30,6 +30,7 @@ import format from 'date-fns/format';
 import { FormInput } from '../../../../../components/Forms/FormInput';
 import StudioService from '../../../../../models/StudioService';
 import { formatValue } from 'react-currency-input-field';
+import { isMultiple } from '../../../../../utils';
 
 function StudioDetailpage({ serializedStudioservice, studioServicesCount }) {
   const Service = serializedStudioservice;
@@ -186,7 +187,9 @@ function StudioDetailpage({ serializedStudioservice, studioServicesCount }) {
               <div className="flex flex-col items-center justify-center gap-1">
                 <UserIcon className="landingP-icon" />
                 <p>Capacity</p>
-                <p className="font-bold">{Service.maxGuests + ' Guests'}</p>
+                <p className="font-bold">
+                  {Service.maxGuests} Guest{isMultiple(Service.maxGuests)}
+                </p>
               </div>
               <div className="flex flex-col items-center justify-center gap-1">
                 <WifiIcon className="landingP-icon" />
@@ -270,10 +273,13 @@ function StudioDetailpage({ serializedStudioservice, studioServicesCount }) {
                     d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                     clipRule="evenodd"></path>
                 </svg>
-                Studiosize: <span className="pl-1 font-semibold">78 sqm</span>
+                Studiosize:
+                <span className="pl-1 font-semibold">{Service.studio.studioInformation.studioSize} sqm</span>
               </li>
               {/* rooms */}
-              <li className="col-start-2 row-start-5 flex items-center sm:col-start-3 sm:row-start-1">
+              <li
+                title="how many rooms the studio has"
+                className="col-start-2 row-start-5 flex items-center sm:col-start-3 sm:row-start-1">
                 <svg
                   className="mr-1 h-4 w-4"
                   fill="currentColor"
@@ -284,10 +290,16 @@ function StudioDetailpage({ serializedStudioservice, studioServicesCount }) {
                     d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                     clipRule="evenodd"></path>
                 </svg>
-                Studiorooms: <span className="pl-1 font-semibold">3</span>
+                Studiorooms:
+                <span className="pl-1 font-semibold">
+                  {Service.studio.studioInformation.studioRooms} Room
+                  {isMultiple(Service.studio.studioInformation.studioRooms)}
+                </span>
               </li>
-              {/* guests */}
-              <li className="col-start-2 row-start-6 flex items-center sm:col-start-3 sm:row-start-2">
+              {/* maxguests */}
+              <li
+                title="information about the maximum capacity of people inside the studio"
+                className="col-start-2 row-start-6 flex items-center sm:col-start-3 sm:row-start-2">
                 <svg
                   className="mr-1 h-4 w-4"
                   fill="currentColor"
@@ -298,10 +310,15 @@ function StudioDetailpage({ serializedStudioservice, studioServicesCount }) {
                     d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                     clipRule="evenodd"></path>
                 </svg>
-                Servicecapacity: <span className="pl-1 font-semibold">{Service.maxGuests + ' Guests'}</span>
+                Servicecapacity:
+                <span className="pl-1 font-semibold">
+                  {Service.maxGuests} Guest{isMultiple(Service.maxGuests)}
+                </span>
               </li>
               {/* Sleepover */}
-              <li className="col-start-2 row-start-7 flex items-center sm:col-start-3 sm:row-start-3">
+              <li
+                title="information about sleepover guests capacity and total available beds"
+                className="col-start-2 row-start-7 flex items-center sm:col-start-3 sm:row-start-3">
                 <svg
                   className="mr-1 h-4 w-4"
                   fill="currentColor"
@@ -314,15 +331,18 @@ function StudioDetailpage({ serializedStudioservice, studioServicesCount }) {
                 </svg>
                 Sleepover:
                 <span className="pl-1 font-semibold">
-                  {Service.studio.sleepOver.bedsCount
-                    ? Service.studio.sleepOver.bedsCount + ' beds, ' + Service.studio.sleepOver.maxPeople + ' People'
-                    : '/'}
+                  {Service.studio.sleepOver.bedsCount ? Service.studio.sleepOver.bedsCount : '0'} Bed
+                  {isMultiple(Service.studio.sleepOver.bedsCount)},
+                  {Service.studio.sleepOver.maxPeople ? ' ' + Service.studio.sleepOver.maxPeople : ' 0'} Guest
+                  {isMultiple(Service.studio.sleepOver.maxPeople)} max
                 </span>
               </li>
             </ul>
           </section>
           {/* languages */}
-          <section className="mb-14 px-7 text-xs text-gray-600 md:text-sm">
+          <section
+            title="languages the studio employees can speak"
+            className="mb-14 px-7 text-xs text-gray-600 md:text-sm">
             <ul className="grid grid-cols-smbg grid-rows-1 gap-2 sm:grid-cols-smbgbg sm:grid-rows-1">
               <li className="col-start-2 row-start-1 flex items-start sm:col-span-2 sm:col-start-2 sm:row-start-1">
                 <div className="flex items-center">
@@ -336,7 +356,9 @@ function StudioDetailpage({ serializedStudioservice, studioServicesCount }) {
                       d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                       clipRule="evenodd"></path>
                   </svg>
-                  <span className="whitespace-nowrap">Languages:</span>
+                  <span className="whitespace-nowrap">
+                    Language{isMultiple(Service.studio.studioLanguages.length)}:
+                  </span>
                 </div>
                 <span className="pl-1 font-semibold">{Service.studio.studioLanguages.join(', ')}</span>
               </li>
@@ -548,31 +570,33 @@ function StudioDetailpage({ serializedStudioservice, studioServicesCount }) {
           </section>
           {/* AdditionalServices */}
           <section className="mb-14 border-b px-7 pb-14 text-xs text-gray-600 md:text-sm">
-            <ul className="grid w-full grid-cols-smbg gap-2 space-x-10 sm:grid-cols-smbgbg sm:space-x-0">
-              <ul className="col-start-2 col-end-4 grid grid-cols-2 gap-2 lg:pl-5">
-                <li className="col-span-2 font-semibold text-black">
-                  <h3>Additional Services</h3>
-                </li>
-                {Service.additionalServices?.map(({ name, description, priceOption, price }) => (
-                  <li key={name} className="col-span-2 flex flex-col">
-                    <h4 className="font-semibold">{name}</h4>
-                    <p>{description}</p>
-                    <p className="flex w-full gap-10 text-[11px] md:text-xs">
-                      <span>{priceOption}</span>
-                      <span>
-                        {formatValue({
-                          value: price,
-                          intlConfig: {
-                            locale: locale,
-                            currency: currency,
-                          },
-                        })}
-                      </span>
-                    </p>
+            {Service.additionalServices.length > 0 ? (
+              <ul className="grid w-full grid-cols-smbg gap-2 space-x-10 sm:grid-cols-smbgbg sm:space-x-0">
+                <ul className="col-start-2 col-end-4 grid grid-cols-2 gap-2 lg:pl-5">
+                  <li className="col-span-2 font-semibold text-black">
+                    <h3>Additional Service{isMultiple(Service.additionalServices.length)}</h3>
                   </li>
-                ))}
+                  {Service.additionalServices?.map(({ name, description, priceOption, price }) => (
+                    <li key={name} className="col-span-2 flex flex-col">
+                      <h4 className="font-semibold">{name}</h4>
+                      <p>{description}</p>
+                      <p className="flex w-full gap-10 text-[11px] md:text-xs">
+                        <span>{priceOption}</span>
+                        <span>
+                          {formatValue({
+                            value: price,
+                            intlConfig: {
+                              locale: locale,
+                              currency: currency,
+                            },
+                          })}
+                        </span>
+                      </p>
+                    </li>
+                  ))}
+                </ul>
               </ul>
-            </ul>
+            ) : null}
           </section>
           {/* Studiofeatures */}
           <section className="mb-7 px-7 text-xs text-gray-600 md:text-sm">
@@ -886,7 +910,7 @@ function StudioDetailpage({ serializedStudioservice, studioServicesCount }) {
                         id="guests"
                         className="inputOpenGuestsLP"
                         placeholder="Guests"
-                        value={noOfGuests + ' Guests '}
+                        value={noOfGuests + ' Guest' + isMultiple(noOfGuests)}
                         onClick={() => {
                           setOpenPanel('guests');
                         }}
@@ -969,7 +993,7 @@ function StudioDetailpage({ serializedStudioservice, studioServicesCount }) {
                           '.'
                       )}`}
                       type="button"
-                      className="bg-primary h-8 w-full rounded-md text-white">
+                      className="bg-primary flex h-8 w-full items-center justify-center rounded-md text-sm text-white">
                       Submit booking request
                     </MyLink>
                     <p className="flex items-center justify-center gap-1 text-center text-xs text-gray-400">

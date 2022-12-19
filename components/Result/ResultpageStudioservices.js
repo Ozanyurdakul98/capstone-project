@@ -1,3 +1,4 @@
+import { isMultiple } from '../../utils';
 import ListingCardWideStudioService from './ListingCardWideStudioService';
 
 export function ResultpageStudioservices(props) {
@@ -5,8 +6,11 @@ export function ResultpageStudioservices(props) {
     <div className="my-20">
       <div>
         <h1 className="h2">{props.header}</h1>
+        <p className="pl-5 text-xs">
+          {props.count} Studioservice{isMultiple(props.count)} found
+        </p>
       </div>
-      <div className="mt-5">
+      <div className="mt-5 min-h-screen">
         {props.studioServices.map(
           ({ _id, listingTitle, description, service, maxGuests, images, user, soundengineer, pricing, studio }) => (
             <ListingCardWideStudioService

@@ -1,35 +1,10 @@
 import db from '../../lib/dbConnect';
 import StudioService from '../../models/StudioService';
 import Layout from '../../components/Layout/Layout';
-import ListingCardWideStudioService from '../../components/Result/ListingCardWideStudioService';
+import { ResultpageStudioservices } from '../../components/Result/ResultpageStudioservices';
 
-function All({ services }) {
-  return (
-    <section className="min-h-screen">
-      <div>
-        <h1 className="h2 mb-14 mt-10">All Search results</h1>
-      </div>
-      <section>
-        {services.map(
-          ({ _id, listingTitle, description, service, maxGuests, images, user, soundengineer, pricing, studio }) => (
-            <ListingCardWideStudioService
-              key={_id}
-              id={_id}
-              listingTitle={listingTitle}
-              images={images}
-              service={service}
-              maxGuests={maxGuests}
-              description={description}
-              soundengineer={soundengineer}
-              pricing={pricing}
-              studio={studio}
-              user={user}
-            />
-          )
-        )}
-      </section>
-    </section>
-  );
+function All({ studioServices, studioServicesCount, header }) {
+  return <ResultpageStudioservices count={studioServicesCount} studioServices={studioServices} header={header} />;
 }
 
 export default All;
@@ -56,12 +31,16 @@ export async function getServerSideProps() {
       model: 'users',
       select: 'avatar email name lastname username',
     });
-
   const fetchedStudioServices = JSON.parse(JSON.stringify(fetchingStudioServices));
-  console.log(fetchedStudioServices);
+
+  const studioServicesCount = await StudioService.find().count();
+
+  const header = 'All Studioservices';
   return {
     props: {
-      services: fetchedStudioServices || null,
+      studioServices: fetchedStudioServices || null,
+      studioServicesCount: studioServicesCount || null,
+      header: header || null,
     },
   };
 }
