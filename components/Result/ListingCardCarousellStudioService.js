@@ -100,7 +100,7 @@ function ListingCardCarousellStudioService({
             </ul>
             <div className="flex items-center gap-1">
               <IoPeopleCircleSharp className="icon-carousell" />
-              <p className=" font-semibold">{maxGuests}</p>
+              <p className="font-semibold text-black">{maxGuests}</p>
             </div>
           </div>
           <div className="flex w-full  items-end justify-between gap-1 text-right ">

@@ -49,6 +49,7 @@ function StudioDetailpage({ serializedStudioservice, studioServicesCount }) {
   const [endDate, setEndDate] = useState(new Date());
   const locale = Service.subInformations.locale;
   const currency = Service.subInformations.currency;
+
   const handleClick = (index) => {
     const wordSlider = imgs[index];
     setWordData(wordSlider);
@@ -993,12 +994,12 @@ function StudioDetailpage({ serializedStudioservice, studioServicesCount }) {
           <div className="px-6">
             {/* top */}
             <div className="flex flex-wrap justify-center">
-              {/* ProfilePic */}
+              {/* studiologo */}
               <div className="flex w-full justify-center">
                 <div className="relative">
                   <div className="absolute -m-16 -ml-20 h-[150px] w-[150px] rounded-full border-none align-middle shadow-xl">
                     <Image
-                      src={Service.user.avatar}
+                      src={Service.studio.logo}
                       alt="profile picture"
                       className="rounded-full "
                       layout="fill"
@@ -1031,36 +1032,50 @@ function StudioDetailpage({ serializedStudioservice, studioServicesCount }) {
               </div>
             </div>
             {/* middle */}
-            <div className="mt-2 text-center">
-              <h3 className="mb-1 text-2xl font-bold leading-normal text-slate-700">Marvellous Soundstudio 24</h3>
-              <div className="mt-0 mb-2 text-xs font-bold uppercase text-slate-400">
-                <i className="mr-2 text-slate-400 opacity-75">Paris, France</i>
+            <div className="mt-2 mb-4 text-center">
+              <h3 className="mb-1 text-2xl font-bold leading-normal text-slate-700">{Service.studio.studioName}</h3>
+              <div className="mt-0 text-xs font-bold uppercase text-slate-400">
+                <i className="mr-2 text-slate-400 opacity-75">{Service.studio.studioLocation}</i>
               </div>
             </div>
             <div className="mt-0 mb-2 text-xs font-bold uppercase text-slate-400">
-              Languages: <span className="text-sm font-thin normal-case">English, Francais, German</span>
+              Languages:
+              <span className="text-xs font-thin uppercase">{' ' + Service.studio.studioLanguages.join(', ')}</span>
             </div>
             {/* buttons */}
             <div className="mt-3 flex gap-3 text-slate-400">
-              <button
-                type="button"
-                className="w-full rounded-md border py-2 hover:bg-gray-200/70 hover:text-gray-400/70">
+              <MyLink
+                href={`mailto:${encodeURIComponent(Service.user.email)}?subject=${encodeURIComponent(
+                  'Booking request for ' + Service.studio.studioName
+                )}&body=${encodeURIComponent(
+                  'Hello, I am interested in a ' +
+                    Service.service.name +
+                    ' session in your Studio ' +
+                    Service.studio.studioName +
+                    '.'
+                )}`}
+                className="w-full rounded-md border py-2 text-center hover:bg-gray-200/70 hover:text-gray-400/70">
                 Contact Studio
-              </button>
-              <button
-                type="button"
-                className="w-full rounded-md border py-2 hover:bg-gray-200/70 hover:text-gray-400/70">
+              </MyLink>
+              <MyLink
+                href={`/studiotype/${
+                  Service.studio.studiotype.toLowerCase().replace(/ /g, '-') +
+                  '/' +
+                  'id' +
+                  '/' +
+                  Service.studio.studioName.toLowerCase().replace(/ /g, '-') +
+                  '/' +
+                  Service.studio._id
+                }`}
+                className="w-full rounded-md border py-2 text-center hover:bg-gray-200/70 hover:text-gray-400/70">
                 View Studio
-              </button>
+              </MyLink>
             </div>
             {/* bottom */}
             <div className="mt-3 border-t border-slate-200 py-6 text-center">
               <div className="flex flex-wrap justify-center">
                 <div className="w-full px-4">
-                  <p className="mb-4 font-light leading-relaxed text-slate-600">
-                    An artist of considerable range, Mike is the name taken by Melbourne-raised, Brooklyn-based Nick
-                    Murphy writes, performs and records all of his own music, giving it a warm...
-                  </p>
+                  <p className="mb-4 font-light leading-relaxed text-slate-600">{Service.studio.profileText} </p>
                 </div>
               </div>
             </div>

@@ -9,6 +9,7 @@ import moment from 'moment';
 import Image from 'next/image';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { MyLink } from '../../../../../components/MyLink';
 
 function StudioDetailpage({
   serializedStudio,
@@ -20,6 +21,7 @@ function StudioDetailpage({
   // eslint-disable-next-line no-unused-vars
   const router = useRouter();
   const studio = serializedStudio[0];
+  console.log('STUDIO', studio);
   return (
     <div className="relative">
       <Head>
@@ -33,7 +35,7 @@ function StudioDetailpage({
           layout="fill"
           objectFit="cover"
           objectPosition={'center'}
-          className="rounded-xl"
+          className=""
           alt="Studio image"
         />
       </section>
@@ -464,16 +466,18 @@ function StudioDetailpage({
             </div>
             {/* buttons */}
             <div className="mt-3 flex gap-3 text-slate-400">
-              <button
-                type="button"
-                className="w-full rounded-md border py-2 hover:bg-gray-200/70 hover:text-gray-400/70">
+              <MyLink
+                href={`mailto:${encodeURIComponent(studio.user.email)}?subject=${encodeURIComponent(
+                  'Request for ' + studio.studioName
+                )}&body=${encodeURIComponent('Hello, I am interested in in your Studio ' + studio.studioName + '.')}`}
+                className="w-full rounded-md border py-2 text-center hover:bg-gray-200/70 hover:text-gray-400/70">
                 Contact User
-              </button>
-              <button
-                type="button"
-                className="w-full rounded-md border py-2 hover:bg-gray-200/70 hover:text-gray-400/70">
+              </MyLink>
+              <MyLink
+                href={`/#`}
+                className="w-full rounded-md border py-2 text-center hover:bg-gray-200/70 hover:text-gray-400/70">
                 View Profile
-              </button>
+              </MyLink>
             </div>
             {/* bottom */}
             <div className="mt-3 border-t border-slate-200 py-6 text-center">
