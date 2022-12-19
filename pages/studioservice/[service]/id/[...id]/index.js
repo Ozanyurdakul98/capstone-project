@@ -569,7 +569,7 @@ function StudioDetailpage({ serializedStudioservice, studioServicesCount }) {
           </section>
           {/* AdditionalServices */}
           <section className="mb-14 border-b px-7 pb-14 text-xs text-gray-600 md:text-sm">
-            {Service.additionalServices.length > 0 ? (
+            {Service.additionalServices?.length > 0 ? (
               <ul className="grid w-full grid-cols-smbg gap-2 space-x-10 sm:grid-cols-smbgbg sm:space-x-0">
                 <ul className="col-start-2 col-end-4 grid grid-cols-2 gap-2 lg:pl-5">
                   <li className="col-span-2 font-semibold text-black">
@@ -1152,7 +1152,7 @@ export async function getServerSideProps(context) {
     });
   const serializeStudioservice = JSON.parse(JSON.stringify(fetchStudioservice));
 
-  const studioID = serializeStudioservice.studio._id;
+  const studioID = serializeStudioservice?.studio._id;
   const studioServicesByStudioCount = await StudioService.find({ studio: studioID }).count();
 
   return {
