@@ -4,6 +4,7 @@ import StudioListing from '../../../models/StudioListing';
 //components
 import Layout from '../../../components/Layout/Layout';
 import { ResultpageStudios } from '../../../components/Result/ResultpageStudios';
+import { wordCapitalize } from '../../../utils';
 
 function StudioTypeResults({ studios, studiosCount, studioType }) {
   return <ResultpageStudios count={studiosCount} studios={studios} header={studioType}></ResultpageStudios>;
@@ -18,14 +19,8 @@ StudioTypeResults.getLayout = function getLayout(page) {
 export async function getServerSideProps(context) {
   await db.connect();
   const { studiotype } = context.query;
-  let type;
-  if (studiotype === 'homestudio') {
-    type = 'Home Studio';
-  } else if (studiotype === 'mediumstudio') {
-    type = 'Medium Studio';
-  } else if (studiotype === 'premiumstudio') {
-    type = 'Premium Studio';
-  }
+  const type = wordCapitalize(studiotype.replace(/-/g, ' '));
+
   const getStudiosWithType = await StudioListing.find({ studiotype: type })
     .populate({
       path: 'user',
