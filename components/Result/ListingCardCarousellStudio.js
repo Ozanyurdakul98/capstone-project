@@ -59,7 +59,7 @@ function ListingCard({ preview, id, logo, studioName, studiotype, openingHours, 
                 ) : null}
               </ul>
             </div>
-            <div className="  flex w-full  items-end justify-between gap-1 text-right ">
+            <div title="Opening hours" className="flex w-full  items-end justify-between gap-1 text-right ">
               <p className="truncate rounded-xl border border-slate-700 bg-black px-[6px] text-xs text-white">
                 {openingHours}
               </p>

@@ -48,12 +48,12 @@ function ListingCardWideStudioService({
               </div>
               {/* studiotype */}
               <div className="flex gap-2">
-                <p className="bg-secondary border-secondary flex truncate rounded border px-1 text-xs text-white md:text-sm  ">
+                <p className="bg-secondary border-secondary flex truncate rounded border px-1 text-xs text-white">
                   {studio.studiotype}
                 </p>
                 <p
                   title="soundengineer pricing"
-                  className={'bg-primary truncate  rounded border border-slate-700 px-1 text-xs text-white md:text-sm'}>
+                  className={'bg-primary truncate  rounded border border-slate-700 px-1 text-xs text-white'}>
                   {soundengineer}
                 </p>
               </div>
@@ -78,9 +78,11 @@ function ListingCardWideStudioService({
                   <RiParkingBoxLine className="icon" title="Parking" />
                 ) : null}
                 {studio.locationFeatures.includes('Smoking') ? <TbSmoking className="icon" title="Smoking" /> : null}
+              </div>
+              <div className="flex w-full items-center justify-start pt-2 pl-2">
                 <p
                   title="opening hours"
-                  className="bg-secondary border-secondary truncate rounded-xl border px-[6px] text-xs text-white">
+                  className="bg-secondary border-secondary rounded-xl border px-[6px] text-xs text-white">
                   {studio.openingHours}
                 </p>
               </div>
