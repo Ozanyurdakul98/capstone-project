@@ -466,6 +466,7 @@ export async function getServerSideProps({ req }) {
   await db.connect();
   const token = await getToken({ req });
   const userID = token.id;
+
   return {
     props: {
       userID: userID || token.sub,

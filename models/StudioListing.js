@@ -25,7 +25,7 @@ const studioListingSchema = new mongoose.Schema(
     studioSocials: { type: Object, required: true, trim: true },
     studioRules: { type: Array, trim: true, index: true, default: [''] },
     additionalStudioRules: { type: String, trim: true, index: true, default: '' },
-    studioLocation: { type: String, required: true, trim: true },
+    studioLocation: { type: Object, required: true, trim: true, default: '' },
     user: {
       type: Schema.Types.ObjectId,
       ref: 'users',

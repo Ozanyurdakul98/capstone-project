@@ -2,7 +2,7 @@ import { FormInput } from '../FormInput';
 import Image from 'next/image.js';
 import { TbHandClick } from 'react-icons/tb';
 import { MdDeleteForever } from 'react-icons/md';
-
+import { AddressAutofillComponent } from '../../Mapbox/AdressAutomaticFill';
 export function AddStudioFormfields(props) {
   return (
     <>
@@ -73,7 +73,7 @@ export function AddStudioFormfields(props) {
                 css: 'label-form w-full sm:w-2/3 lg:w-full',
                 description: 'How do you want to name your Studio?',
               }}
-              className="input-form peer block lg:w-full "
+              className="input-form peer block lg:w-[80%] "
               counter={{
                 val: props.form.studioName.length,
                 max: '40',
@@ -96,7 +96,7 @@ export function AddStudioFormfields(props) {
             <FormInput
               beforeLabel={{
                 string: 'Profiletext',
-                css: 'label-form w-full sm:w-2/3 lg:w-full',
+                css: 'label-form w-full sm:w-2/3 lg:w-[80%]',
                 required: true,
                 description:
                   'Write a short text about this studio. Visitors of the detailpage of this Studio will see it.',
@@ -841,6 +841,17 @@ export function AddStudioFormfields(props) {
           value={props.form.studioLocation}
           onChange={props.handleChange}
         />
+        {/* <adressAutofill />
+        <AddressAutofill accessToken="pk.eyJ1IjoiaGF5dmFuYWRpOTgiLCJhIjoiY2xidmg0dnJsMDJ6dzN4dDdwaXpkZ3BvNSJ9.RBHAwiA1lqShS4lROZ10OQ">
+      </AddressAutofill> */}
+        <AddressAutofillComponent>
+          <input name="address" placeholder="Address" type="text" autoComplete="address-line1" />
+        </AddressAutofillComponent>
+        <input name="apartment" placeholder="Apartment number" type="text" autoComplete="address-line2" />
+        <input name="city" placeholder="City" type="text" autoComplete="address-level2" />
+        <input name="state" placeholder="State" type="text" autoComplete="address-level1" />
+        <input name="country" placeholder="Country" type="text" autoComplete="country-name" />
+        <input name="postalcode" placeholder="Postalcode" type="text" autoComplete="postal-code" />
         <span className="errormessage">{props.formErrors.studioLocation}</span>
       </fieldset>
       {/* Errormessage */}
