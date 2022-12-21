@@ -10,32 +10,9 @@ import DashboardLayout from '../../components/Layout/DashboardLayout.js';
 import db from '../../lib/dbConnect.js';
 import { getToken } from 'next-auth/jwt';
 import dynamic from 'next/dynamic.js';
+import { useCallback } from 'react';
+import { useEffect } from 'react';
 function DashboardAddStudio({ userID }) {
-  const defaultForm = {
-    logo: '',
-    studioName: '',
-    profileText: '',
-    studiotype: 'Home Studio',
-    studioInformation: {},
-    studioLanguages: [],
-    openingHours: 'Always Available',
-    locationFeatures: [],
-    sleepOver: {},
-    studioSocials: {
-      soundcloud: '',
-      spotify: '',
-      instagram: '',
-      youtube: '',
-      facebook: '',
-      pinterest: '',
-      twitter: '',
-      linkedin: '',
-    },
-    studioRules: [],
-    additionalStudioRules: '',
-    studioLocation: { address: '', city: '', state: '', country: '', postalcode: '' },
-    user: userID,
-  };
   const languages = [
     'Afrikaans',
     'Albanian',
@@ -92,11 +69,59 @@ function DashboardAddStudio({ userID }) {
     'Uzbek',
     'Vietnamese',
   ];
+  const defaultForm = {
+    logo: '',
+    studioName: '',
+    profileText: '',
+    studiotype: 'Home Studio',
+    studioInformation: {},
+    studioLanguages: [],
+    openingHours: 'Always Available',
+    locationFeatures: [],
+    sleepOver: {},
+    studioSocials: {
+      soundcloud: '',
+      spotify: '',
+      instagram: '',
+      youtube: '',
+      facebook: '',
+      pinterest: '',
+      twitter: '',
+      linkedin: '',
+    },
+    studioRules: [],
+    additionalStudioRules: '',
+    studioLocation: { address: '', city: '', state: '', country: '', postalcode: '' },
+    user: userID,
+  };
   const defaultChecked = {
     studioSocials: [],
     studioInformation: [],
     studioLanguages: languages,
     sleepOver: [],
+  };
+  const addressAutoFilltheme = {
+    variables: {
+      fontFamily: 'Avenir, sans-serif',
+      unit: '14px',
+      padding: '0.5em',
+      borderRadius: '10px',
+      boxShadow: '0 0 0 1px silver',
+    },
+    icons: {
+      street: `
+      <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+      <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M3.79289 3.79289C4.18342 3.40237 4.81658 3.40237 5.20711 3.79289L9 7.58579L12.7929 3.79289C13.1834 3.40237 13.8166 3.40237 14.2071 3.79289C14.5976 4.18342 14.5976 4.81658 14.2071 5.20711L10.4142 9L14.2071 12.7929C14.5976 13.1834 14.5976 13.8166 14.2071 14.2071C13.8166 14.5976 13.1834 14.5976 12.7929 14.2071L9 10.4142L5.20711 14.2071C4.81658 14.5976 4.18342 14.5976 3.79289 14.2071C3.40237 13.8166 3.40237 13.1834 3.79289 12.7929L7.58579 9L3.79289 5.20711C3.40237 4.81658 3.40237 4.18342 3.79289 3.79289Z" fill="currentColor"/>
+      </svg>
+      `,
+      addressMarker: `
+      <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+      <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M3.79289 3.79289C4.18342 3.40237 4.81658 3.40237 5.20711 3.79289L9 7.58579L12.7929 3.79289C13.1834 3.40237 13.8166 3.40237 14.2071 3.79289C14.5976 4.18342 14.5976 4.81658 14.2071 5.20711L10.4142 9L14.2071 12.7929C14.5976 13.1834 14.5976 13.8166 14.2071 14.2071C13.8166 14.5976 13.1834 14.5976 12.7929 14.2071L9 10.4142L5.20711 14.2071C4.81658 14.5976 4.18342 14.5976 3.79289 14.2071C3.40237 13.8166 3.40237 13.1834 3.79289 12.7929L7.58579 9L3.79289 5.20711C3.40237 4.81658 3.40237 4.18342 3.79289 3.79289Z" fill="currentColor"/>
+      </svg>
+      `,
+    },
   };
   const [form, setForm] = useState(defaultForm);
   const [checked, setChecked] = useState(defaultChecked);
@@ -106,8 +131,24 @@ function DashboardAddStudio({ userID }) {
   const [formErrors, setFormErrors] = useState({});
   const [preview, setPreview] = useState(false);
   const [logoChanged, setLogoChanged] = useState(false);
+
+  const [showFormExpanded, setShowFormExpanded] = useState(false);
+  const [showMinimap, setShowMinimap] = useState(false);
+  const [feature, setFeature] = useState();
+  const [token, setToken] = useState('');
+
   const defaultPic = '/images/Thumbnail-default.png';
   const router = useRouter();
+  const AddressAutofill = dynamic(() => import('../../components/Mapbox/AddressAutofillExport'), { ssr: false });
+  const AddressMinimap = dynamic(() => import('../../components/Mapbox/AddressMinimap'), { ssr: false });
+  const config = dynamic(() => import('../../components/Mapbox/config'), { ssr: false });
+
+  useEffect(() => {
+    const accessToken =
+      'pk.eyJ1IjoiaGF5dmFuYWRpOTgiLCJhIjoiY2xidmQ5emN3MWpncjNwcWRwZnhxd2RrcyJ9.6TDZMEs0UDWmbVdmu643TQ';
+    setToken(accessToken);
+    config.accessToken = accessToken;
+  }, []);
 
   const handlePreview = () => {
     const passForm = form;
@@ -231,7 +272,7 @@ function DashboardAddStudio({ userID }) {
         setChecked({ ...checked, studioLanguages: languages });
         return newArray;
       }
-      if (id === 'studioLocation') {
+      if (name === 'studioLocation') {
         const newObj = { ...form.studioLocation, [id]: wert };
         return newObj;
       } else {
@@ -306,8 +347,36 @@ function DashboardAddStudio({ userID }) {
     if (data) return data.secure_url;
     else if (!data) return defaultPic;
   };
-  const AddressAutofill = dynamic(() => import('../../components/Mapbox/AddressAutofillExport'), { ssr: false });
-
+  function resetForm() {
+    const inputs = document.querySelectorAll('input');
+    inputs.forEach((input) => (input.value = ''));
+    setShowFormExpanded(false);
+    setFeature(null);
+  }
+  const handleRetrieve = useCallback(
+    (res) => {
+      const feature = res.features[0];
+      setFeature(feature);
+      setShowMinimap(true);
+      setShowFormExpanded(true);
+      setForm({
+        ...form,
+        studioLocation: {
+          ...form.studioLocation,
+          address: feature.properties.address_line1,
+          fullAddress: feature.properties.full_address,
+          city: feature.properties.address_level2,
+          postalcode: feature.properties.postcode,
+          state: feature.properties.address_level1,
+          country: feature.properties.country,
+        },
+      });
+    },
+    [setFeature, setShowMinimap]
+  );
+  function handleSaveMarkerLocation(coordinate) {
+    console.log(`Marker moved to ${JSON.stringify(coordinate)}.`);
+  }
   console.log(form);
   return (
     <>
@@ -324,6 +393,16 @@ function DashboardAddStudio({ userID }) {
           <AddStudioFormfields
             form={form}
             AddressAutofill={AddressAutofill}
+            addressAutoFilltheme={addressAutoFilltheme}
+            showFormExpanded={showFormExpanded}
+            setShowFormExpanded={setShowFormExpanded}
+            token={token}
+            AddressMinimap={AddressMinimap}
+            showMinimap={showMinimap}
+            handleSaveMarkerLocation={handleSaveMarkerLocation}
+            feature={feature}
+            handleRetrieve={handleRetrieve}
+            resetForm={resetForm}
             setForm={setForm}
             checked={checked}
             setChecked={setChecked}

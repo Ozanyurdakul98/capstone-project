@@ -26,6 +26,9 @@ module.exports = {
         'primary-color': 'var(--primary-color)',
         'secondary-color': 'var(--secondary-color)',
       },
+      fontSize: {
+        xxs: '0.55rem',
+      },
       boxShadow: {
         xxl: '0 45px 60px -15px rgba(0, 0, 0, 0.65)',
       },

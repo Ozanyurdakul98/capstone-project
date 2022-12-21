@@ -2,83 +2,7 @@ import { FormInput } from '../FormInput';
 import Image from 'next/image.js';
 import { TbHandClick } from 'react-icons/tb';
 import { MdDeleteForever } from 'react-icons/md';
-import dynamic from 'next/dynamic';
-import { useCallback } from 'react';
-import { useEffect, useState } from 'react';
-
 export function AddStudioFormfields(props) {
-  const AddressMinimap = dynamic(() => import('../../Mapbox/AddressMinimap'), { ssr: false });
-  const config = dynamic(() => import('../../Mapbox/config'), { ssr: false });
-
-  const [showFormExpanded, setShowFormExpanded] = useState(true);
-  const [showMinimap, setShowMinimap] = useState(true);
-  const [feature, setFeature] = useState();
-  const [token, setToken] = useState('');
-
-  useEffect(() => {
-    const accessToken =
-      'pk.eyJ1IjoiaGF5dmFuYWRpOTgiLCJhIjoiY2xidmQ5emN3MWpncjNwcWRwZnhxd2RrcyJ9.6TDZMEs0UDWmbVdmu643TQ';
-    setToken(accessToken);
-    config.accessToken = accessToken;
-  }, []);
-
-  const handleRetrieve = useCallback(
-    (res) => {
-      const feature = res.features[0];
-      setFeature(feature);
-      setShowMinimap(true);
-      setShowFormExpanded(true);
-      props.setForm({
-        ...props.form,
-        studioLocation: {
-          ...props.form.studioLocation,
-          address: feature.properties.address_line1,
-          city: feature.properties.address_level2,
-          postalcode: feature.properties.postcode,
-          state: feature.properties.address_level1,
-          country: feature.properties.country,
-        },
-      });
-    },
-    [setFeature, setShowMinimap]
-  );
-
-  function handleSaveMarkerLocation(coordinate) {
-    console.log(`Marker moved to ${JSON.stringify(coordinate)}.`);
-  }
-
-  function resetForm() {
-    const inputs = document.querySelectorAll('input');
-    inputs.forEach((input) => (input.value = ''));
-    setShowFormExpanded(false);
-    setFeature(null);
-  }
-
-  const icons = {
-    street: `
-    <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-    <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
-    <path fill-rule="evenodd" clip-rule="evenodd" d="M3.79289 3.79289C4.18342 3.40237 4.81658 3.40237 5.20711 3.79289L9 7.58579L12.7929 3.79289C13.1834 3.40237 13.8166 3.40237 14.2071 3.79289C14.5976 4.18342 14.5976 4.81658 14.2071 5.20711L10.4142 9L14.2071 12.7929C14.5976 13.1834 14.5976 13.8166 14.2071 14.2071C13.8166 14.5976 13.1834 14.5976 12.7929 14.2071L9 10.4142L5.20711 14.2071C4.81658 14.5976 4.18342 14.5976 3.79289 14.2071C3.40237 13.8166 3.40237 13.1834 3.79289 12.7929L7.58579 9L3.79289 5.20711C3.40237 4.81658 3.40237 4.18342 3.79289 3.79289Z" fill="currentColor"/>
-    </svg>
-    `,
-    addressMarker: `
-    <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-    <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
-    <path fill-rule="evenodd" clip-rule="evenodd" d="M3.79289 3.79289C4.18342 3.40237 4.81658 3.40237 5.20711 3.79289L9 7.58579L12.7929 3.79289C13.1834 3.40237 13.8166 3.40237 14.2071 3.79289C14.5976 4.18342 14.5976 4.81658 14.2071 5.20711L10.4142 9L14.2071 12.7929C14.5976 13.1834 14.5976 13.8166 14.2071 14.2071C13.8166 14.5976 13.1834 14.5976 12.7929 14.2071L9 10.4142L5.20711 14.2071C4.81658 14.5976 4.18342 14.5976 3.79289 14.2071C3.40237 13.8166 3.40237 13.1834 3.79289 12.7929L7.58579 9L3.79289 5.20711C3.40237 4.81658 3.40237 4.18342 3.79289 3.79289Z" fill="currentColor"/>
-    </svg>
-    `,
-  };
-  const theme = {
-    variables: {
-      fontFamily: 'Avenir, sans-serif',
-      unit: '14px',
-      padding: '0.5em',
-      borderRadius: '10px',
-      boxShadow: '0 0 0 1px silver',
-    },
-    icons: icons,
-  };
-
   return (
     <>
       {/* Logo, studioname-/text */}
@@ -898,71 +822,100 @@ export function AddStudioFormfields(props) {
         </div>
       </fieldset>
       {/* location */}
-      <fieldset className="listingForm mb-44 grid-flow-row grid-cols-2 sm:grid">
+      <fieldset className="listingForm mb-44 flex flex-col gap-1">
         {/* Input form */}
-        <props.AddressAutofill theme={theme} accessToken={token} onRetrieve={handleRetrieve}>
+        <props.AddressAutofill
+          accessToken={props.token}
+          theme={props.addressAutoFilltheme}
+          onRetrieve={props.handleRetrieve}>
           <FormInput
             beforeLabel={{
               string: 'Location',
-              css: 'label-form ',
+              css: 'label-form',
               required: true,
-              description: 'Type your full adress here',
+              description: 'Search your address and replace your pin on the map',
             }}
-            className="input-form w-full"
-            placeholder="Start typing your address, e.g. 123 Main..."
-            autoComplete="street-address"
+            className="input-form"
+            placeholder="Search address here.."
+            autoComplete="address-line1"
             id="mapbox-autofill"
           />
+          {/* full address */}
+          {!props.showFormExpanded && (
+            <div id="manual-entry" className="pl-5">
+              <button type="button" className="text-xs underline" onClick={() => props.setShowFormExpanded(true)}>
+                Enter an address manually
+              </button>
+            </div>
+          )}
         </props.AddressAutofill>
-        {!showFormExpanded && (
-          <div id="manual-entry" className="w180 mt6 link txt-ms color-gray color-black-on-hover border-b">
-            <button className="button" onClick={() => setShowFormExpanded(true)}>
-              Enter an address manually
-            </button>
-          </div>
-        )}
-        <FormInput
-          className={`input-form col-start-2 ${showFormExpanded ? 'block w-full' : 'hidden'}`}
-          placeholder="Apartment, suite, unit, building, floor, etc."
-          autoComplete="address-line2"
-        />
-        <FormInput
-          className={`input-form col-start-1 ${showFormExpanded ? 'block w-full' : 'hidden'}`}
-          placeholder="City"
-          autoComplete="address-level2"
-        />
-        <FormInput
-          className={`input-form col-start-2 ${showFormExpanded ? 'block w-full' : 'hidden'}`}
-          placeholder="State / Region"
-          autoComplete="address-level1"
-        />
-        <FormInput
-          className={`input-form col-start-1 ${showFormExpanded ? 'block w-full' : 'hidden'}`}
-          placeholder="ZIP / Postcode"
-          autoComplete="postal-code"
-        />
-        <div className="col-span-2">
-          {/* Visual confirmation map */}
+        {/* Visual confirmation map */}
+        <div className="col-span-2 mb-10">
           <div id="minimap-container" className="h-48 sm:w-2/3 lg:w-1/2">
-            <AddressMinimap
-              accessToken={token}
+            <props.AddressMinimap
+              accessToken={props.token}
               canAdjustMarker={true}
               satelliteToggle={true}
-              feature={feature}
-              show={showMinimap}
-              onSaveMarkerLocation={handleSaveMarkerLocation}
-              footer={'My custom minimap footer'}
+              feature={props.feature}
+              show={props.showMinimap}
+              onSaveMarkerLocation={props.handleSaveMarkerLocation}
+              footer={''}
             />
+            <p>{props.form.studioLocation.fullAddress}</p>
           </div>
         </div>
-
+        <FormInput
+          className={`input-form ${props.showFormExpanded ? 'block' : 'hidden'}`}
+          placeholder="Address"
+          autoComplete="address-line1"
+          name="studioLocation"
+          id="address"
+          onChange={props.handleChange}
+          value={props.form.studioLocation.address}
+        />
+        <FormInput
+          className={`input-form ${props.showFormExpanded ? 'block' : 'hidden'}`}
+          placeholder="City"
+          name="studioLocation"
+          id="city"
+          autoComplete="address-level2"
+          onChange={props.handleChange}
+          value={props.form.studioLocation.city}
+        />
+        <FormInput
+          className={`input-form ${props.showFormExpanded ? 'block' : 'hidden'}`}
+          placeholder="State / Region"
+          name="studioLocation"
+          id="state"
+          autoComplete="address-level1"
+          onChange={props.handleChange}
+          value={props.form.studioLocation.state}
+        />
+        <FormInput
+          className={`input-form ${props.showFormExpanded ? 'block' : 'hidden'}`}
+          placeholder="ZIP / Postcode"
+          name="studioLocation"
+          id="postalcode"
+          autoComplete="postal-code"
+          onChange={props.handleChange}
+          value={props.form.studioLocation.postalcode}
+        />
+        <FormInput
+          className={`input-form ${props.showFormExpanded ? 'block' : 'hidden'}`}
+          placeholder="Country"
+          name="studioLocation"
+          id="country"
+          autoComplete="country-name"
+          onChange={props.handleChange}
+          value={props.form.studioLocation.country}
+        />
         {/* Form buttons */}
-        {showFormExpanded && (
+        {props.showFormExpanded && (
           <div className="mb30 submit-btns">
             <button type="submit" className="round btn" id="btn-confirm">
               Confirm
             </button>
-            <button type="button" className="round btn--gray-light ml3 btn" id="btn-reset" onClick={resetForm}>
+            <button type="button" className="round btn--gray-light ml3 btn" id="btn-reset" onClick={props.resetForm}>
               Reset
             </button>
           </div>
