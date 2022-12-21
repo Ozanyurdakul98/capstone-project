@@ -9,6 +9,7 @@ import { AddStudioFormfields } from '../../components/Forms/Formfields/AddStudio
 import DashboardLayout from '../../components/Layout/DashboardLayout.js';
 import db from '../../lib/dbConnect.js';
 import { getToken } from 'next-auth/jwt';
+import dynamic from 'next/dynamic.js';
 function DashboardAddStudio({ userID }) {
   const defaultForm = {
     logo: '',
@@ -32,7 +33,7 @@ function DashboardAddStudio({ userID }) {
     },
     studioRules: [],
     additionalStudioRules: '',
-    studioLocation: '',
+    studioLocation: { address: '', city: '', state: '', country: '', postalcode: '' },
     user: userID,
   };
   const languages = [
@@ -167,6 +168,7 @@ function DashboardAddStudio({ userID }) {
     }
   };
   const handleChange = (event, val) => {
+    console.log('event', event, 'target', event.target.value, 'val', val);
     const target = event.target;
     const type = target.type;
     let name = target.name;
@@ -228,6 +230,10 @@ function DashboardAddStudio({ userID }) {
         setStudioLanguagesSearch('');
         setChecked({ ...checked, studioLanguages: languages });
         return newArray;
+      }
+      if (id === 'studioLocation') {
+        const newObj = { ...form.studioLocation, [id]: wert };
+        return newObj;
       } else {
         return wert;
       }
@@ -300,6 +306,9 @@ function DashboardAddStudio({ userID }) {
     if (data) return data.secure_url;
     else if (!data) return defaultPic;
   };
+  const AddressAutofill = dynamic(() => import('../../components/Mapbox/AddressAutofillExport'), { ssr: false });
+
+  console.log(form);
   return (
     <>
       <div className="sm:px-0">
@@ -314,6 +323,7 @@ function DashboardAddStudio({ userID }) {
         <form noValidate className="text-primary w-full" onSubmit={handleFormSubmit}>
           <AddStudioFormfields
             form={form}
+            AddressAutofill={AddressAutofill}
             setForm={setForm}
             checked={checked}
             setChecked={setChecked}

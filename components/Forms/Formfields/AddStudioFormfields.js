@@ -2,15 +2,90 @@ import { FormInput } from '../FormInput';
 import Image from 'next/image.js';
 import { TbHandClick } from 'react-icons/tb';
 import { MdDeleteForever } from 'react-icons/md';
-import { AddressAutofillComponent } from '../../Mapbox/AdressAutomaticFill';
+import dynamic from 'next/dynamic';
+import { useCallback } from 'react';
+import { useEffect, useState } from 'react';
+
 export function AddStudioFormfields(props) {
+  const AddressMinimap = dynamic(() => import('../../Mapbox/AddressMinimap'), { ssr: false });
+  const config = dynamic(() => import('../../Mapbox/config'), { ssr: false });
+
+  const [showFormExpanded, setShowFormExpanded] = useState(true);
+  const [showMinimap, setShowMinimap] = useState(true);
+  const [feature, setFeature] = useState();
+  const [token, setToken] = useState('');
+
+  useEffect(() => {
+    const accessToken =
+      'pk.eyJ1IjoiaGF5dmFuYWRpOTgiLCJhIjoiY2xidmQ5emN3MWpncjNwcWRwZnhxd2RrcyJ9.6TDZMEs0UDWmbVdmu643TQ';
+    setToken(accessToken);
+    config.accessToken = accessToken;
+  }, []);
+
+  const handleRetrieve = useCallback(
+    (res) => {
+      const feature = res.features[0];
+      setFeature(feature);
+      setShowMinimap(true);
+      setShowFormExpanded(true);
+      props.setForm({
+        ...props.form,
+        studioLocation: {
+          ...props.form.studioLocation,
+          address: feature.properties.address_line1,
+          city: feature.properties.address_level2,
+          postalcode: feature.properties.postcode,
+          state: feature.properties.address_level1,
+          country: feature.properties.country,
+        },
+      });
+    },
+    [setFeature, setShowMinimap]
+  );
+
+  function handleSaveMarkerLocation(coordinate) {
+    console.log(`Marker moved to ${JSON.stringify(coordinate)}.`);
+  }
+
+  function resetForm() {
+    const inputs = document.querySelectorAll('input');
+    inputs.forEach((input) => (input.value = ''));
+    setShowFormExpanded(false);
+    setFeature(null);
+  }
+
+  const icons = {
+    street: `
+    <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M3.79289 3.79289C4.18342 3.40237 4.81658 3.40237 5.20711 3.79289L9 7.58579L12.7929 3.79289C13.1834 3.40237 13.8166 3.40237 14.2071 3.79289C14.5976 4.18342 14.5976 4.81658 14.2071 5.20711L10.4142 9L14.2071 12.7929C14.5976 13.1834 14.5976 13.8166 14.2071 14.2071C13.8166 14.5976 13.1834 14.5976 12.7929 14.2071L9 10.4142L5.20711 14.2071C4.81658 14.5976 4.18342 14.5976 3.79289 14.2071C3.40237 13.8166 3.40237 13.1834 3.79289 12.7929L7.58579 9L3.79289 5.20711C3.40237 4.81658 3.40237 4.18342 3.79289 3.79289Z" fill="currentColor"/>
+    </svg>
+    `,
+    addressMarker: `
+    <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M3.79289 3.79289C4.18342 3.40237 4.81658 3.40237 5.20711 3.79289L9 7.58579L12.7929 3.79289C13.1834 3.40237 13.8166 3.40237 14.2071 3.79289C14.5976 4.18342 14.5976 4.81658 14.2071 5.20711L10.4142 9L14.2071 12.7929C14.5976 13.1834 14.5976 13.8166 14.2071 14.2071C13.8166 14.5976 13.1834 14.5976 12.7929 14.2071L9 10.4142L5.20711 14.2071C4.81658 14.5976 4.18342 14.5976 3.79289 14.2071C3.40237 13.8166 3.40237 13.1834 3.79289 12.7929L7.58579 9L3.79289 5.20711C3.40237 4.81658 3.40237 4.18342 3.79289 3.79289Z" fill="currentColor"/>
+    </svg>
+    `,
+  };
+  const theme = {
+    variables: {
+      fontFamily: 'Avenir, sans-serif',
+      unit: '14px',
+      padding: '0.5em',
+      borderRadius: '10px',
+      boxShadow: '0 0 0 1px silver',
+    },
+    icons: icons,
+  };
+
   return (
     <>
       {/* Logo, studioname-/text */}
       <section className="fset-editUser mt-10 lg:flex lg:flex-row-reverse lg:items-center lg:gap-10">
         {/* Logo, */}
         <fieldset className="mb-8 shrink-0 grow ">
-          <div className="relative flex h-48 w-48 flex-col sm:h-48 sm:w-48 md:h-56 md:w-56 lg:mx-auto lg:h-64 lg:w-64">
+          <div className="relative flex h-48 w-48 flex-col items-start sm:h-48 sm:w-48 md:h-56 md:w-56 lg:h-64 lg:w-64">
             <legend htmlFor="image" className="label-form absolute left-0 -top-4 w-full">
               Logo
             </legend>
@@ -77,7 +152,7 @@ export function AddStudioFormfields(props) {
               counter={{
                 val: props.form.studioName.length,
                 max: '40',
-                css: 'inputCounter lg:w-full',
+                css: 'inputCounter lg:w-[80%]',
               }}
               type="text"
               id="studioName"
@@ -101,11 +176,11 @@ export function AddStudioFormfields(props) {
                 description:
                   'Write a short text about this studio. Visitors of the detailpage of this Studio will see it.',
               }}
-              className="input-form peer block resize-none lg:w-full"
+              className="input-form peer block resize-none lg:w-[80%]"
               counter={{
                 val: props.form.profileText.length,
                 max: '350',
-                css: 'inputCounter lg:w-full',
+                css: 'inputCounter lg:w-[80%]',
               }}
               textarea={true}
               id="profileText"
@@ -574,7 +649,7 @@ export function AddStudioFormfields(props) {
         <FormInput
           beforeLabel={{
             string: 'Social Links',
-            css: 'label-form ',
+            css: 'label-form',
             required: true,
             description:
               'Add socials to this studio (at least one). These will be added to each of the studio services you add to this studio later on.',
@@ -823,35 +898,75 @@ export function AddStudioFormfields(props) {
         </div>
       </fieldset>
       {/* location */}
-      <fieldset className="listingForm mb-52">
+      <fieldset className="listingForm mb-44 grid-flow-row grid-cols-2 sm:grid">
+        {/* Input form */}
+        <props.AddressAutofill theme={theme} accessToken={token} onRetrieve={handleRetrieve}>
+          <FormInput
+            beforeLabel={{
+              string: 'Location',
+              css: 'label-form ',
+              required: true,
+              description: 'Type your full adress here',
+            }}
+            className="input-form w-full"
+            placeholder="Start typing your address, e.g. 123 Main..."
+            autoComplete="street-address"
+            id="mapbox-autofill"
+          />
+        </props.AddressAutofill>
+        {!showFormExpanded && (
+          <div id="manual-entry" className="w180 mt6 link txt-ms color-gray color-black-on-hover border-b">
+            <button className="button" onClick={() => setShowFormExpanded(true)}>
+              Enter an address manually
+            </button>
+          </div>
+        )}
         <FormInput
-          beforeLabel={{
-            string: 'Location',
-            css: 'label-form ',
-            required: true,
-          }}
-          className="input-form peer"
-          type="text"
-          name="studioLocation"
-          placeholder="Type [City], [Address]"
-          required
-          autoComplete="off"
-          errorMessage={'Only 5-60 characters and (a-z, A-Z, 0-9, äöü ,-) allowed!'}
-          pattern="^([a-zA-Z-])([a-zA-Z-0-9-,äöü\s]){4,60}$"
-          value={props.form.studioLocation}
-          onChange={props.handleChange}
+          className={`input-form col-start-2 ${showFormExpanded ? 'block w-full' : 'hidden'}`}
+          placeholder="Apartment, suite, unit, building, floor, etc."
+          autoComplete="address-line2"
         />
-        {/* <adressAutofill />
-        <AddressAutofill accessToken="pk.eyJ1IjoiaGF5dmFuYWRpOTgiLCJhIjoiY2xidmg0dnJsMDJ6dzN4dDdwaXpkZ3BvNSJ9.RBHAwiA1lqShS4lROZ10OQ">
-      </AddressAutofill> */}
-        <AddressAutofillComponent>
-          <input name="address" placeholder="Address" type="text" autoComplete="address-line1" />
-        </AddressAutofillComponent>
-        <input name="apartment" placeholder="Apartment number" type="text" autoComplete="address-line2" />
-        <input name="city" placeholder="City" type="text" autoComplete="address-level2" />
-        <input name="state" placeholder="State" type="text" autoComplete="address-level1" />
-        <input name="country" placeholder="Country" type="text" autoComplete="country-name" />
-        <input name="postalcode" placeholder="Postalcode" type="text" autoComplete="postal-code" />
+        <FormInput
+          className={`input-form col-start-1 ${showFormExpanded ? 'block w-full' : 'hidden'}`}
+          placeholder="City"
+          autoComplete="address-level2"
+        />
+        <FormInput
+          className={`input-form col-start-2 ${showFormExpanded ? 'block w-full' : 'hidden'}`}
+          placeholder="State / Region"
+          autoComplete="address-level1"
+        />
+        <FormInput
+          className={`input-form col-start-1 ${showFormExpanded ? 'block w-full' : 'hidden'}`}
+          placeholder="ZIP / Postcode"
+          autoComplete="postal-code"
+        />
+        <div className="col-span-2">
+          {/* Visual confirmation map */}
+          <div id="minimap-container" className="h-48 sm:w-2/3 lg:w-1/2">
+            <AddressMinimap
+              accessToken={token}
+              canAdjustMarker={true}
+              satelliteToggle={true}
+              feature={feature}
+              show={showMinimap}
+              onSaveMarkerLocation={handleSaveMarkerLocation}
+              footer={'My custom minimap footer'}
+            />
+          </div>
+        </div>
+
+        {/* Form buttons */}
+        {showFormExpanded && (
+          <div className="mb30 submit-btns">
+            <button type="submit" className="round btn" id="btn-confirm">
+              Confirm
+            </button>
+            <button type="button" className="round btn--gray-light ml3 btn" id="btn-reset" onClick={resetForm}>
+              Reset
+            </button>
+          </div>
+        )}
         <span className="errormessage">{props.formErrors.studioLocation}</span>
       </fieldset>
       {/* Errormessage */}

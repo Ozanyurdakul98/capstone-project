@@ -217,24 +217,21 @@ export function FormInput(props) {
             </>
           ) : (
             <>
-              <p
-                className={
-                  counter?.max
-                    ? ` ${props.counter.css} ${
-                        counter.min > counter.val || counter.val > counter.max ? 'text-red-400' : 'text-gray-400'
-                      }`
-                    : 'hidden'
-                }>
-                {counter?.val + '/' + counter?.max}
-              </p>
+              {counter ? (
+                <p
+                  className={
+                    counter?.max
+                      ? ` ${props.counter.css} ${
+                          counter.min > counter.val || counter.val > counter.max ? 'text-red-400' : 'text-gray-400'
+                        }`
+                      : 'hidden'
+                  }>
+                  {counter?.val + '/' + counter?.max}
+                </p>
+              ) : null}
               <input {...inputProps} onChange={onChange} onBlur={handleFocus} data-focused={focused.toString()} />
               <Label id={props.id} afterLabel={afterLabel} />
-              <ErrorMessage
-                type={props.type}
-                disabled={props.disabled}
-                focused={focused}
-                errorMessage={errorMessage}></ErrorMessage>
-              <span>{submitErrors?.[name]}</span>
+              <ErrorMessage type={props.type} disabled={props.disabled} focused={focused} errorMessage={errorMessage} />
             </>
           )}
         </>
@@ -245,38 +242,46 @@ export function FormInput(props) {
 function Label(props) {
   return (
     <>
-      <label
-        htmlFor={props.id}
-        className={
-          props.beforeLabel
-            ? `block ${props.beforeLabel.css}`
-            : props.afterLabel
-            ? `mr-2 block ${props.afterLabel.css}`
-            : 'hidden'
-        }>
-        {props.beforeLabel ? props.beforeLabel.string : props.afterLabel ? props.afterLabel.string : null}
-        {props.beforeLabel?.required ? '*' : null}
-        {props.afterLabel?.string2 ? props.afterLabel.string2 : null}
-        <p className={props.beforeLabel?.description ? 'text-sm font-thin normal-case md:text-base' : 'hidden'}>
-          {props.beforeLabel?.description}
-        </p>
-      </label>
+      {props.beforeLabel || props.afterLabel ? (
+        <label
+          htmlFor={props.id}
+          className={
+            props.beforeLabel
+              ? `block ${props.beforeLabel.css}`
+              : props.afterLabel
+              ? `mr-2 block ${props.afterLabel.css}`
+              : 'hidden'
+          }>
+          {props.beforeLabel ? props.beforeLabel.string : props.afterLabel ? props.afterLabel.string : null}
+          {props.beforeLabel?.required ? '*' : null}
+          {props.afterLabel?.string2 ? props.afterLabel.string2 : null}
+          {props.beforeLabel?.description ? (
+            <p className={props.beforeLabel?.description ? 'text-sm font-thin normal-case md:text-base' : 'hidden'}>
+              {props.beforeLabel?.description}
+            </p>
+          ) : null}
+        </label>
+      ) : null}
     </>
   );
 }
 function ErrorMessage(props) {
   return (
-    <span
-      className={
-        props.focused && props.errorMessage && props.type !== 'number'
-          ? 'block pl-5 text-xs text-red-500 peer-valid:hidden peer-invalid:visible sm:text-sm'
-          : props.type === 'number' && props.errorMessage && !props.disabled && props.focused
-          ? 'text-xs text-yellow-500 peer-valid:hidden peer-enabled:block sm:text-sm'
-          : (props.type === 'email' || props.type === 'password') && props.errorMessage && props.focused
-          ? 'block text-xs text-red-500 peer-valid:hidden peer-invalid:visible sm:text-sm'
-          : 'hidden'
-      }>
-      {props.errorMessage}
-    </span>
+    <>
+      {props.errorMessage ? (
+        <span
+          className={
+            props.focused && props.errorMessage && props.type !== 'number'
+              ? 'block pl-5 text-xs text-red-500 peer-valid:hidden peer-invalid:visible sm:text-sm'
+              : props.type === 'number' && props.errorMessage && !props.disabled && props.focused
+              ? 'text-xs text-yellow-500 peer-valid:hidden peer-enabled:block sm:text-sm'
+              : (props.type === 'email' || props.type === 'password') && props.errorMessage && props.focused
+              ? 'block text-xs text-red-500 peer-valid:hidden peer-invalid:visible sm:text-sm'
+              : 'hidden'
+          }>
+          {props.errorMessage}
+        </span>
+      ) : null}
+    </>
   );
 }
