@@ -822,7 +822,7 @@ export function AddStudioFormfields(props) {
         </div>
       </fieldset>
       {/* location */}
-      <fieldset className="listingForm mb-44 flex flex-col gap-1">
+      <fieldset className="listingForm mb-28 flex flex-col gap-1">
         {/* Input form */}
         <props.AddressAutofill
           accessToken={props.token}
@@ -836,7 +836,7 @@ export function AddStudioFormfields(props) {
               description: 'Search your address and replace your pin on the map',
             }}
             className="input-form"
-            placeholder="Search address here.."
+            placeholder="Search exact address here.."
             autoComplete="address-line1"
             id="mapbox-autofill"
           />
@@ -849,76 +849,72 @@ export function AddStudioFormfields(props) {
             </div>
           )}
         </props.AddressAutofill>
-        {/* Visual confirmation map */}
-        <div className="col-span-2 mb-10">
-          <div id="minimap-container" className="h-48 sm:w-2/3 lg:w-1/2">
-            <props.AddressMinimap
-              accessToken={props.token}
-              canAdjustMarker={true}
-              satelliteToggle={true}
-              feature={props.feature}
-              show={props.showMinimap}
-              onSaveMarkerLocation={props.handleSaveMarkerLocation}
-              footer={''}
-            />
-            <p>{props.form.studioLocation.fullAddress}</p>
-          </div>
-        </div>
-        <FormInput
-          className={`input-form ${props.showFormExpanded ? 'block' : 'hidden'}`}
-          placeholder="Address"
-          autoComplete="address-line1"
-          name="studioLocation"
-          id="address"
-          onChange={props.handleChange}
-          value={props.form.studioLocation.address}
-        />
-        <FormInput
-          className={`input-form ${props.showFormExpanded ? 'block' : 'hidden'}`}
-          placeholder="City"
-          name="studioLocation"
-          id="city"
-          autoComplete="address-level2"
-          onChange={props.handleChange}
-          value={props.form.studioLocation.city}
-        />
-        <FormInput
-          className={`input-form ${props.showFormExpanded ? 'block' : 'hidden'}`}
-          placeholder="State / Region"
-          name="studioLocation"
-          id="state"
-          autoComplete="address-level1"
-          onChange={props.handleChange}
-          value={props.form.studioLocation.state}
-        />
-        <FormInput
-          className={`input-form ${props.showFormExpanded ? 'block' : 'hidden'}`}
-          placeholder="ZIP / Postcode"
-          name="studioLocation"
-          id="postalcode"
-          autoComplete="postal-code"
-          onChange={props.handleChange}
-          value={props.form.studioLocation.postalcode}
-        />
-        <FormInput
-          className={`input-form ${props.showFormExpanded ? 'block' : 'hidden'}`}
-          placeholder="Country"
-          name="studioLocation"
-          id="country"
-          autoComplete="country-name"
-          onChange={props.handleChange}
-          value={props.form.studioLocation.country}
-        />
-        {/* Form buttons */}
+        {/* address inputs and minimap */}
         {props.showFormExpanded && (
-          <div className="mb30 submit-btns">
-            <button type="submit" className="round btn" id="btn-confirm">
-              Confirm
-            </button>
-            <button type="button" className="round btn--gray-light ml3 btn" id="btn-reset" onClick={props.resetForm}>
-              Reset
-            </button>
-          </div>
+          <>
+            {/* Visual confirmation map */}
+            {props.showMinimap && (
+              <div className="col-span-2 mb-10">
+                <div id="minimap-container" className="h-48 sm:w-2/3 lg:w-1/2">
+                  <props.AddressMinimap
+                    accessToken={props.token}
+                    canAdjustMarker={true}
+                    satelliteToggle={true}
+                    feature={props.feature}
+                    show={props.showMinimap}
+                    onSaveMarkerLocation={props.handleSaveMarkerLocation}
+                    footer={''}
+                  />
+                  <p>{props.form.studioLocation.fullAddress}</p>
+                </div>
+              </div>
+            )}
+            <FormInput
+              className="input-form"
+              placeholder="Address"
+              autoComplete="address-line1"
+              name="studioLocation"
+              id="address"
+              onChange={props.handleChange}
+              value={props.form.studioLocation.address}
+            />
+            <FormInput
+              className="input-form"
+              placeholder="City"
+              name="studioLocation"
+              id="city"
+              autoComplete="address-level2"
+              onChange={props.handleChange}
+              value={props.form.studioLocation.city}
+            />
+            <FormInput
+              className="input-form"
+              placeholder="State / Region"
+              name="studioLocation"
+              id="state"
+              autoComplete="address-level1"
+              onChange={props.handleChange}
+              value={props.form.studioLocation.state}
+            />
+            <FormInput
+              className="input-form"
+              placeholder="ZIP / Postcode"
+              name="studioLocation"
+              id="postalcode"
+              autoComplete="postal-code"
+              onChange={props.handleChange}
+              value={props.form.studioLocation.postalcode}
+            />
+            <FormInput
+              className="input-form"
+              placeholder="Country"
+              name="studioLocation"
+              id="country"
+              autoComplete="country-name"
+              onChange={props.handleChange}
+              value={props.form.studioLocation.country}
+            />
+          </>
         )}
         <span className="errormessage">{props.formErrors.studioLocation}</span>
       </fieldset>
