@@ -21,7 +21,7 @@ const studioListingSchema = new mongoose.Schema(
       trim: true,
     },
     locationFeatures: { type: Array, required: true, trim: true },
-    sleepOver: { type: Object, trim: true },
+    sleepOver: { type: Object, default: {}, trim: true },
     studioSocials: { type: Object, required: true, trim: true },
     studioRules: { type: Array, trim: true, index: true, default: [''] },
     additionalStudioRules: { type: String, trim: true, index: true, default: '' },

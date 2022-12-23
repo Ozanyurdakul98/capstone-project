@@ -52,13 +52,14 @@ export default function MyStudiosTable({ fetchedStudios, role }) {
           studioLanguages: rawStudio.studioLanguages,
           openingHours: rawStudio.openingHours,
           locationFeatures: rawStudio.locationFeatures,
-          sleepOver: rawStudio.sleepOver,
+          sleepOver: rawStudio.sleepOver ? rawStudio.sleepOver : {},
           studioSocials: rawStudio.studioSocials,
           studioLocation: rawStudio.studioLocation,
           studioRules: rawStudio.studioRules,
           additionalStudioRules: rawStudio.additionalStudioRules,
           user: rawStudio.user,
         };
+        console.log('studio', studio);
         if (!res.ok || !result.success) {
           throw new Error(res.status);
         }
@@ -386,7 +387,7 @@ export default function MyStudiosTable({ fetchedStudios, role }) {
       {openView === 'edit' ? (
         <>
           <div className="searchFadein fixed inset-0 z-50 m-auto flex h-4/6 w-full flex-col gap-5 rounded-2xl bg-white   pb-5  shadow-xxl md:min-h-72 md:w-11/12 lg:w-8/12 xl:w-6/12">
-            <div className="overflow-y-scroll sm:px-0">
+            <div className="overflow-x-hidden overflow-y-scroll sm:px-0">
               <div className="mt-4 mb-6 flex flex-col gap-4">
                 <h2 className="h2 ml-5 text-2xl">Edit Studioservice</h2>
               </div>

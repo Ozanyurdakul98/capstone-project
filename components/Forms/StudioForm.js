@@ -15,7 +15,7 @@ export function StudioForm({ userID, role, toUpdateStudio, setOpenView }) {
   //This component is used to edit Studios and to add them.
   // handle (Edit || Add) -page
   const existingStudioData = toUpdateStudio;
-
+  console.log('ecxisting', existingStudioData);
   const languages = [
     'Afrikaans',
     'Albanian',
@@ -152,6 +152,9 @@ export function StudioForm({ userID, role, toUpdateStudio, setOpenView }) {
       'pk.eyJ1IjoiaGF5dmFuYWRpOTgiLCJhIjoiY2xidmQ5emN3MWpncjNwcWRwZnhxd2RrcyJ9.6TDZMEs0UDWmbVdmu643TQ';
     setToken(accessToken);
     config.accessToken = accessToken;
+    console.log('useeffect');
+    if (!existingStudioData) return;
+    console.log('after return');
     MatchDataWithChecked();
   }, []);
   const handleFormSubmit = async (event) => {
@@ -187,12 +190,28 @@ export function StudioForm({ userID, role, toUpdateStudio, setOpenView }) {
         });
       } catch (error) {
         setFormErrors(error);
+        setLoading(false);
         setPreview(false);
         setSubmissionFailed(true);
         console.error('Failed to add', error);
       }
     }
   };
+  function MatchDataWithChecked() {
+    const studioInfo = existingStudioData.studioInformation;
+    const studioSleepover = existingStudioData.sleepOver;
+    const user = existingStudioData.user;
+    console.log('matching');
+    if (studioInfo) {
+      setChecked((prev) => ({ ...prev, studioInformation: Object.keys(studioInfo) }));
+    }
+    if (studioSleepover) {
+      setChecked((prev) => ({ ...prev, sleepOver: Object.keys(studioSleepover) }));
+    }
+    if (user) {
+      setForm({ ...form, user: user._id });
+    }
+  }
   const handlePreview = () => {
     const passForm = form;
     setFormErrors(ValidateCreateStudioListing(passForm));
@@ -364,6 +383,7 @@ export function StudioForm({ userID, role, toUpdateStudio, setOpenView }) {
   const handleRetrieve = useCallback(
     (res) => {
       const feature = res.features[0];
+      console.log(feature);
       setFeature(feature);
       setShowMinimap(true);
       setShowFormExpanded(true);
@@ -377,6 +397,7 @@ export function StudioForm({ userID, role, toUpdateStudio, setOpenView }) {
           postalcode: feature.properties.postcode,
           state: feature.properties.address_level1,
           country: feature.properties.country,
+          geolocation: feature.geometry.coordinates,
         },
       });
     },
@@ -384,13 +405,23 @@ export function StudioForm({ userID, role, toUpdateStudio, setOpenView }) {
   );
   function handleSaveMarkerLocation(coordinate) {
     console.log(`Marker moved to ${JSON.stringify(coordinate)}.`);
+    console.log(feature);
+    setFeature({ ...feature, geometry: { ...feature.geometry, coordinates: coordinate } });
+    setForm({
+      ...form,
+      studioLocation: {
+        ...form.studioLocation,
+        geolocation: coordinate,
+      },
+    });
   }
   const handleClickToCloseModal = () => {
     setPreview(false);
     // setOpenView(false);
   };
 
-  console.log(form);
+  console.log('form', form);
+  console.log('checked', checked);
   return (
     <div className="sm:px-0">
       <form noValidate className="text-primary w-full" onSubmit={handleFormSubmit}>
@@ -442,6 +473,7 @@ export function StudioForm({ userID, role, toUpdateStudio, setOpenView }) {
                         openingHours={form.openingHours}
                         locationFeatures={form.locationFeatures}
                         studioLocation={form.studioLocation}
+                        user={existingStudioData.user}
                       />
                     </div>
                     <div className="ml-5">
@@ -523,7 +555,7 @@ export function StudioForm({ userID, role, toUpdateStudio, setOpenView }) {
           ) : null}
         </fieldset>
         {/* Form-Buttons */}
-        <fieldset className="flex max-w-6xl justify-between gap-3 sm:gap-20 md:gap-80 ">
+        <fieldset className="flex max-w-6xl justify-between gap-3">
           <button
             type="button"
             className="form-button bg-black text-white hover:bg-black"
@@ -532,6 +564,7 @@ export function StudioForm({ userID, role, toUpdateStudio, setOpenView }) {
             }}>
             Reset
           </button>
+          <div className="ml-auto flex items-center justify-center space-x-2">{loading ? <Spinner /> : null}</div>
           <button
             type="button"
             onClick={() => {

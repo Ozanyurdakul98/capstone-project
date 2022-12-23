@@ -518,7 +518,7 @@ export function AddStudioFormfields(props) {
               value={
                 !props.checked.sleepOver.includes('bedsCount')
                   ? 0
-                  : props.form.sleepOver.bedsCount === undefined
+                  : props.form.sleepOver?.bedsCount === undefined
                   ? ''
                   : props.form.sleepOver.bedsCount
               }
@@ -538,7 +538,6 @@ export function AddStudioFormfields(props) {
               id="maxPeople"
               checked={props.checked.sleepOver.includes('maxPeople')}
               onChange={(event) => {
-                props.handleChange(event);
                 props.handleCheck(event);
               }}
             />
@@ -555,11 +554,14 @@ export function AddStudioFormfields(props) {
               value={
                 !props.checked.sleepOver.includes('maxPeople')
                   ? 0
-                  : props.form.sleepOver.maxPeople === undefined
+                  : props.form.sleepOver?.maxPeople === undefined
                   ? ''
                   : props.form.sleepOver.maxPeople
               }
-              onChange={props.handleChange}
+              onChange={(event) => {
+                props.handleChange(event);
+                props.handleCheck(event);
+              }}
             />
           </label>
           <div className={`hidden ${props.formErrors.sleepOver ?? 'block'}`}>
@@ -827,6 +829,7 @@ export function AddStudioFormfields(props) {
         <props.AddressAutofill
           accessToken={props.token}
           theme={props.addressAutoFilltheme}
+          browserAutofillEnabled={false}
           onRetrieve={props.handleRetrieve}>
           <FormInput
             beforeLabel={{
@@ -836,7 +839,7 @@ export function AddStudioFormfields(props) {
               description: 'Search your address and replace your pin on the map',
             }}
             className="input-form"
-            placeholder="Search exact address here.."
+            placeholder="Search full address here.."
             autoComplete="address-line1"
             id="mapbox-autofill"
           />
@@ -862,8 +865,8 @@ export function AddStudioFormfields(props) {
                     satelliteToggle={true}
                     feature={props.feature}
                     show={props.showMinimap}
-                    onSaveMarkerLocation={props.handleSaveMarkerLocation}
-                    footer={''}
+                    onSaveMarkerLocation={(e) => props.handleSaveMarkerLocation(e)}
+                    footer={false}
                   />
                   <p>{props.form.studioLocation.fullAddress}</p>
                 </div>
