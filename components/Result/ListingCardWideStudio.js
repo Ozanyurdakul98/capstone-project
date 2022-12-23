@@ -57,7 +57,7 @@ function ListingCardWideStudio({
               <div className="relative flex items-center justify-between">
                 <p className="flex gap-1 truncate text-xs text-gray-400">
                   <MdLocationPin className="h-[15px] w-[15px]" />
-                  {studioLocation}
+                  {studioLocation.fullAddress}
                 </p>
               </div>
               {/* studiotype and openinghours*/}

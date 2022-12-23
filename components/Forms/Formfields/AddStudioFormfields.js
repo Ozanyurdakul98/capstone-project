@@ -560,7 +560,6 @@ export function AddStudioFormfields(props) {
               }
               onChange={(event) => {
                 props.handleChange(event);
-                props.handleCheck(event);
               }}
             />
           </label>
@@ -858,7 +857,7 @@ export function AddStudioFormfields(props) {
             {/* Visual confirmation map */}
             {props.showMinimap && (
               <div className="col-span-2 mb-10">
-                <div id="minimap-container" className="h-48 sm:w-2/3 lg:w-1/2">
+                <div id="minimap-container" className="h-48 text-xs sm:w-2/3 lg:w-1/2">
                   <props.AddressMinimap
                     accessToken={props.token}
                     canAdjustMarker={true}
@@ -869,6 +868,7 @@ export function AddStudioFormfields(props) {
                     footer={false}
                   />
                   <p>{props.form.studioLocation.fullAddress}</p>
+                  <p>{' (' + props.form.studioLocation.geolocation.join(', ') + ')'}</p>
                 </div>
               </div>
             )}

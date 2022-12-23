@@ -422,6 +422,7 @@ export function StudioForm({ userID, role, toUpdateStudio, setOpenView }) {
 
   console.log('form', form);
   console.log('checked', checked);
+  console.log('err', formErrors);
   return (
     <div className="sm:px-0">
       <form noValidate className="text-primary w-full" onSubmit={handleFormSubmit}>

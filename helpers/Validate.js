@@ -52,7 +52,7 @@ export function ValidateCreateStudioListing(form) {
   const errors = {};
   const studioName = /^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){4,39}$/i;
   const url = /^((http|https):\/\/)/;
-  const patternLocation = /^([a-zA-Z-])([a-zA-Z-0-9,äöü\s]){4,60}$/i;
+  const patternLocation = /^([a-zA-Z-])([a-zA-Z-0-9,äöü\s]){4,160}$/i;
 
   if (!form.studioName) {
     errors.listingTitle = 'A Studioname is required!';
@@ -118,9 +118,9 @@ export function ValidateCreateStudioListing(form) {
     errors.locationFeatures = 'Select at least 1 location feature!';
   }
 
-  if (!form.studioLocation) {
+  if (!form.studioLocation.address) {
     errors.studioLocation = 'A studio location is required!';
-  } else if (!patternLocation.test(form.studioLocation)) {
+  } else if (!patternLocation.test(form.studioLocation.address)) {
     errors.studioLocation = 'Your input is not valid';
   }
   return errors;

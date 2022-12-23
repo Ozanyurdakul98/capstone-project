@@ -10,6 +10,7 @@ import Image from 'next/image';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { MyLink } from '../../../../../components/MyLink';
+import { MdLocationPin } from 'react-icons/md';
 
 function StudioDetailpage({
   serializedStudio,
@@ -61,24 +62,8 @@ function StudioDetailpage({
                 <div className="flex w-full flex-col items-center px-10">
                   <div className="max-w-max">
                     <h3 className="flex items-center justify-start gap-1 truncate text-gray-500">
-                      <svg
-                        className="h-3 w-3 text-black sm:h-4 sm:w-4"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                      </svg>
-                      {studio.studioLocation}
+                      <MdLocationPin className="h-[15px] w-[15px] text-black" />
+                      {studio.studioLocation.fullAddress}
                     </h3>
                     <h1 className="h1LandingP">{studio.studioName}</h1>
                   </div>

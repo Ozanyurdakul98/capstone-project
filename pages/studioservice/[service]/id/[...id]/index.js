@@ -156,7 +156,7 @@ function StudioDetailpage({ serializedStudioservice, studioServicesCount }) {
                 <h1 className="h1LandingP">{Service.listingTitle}</h1>
                 <div className="flex gap-1 text-gray-500">
                   <MdLocationPin className="h-[15px] w-[15px] text-black" />
-                  <h3 className="pt-[1px]">{Service.studio.studioLocation}</h3>
+                  <h3 className="pt-[1px]">{Service.studio.studioLocation.fullAddress}</h3>
                 </div>
               </section>
               {/* avatar username */}

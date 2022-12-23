@@ -20,7 +20,9 @@ function ListingCard({ preview, id, logo, studioName, studiotype, openingHours, 
           <div className="mb-3 flex w-full grow flex-col justify-between px-1 sm:px-2">
             <div className="flex flex-col gap-[6px] md:gap-2">
               <div className="flex items-center justify-between pt-1">
-                <p className="truncate text-xs text-gray-400">{studioLocation}</p>
+                <p className="truncate text-xs text-gray-400">
+                  {studioLocation.city + ' ' + studioLocation.postalcode + ', ' + studioLocation.country}
+                </p>
               </div>
               <div className="-mt-1 flex min-w-0 grow gap-2">
                 <p className="truncate rounded border border-slate-700 bg-black px-1 text-xs text-white  md:text-sm">
