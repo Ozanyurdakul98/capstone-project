@@ -1,16 +1,17 @@
 import { isMultiple } from '../../utils';
+import Map from '../Mapbox/Map';
 import ListingCardWideStudioService from './ListingCardWideStudioService';
 
 export function ResultpageStudioservices(props) {
   return (
     <div className="my-20">
-      <div>
+      <section>
         <h1 className="h2">{props.header}</h1>
         <p className="pl-5 text-xs">
           {props.count} Studioservice{isMultiple(props.count)} found
         </p>
-      </div>
-      <div className="mt-5 min-h-screen">
+      </section>
+      <section className="mt-5 min-h-screen">
         {props.studioServices.map(
           ({ _id, listingTitle, description, service, maxGuests, images, user, soundengineer, pricing, studio }) => (
             <ListingCardWideStudioService
@@ -28,7 +29,10 @@ export function ResultpageStudioservices(props) {
             />
           )
         )}
-      </div>
+      </section>
+      <section>
+        <Map />
+      </section>
     </div>
   );
 }

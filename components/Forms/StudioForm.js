@@ -5,13 +5,13 @@ import ListingCardCarousellStudio from '../Result/ListingCardCarousellStudio';
 import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../BackgroundOverlay';
 import Link from 'next/link.js';
 import { useRouter } from 'next/router';
-import { AddStudioFormfields } from './Formfields/AddStudioFormfields';
+import { StudioFormfields } from './Formfields/StudioFormfields';
 import dynamic from 'next/dynamic.js';
 import { useCallback } from 'react';
 import { useEffect } from 'react';
 import { Spinner } from '../Spinner';
 
-export function StudioForm({ userID, role, toUpdateStudio, setOpenView }) {
+export function StudioForm({ userID, role, toUpdateStudio }) {
   //This component is used to edit Studios and to add them.
   // handle (Edit || Add) -page
   const existingStudioData = toUpdateStudio;
@@ -144,12 +144,12 @@ export function StudioForm({ userID, role, toUpdateStudio, setOpenView }) {
   const defaultPic = '/images/Thumbnail-default.png';
   const router = useRouter();
   const AddressAutofill = dynamic(() => import('../Mapbox/AddressAutofillExport'), { ssr: false });
-  const AddressMinimap = dynamic(() => import('../Mapbox/AddressMinimap'), { ssr: false });
-  const config = dynamic(() => import('../Mapbox/config'), { ssr: false });
+  const AddressMinimap = dynamic(() => import('../Mapbox/AddressMinimapExport'), { ssr: false });
+  const config = dynamic(() => import('../Mapbox/ConfigExport'), { ssr: false });
 
   useEffect(() => {
     const accessToken =
-      'pk.eyJ1IjoiaGF5dmFuYWRpOTgiLCJhIjoiY2xidmQ5emN3MWpncjNwcWRwZnhxd2RrcyJ9.6TDZMEs0UDWmbVdmu643TQ';
+      'pk.eyJ1IjoiaGF5dmFuYWRpOTgiLCJhIjoiY2xidmg0dnJsMDJ6dzN4dDdwaXpkZ3BvNSJ9.RBHAwiA1lqShS4lROZ10OQ';
     setToken(accessToken);
     config.accessToken = accessToken;
     console.log('useeffect');
@@ -426,7 +426,7 @@ export function StudioForm({ userID, role, toUpdateStudio, setOpenView }) {
   return (
     <div className="sm:px-0">
       <form noValidate className="text-primary w-full" onSubmit={handleFormSubmit}>
-        <AddStudioFormfields
+        <StudioFormfields
           form={form}
           setForm={setForm}
           resetForm={resetForm}

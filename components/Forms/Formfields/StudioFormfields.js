@@ -2,7 +2,7 @@ import { FormInput } from '../FormInput';
 import Image from 'next/image.js';
 import { TbHandClick } from 'react-icons/tb';
 import { MdDeleteForever } from 'react-icons/md';
-export function AddStudioFormfields(props) {
+export function StudioFormfields(props) {
   return (
     <>
       {/* Logo, studioname-/text */}
@@ -728,7 +728,7 @@ export function AddStudioFormfields(props) {
         <legend className="label-form">Studiorules</legend>
         {/* tick rules */}
         <div className="mb-3 grid w-full grid-cols-bgsm items-center justify-items-start gap-2 ">
-          <h2 className="col-start-1">Are these rules allowed in your Studio?</h2>
+          <h2 className="col-start-1 pl-5">Studiorule allowed?</h2>
           <div className="col-start-2 flex w-full justify-center">
             <p className="">Allow ✅</p>
           </div>
@@ -856,17 +856,17 @@ export function AddStudioFormfields(props) {
           <>
             {/* Visual confirmation map */}
             {props.showMinimap && (
-              <div className="col-span-2 mb-10">
-                <div id="minimap-container" className="h-48 text-xs sm:w-2/3 lg:w-1/2">
-                  <props.AddressMinimap
-                    accessToken={props.token}
-                    canAdjustMarker={true}
-                    satelliteToggle={true}
-                    feature={props.feature}
-                    show={props.showMinimap}
-                    onSaveMarkerLocation={(e) => props.handleSaveMarkerLocation(e)}
-                    footer={false}
-                  />
+              <div id="minimap-container" className="col-span-2 mb-10 h-48 sm:w-2/3 lg:w-1/2">
+                <props.AddressMinimap
+                  accessToken={props.token}
+                  canAdjustMarker={true}
+                  satelliteToggle={true}
+                  feature={props.feature}
+                  show={props.showMinimap}
+                  onSaveMarkerLocation={(e) => props.handleSaveMarkerLocation(e)}
+                  footer={false}
+                />
+                <div className="pl-5 text-xs">
                   <p>{props.form.studioLocation.fullAddress}</p>
                   <p>{' (' + props.form.studioLocation.geolocation.join(', ') + ')'}</p>
                 </div>

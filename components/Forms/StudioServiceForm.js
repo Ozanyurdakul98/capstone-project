@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { ValidateCreateStudioServiceListing } from '../../helpers/Validate';
-import { AddStudioServiceFormfields } from './Formfields/AddStudioServiceFormfields';
+import { StudioServiceFormfields } from './Formfields/StudioServiceFormfields';
 import ListingCardWideStudioService from '../Result/ListingCardWideStudioService';
 import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../BackgroundOverlay';
 import Link from 'next/link';
@@ -296,7 +296,7 @@ export function StudioServiceForm({
   };
   return (
     <form noValidate className="text-primary w-full" onSubmit={handleFormSubmit}>
-      <AddStudioServiceFormfields
+      <StudioServiceFormfields
         defaultChecked={defaultChecked}
         form={form}
         setForm={setForm}
