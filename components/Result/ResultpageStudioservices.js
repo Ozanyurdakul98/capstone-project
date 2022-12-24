@@ -1,5 +1,5 @@
 import { isMultiple } from '../../utils';
-import Map from '../Mapbox/Map';
+import { ReactMapGl } from '../Mapbox/ReactMapGl';
 import ListingCardWideStudioService from './ListingCardWideStudioService';
 
 export function ResultpageStudioservices(props) {
@@ -30,8 +30,10 @@ export function ResultpageStudioservices(props) {
           )
         )}
       </section>
-      <section>
-        <Map />
+      <section
+      // className='hidden xl:inline-flex xl:min-w-[600px]'
+      >
+        <ReactMapGl />
       </section>
     </div>
   );

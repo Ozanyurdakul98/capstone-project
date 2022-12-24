@@ -36,7 +36,7 @@ function ListingCardWideStudioService({
               <div className="relative mb-1 flex items-center justify-between">
                 <p className="flex gap-1 truncate text-xs text-gray-400">
                   <MdLocationPin className="h-[15px] w-[15px]" />
-                  {studio.studioLocation}
+                  {studio.studioLocation.fullAddress}
                 </p>
                 {/* user */}
                 <div className="right-0 top-0 hidden flex-col items-end truncate text-xs text-gray-400 sm:absolute sm:flex lg:-top-4">
