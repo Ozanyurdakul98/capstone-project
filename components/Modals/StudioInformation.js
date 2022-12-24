@@ -33,7 +33,7 @@ export default function StudioInformation({ studio, setOpenView }) {
           {/* sideinfo */}
           <section className="grid grid-flow-row grid-cols-fr2fr overflow-x-hidden pb-20 pl-5">
             <p className="flex gap-1">Location:</p>
-            <p className="font-semibold">{studio.studioLocation}</p>
+            <p className="font-semibold">{studio.studioLocation.fullAddress}</p>
             <p className="flex gap-1">Studio Type:</p>
             <p className="font-semibold">{studio.studiotype}</p>
             <p className="flex gap-1">Studio Languages:</p>

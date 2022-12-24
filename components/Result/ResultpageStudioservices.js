@@ -33,7 +33,7 @@ export function ResultpageStudioservices(props) {
       <section
       // className='hidden xl:inline-flex xl:min-w-[600px]'
       >
-        <ReactMapGl />
+        <ReactMapGl results={props.studioServices} />
       </section>
     </div>
   );
