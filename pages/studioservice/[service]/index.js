@@ -2,7 +2,7 @@
 import db from '../../../lib/dbConnect';
 // import StudioListing from '../../../models/StudioListing';
 //components
-import Layout from '../../../components/Layout/Layout';
+import ResultpageLayout from '../../../components/Layout/ResultpageLayout';
 import StudioService from '../../../models/StudioService';
 import { ResultpageStudioservices } from '../../../components/Result/ResultpageStudioservices';
 import AdminStudioService from '../../../models/AdminCreateStudioService';
@@ -13,7 +13,7 @@ function StudioServiceResults({ studioServices, studioServicesCount, header }) {
 export default StudioServiceResults;
 
 StudioServiceResults.getLayout = function getLayout(page) {
-  return <Layout>{page}</Layout>;
+  return <ResultpageLayout>{page}</ResultpageLayout>;
 };
 
 export async function getServerSideProps(context) {

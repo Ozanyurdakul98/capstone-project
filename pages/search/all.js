@@ -1,6 +1,6 @@
 import db from '../../lib/dbConnect';
 import StudioService from '../../models/StudioService';
-import Layout from '../../components/Layout/Layout';
+import ResultpageLayout from '../../components/Layout/ResultpageLayout';
 import { ResultpageStudioservices } from '../../components/Result/ResultpageStudioservices';
 
 function All({ studioServices, studioServicesCount, header }) {
@@ -10,7 +10,7 @@ function All({ studioServices, studioServicesCount, header }) {
 export default All;
 
 All.getLayout = function getLayout(page) {
-  return <Layout>{page}</Layout>;
+  return <ResultpageLayout>{page}</ResultpageLayout>;
 };
 
 export async function getServerSideProps() {

@@ -3,7 +3,7 @@ import Map, { Marker, Popup, NavigationControl, GeolocateControl, FullscreenCont
 import getCenter from 'geolib/es/getCenter';
 import { useMemo } from 'react';
 
-export function ReactMapGl({ results }) {
+export function ReactMapGl({ results, style }) {
   const coordinates = results.map((result) => result.studio.studioLocation.geolocation);
   const center = getCenter(coordinates);
   const [selectedListing, setSelectedListing] = useState(null);
@@ -50,7 +50,9 @@ export function ReactMapGl({ results }) {
     <Map
       // initialViewState={{}}
       {...viewport}
-      style={{ width: 600, height: 400 }}
+      style={style}
+      // width={style.width}
+      // height={style.height}
       mapStyle="mapbox://styles/hayvanadi98/clc0wi3k9003v14nyhgdcytq1"
       mapboxAccessToken={process.env.mapbox_key}
       onMove={(evt) => setViewport(evt.viewState)}
@@ -62,9 +64,7 @@ export function ReactMapGl({ results }) {
       dragRotate={true}
       keyboard={true}
       reuseMaps={true}
-      trackResize={true}
-      // maxTileCacheSize={1000000000}
-    >
+      trackResize={true}>
       <GeolocateControl position="top-left" />
       <FullscreenControl position="top-left" />
       <NavigationControl position="top-left" /> <ScaleControl style={{ border: 'none' }} className="border-none" />
