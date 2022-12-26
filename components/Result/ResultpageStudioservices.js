@@ -3,13 +3,10 @@ import { ReactMapGl } from '../Mapbox/ReactMapGl';
 import ListingCardWideStudioService from './ListingCardWideStudioService';
 
 export function ResultpageStudioservices(props) {
+  console.log(props.studioServices);
   return (
-    <div className="mb-20 flex flex-col lg:gap-2">
-      {/* Map */}
-      {/* <section className=" lg:hidden lg:h-96">
-        <ReactMapGl results={props.studioServices} />
-      </section> */}
-      <section className="flex flex-col">
+    <div className="relative mb-20 flex flex-col-reverse lg:flex-row">
+      <section className={`flex grow flex-col ${props.studioServices.length >= 1 ? 'lg:mt-20' : 'mt-20'}`}>
         <section>
           <h1 className="h2">{props.header}</h1>
           <p className="pl-5 text-xs">
@@ -36,9 +33,11 @@ export function ResultpageStudioservices(props) {
           )}
         </section>
       </section>
-      <section className="mb-10 inline-flex h-80 w-full px-2 lg:inline-flex lg:max-h-[600px] lg:min-w-[400px] xl:min-w-[500px]">
-        <ReactMapGl results={props.studioServices} style={{ width: '100%', height: '100%', borderRadius: '10px' }} />
-      </section>
+      {props.studioServices.length >= 1 ? (
+        <section className="mb-10 h-80 w-full lg:sticky lg:top-[0.5rem] lg:mt-2 lg:h-[34rem] lg:max-w-[400px] lg:px-2 xl:max-w-[500px]">
+          <ReactMapGl results={props.studioServices} style={{ width: '100%', height: '100%', borderRadius: '10px' }} />
+        </section>
+      ) : null}
     </div>
   );
 }

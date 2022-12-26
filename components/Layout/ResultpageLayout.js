@@ -12,7 +12,7 @@ export default function ResultpageLayout({ children }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <main>{children}</main>
+      <main className="lg:container lg:mx-auto">{children}</main>
       <Footer />
     </div>
   );
