@@ -151,7 +151,34 @@ export function ReactMapGl({ results, style, mapFor }) {
               </div>
             </article>
           ) : mapFor === 'studioServices' ? (
-            'cmke'
+            <article className="flex w-full shrink-0 gap-3">
+              <div className="flex min-w-[100px] flex-col justify-between text-xs">
+                <h3>{selectedListing.studio.studioName}</h3>
+                <div className="text-xxs leading-tight">
+                  <p>
+                    {selectedListing.studio.studioLocation.postalcode}, {selectedListing.studio.studioLocation.city}
+                  </p>
+                  <p>{selectedListing.studio.studiotype}</p>
+                  <p>{selectedListing.service.name}</p>
+                </div>
+                <MyLink
+                  className="text-xxs underline"
+                  href={`/studioservice/${selectedListing.service.queryString}/id/${selectedListing.listingTitle
+                    .toLowerCase()
+                    .replace(/ /g, '-')}/${selectedListing._id}`}>
+                  Click here
+                </MyLink>
+              </div>
+              <div className="relative h-20 w-24 grow">
+                <Image
+                  src={selectedListing.images.primary}
+                  layout="fill"
+                  objectFit="cover"
+                  className="rounded-xl"
+                  alt="Thumbnail"
+                />
+              </div>
+            </article>
           ) : null}
         </Popup>
       )}

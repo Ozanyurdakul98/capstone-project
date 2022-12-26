@@ -18,7 +18,7 @@ function ListingCardWideStudioService({
   studio,
   user,
 }) {
-  const title = listingTitle.toLowerCase().replace(/ /g, '-');
+  const title = listingTitle?.toLowerCase().replace(/ /g, '-');
   return (
     <MyLink href={preview ? '#' : `/studioservice/${service.queryString}/id/${title}/${id}`}>
       <article>
