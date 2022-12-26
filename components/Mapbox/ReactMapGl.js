@@ -2,6 +2,8 @@ import { useState } from 'react';
 import Map, { Marker, Popup, NavigationControl, GeolocateControl, FullscreenControl, ScaleControl } from 'react-map-gl';
 import getCenter from 'geolib/es/getCenter';
 import { useMemo } from 'react';
+import Image from 'next/image';
+import { MyLink } from '../MyLink';
 
 export function ReactMapGl({ results, style, mapFor }) {
   const coordinates =
@@ -17,8 +19,8 @@ export function ReactMapGl({ results, style, mapFor }) {
     latitude: center.latitude,
     zoom: 10.5,
   });
-  console.log(results);
-  console.log(coordinates, mapFor);
+  console.log(selectedListing);
+
   const pins = useMemo(
     () =>
       results.map((result) => (
@@ -64,6 +66,12 @@ export function ReactMapGl({ results, style, mapFor }) {
       )),
     []
   );
+  const popupOffsets = {
+    top: [0, 0],
+    bottom: [0, -30],
+    left: [0, 0],
+    right: [0, 0],
+  };
   return (
     <Map
       // initialViewState={{}}
@@ -83,18 +91,70 @@ export function ReactMapGl({ results, style, mapFor }) {
       trackResize={true}>
       <GeolocateControl position="top-left" />
       <FullscreenControl position="top-left" />
-      <NavigationControl position="top-left" /> <ScaleControl style={{ border: 'none' }} className="border-none" />
+      <NavigationControl position="top-left" />
+      <ScaleControl style={{ border: 'none' }} />
       {pins}
-      {/* {selectedListing && (
+      {selectedListing && (
         <Popup
           onClose={() => setSelectedListing(null)}
+          closeButton={false}
+          closeOnMove={true}
           closeOnClick={true}
-          anchor="top"
-          longitude={selectedListing.studio.studioLocation.geolocation[0]}
-          latitude={selectedListing.studio.studioLocation.geolocation[1]}>
-          {selectedListing.listingTitle}
+          maxWidth={'300px'}
+          anchor="bottom"
+          offset={popupOffsets}
+          longitude={
+            mapFor === 'studios'
+              ? selectedListing.studioLocation.geolocation[0]
+              : mapFor === 'studioServices'
+              ? selectedListing.studio.studioLocation.geolocation[0]
+              : null
+          }
+          latitude={
+            mapFor === 'studios'
+              ? selectedListing.studioLocation.geolocation[1]
+              : mapFor === 'studioServices'
+              ? selectedListing.studio.studioLocation.geolocation[1]
+              : null
+          }>
+          {mapFor === 'studios' ? (
+            <article className="flex w-full shrink-0 gap-3">
+              <div className="min-w-[100px] text-xs">
+                <h3>{selectedListing.studioName}</h3>
+                <div className="text-xxs">
+                  <p>
+                    {selectedListing.studioLocation.postalcode}, {selectedListing.studioLocation.city}
+                  </p>
+                  <p>{selectedListing.studiotype}</p>
+                </div>
+                <MyLink
+                  className="text-xxs"
+                  href={{
+                    pathname: '/studiotype/[type]/id/[name]/[id]',
+                    query: {
+                      type: `${selectedListing.studiotype.toLowerCase().replace(/ /g, '')}`,
+                      name: `${selectedListing.studioName.toLowerCase().replace(/ /g, '-')}`,
+                      id: `${selectedListing._id}`,
+                    },
+                  }}>
+                  Click here
+                </MyLink>
+              </div>
+              <div className="relative h-16 w-16 grow">
+                <Image
+                  src={selectedListing.logo}
+                  layout="fill"
+                  objectFit="cover"
+                  className="rounded-full"
+                  alt="Thumbnail"
+                />
+              </div>
+            </article>
+          ) : mapFor === 'studioServices' ? (
+            'cmke'
+          ) : null}
         </Popup>
-      )} */}
+      )}
     </Map>
   );
 }
