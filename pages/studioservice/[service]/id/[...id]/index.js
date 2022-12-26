@@ -1074,7 +1074,7 @@ function StudioDetailpage({ serializedStudioservice, studioServicesCount }) {
             <div className="mt-2 mb-4 text-center">
               <h3 className="mb-1 text-2xl font-bold leading-normal text-slate-700">{Service.studio.studioName}</h3>
               <div className="mt-0 text-xs font-bold uppercase text-slate-400">
-                <i className="mr-2 text-slate-400 opacity-75">{Service.studio.studioLocation}</i>
+                <i className="mr-2 text-slate-400 opacity-75">{Service.studio.studioLocation.fullAddress}</i>
               </div>
             </div>
             <div className="mt-0 mb-2 text-xs font-bold uppercase text-slate-400">
