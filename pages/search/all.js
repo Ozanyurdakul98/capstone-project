@@ -2,7 +2,7 @@ import db from '../../lib/dbConnect';
 import StudioService from '../../models/StudioService';
 import ResultpageLayout from '../../components/Layout/ResultpageLayout';
 import { ResultpageStudioservices } from '../../components/Result/ResultpageStudioservices';
-
+//all studioservices resultpage
 function All({ studioServices, studioServicesCount, header }) {
   return <ResultpageStudioservices count={studioServicesCount} studioServices={studioServices} header={header} />;
 }

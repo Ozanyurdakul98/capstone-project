@@ -3,8 +3,13 @@ import Map, { Marker, Popup, NavigationControl, GeolocateControl, FullscreenCont
 import getCenter from 'geolib/es/getCenter';
 import { useMemo } from 'react';
 
-export function ReactMapGl({ results, style }) {
-  const coordinates = results.map((result) => result.studio.studioLocation.geolocation);
+export function ReactMapGl({ results, style, mapFor }) {
+  const coordinates =
+    mapFor === 'studios'
+      ? results.map((result) => result.studioLocation.geolocation)
+      : mapFor === 'studioServices'
+      ? results.map((result) => result.studio.studioLocation.geolocation)
+      : null;
   const center = getCenter(coordinates);
   const [selectedListing, setSelectedListing] = useState(null);
   const [viewport, setViewport] = useState({
@@ -12,15 +17,28 @@ export function ReactMapGl({ results, style }) {
     latitude: center.latitude,
     zoom: 10.5,
   });
-
+  console.log(results);
+  console.log(coordinates, mapFor);
   const pins = useMemo(
     () =>
       results.map((result) => (
         <Marker
           key={result._id}
-          longitude={result.studio.studioLocation.geolocation[0]}
+          longitude={
+            mapFor === 'studios'
+              ? result.studioLocation.geolocation[0]
+              : mapFor === 'studioServices'
+              ? result.studio.studioLocation.geolocation[0]
+              : null
+          }
+          latitude={
+            mapFor === 'studios'
+              ? result.studioLocation.geolocation[1]
+              : mapFor === 'studioServices'
+              ? result.studio.studioLocation.geolocation[1]
+              : null
+          }
           anchor="bottom"
-          latitude={result.studio.studioLocation.geolocation[1]}
           offsetTop={-10}
           offsetLeft={-20}>
           <p
@@ -51,8 +69,6 @@ export function ReactMapGl({ results, style }) {
       // initialViewState={{}}
       {...viewport}
       style={style}
-      // width={style.width}
-      // height={style.height}
       mapStyle="mapbox://styles/hayvanadi98/clc0wi3k9003v14nyhgdcytq1"
       mapboxAccessToken={process.env.mapbox_key}
       onMove={(evt) => setViewport(evt.viewState)}
@@ -69,7 +85,7 @@ export function ReactMapGl({ results, style }) {
       <FullscreenControl position="top-left" />
       <NavigationControl position="top-left" /> <ScaleControl style={{ border: 'none' }} className="border-none" />
       {pins}
-      {selectedListing && (
+      {/* {selectedListing && (
         <Popup
           onClose={() => setSelectedListing(null)}
           closeOnClick={true}
@@ -78,7 +94,7 @@ export function ReactMapGl({ results, style }) {
           latitude={selectedListing.studio.studioLocation.geolocation[1]}>
           {selectedListing.listingTitle}
         </Popup>
-      )}
+      )} */}
     </Map>
   );
 }

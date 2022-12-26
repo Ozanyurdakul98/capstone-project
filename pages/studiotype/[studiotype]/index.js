@@ -2,7 +2,7 @@
 import db from '../../../lib/dbConnect';
 import StudioListing from '../../../models/StudioListing';
 //components
-import Layout from '../../../components/Layout/Layout';
+import ResultpageLayout from '../../../components/Layout/ResultpageLayout';
 import { ResultpageStudios } from '../../../components/Result/ResultpageStudios';
 import { wordCapitalize } from '../../../utils';
 
@@ -13,7 +13,7 @@ function StudioTypeResults({ studios, studiosCount, studioType }) {
 export default StudioTypeResults;
 
 StudioTypeResults.getLayout = function getLayout(page) {
-  return <Layout>{page}</Layout>;
+  return <ResultpageLayout>{page}</ResultpageLayout>;
 };
 
 export async function getServerSideProps(context) {
