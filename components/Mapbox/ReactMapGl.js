@@ -128,7 +128,7 @@ export function ReactMapGl({ results, style, mapFor }) {
                   <p>{selectedListing.studiotype}</p>
                 </div>
                 <MyLink
-                  className="text-xxs"
+                  className="text-xxs underline"
                   href={{
                     pathname: '/studiotype/[type]/id/[name]/[id]',
                     query: {

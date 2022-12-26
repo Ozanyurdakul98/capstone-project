@@ -35,8 +35,8 @@ function ListingCardWideStudio({
       <article className="relative">
         <div className="flex w-full cursor-pointer items-center rounded-lg border-b bg-white p-2 first:border hover:opacity-80 hover:shadow-lg">
           {/* image */}
-          <div className="relative flex h-20 w-24 shrink-0 items-center justify-center sm:h-24 sm:w-32 md:h-28 md:w-36 lg:h-44 lg:w-52">
-            <div className="relative h-20 w-20  shrink-0 sm:h-24 sm:w-24 md:h-28 md:w-28 lg:h-44 lg:w-44">
+          <div className="relative flex h-20 w-24 shrink-0 items-center justify-center sm:h-24 sm:w-32 md:h-28 md:w-36">
+            <div className="relative h-20 w-20  shrink-0 sm:h-24 sm:w-24 md:h-28 md:w-28">
               <Image src={logo} layout="fill" objectFit="cover" className="rounded-full" alt="Thumbnail" />
             </div>
           </div>
@@ -46,10 +46,10 @@ function ListingCardWideStudio({
             <div
               title="user information"
               className="right-2 top-2 hidden flex-col items-end truncate text-xs text-gray-400 sm:absolute sm:flex ">
-              <div className="relative h-8 w-8 shrink-0 md:h-10 md:w-10 lg:h-12 lg:w-12">
+              <div className="relative h-8 w-8 shrink-0 md:h-10 md:w-10">
                 <Image src={user.avatar} layout="fill" objectFit="cover" className="rounded-full" alt="Thumbnail" />
               </div>
-              <p className="w-full truncate text-center text-xs text-gray-400">{user.username}</p>
+              <p className="w-full truncate text-center text-xxs text-gray-400">{user.username}</p>
             </div>
             {/* firstline */}
             <section className="flex flex-col md:gap-2">
