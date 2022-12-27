@@ -3,56 +3,106 @@ import TextareaAutosize from 'react-textarea-autosize';
 
 export function FormInput(props) {
   const [focused, setFocused] = useState(false);
+  const [isHide, setIsHide] = useState(true);
   const {
     errorMessage,
     onChange,
     beforeLabel,
     afterLabel,
     divClass,
-    divClassAll,
     counter,
     labelWrap,
     textarea,
     multiselect,
+    simple,
+    password,
     ...inputProps
   } = props;
 
-  //   Leggend:
-  //   -divClassAll = Div wrapping beforeLabel, input, afterLabel, span(errormessage) . provide String for css classes
-  //   -divClass = Div wrapping only input and afterLabel
-  //   -labelWarp = label Wrapping input, afterLbale, span
+  //   Legend: (Forminput attributes)
+  //   -simple = simple input with Label and Errormessage
+  //   -password = password input with hide/show, wrapping div, Label and Errormessage
+  //   -divClass = Div wrapping input and afterLabel
+  //   -labelWarp = beforeLabel and a label Wrapping input, afterLbale and Errormessage
   //   -textarea  = set true, to use textareaautoresize component from their importet library.
   //   -multiselect  = set true, to use multiselect component (ex. in studioFormfields.js)
-  //   -data  = data for multiselect options (String array)
-  //   -beforeLabel  = provide Object with css and a string key and inside ThemeConsumer, a string
-  //   -afterLable = just a string
-  //   -errormessage = errormessage dispalying if input is invalid due to pattern/required. peer class for input required
+  //      data  = data for multiselect options (String array)
+  //   +beforeLabel  = provide Object with css and a string key and inside ThemeConsumer, a string
+  //   +afterLable = just a string
+  //   +counter = string length counter
+  //   +errormessage = errormessage dispalying if input is invalid due to pattern/required. peer class for input required
 
   const handleFocus = () => {
     setFocused(true);
   };
   return (
     <>
-      {divClassAll && (
-        <div className={divClassAll}>
+      {simple && (
+        <>
           <Label id={props.id} beforeLabel={beforeLabel} />
-          {divClass ? (
-            <div className={divClass}>
-              <input {...inputProps} onChange={onChange} onBlur={handleFocus} data-focused={focused.toString()} />
-              <Label id={props.id} afterLabel={afterLabel} />
-            </div>
-          ) : (
-            <>
-              <input {...inputProps} onChange={onChange} onBlur={handleFocus} data-focused={focused.toString()} />
-              <Label id={props.id} afterLabel={afterLabel} />
-            </>
-          )}
+          <input {...inputProps} onChange={onChange} onBlur={handleFocus} data-focused={focused.toString()} />
           <ErrorMessage
             type={props.type}
             disabled={props.disabled}
             focused={focused}
             errorMessage={errorMessage}></ErrorMessage>
-        </div>
+        </>
+      )}
+      {password && (
+        <>
+          <div className={`relative ${password}`}>
+            <Label id={props.id} beforeLabel={beforeLabel} />
+            <div className="relative">
+              <input
+                {...inputProps}
+                type={isHide ? 'password' : 'text'}
+                onChange={onChange}
+                onBlur={handleFocus}
+                data-focused={focused.toString()}
+              />
+              <button
+                type="button"
+                className="hover:text-primary absolute top-2 right-2 block h-7 w-7 text-center text-xl text-gray-400 transition-colors focus:outline-none"
+                onClick={() => setIsHide((prev) => !prev)}>
+                {isHide ? (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="h-6 w-6">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"
+                    />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                ) : (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="h-6 w-6">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88"
+                    />
+                  </svg>
+                )}
+              </button>
+              <ErrorMessage
+                type={'password'}
+                disabled={props.disabled}
+                focused={focused}
+                errorMessage={errorMessage}></ErrorMessage>
+            </div>
+          </div>
+        </>
       )}
       {divClass && (
         <div className={divClass}>
@@ -83,6 +133,7 @@ export function FormInput(props) {
       )}
       {textarea && (
         <>
+          <Label id={props.id} beforeLabel={beforeLabel} />
           {props.counter.max ? (
             <p
               className={` ${props.counter.css} ${
@@ -107,6 +158,7 @@ export function FormInput(props) {
       )}
       {multiselect && (
         <>
+          <Label id={props.id} beforeLabel={beforeLabel} />
           {props.counter.max ? (
             <p
               className={` ${props.counter.css} ${
@@ -243,18 +295,21 @@ function ErrorMessage(props) {
   return (
     <>
       {props.errorMessage ? (
-        <span
+        <p
+          title={props.errorMessage}
           className={
-            props.focused && props.type !== 'number'
-              ? 'block pl-5 text-xs text-red-500 peer-valid:hidden peer-invalid:visible sm:text-sm'
+            props.focused && props.type === 'password'
+              ? 'block pl-5 text-xs text-red-500 line-clamp-1 peer-valid:hidden peer-invalid:visible sm:text-xs'
+              : props.focused && props.type === 'email'
+              ? 'absolute block pl-5 text-xs text-red-500 line-clamp-1 peer-valid:hidden peer-invalid:visible sm:text-xs'
               : props.type === 'number' && !props.disabled && props.focused
-              ? 'text-xs text-yellow-500 peer-valid:hidden peer-enabled:block sm:text-sm'
-              : (props.type === 'email' || props.type === 'password') && props.focused
-              ? 'block text-xs text-red-500 peer-valid:hidden peer-invalid:visible sm:text-sm'
+              ? 'text-xs text-yellow-500 line-clamp-1 peer-valid:hidden peer-enabled:block sm:text-sm'
+              : props.focused
+              ? 'absolute block pl-5 text-xs text-red-500 line-clamp-1 peer-valid:hidden peer-invalid:visible sm:text-xs'
               : 'hidden'
           }>
           {props.errorMessage}
-        </span>
+        </p>
       ) : null}
     </>
   );

@@ -126,7 +126,7 @@ export default function SignUpComponent({ csrfToken }) {
           <FormInput type="hidden" name="csrfToken" defaultValue={csrfToken} />
           <legend className="label-form text-2xl ">Sign Up</legend>
           <FormInput
-            divClassAll={'w-full '}
+            divClass={'w-full '}
             beforeLabel={{
               string: 'Username',
               css: 'label-login ',
@@ -144,7 +144,7 @@ export default function SignUpComponent({ csrfToken }) {
             onChange={handleChange}></FormInput>
           <span className="errormessage ">{formErrors.username}</span>
           <FormInput
-            divClassAll={'w-full '}
+            divClass={'w-full '}
             beforeLabel={{ string: 'Email adress', css: 'label-login' }}
             className="input-login peer"
             type="email"
@@ -160,7 +160,7 @@ export default function SignUpComponent({ csrfToken }) {
           />
           <span className="errormessage">{formErrors.email}</span>
           <FormInput
-            divClassAll={'w-full'}
+            divClass={'w-full'}
             beforeLabel={{ string: 'Password', css: 'label-login' }}
             className="input-login peer"
             type="password"
@@ -176,7 +176,7 @@ export default function SignUpComponent({ csrfToken }) {
           />
           <span className="errormessage">{formErrors.password}</span>
           <FormInput
-            divClassAll={'w-full'}
+            divClass={'w-full'}
             beforeLabel={{ string: 'Confirm Password', css: 'label-login' }}
             className="input-login peer"
             type="password"
