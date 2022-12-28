@@ -62,7 +62,7 @@ export function AddStudioMap({
       dragRotate={true}
       keyboard={true}
       scrollZoom={false}
-      trackResize={true}>
+      trackResize={false}>
       <GeolocateControl
         position="top-left"
         trackUserLocation

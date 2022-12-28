@@ -824,21 +824,24 @@ export function StudioFormfields(props) {
         </div>
       </fieldset>
       {/* location */}
-      <fieldset className="listingForm mb-28 flex flex-col gap-1">
+      <fieldset className="listingForm mb-28 flex flex-col gap-1 ">
         {/* Input form */}
         <legend className="label-form">Location of your Studio</legend>
-        <p className="pl-5">Search your full addressn in the map and place the pin on your studio</p>
+        <p className="pl-5">
+          Search your full address in the top right corner. Then move the map, so the visible marker is on top of your
+          studio location. Below you will see the full address which you can edit in the fields.
+        </p>
         {props.show ? (
-          <section className="mb-10 h-80 w-full">
+          <section className="mb-10 h-80 w-full sm:w-2/3 lg:w-1/2">
             <AddStudioMap
               form={props.form}
               setForm={props.setForm}
               onRetrieve={props.handleRetrieve}
               markerIsActive={props.markerIsActive}
               setMarkerIsActive={props.setMarkerIsActive}
-              handleMarkerLocation={props.handleMarkerLocation}
               setShowFormExpanded={props.setShowFormExpanded}
-              style={{ width: '100%', height: '320px', borderRadius: '10px' }}
+              handleMarkerLocation={props.handleMarkerLocation}
+              style={{ maxWidth: '545px', height: '320px', borderRadius: '10px' }}
             />
           </section>
         ) : null}
