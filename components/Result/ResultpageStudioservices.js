@@ -1,5 +1,5 @@
 import { isMultiple } from '../../utils';
-import { ReactMapGl } from '../Mapbox/ReactMapGl';
+import { ResultpageMap } from '../Mapbox/ResultpageMap';
 import ListingCardWideStudioService from './ListingCardWideStudioService';
 
 export function ResultpageStudioservices(props) {
@@ -35,7 +35,7 @@ export function ResultpageStudioservices(props) {
       </section>
       {props.studioServices.length >= 1 ? (
         <section className="mb-10 h-80 w-full lg:sticky lg:top-[0.5rem] lg:mt-2 lg:h-[34rem] lg:max-w-[400px] lg:px-2 xl:max-w-[500px]">
-          <ReactMapGl
+          <ResultpageMap
             mapFor={'studioServices'}
             results={props.studioServices}
             style={{ width: '100%', height: '100%', borderRadius: '10px' }}

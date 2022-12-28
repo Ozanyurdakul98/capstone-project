@@ -11,6 +11,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { MyLink } from '../../../../../components/MyLink';
 import { MdLocationPin } from 'react-icons/md';
+import { DetailpageMap } from '../../../../../components/Mapbox/DetailpageMap';
 
 function StudioDetailpage({
   serializedStudio,
@@ -22,6 +23,7 @@ function StudioDetailpage({
   // eslint-disable-next-line no-unused-vars
   const router = useRouter();
   const studio = serializedStudio[0];
+  console.log(studio);
   return (
     <div className="relative">
       <Head>
@@ -42,9 +44,9 @@ function StudioDetailpage({
       {/* Main*/}
       <section className="container relative bottom-52 mx-auto px-[15px] lg:gap-5">
         {/* WelcomeSection */}
-        <section className="mb-4 justify-center rounded-md bg-white pt-16 text-black shadow-lg sm:flex">
+        <section className="mb-4 justify-center rounded-md bg-white pt-16 text-black shadow-lg md:flex">
           {/* Headersection */}
-          <section className="flex flex-col gap-2 px-7 text-xs sm:mb-5">
+          <section className="flex flex-col gap-2 px-7 text-xs">
             <div className="flex flex-wrap justify-center">
               {/* ProfilePic */}
               <div className="absolute top-1 -m-16 -ml-20 h-[150px] w-[150px] rounded-full border-none align-middle shadow-xl">
@@ -69,7 +71,7 @@ function StudioDetailpage({
                   </div>
                 </div>
                 {/* CounterSection */}
-                <div className="flex justify-center pb-0 sm:pt-2 lg:pt-4">
+                <div className="flex justify-center pb-0 md:pt-2 lg:pt-4">
                   <div className="p-3 text-center">
                     <span className="block text-xl font-bold uppercase tracking-wide text-slate-700">
                       {studioServicesCount ? studioServicesCount : '0'}
@@ -81,9 +83,9 @@ function StudioDetailpage({
             </div>
           </section>
           {/* Profiledescription */}
-          <section className="mx-auto mb-5 flex max-w-lg flex-col justify-center overflow-x-clip px-7  pb-5 text-sm text-gray-600 sm:pb-0 md:mx-0">
+          <section className="mx-auto mb-5 flex max-w-lg flex-col justify-center overflow-x-hidden px-7  pb-5 text-sm text-gray-600 md:mx-0 md:pb-0">
             <h2 className="h2LandingP">About this Studio</h2>
-            <p className="break-words sm:pt-5">{studio.profileText}</p>
+            <p className="break-words">{studio.profileText}</p>
           </section>
         </section>
         {/* StudioservicesSection */}
@@ -233,7 +235,23 @@ function StudioDetailpage({
           </section>
           {/* StudioLocation */}
           <section className="mb-14 border-b px-7 pb-14 text-xs text-gray-600 lg:text-sm">
-            <div className="container h-96 w-full bg-blue-400"></div>
+            <div className="container h-96 w-full">
+              <DetailpageMap
+                mapFor={'studios'}
+                results={serializedStudio}
+                style={{ width: '100%', height: '100%', borderRadius: '10px' }}
+              />
+            </div>
+            <div className="flex gap-3">
+              <p className="font-semibold ">{studio.studioLocation.fullAddress}</p>
+              <MyLink
+                className="text-blue-500 underline"
+                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                  studio.studioLocation.fullAddress
+                )}`}>
+                Open maps
+              </MyLink>
+            </div>
           </section>
           {/* StudioRules */}
           <section className="mb-7 px-7 text-xs text-gray-600 lg:text-sm">

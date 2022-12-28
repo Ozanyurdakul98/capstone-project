@@ -5,7 +5,7 @@ import { useMemo } from 'react';
 import Image from 'next/image';
 import { MyLink } from '../MyLink';
 
-export function ReactMapGl({ results, style, mapFor }) {
+export function ResultpageMap({ results, style, mapFor }) {
   const coordinates =
     mapFor === 'studios'
       ? results.map((result) => result.studioLocation.geolocation)
@@ -91,7 +91,7 @@ export function ReactMapGl({ results, style, mapFor }) {
       trackResize={true}>
       <GeolocateControl position="top-left" />
       <FullscreenControl position="top-left" />
-      <NavigationControl position="top-left" />
+      <NavigationControl position="top-left" showCompass={true} visualizePitch={true} />
       <ScaleControl style={{ border: 'none' }} />
       {pins}
       {selectedListing && (
