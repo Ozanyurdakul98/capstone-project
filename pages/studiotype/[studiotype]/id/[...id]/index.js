@@ -22,8 +22,7 @@ function StudioDetailpage({
 }) {
   // eslint-disable-next-line no-unused-vars
   const router = useRouter();
-  const studio = serializedStudio[0];
-  console.log(studio);
+  const studio = serializedStudio;
   return (
     <div className="relative">
       <Head>
@@ -238,7 +237,7 @@ function StudioDetailpage({
             <div className="container h-96 w-full">
               <DetailpageMap
                 mapFor={'studios'}
-                results={serializedStudio}
+                results={studio}
                 style={{ width: '100%', height: '100%', borderRadius: '10px' }}
               />
             </div>
@@ -521,9 +520,9 @@ export async function getServerSideProps(context) {
     createdAtTime: moment(studio.createdAt).format('kk:mm'),
     updatedAt: moment(studio.updatedAt).format('DD/MM/yyyy'),
     updatedAtTime: moment(studio.updatedAt).format('kk:mm'),
-  }));
-
-  const userId = serializeStudio[0].user._id;
+  }))[0];
+  console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', serializedStudio);
+  const userId = serializedStudio?.user._id;
   const studioServicesByStudioCount = await StudioService.find({ studio: id }).count();
   const studioServicesByUserCount = await StudioService.find({ user: userId }).count();
   const studioListingsCount = await StudioListing.find({ user: userId }).count();

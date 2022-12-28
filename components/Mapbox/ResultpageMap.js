@@ -17,7 +17,7 @@ export function ResultpageMap({ results, style, mapFor }) {
   const [viewport, setViewport] = useState({
     longitude: center.longitude,
     latitude: center.latitude,
-    zoom: 10.5,
+    zoom: 5.5,
   });
   console.log(selectedListing);
 
