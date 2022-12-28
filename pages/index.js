@@ -52,7 +52,7 @@ export async function getStaticProps() {
     queryString: service.queryString,
     description: service.description,
   }));
-
+  console.log('studiosset,', serializedLatestAddedStudios);
   return {
     props: {
       latestStudios: serializedLatestAddedStudios || null,

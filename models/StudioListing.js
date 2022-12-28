@@ -25,7 +25,14 @@ const studioListingSchema = new mongoose.Schema(
     studioSocials: { type: Object, required: true, trim: true },
     studioRules: { type: Array, trim: true, index: true, default: [''] },
     additionalStudioRules: { type: String, trim: true, index: true, default: '' },
-    studioLocation: { type: Object, required: true, trim: true, default: '' },
+    studioLocation: {
+      fullAddress: { type: String, required: true, trim: true, default: '' },
+      address: { type: String, required: true, trim: true, default: '' },
+      city: { type: String, required: true, trim: true, default: '' },
+      postalcode: { type: String, required: true, trim: true, default: '' },
+      country: { type: String, required: true, trim: true, default: '' },
+      geolocation: { type: Array, required: true, trim: true, default: '' },
+    },
     user: {
       type: Schema.Types.ObjectId,
       ref: 'users',

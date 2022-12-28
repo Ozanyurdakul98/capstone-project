@@ -9,7 +9,7 @@ import '../styles/globals.css';
 import '../components/DatePicker/styles.css';
 import '../components/DatePicker/default.css';
 import 'mapbox-gl/dist/mapbox-gl.css';
-
+import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   const progress = new ProgressBar({
     size: 3,

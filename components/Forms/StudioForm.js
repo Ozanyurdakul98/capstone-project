@@ -6,7 +6,6 @@ import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../BackgroundOve
 import Link from 'next/link.js';
 import { useRouter } from 'next/router';
 import { StudioFormfields } from './Formfields/StudioFormfields';
-import dynamic from 'next/dynamic.js';
 import { useCallback } from 'react';
 import { useEffect } from 'react';
 import { Spinner } from '../Spinner';
@@ -15,7 +14,6 @@ export function StudioForm({ userID, role, toUpdateStudio }) {
   //This component is used to edit Studios and to add them.
   // handle (Edit || Add) -page
   const existingStudioData = toUpdateStudio;
-  console.log('ecxisting', existingStudioData);
   const languages = [
     'Afrikaans',
     'Albanian',
@@ -94,7 +92,7 @@ export function StudioForm({ userID, role, toUpdateStudio }) {
     },
     studioRules: [],
     additionalStudioRules: '',
-    studioLocation: { address: '', city: '', state: '', country: '', postalcode: '' },
+    studioLocation: { fullAddress: '', address: '', city: '', state: '', country: '', postalcode: '', geolocation: '' },
     user: userID,
   };
   const defaultChecked = {
@@ -102,29 +100,6 @@ export function StudioForm({ userID, role, toUpdateStudio }) {
     studioInformation: [],
     studioLanguages: languages,
     sleepOver: [],
-  };
-  const addressAutoFilltheme = {
-    variables: {
-      fontFamily: 'Avenir, sans-serif',
-      unit: '14px',
-      padding: '0.5em',
-      borderRadius: '10px',
-      boxShadow: '0 0 0 1px silver',
-    },
-    icons: {
-      street: `
-      <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-      <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M3.79289 3.79289C4.18342 3.40237 4.81658 3.40237 5.20711 3.79289L9 7.58579L12.7929 3.79289C13.1834 3.40237 13.8166 3.40237 14.2071 3.79289C14.5976 4.18342 14.5976 4.81658 14.2071 5.20711L10.4142 9L14.2071 12.7929C14.5976 13.1834 14.5976 13.8166 14.2071 14.2071C13.8166 14.5976 13.1834 14.5976 12.7929 14.2071L9 10.4142L5.20711 14.2071C4.81658 14.5976 4.18342 14.5976 3.79289 14.2071C3.40237 13.8166 3.40237 13.1834 3.79289 12.7929L7.58579 9L3.79289 5.20711C3.40237 4.81658 3.40237 4.18342 3.79289 3.79289Z" fill="currentColor"/>
-      </svg>
-      `,
-      addressMarker: `
-      <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-      <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M3.79289 3.79289C4.18342 3.40237 4.81658 3.40237 5.20711 3.79289L9 7.58579L12.7929 3.79289C13.1834 3.40237 13.8166 3.40237 14.2071 3.79289C14.5976 4.18342 14.5976 4.81658 14.2071 5.20711L10.4142 9L14.2071 12.7929C14.5976 13.1834 14.5976 13.8166 14.2071 14.2071C13.8166 14.5976 13.1834 14.5976 12.7929 14.2071L9 10.4142L5.20711 14.2071C4.81658 14.5976 4.18342 14.5976 3.79289 14.2071C3.40237 13.8166 3.40237 13.1834 3.79289 12.7929L7.58579 9L3.79289 5.20711C3.40237 4.81658 3.40237 4.18342 3.79289 3.79289Z" fill="currentColor"/>
-      </svg>
-      `,
-    },
   };
   const [form, setForm] = useState(existingStudioData ? existingStudioData : defaultForm);
   const [checked, setChecked] = useState(defaultChecked);
@@ -136,25 +111,16 @@ export function StudioForm({ userID, role, toUpdateStudio }) {
   const [logoChanged, setLogoChanged] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const [showFormExpanded, setShowFormExpanded] = useState(false);
-  const [showMinimap, setShowMinimap] = useState(false);
-  const [feature, setFeature] = useState();
-  const [token, setToken] = useState('');
+  const [showFormExpanded, setShowFormExpanded] = useState(existingStudioData ? true : false);
+  const [markerIsActive, setMarkerIsActive] = useState(existingStudioData ? true : false);
+  const [show, setShow] = useState(false);
 
   const defaultPic = '/images/Thumbnail-default.png';
   const router = useRouter();
-  const AddressAutofill = dynamic(() => import('../Mapbox/AddressAutofillExport'), { ssr: false });
-  const AddressMinimap = dynamic(() => import('../Mapbox/AddressMinimapExport'), { ssr: false });
-  const config = dynamic(() => import('../Mapbox/ConfigExport'), { ssr: false });
 
   useEffect(() => {
-    const accessToken =
-      'pk.eyJ1IjoiaGF5dmFuYWRpOTgiLCJhIjoiY2xidmg0dnJsMDJ6dzN4dDdwaXpkZ3BvNSJ9.RBHAwiA1lqShS4lROZ10OQ';
-    setToken(accessToken);
-    config.accessToken = accessToken;
-    console.log('useeffect');
+    setShow(true);
     if (!existingStudioData) return;
-    console.log('after return');
     MatchDataWithChecked();
   }, []);
   const handleFormSubmit = async (event) => {
@@ -170,7 +136,21 @@ export function StudioForm({ userID, role, toUpdateStudio }) {
           `${role === 'admin' ? '/api/dashboard/admin/studio/' : '/api/dashboard/studio/'}${form.id ? form.id : '1'}`,
           {
             method: `${existingStudioData ? 'PATCH' : 'POST'}`,
-            body: JSON.stringify({ ...form, logo: resLogo }),
+            body: JSON.stringify({
+              ...form,
+              studioLocation: {
+                ...form.studioLocation,
+                fullAddress:
+                  form.studioLocation.address +
+                  ', ' +
+                  form.studioLocation.postalcode +
+                  ' ' +
+                  form.studioLocation.city +
+                  ', ' +
+                  form.studioLocation.country,
+              },
+              logo: resLogo,
+            }),
             headers: {
               'Content-Type': 'application/json',
             },
@@ -374,55 +354,52 @@ export function StudioForm({ userID, role, toUpdateStudio }) {
     const inputs = document.querySelectorAll('input');
     inputs.forEach((input) => (input.value = ''));
     setShowFormExpanded(false);
-    setFeature(null);
     setForm(defaultForm);
     setChecked(defaultChecked);
     setFormErrors({});
-    setShowMinimap(false);
   }
   const handleRetrieve = useCallback(
     (res) => {
-      const feature = res.features[0];
-      console.log(feature);
-      setFeature(feature);
-      setShowMinimap(true);
+      const geo = res.context ? res.context : ['', '', '', ''];
+      const geo0 = geo[0] ? geo[0] : '';
+      const geo1 = geo[1] ? geo[1] : '';
+      const geo2 = geo[2] ? geo[2] : '';
+      const geo3 = geo[3] ? geo[3] : '';
+
+      setMarkerIsActive(true);
       setShowFormExpanded(true);
       setForm({
         ...form,
         studioLocation: {
           ...form.studioLocation,
-          address: feature.properties.address_line1,
-          fullAddress: feature.properties.full_address,
-          city: feature.properties.address_level2,
-          postalcode: feature.properties.postcode,
-          state: feature.properties.address_level1,
-          country: feature.properties.country,
-          geolocation: feature.geometry.coordinates,
+          address: res.text ? res.text : '',
+          fullAddress: res.place_name ? res.place_name : '',
+          city: geo1 ? geo1.text : '',
+          postalcode: geo0 ? geo0.text : '',
+          state: geo2 ? geo2.text : '',
+          country: geo3 ? geo3.text : '',
+          geolocation: res.geometry?.coordinates ? res.geometry?.coordinates : [0, 0],
         },
       });
     },
-    [setFeature, setShowMinimap]
+    [showFormExpanded, markerIsActive]
   );
-  function handleSaveMarkerLocation(coordinate) {
-    console.log(`Marker moved to ${JSON.stringify(coordinate)}.`);
-    console.log(feature);
-    setFeature({ ...feature, geometry: { ...feature.geometry, coordinates: coordinate } });
-    setForm({
-      ...form,
-      studioLocation: {
-        ...form.studioLocation,
-        geolocation: coordinate,
-      },
-    });
-  }
+
   const handleClickToCloseModal = () => {
     setPreview(false);
-    // setOpenView(false);
   };
-
+  function handleMarkerLocation(e) {
+    console.log('eddddddddddddddddddddddsvsdvsdsvdsvsdv', e);
+    setForm({
+      ...form,
+      studioLocation: { ...form.studioLocation, geolocation: [e.viewState.longitude, e.viewState.latitude] },
+    });
+  }
   console.log('form', form);
   console.log('checked', checked);
   console.log('err', formErrors);
+
+  console.log('err', form.studioLocation.geolocation);
   return (
     <div className="sm:px-0">
       <form noValidate className="text-primary w-full" onSubmit={handleFormSubmit}>
@@ -440,17 +417,15 @@ export function StudioForm({ userID, role, toUpdateStudio }) {
           handleDelete={handleDelete}
           studioLanguagesSearch={studioLanguagesSearch}
           handleCheck={handleCheck}
-          AddressAutofill={AddressAutofill}
-          addressAutoFilltheme={addressAutoFilltheme}
           showFormExpanded={showFormExpanded}
           setShowFormExpanded={setShowFormExpanded}
-          token={token}
-          AddressMinimap={AddressMinimap}
-          showMinimap={showMinimap}
-          handleSaveMarkerLocation={handleSaveMarkerLocation}
-          feature={feature}
+          markerIsActive={markerIsActive}
+          setMarkerIsActive={setMarkerIsActive}
+          handleMarkerLocation={handleMarkerLocation}
           handleRetrieve={handleRetrieve}
+          show={show}
         />
+
         {/* PreviewModal */}
         <fieldset>
           {preview && (

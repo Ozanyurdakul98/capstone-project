@@ -10,6 +10,7 @@ import Link from 'next/link';
 function ListingCard({ preview, id, logo, studioName, studiotype, openingHours, locationFeatures, studioLocation }) {
   const studiotypeSanitized = studiotype?.toLowerCase().replace(/ /g, '');
   const studioNameSanitized = studioName?.toLowerCase().replace(/ /g, '');
+  console.log('location', studioLocation);
   return (
     <Link href={preview ? '#' : `/studiotype/${studiotypeSanitized}/id/${studioNameSanitized}/${id}`}>
       <div className="mx-1">

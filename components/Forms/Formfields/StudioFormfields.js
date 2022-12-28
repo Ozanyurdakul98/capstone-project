@@ -2,6 +2,7 @@ import { FormInput } from '../FormInput';
 import Image from 'next/image.js';
 import { TbHandClick } from 'react-icons/tb';
 import { MdDeleteForever } from 'react-icons/md';
+import { AddStudioMap } from '../../Mapbox/AddStudioMap';
 export function StudioFormfields(props) {
   return (
     <>
@@ -825,53 +826,40 @@ export function StudioFormfields(props) {
       {/* location */}
       <fieldset className="listingForm mb-28 flex flex-col gap-1">
         {/* Input form */}
-        <props.AddressAutofill
-          accessToken={props.token}
-          theme={props.addressAutoFilltheme}
-          browserAutofillEnabled={false}
-          onRetrieve={props.handleRetrieve}>
-          <FormInput
-            beforeLabel={{
-              string: 'Location',
-              css: 'label-form',
-              required: true,
-              description: 'Search your address and replace your pin on the map',
-            }}
-            className="input-form"
-            placeholder="Search full address here.."
-            autoComplete="address-line1"
-            id="mapbox-autofill"
-          />
-          {/* full address */}
-          {!props.showFormExpanded && (
-            <div id="manual-entry" className="pl-5">
-              <button type="button" className="text-xs underline" onClick={() => props.setShowFormExpanded(true)}>
-                Enter an address manually
-              </button>
-            </div>
-          )}
-        </props.AddressAutofill>
-        {/* address inputs and minimap */}
+        <legend className="label-form">Location of your Studio</legend>
+        <p className="pl-5">Search your full addressn in the map and place the pin on your studio</p>
+        {props.show ? (
+          <section className="mb-10 h-80 w-full">
+            <AddStudioMap
+              form={props.form}
+              setForm={props.setForm}
+              onRetrieve={props.handleRetrieve}
+              markerIsActive={props.markerIsActive}
+              setMarkerIsActive={props.setMarkerIsActive}
+              handleMarkerLocation={props.handleMarkerLocation}
+              setShowFormExpanded={props.setShowFormExpanded}
+              style={{ width: '100%', height: '320px', borderRadius: '10px' }}
+            />
+          </section>
+        ) : null}
+
+        {/* address inputs  */}
         {props.showFormExpanded && (
           <>
-            {/* Visual confirmation map */}
-            {props.showMinimap && (
-              <div id="minimap-container" className="col-span-2 mb-10 h-48 sm:w-2/3 lg:w-1/2">
-                <props.AddressMinimap
-                  accessToken={props.token}
-                  canAdjustMarker={true}
-                  satelliteToggle={true}
-                  feature={props.feature}
-                  show={props.showMinimap}
-                  onSaveMarkerLocation={(e) => props.handleSaveMarkerLocation(e)}
-                  footer={false}
-                />
-                <div className="pl-5 text-xs">
-                  <p>{props.form.studioLocation.fullAddress}</p>
-                  <p>{' (' + props.form.studioLocation.geolocation.join(', ') + ')'}</p>
-                </div>
-              </div>
-            )}
+            <div className="pl-5 text-sm">
+              <p className=" font-semibold">
+                Is this your correct & full address? If not, correct it in the below fields.
+              </p>
+              <p>
+                {props.form.studioLocation.address ? props.form.studioLocation.address : '[address]'}
+                {', '}
+                {props.form.studioLocation.postalcode ? props.form.studioLocation.postalcode : '[postalcode]'}{' '}
+                {props.form.studioLocation.city ? props.form.studioLocation.city : '[city]'}
+                {', '}
+                {props.form.studioLocation.country ? props.form.studioLocation.country : '[country]'}
+              </p>
+              <p className="text-xs">{' (' + props.form.studioLocation.geolocation.join(', ') + ')'}</p>
+            </div>
             <FormInput
               className="input-form"
               placeholder="Address"
