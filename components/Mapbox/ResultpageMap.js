@@ -6,44 +6,23 @@ import useSupercluster from 'use-supercluster';
 import Supercluster from 'supercluster';
 import Image from 'next/image';
 import { MyLink } from '../MyLink';
-export function ResultpageMap({ results, style, mapFor }) {
-  const coordinates =
-    mapFor === 'studios'
-      ? results.map((result) => result.studioLocation.geolocation)
-      : mapFor === 'studioServices'
-      ? results.map((result) => result.studio.studioLocation.geolocation)
-      : null;
-  const center = getCenter(coordinates);
+export function ResultpageMap({
+  results,
+  style,
+  mapFor,
+  Clusters,
+  clusters,
+  setClusters,
+  viewport,
+  setViewport,
+  points,
+  setPoints,
+  supercluster,
+  setBounds,
+}) {
   const mapRef = useRef();
   const [selectedListing, setSelectedListing] = useState(null);
   const [clusterIsSameStudio, setClusterIsSameStudio] = useState(false);
-  const [Clusters, setClusters] = useState([]);
-  const [points, setPoints] = useState(
-    results.map((result) => ({
-      type: 'Feature',
-      properties: {
-        cluster: false,
-        studioId: mapFor === 'studios' ? result._id : mapFor === 'studioServices' ? result.studio._id : '',
-        studio: mapFor === 'studios' ? result : mapFor === 'studioServices' ? result.studio : '',
-        result: result,
-      },
-      geometry: {
-        type: 'Point',
-        coordinates:
-          mapFor === 'studios'
-            ? result.studioLocation.geolocation
-            : mapFor === 'studioServices'
-            ? result.studio.studioLocation.geolocation
-            : null,
-      },
-    }))
-  );
-  const [bounds, setBounds] = useState([-180, -85, 180, 85]);
-  const [viewport, setViewport] = useState({
-    longitude: center.longitude,
-    latitude: center.latitude,
-    zoom: 5.5,
-  });
 
   useEffect(() => {
     if (mapRef.current) {
@@ -51,16 +30,6 @@ export function ResultpageMap({ results, style, mapFor }) {
     }
   }, [mapRef?.current]);
 
-  const { clusters, supercluster } = useSupercluster({
-    points,
-    bounds,
-    zoom: viewport.zoom,
-    options: { radius: 75, maxZoom: 20 },
-  });
-
-  useEffect(() => {
-    setClusters(clusters);
-  }, [clusters, supercluster]);
   console.log('clusters', clusters, Clusters, selectedListing);
   const popupOffsets = {
     top: [0, 0],

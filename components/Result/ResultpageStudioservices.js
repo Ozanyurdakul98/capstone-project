@@ -1,8 +1,47 @@
+import { getCenter } from 'geolib';
+import { useEffect, useState } from 'react';
+import useSupercluster from 'use-supercluster';
 import { isMultiple } from '../../utils';
 import { ResultpageMap } from '../Mapbox/ResultpageMap';
 import ListingCardWideStudioService from './ListingCardWideStudioService';
 
 export function ResultpageStudioservices(props) {
+  const coordinates = props.studioServices.map((result) => result.studio.studioLocation.geolocation);
+  const center = getCenter(coordinates);
+  const [bounds, setBounds] = useState([-180, -85, 180, 85]);
+  const [viewport, setViewport] = useState({
+    longitude: center.longitude,
+    latitude: center.latitude,
+    zoom: 5.5,
+  });
+  const [points, setPoints] = useState(
+    props.studioServices.map((result) => ({
+      type: 'Feature',
+      properties: {
+        cluster: false,
+        studioId: result.studio._id,
+        studio: result.studio,
+        result: result,
+      },
+      geometry: {
+        type: 'Point',
+        coordinates: result.studio.studioLocation.geolocation,
+      },
+    }))
+  );
+
+  const [Clusters, setClusters] = useState([]);
+  const { clusters, supercluster } = useSupercluster({
+    points,
+    bounds,
+    zoom: viewport.zoom,
+    options: { radius: 75, maxZoom: 20 },
+  });
+  console.log('cluster!', clusters);
+  useEffect(() => {
+    setClusters(clusters);
+  }, [clusters, supercluster]);
+
   console.log(props.studioServices);
   return (
     <div className="relative mb-20 flex flex-col-reverse lg:flex-row">
@@ -39,6 +78,15 @@ export function ResultpageStudioservices(props) {
             mapFor={'studioServices'}
             results={props.studioServices}
             style={{ width: '100%', height: '100%', borderRadius: '10px' }}
+            Clusters={Clusters}
+            setClusters={setClusters}
+            clusters={clusters}
+            supercluster={supercluster}
+            viewport={viewport}
+            setViewport={setViewport}
+            points={points}
+            setPoints={setPoints}
+            setBounds={setBounds}
           />
         </section>
       ) : null}
