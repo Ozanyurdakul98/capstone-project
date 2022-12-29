@@ -34,7 +34,7 @@ export function ResultpageStudioservices(props) {
         </section>
       </section>
       {props.studioServices.length >= 1 ? (
-        <section className="mb-10 h-80 w-full lg:sticky lg:top-[0.5rem] lg:mt-2 lg:h-[34rem] lg:max-w-[400px] lg:px-2 xl:max-w-[500px]">
+        <section className="mb-10 h-96 w-full lg:sticky lg:top-[0.5rem] lg:mt-2 lg:h-[34rem] lg:max-w-[400px] lg:px-2 xl:max-w-[500px]">
           <ResultpageMap
             mapFor={'studioServices'}
             results={props.studioServices}

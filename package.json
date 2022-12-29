@@ -39,7 +39,8 @@
     "react-textarea-autosize": "^8.4.0",
     "styled-components": "^5.3.6",
     "supercluster": "^7.1.5",
-    "tw-elements": "^1.0.0-alpha12"
+    "tw-elements": "^1.0.0-alpha12",
+    "use-supercluster": "^0.4.0"
   },
   "devDependencies": {
     "@tailwindcss/line-clamp": "^0.4.2",
