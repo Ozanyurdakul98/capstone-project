@@ -6,37 +6,93 @@ import useSupercluster from 'use-supercluster';
 import Supercluster from 'supercluster';
 import Image from 'next/image';
 import { MyLink } from '../MyLink';
-export function ResultpageMap({
-  results,
-  style,
-  mapFor,
-  Clusters,
-  clusters,
-  setClusters,
-  viewport,
-  setViewport,
-  points,
-  setPoints,
-  supercluster,
-  setBounds,
-}) {
-  const mapRef = useRef();
+import { useDispatch, useSelector } from 'react-redux';
+import { updatePoints } from '../../slices/searchSlice';
+export function ResultpageMap({ style, mapFor }) {
   const [selectedListing, setSelectedListing] = useState(null);
   const [clusterIsSameStudio, setClusterIsSameStudio] = useState(false);
+  const [Clusters, setClusters] = useState([]);
+  const dispatch = useDispatch();
+  const points = useSelector((state) => state.search.mapPoints);
+  const mapRef = useRef();
+  //global state results of search
+  const results = useSelector((state) => state.search.results);
+  //bounds ??
+  // const [bounds, setBounds] = useState([-180, -85, 180, 85]);
 
+  //getCenter of Pins
+  const coordinates =
+    mapFor === 'studios'
+      ? results.map((result) => result.studioLocation.geolocation)
+      : mapFor === 'studioServices'
+      ? results.map((result) => result.studio.studioLocation.geolocation)
+      : null;
+  const center = getCenter(coordinates);
+  //Viewport initially depending on center coordinates
+  const [viewport, setViewport] = useState({
+    longitude: center.longitude,
+    latitude: center.latitude,
+    zoom: 5.5,
+  });
+
+  //set the Points to handle in Map
   useEffect(() => {
-    if (mapRef.current) {
-      setBounds(mapRef.current.getMap().getBounds().toArray().flat());
-    }
-  }, [mapRef?.current]);
+    dispatch(
+      updatePoints(
+        results.map((result) => ({
+          type: 'Feature',
+          properties: {
+            cluster: false,
+            studioId: mapFor === 'studios' ? result._id : mapFor === 'studioServices' ? result.studio._id : '',
+            studio: mapFor === 'studios' ? result : mapFor === 'studioServices' ? result.studio : '',
+            result: result,
+          },
+          geometry: {
+            type: 'Point',
+            coordinates:
+              mapFor === 'studios'
+                ? result.studioLocation.geolocation
+                : mapFor === 'studioServices'
+                ? result.studio.studioLocation.geolocation
+                : null,
+          },
+        }))
+      )
+    );
+  }, [results]);
 
-  console.log('clusters', clusters, Clusters, selectedListing);
+  // get map bounds
+  // useEffect(() => {
+  //   if (mapRef.current) {
+  //     setBounds(mapRef.current.getMap().getBounds().toArray().flat());
+  //   }
+  // }, [mapRef?.current]);
+  const bounds = mapRef.current ? mapRef.current.getMap().getBounds().toArray().flat() : null;
+
+  //get clusters out of points, bounds and map them
+  const { clusters, supercluster } = useSupercluster({
+    points,
+    bounds,
+    zoom: viewport.zoom,
+    options: { radius: 75, maxZoom: 20 },
+  });
+
+  // useEffect(() => {
+  //   setClusters(clusters);
+  // }, [clusters, supercluster]);
   const popupOffsets = {
     top: [0, 0],
     bottom: [0, -30],
     left: [0, 0],
     right: [0, 0],
   };
+  console.log('3_lvl results', results);
+  console.log('3_lvl points', points);
+  console.log('3_lvl center coordinates', center);
+  console.log('3_lvl bounds', bounds);
+  console.log('3_lvl clusters', clusters);
+  console.log('viewport', viewport);
+
   return (
     <Map
       // initialViewState={{}}
@@ -64,7 +120,7 @@ export function ResultpageMap({
       <FullscreenControl position="top-left" />
       <NavigationControl position="top-left" showCompass={true} visualizePitch={true} />
       <ScaleControl style={{ border: 'none' }} />
-      {Clusters.map((cluster) => {
+      {clusters.map((cluster) => {
         // every cluster point has coordinates
         const [longitude, latitude] = cluster.geometry.coordinates;
         // the point may be either a cluster or a crime point
@@ -91,24 +147,14 @@ export function ResultpageMap({
                   let clusterHasOnlySameOwner = studioIds.every(
                     (val) => studioIds.filter((val2) => val2 === val).length >= 2
                   );
-                  console.log('cluster', cluster, clusters);
-                  console.log(
-                    'children',
-                    clusterChildren.map((child) => child.properties.result)
-                  );
-                  console.log('ids', studioIds);
-                  // let test = clusters.filter((cluster)=>)
                   const expansionZoom = Math.min(supercluster.getClusterExpansionZoom(cluster.id), 14);
-                  setViewport({
-                    ...viewport,
-                    latitude,
-                    longitude,
+                  mapRef?.current?.flyTo({
+                    center: [longitude, latitude],
                     zoom: expansionZoom,
-                    // transitionInterpolator: new FlyToInterpolator({
-                    //   speed: 2,
-                    // }),
                     transitionDuration: 'auto',
+                    duration: 2000,
                   });
+
                   if (clusterHasOnlySameOwner) {
                     event.stopPropagation();
                     console.log('TEST STUDIO', clusterChildren);
@@ -121,7 +167,7 @@ export function ResultpageMap({
             </Marker>
           );
         }
-        // we have a single point (crime) to render
+        // we have a single point to render
         return (
           <Marker key={`crime-${cluster.properties.result._id}`} latitude={latitude} longitude={longitude}>
             <p role="img" aria-label="push-pin">
@@ -354,7 +400,6 @@ export function ResultpageMap({
           ) : null}
         </Popup>
       )}
-      {console.log('pins not firing maaan!')}
     </Map>
   );
 }

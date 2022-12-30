@@ -5,9 +5,17 @@ import StudioListing from '../../../models/StudioListing';
 import ResultpageLayout from '../../../components/Layout/ResultpageLayout';
 import { ResultpageStudios } from '../../../components/Result/ResultpageStudios';
 import { wordCapitalize } from '../../../utils';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateResults } from '../../../slices/searchSlice';
+import { useEffect } from 'react';
 
 function StudioTypeResults({ studios, studiosCount, studioType }) {
-  return <ResultpageStudios count={studiosCount} studios={studios} header={studioType}></ResultpageStudios>;
+  const dispatch = useDispatch();
+  const results = useSelector((state) => state.search.results);
+  useEffect(() => {
+    dispatch(updateResults(studios));
+  }, [studios]);
+  return <ResultpageStudios count={studiosCount} header={studioType}></ResultpageStudios>;
 }
 
 export default StudioTypeResults;
