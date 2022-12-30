@@ -1,24 +1,20 @@
 import { useEffect, useRef, useState } from 'react';
 import Map, { FullscreenControl, GeolocateControl, Marker, NavigationControl, Popup, ScaleControl } from 'react-map-gl';
 import getCenter from 'geolib/es/getCenter';
-import { useMemo } from 'react';
 import useSupercluster from 'use-supercluster';
-import Supercluster from 'supercluster';
 import Image from 'next/image';
 import { MyLink } from '../MyLink';
 import { useDispatch, useSelector } from 'react-redux';
 import { updatePoints } from '../../slices/searchSlice';
 export function ResultpageMap({ style, mapFor }) {
+  const [mapRef, setMapRef] = useState(null);
   const [selectedListing, setSelectedListing] = useState(null);
   const [clusterIsSameStudio, setClusterIsSameStudio] = useState(false);
-  const [Clusters, setClusters] = useState([]);
   const dispatch = useDispatch();
   const points = useSelector((state) => state.search.mapPoints);
-  const mapRef = useRef();
+
   //global state results of search
   const results = useSelector((state) => state.search.results);
-  //bounds ??
-  // const [bounds, setBounds] = useState([-180, -85, 180, 85]);
 
   //getCenter of Pins
   const coordinates =
@@ -61,13 +57,19 @@ export function ResultpageMap({ style, mapFor }) {
     );
   }, [results]);
 
+  //getting mapRef
+  useEffect(() => {
+    if (mapRef) {
+      // mapRef?.setCenter({
+      //   lat: rowData?.laty,
+      //   lng: rowData?.longx,
+      // });
+      console.log(mapRef);
+    }
+  }, [mapRef]);
+
   // get map bounds
-  // useEffect(() => {
-  //   if (mapRef.current) {
-  //     setBounds(mapRef.current.getMap().getBounds().toArray().flat());
-  //   }
-  // }, [mapRef?.current]);
-  const bounds = mapRef.current ? mapRef.current.getMap().getBounds().toArray().flat() : null;
+  const bounds = mapRef ? mapRef.getMap().getBounds().toArray().flat() : null;
 
   //get clusters out of points, bounds and map them
   const { clusters, supercluster } = useSupercluster({
@@ -77,9 +79,6 @@ export function ResultpageMap({ style, mapFor }) {
     options: { radius: 75, maxZoom: 20 },
   });
 
-  // useEffect(() => {
-  //   setClusters(clusters);
-  // }, [clusters, supercluster]);
   const popupOffsets = {
     top: [0, 0],
     bottom: [0, -30],
@@ -92,13 +91,15 @@ export function ResultpageMap({ style, mapFor }) {
   console.log('3_lvl bounds', bounds);
   console.log('3_lvl clusters', clusters);
   console.log('viewport', viewport);
+  console.log('mapRef', mapRef?.current);
+  console.log('mapRef', mapRef?.getMap());
 
   return (
     <Map
       // initialViewState={{}}
       {...viewport}
       style={style}
-      ref={mapRef}
+      ref={(ref) => setMapRef(ref)}
       maxZoom={20}
       onViewportChange={(newViewport) => {
         setViewport({ ...newViewport });
@@ -142,19 +143,20 @@ export function ResultpageMap({ style, mapFor }) {
                   height: `${10 + (pointCount / points.length) * 20}px`,
                 }}
                 onClick={(event) => {
+                  const expansionZoom = Math.min(supercluster.getClusterExpansionZoom(cluster.id), 14);
                   const clusterChildren = supercluster.getLeaves(cluster.id);
                   const studioIds = clusterChildren.map((child) => child.properties.studioId);
-                  let clusterHasOnlySameOwner = studioIds.every(
+                  const clusterHasOnlySameOwner = studioIds.every(
                     (val) => studioIds.filter((val2) => val2 === val).length >= 2
                   );
-                  const expansionZoom = Math.min(supercluster.getClusterExpansionZoom(cluster.id), 14);
-                  mapRef?.current?.flyTo({
-                    center: [longitude, latitude],
-                    zoom: expansionZoom,
-                    transitionDuration: 'auto',
-                    duration: 2000,
-                  });
-
+                  if (!clusterHasOnlySameOwner) {
+                    mapRef?.current?.flyTo({
+                      center: [longitude, latitude],
+                      zoom: expansionZoom,
+                      transitionDuration: 'auto',
+                      duration: 2000,
+                    });
+                  }
                   if (clusterHasOnlySameOwner) {
                     event.stopPropagation();
                     console.log('TEST STUDIO', clusterChildren);
@@ -170,7 +172,13 @@ export function ResultpageMap({ style, mapFor }) {
         // we have a single point to render
         return (
           <Marker key={`crime-${cluster.properties.result._id}`} latitude={latitude} longitude={longitude}>
-            <p role="img" aria-label="push-pin">
+            <p
+              role="img"
+              aria-label="push-pin"
+              onClick={(e) => {
+                e.stopPropagation();
+                setSelectedListing(cluster.properties.result);
+              }}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"

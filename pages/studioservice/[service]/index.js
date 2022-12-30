@@ -1,14 +1,20 @@
-//db
+//
 import db from '../../../lib/dbConnect';
-// import StudioListing from '../../../models/StudioListing';
-//components
-import ResultpageLayout from '../../../components/Layout/ResultpageLayout';
 import StudioService from '../../../models/StudioService';
-import { ResultpageStudioservices } from '../../../components/Result/ResultpageStudioservices';
 import AdminStudioService from '../../../models/AdminCreateStudioService';
+//
+import ResultpageLayout from '../../../components/Layout/ResultpageLayout';
+import { ResultpageStudioservices } from '../../../components/Result/ResultpageStudioservices';
+import { useDispatch } from 'react-redux';
+import { updateResults } from '../../../slices/searchSlice';
+import { useEffect } from 'react';
 
-function StudioServiceResults({ studioServices, studioServicesCount, header }) {
-  return <ResultpageStudioservices count={studioServicesCount} studioServices={studioServices} header={header} />;
+function StudioServiceResults({ studioServices, studioServicesCount, serviceName }) {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(updateResults(studioServices));
+  }, [studioServices]);
+  return <ResultpageStudioservices count={studioServicesCount} header={serviceName} />;
 }
 export default StudioServiceResults;
 
@@ -47,7 +53,7 @@ export async function getServerSideProps(context) {
     props: {
       studioServices: serializedStudioservicesByService || null,
       studioServicesCount: StudioservicesByServiceCount,
-      header: adminServiceName || null,
+      serviceName: adminServiceName || null,
     },
   };
 }

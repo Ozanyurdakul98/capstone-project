@@ -1,17 +1,16 @@
-//db
+//
 import db from '../../../lib/dbConnect';
 import StudioListing from '../../../models/StudioListing';
-//components
+//
 import ResultpageLayout from '../../../components/Layout/ResultpageLayout';
 import { ResultpageStudios } from '../../../components/Result/ResultpageStudios';
 import { wordCapitalize } from '../../../utils';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { updateResults } from '../../../slices/searchSlice';
 import { useEffect } from 'react';
 
 function StudioTypeResults({ studios, studiosCount, studioType }) {
   const dispatch = useDispatch();
-  const results = useSelector((state) => state.search.results);
   useEffect(() => {
     dispatch(updateResults(studios));
   }, [studios]);

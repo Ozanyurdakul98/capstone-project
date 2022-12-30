@@ -5,12 +5,8 @@ const searchSlice = createSlice({
   initialState: {
     results: [],
     mapPoints: [],
-    clusters: [],
   },
   reducers: {
-    updateClusters: (state, action) => {
-      state.clusters = action.payload;
-    },
     updateResults: (state, action) => {
       state.results = action.payload;
     },
@@ -20,6 +16,6 @@ const searchSlice = createSlice({
   },
 });
 
-export const { updateClusters, updateResults, updatePoints } = searchSlice.actions;
+export const { updateResults, updatePoints } = searchSlice.actions;
 
 export default searchSlice;

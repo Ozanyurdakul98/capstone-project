@@ -1,45 +1,10 @@
-// import { getCenter } from 'geolib';
-// import { useEffect, useState } from 'react';
-// import useSupercluster from 'use-supercluster';
 import { isMultiple } from '../../utils';
 import { ResultpageMap } from '../Mapbox/ResultpageMap';
 import ListingCardWideStudio from './ListingCardWideStudio';
-import { useSelector, useDispatch } from 'react-redux';
-import { updateClusters } from '../../slices/searchSlice';
+import { useSelector } from 'react-redux';
 
 export function ResultpageStudios(props) {
   const results = useSelector((state) => state.search.results);
-  // const coordinates = props.studios.map((result) => result.studioLocation.geolocation);
-  // const center = getCenter(coordinates);
-  // const [bounds, setBounds] = useState([-180, -85, 180, 85]);
-  // const [viewport, setViewport] = useState({
-  //   longitude: center.longitude,
-  //   latitude: center.latitude,
-  //   zoom: 5.5,
-  // });
-  // const [points, setPoints] = useState(
-  //   props.studios.map((result) => ({
-  //     type: 'Feature',
-  //     properties: {
-  //       cluster: false,
-  //       studioId: result._id,
-  //       studio: result,
-  //       result: result,
-  //     },
-  //     geometry: {
-  //       type: 'Point',
-  //       coordinates: result.studioLocation.geolocation,
-  //     },
-  //   }))
-  // );
-
-  // const { clusters, supercluster } = useSupercluster({
-  //   points,
-  //   bounds,
-  //   zoom: viewport.zoom,
-  //   options: { radius: 75, maxZoom: 20 },
-  // });
-  // console.log('cluster!', clusters);
 
   return (
     <div className="relative mb-20 flex flex-col-reverse lg:flex-row">
