@@ -134,12 +134,12 @@ export function FormInput(props) {
       {textarea && (
         <>
           <Label id={props.id} beforeLabel={beforeLabel} />
-          {props.counter.max ? (
+          {counter ? (
             <p
-              className={` ${props.counter.css} ${
+              className={` ${counter.css} ${
                 counter.min > counter.val || counter.val > counter.max ? 'text-red-400' : 'text-gray-400'
               }`}>
-              {counter?.val + '/' + counter?.max}
+              {counter.val + '/' + counter.max}
             </p>
           ) : null}
           <TextareaAutosize
