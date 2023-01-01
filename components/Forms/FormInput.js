@@ -159,9 +159,9 @@ export function FormInput(props) {
       {multiselect && (
         <>
           <Label id={props.id} beforeLabel={beforeLabel} />
-          {props.counter.max ? (
+          {counter?.max ? (
             <p
-              className={` ${props.counter.css} ${
+              className={` ${counter.css} ${
                 counter.min > counter.val || counter.val > counter.max ? 'text-red-400' : 'text-gray-400'
               }`}>
               {counter?.val + '/' + counter?.max}
