@@ -139,7 +139,7 @@ export function StudioFormfields(props) {
           type="button"
           className={form.studiotype === 'Premium Studio' ? ' studiotypeActive ' : 'studiotype'}
           onClick={() => {
-            dispatch(updateForm({ ...form, studiotype: 'Premium Studio' }));
+            dispatch(updateForm({ studiotype: 'Premium Studio' }));
           }}>
           <p className="h3 text-white">Premium Studio</p>
           <p>
@@ -153,7 +153,7 @@ export function StudioFormfields(props) {
           type="button"
           className={form.studiotype === 'Medium Studio' ? 'studiotypeActive' : 'studiotype'}
           onClick={() => {
-            dispatch(updateForm({ ...form, studiotype: 'Medium Studio' }));
+            dispatch(updateForm({ studiotype: 'Medium Studio' }));
           }}>
           <p className="h3 text-white">Medium Studio</p>
           <p>
@@ -166,8 +166,8 @@ export function StudioFormfields(props) {
           type="button"
           className={form.studiotype === 'Home Studio' ? 'studiotypeActive' : 'studiotype'}
           onClick={() => {
-            dispatch(updateForm({ ...form, studiotype: 'Home Studio', studioInformation: {} }));
-            dispatch(updateChecked({ ...checked, studioInformation: [] }));
+            dispatch(updateForm({ studiotype: 'Home Studio', studioInformation: {} }));
+            dispatch(updateChecked({ studioInformation: [] }));
           }}>
           <p className="h3 text-white">Home Studio</p>
           <p>
@@ -263,7 +263,7 @@ export function StudioFormfields(props) {
           <p className="max-w-[400px] whitespace-normal pl-5">
             The size is square meters and Studio rooms are the total count of rooms your Studio has.
           </p>
-          <span className={`errormessage hidden ${props.formErrors.studioInformation ?? 'block'}`}>
+          <span className={`errormessage ${props.formErrors.studioInformation ? 'block' : 'hidden'}`}>
             {props.formErrors.studioInformation}
           </span>
         </fieldset>
@@ -858,7 +858,9 @@ export function StudioFormfields(props) {
                 {', '}
                 {form.studioLocation.country ? form.studioLocation.country : '[country]'}
               </p>
-              <p className="text-xs">{' (' + form.studioLocation.geolocation.join(', ') + ')'}</p>
+              <p className="text-xs">
+                ( {form.studioLocation.geolocation ? form.studioLocation.geolocation.join(', ') : ''} )
+              </p>
             </div>
             <FormInput
               className="input-form"

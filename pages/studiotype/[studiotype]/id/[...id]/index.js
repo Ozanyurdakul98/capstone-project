@@ -521,7 +521,6 @@ export async function getServerSideProps(context) {
     updatedAt: moment(studio.updatedAt).format('DD/MM/yyyy'),
     updatedAtTime: moment(studio.updatedAt).format('kk:mm'),
   }))[0];
-  console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', serializedStudio);
   const userId = serializedStudio?.user._id;
   const studioServicesByStudioCount = await StudioService.find({ studio: id }).count();
   const studioServicesByUserCount = await StudioService.find({ user: userId }).count();

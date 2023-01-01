@@ -79,7 +79,6 @@ export function ResultpageMap({ style, mapFor }) {
   //     //   lat: rowData?.laty,
   //     //   lng: rowData?.longx,
   //     // });
-  //     console.log(mapRef);
   //   }
   // }, [mapRef]);
 
@@ -100,14 +99,6 @@ export function ResultpageMap({ style, mapFor }) {
     left: [0, 0],
     right: [0, 0],
   };
-  console.log('3_lvl results', results);
-  console.log('3_lvl points', points);
-  console.log('3_lvl center coordinates', center);
-  console.log('3_lvl bounds', bounds);
-  console.log('3_lvl clusters', clusters);
-  console.log('viewport', viewport);
-  console.log('mapRef', mapRef?.current);
-  console.log('mapRef', mapRef?.getMap());
 
   return (
     <Map
@@ -119,7 +110,6 @@ export function ResultpageMap({ style, mapFor }) {
       onViewportChange={(newViewport) => {
         setViewport({ ...newViewport });
       }}
-      // onZoomEnd={(e) => setZoom(Math.round(e.viewState.zoom))}
       mapStyle="mapbox://styles/hayvanadi98/clc0wi3k9003v14nyhgdcytq1"
       mapboxAccessToken={process.env.mapbox_key}
       onMove={(evt) => setViewport(evt.viewState)}
@@ -174,7 +164,6 @@ export function ResultpageMap({ style, mapFor }) {
                   }
                   if (clusterHasOnlySameOwner) {
                     event.stopPropagation();
-                    console.log('TEST STUDIO', clusterChildren);
                     setClusterIsSameStudio(true);
                     setSelectedListing(clusterChildren.map((child) => child.properties.result));
                   }

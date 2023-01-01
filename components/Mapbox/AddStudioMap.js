@@ -26,12 +26,7 @@ export function AddStudioMap({ setShowFormExpanded, markerIsActive, setMarkerIsA
               center: [data.longitude, data.latitude],
             });
           }
-          dispatch(
-            updateForm({
-              ...form,
-              studioLocation: { ...form.studioLocation, geolocation: [data.longitude, data.latitude] },
-            })
-          );
+          dispatch(updateForm({ geolocation: [data.longitude, data.latitude] }));
         });
     }
     //if form.id it means user is in edit studio mode
@@ -42,13 +37,13 @@ export function AddStudioMap({ setShowFormExpanded, markerIsActive, setMarkerIsA
       });
     }
   }, [mapRef]);
+
   const handleGeoLocate = (event) => {
     setMarkerIsActive(true);
     setShowFormExpanded(true);
     dispatch(
       updateForm({
-        ...form,
-        studioLocation: { ...form.studioLocation, geolocation: [event.coords.longitude, event.coords.latitude] },
+        geolocation: [event.coords.longitude, event.coords.latitude],
       })
     );
   };

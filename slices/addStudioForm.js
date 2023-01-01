@@ -127,14 +127,18 @@ const addStudio = createSlice({
       },
       user: '',
     },
-    checked: { studioSocials: [], studioInformation: [], studioLanguages: languages, sleepOver: [] },
+    checked: { studioInformation: [], studioLanguages: languages, sleepOver: [] },
   },
   reducers: {
     updateForm: (state, action) => {
-      state.form = action.payload;
+      if ('geolocation ' in action.payload) {
+        state.form.studioLocation = { ...state.form.studioLocation, ...action.payload };
+        return;
+      }
+      state.form = { ...state.form, ...action.payload };
     },
     updateChecked: (state, action) => {
-      state.checked = action.payload;
+      state.checked = { ...state.checked, ...action.payload };
     },
     resetLanguages: (state) => {
       state.checked.studioLanguages = languages;

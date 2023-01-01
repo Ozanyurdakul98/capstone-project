@@ -48,7 +48,7 @@ export default function MyStudiosTable({ fetchedStudios, role }) {
           studioName: rawStudio.studioName,
           profileText: rawStudio.profileText,
           studiotype: rawStudio.studiotype,
-          studioInformation: rawStudio.studioInformation,
+          studioInformation: rawStudio.studioInformation ? rawStudio.studioInformation : {},
           studioLanguages: rawStudio.studioLanguages,
           openingHours: rawStudio.openingHours,
           locationFeatures: rawStudio.locationFeatures,
@@ -59,7 +59,6 @@ export default function MyStudiosTable({ fetchedStudios, role }) {
           additionalStudioRules: rawStudio.additionalStudioRules,
           user: rawStudio.user,
         };
-        console.log('studio', studio);
         if (!res.ok || !result.success) {
           throw new Error(res.status);
         }

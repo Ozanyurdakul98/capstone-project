@@ -30,7 +30,6 @@ export async function getServerSideProps({ req }) {
   const token = await getToken({ req });
   const userID = token.id;
   const role = token.role;
-  console.log(token);
   return {
     props: {
       userID: userID || token.sub,

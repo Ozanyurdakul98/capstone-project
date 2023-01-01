@@ -88,7 +88,6 @@ export function StudioForm({ userID, role, toUpdateStudio }) {
 
   const defaultPic = '/images/Thumbnail-default.png';
   const router = useRouter();
-  console.log(formErrors);
   useEffect(() => {
     dispatch(existingStudioData ? updateForm(existingStudioData) : resetForm(userID));
     if (!existingStudioData) return;
@@ -152,14 +151,23 @@ export function StudioForm({ userID, role, toUpdateStudio }) {
     const studioInfo = existingStudioData.studioInformation;
     const studioSleepover = existingStudioData.sleepOver;
     const user = existingStudioData.user;
+    const logo = existingStudioData.logo;
+    if (logo) {
+      setLogo(logo);
+      dispatch(updateChecked({ logoPreview: logo }));
+    }
     if (studioInfo) {
-      dispatch(updateChecked((checked) => ({ ...checked, studioInformation: Object.keys(studioInfo) })));
+      dispatch(updateChecked({ studioInformation: Object.keys(studioInfo) }));
     }
     if (studioSleepover) {
-      dispatch(updateChecked((checked) => ({ ...checked, sleepOver: Object.keys(studioSleepover) })));
+      dispatch(updateChecked({ sleepOver: Object.keys(studioSleepover) }));
     }
     if (user) {
-      dispatch(updateForm({ ...form, user: user._id }));
+      dispatch(
+        updateForm({
+          user: user._id,
+        })
+      );
     }
   }
   const handlePreview = () => {
@@ -229,7 +237,7 @@ export function StudioForm({ userID, role, toUpdateStudio }) {
         setLogoChanged(true);
         const wertImage = target.files[0];
         const logoName = wertImage.name;
-        dispatch(updateChecked({ ...checked, logoPreview: URL.createObjectURL(wertImage), logoName: logoName }));
+        dispatch(updateChecked({ logoPreview: URL.createObjectURL(wertImage), logoName: logoName }));
         setLogo(wertImage);
         return;
       }
@@ -239,7 +247,7 @@ export function StudioForm({ userID, role, toUpdateStudio }) {
           newArray = newArray.filter((service) => service !== val);
         }
         setStudioLanguagesSearch('');
-        dispatch(updateChecked({ ...checked, studioLanguages: languages }));
+        dispatch(updateChecked({ studioLanguages: languages }));
 
         return newArray;
       }
@@ -263,7 +271,7 @@ export function StudioForm({ userID, role, toUpdateStudio }) {
           newArray = newArray.filter((val) => val !== id);
           const currentForm = { ...form?.[name], [id]: wert };
           const deleteUnchecked = Object.fromEntries(Object.entries(currentForm).filter((val) => !val.includes(id)));
-          dispatch(updateForm({ ...form, [name]: deleteUnchecked }));
+          dispatch(updateForm({ [name]: deleteUnchecked }));
         }
         return newArray;
       }
@@ -273,17 +281,7 @@ export function StudioForm({ userID, role, toUpdateStudio }) {
           newArray = newArray.filter((val) => val !== id);
           const currentForm = { ...form?.[name], [id]: wert };
           const deleteUnchecked = Object.fromEntries(Object.entries(currentForm).filter((val) => !val.includes(id)));
-          dispatch(updateForm({ ...form, [name]: deleteUnchecked }));
-        }
-        return newArray;
-      }
-      if (name === 'studioSocials') {
-        let newArray = [...checked[name], id];
-        if (checked[name].includes(id)) {
-          newArray = newArray.filter((i) => i !== id);
-          const currentForm = { ...form?.[name], [id]: wert };
-          const deleteUnchecked = Object.fromEntries(Object.entries(currentForm).filter((i) => !i.includes(id)));
-          dispatch(updateForm({ ...form, [name]: deleteUnchecked }));
+          dispatch(updateForm({ [name]: deleteUnchecked }));
         }
         return newArray;
       }
@@ -293,7 +291,7 @@ export function StudioForm({ userID, role, toUpdateStudio }) {
         return newMatches;
       }
     };
-    dispatch(updateChecked({ ...checked, [name]: isChecked() }));
+    dispatch(updateChecked({ [name]: isChecked() }));
   };
   const handleUploadInput = async (logo) => {
     if (!logoChanged) {
@@ -377,6 +375,7 @@ export function StudioForm({ userID, role, toUpdateStudio }) {
                         openingHours={form.openingHours}
                         locationFeatures={form.locationFeatures}
                         studioLocation={form.studioLocation}
+                        profileText={form.profileText}
                         // user={existingStudioData?.user}
                       />
                     </div>

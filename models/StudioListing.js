@@ -13,7 +13,7 @@ const studioListingSchema = new mongoose.Schema(
     studioName: { type: String, required: true, trim: true },
     profileText: { type: String, required: true, trim: true },
     studiotype: { type: String, required: true, trim: true },
-    studioInformation: { type: Object, trim: true },
+    studioInformation: { type: Object, trim: true, default: {} },
     studioLanguages: { type: Array, required: true, trim: true },
     openingHours: {
       type: String,
