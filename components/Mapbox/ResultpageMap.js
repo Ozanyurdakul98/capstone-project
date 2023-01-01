@@ -1,28 +1,32 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Map, { FullscreenControl, GeolocateControl, Marker, NavigationControl, Popup, ScaleControl } from 'react-map-gl';
 import getCenter from 'geolib/es/getCenter';
 import useSupercluster from 'use-supercluster';
 import Image from 'next/image';
 import { MyLink } from '../MyLink';
 import { useDispatch, useSelector } from 'react-redux';
-import { updatePoints } from '../../slices/searchSlice';
+import { updatePoints as studioPoints } from '../../slices/searchStudios';
+import { updatePoints as studioServicePoints } from '../../slices/searchStudioServices';
 export function ResultpageMap({ style, mapFor }) {
   const [mapRef, setMapRef] = useState(null);
   const [selectedListing, setSelectedListing] = useState(null);
   const [clusterIsSameStudio, setClusterIsSameStudio] = useState(false);
+  const points = useSelector(
+    mapFor === 'studios' ? (state) => state.searchStudio.mapPoints : (state) => state.searchStudioService.mapPoints
+  );
   const dispatch = useDispatch();
-  const points = useSelector((state) => state.search.mapPoints);
 
   //global state results of search
-  const results = useSelector((state) => state.search.results);
+  const results = useSelector(
+    mapFor === 'studios' ? (state) => state.searchStudio.results : (state) => state.searchStudioService.results
+  );
 
   //getCenter of Pins
   const coordinates =
     mapFor === 'studios'
       ? results.map((result) => result.studioLocation.geolocation)
-      : mapFor === 'studioServices'
-      ? results.map((result) => result.studio.studioLocation.geolocation)
-      : null;
+      : results.map((result) => result.studio.studioLocation.geolocation);
+
   const center = getCenter(coordinates);
   //Viewport initially depending on center coordinates
   const [viewport, setViewport] = useState({
@@ -34,39 +38,50 @@ export function ResultpageMap({ style, mapFor }) {
   //set the Points to handle in Map
   useEffect(() => {
     dispatch(
-      updatePoints(
-        results.map((result) => ({
-          type: 'Feature',
-          properties: {
-            cluster: false,
-            studioId: mapFor === 'studios' ? result._id : mapFor === 'studioServices' ? result.studio._id : '',
-            studio: mapFor === 'studios' ? result : mapFor === 'studioServices' ? result.studio : '',
-            result: result,
-          },
-          geometry: {
-            type: 'Point',
-            coordinates:
-              mapFor === 'studios'
-                ? result.studioLocation.geolocation
-                : mapFor === 'studioServices'
-                ? result.studio.studioLocation.geolocation
-                : null,
-          },
-        }))
-      )
+      mapFor === 'studios'
+        ? studioPoints(
+            results.map((result) => ({
+              type: 'Feature',
+              properties: {
+                cluster: false,
+                studioId: result._id,
+                studio: result,
+                result: result,
+              },
+              geometry: {
+                type: 'Point',
+                coordinates: result.studioLocation.geolocation,
+              },
+            }))
+          )
+        : studioServicePoints(
+            results.map((result) => ({
+              type: 'Feature',
+              properties: {
+                cluster: false,
+                studioId: result.studio._id,
+                studio: result.studio,
+                result: result,
+              },
+              geometry: {
+                type: 'Point',
+                coordinates: result.studio.studioLocation.geolocation,
+              },
+            }))
+          )
     );
   }, [results]);
 
   //getting mapRef
-  useEffect(() => {
-    if (mapRef) {
-      // mapRef?.setCenter({
-      //   lat: rowData?.laty,
-      //   lng: rowData?.longx,
-      // });
-      console.log(mapRef);
-    }
-  }, [mapRef]);
+  // useEffect(() => {
+  //   if (mapRef) {
+  //     // mapRef?.setCenter({
+  //     //   lat: rowData?.laty,
+  //     //   lng: rowData?.longx,
+  //     // });
+  //     console.log(mapRef);
+  //   }
+  // }, [mapRef]);
 
   // get map bounds
   const bounds = mapRef ? mapRef.getMap().getBounds().toArray().flat() : null;

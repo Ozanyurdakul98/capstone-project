@@ -1,23 +1,18 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Map, { Marker, NavigationControl, GeolocateControl, FullscreenControl, ScaleControl } from 'react-map-gl';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateForm } from '../../slices/addStudioForm';
 import Geocoder from './Geocoder';
 
-export function AddStudioMap({
-  form,
-  setForm,
-  setShowFormExpanded,
-  markerIsActive,
-  onRetrieve,
-  setMarkerIsActive,
-  handleMarkerLocation,
-  style,
-}) {
+export function AddStudioMap({ setShowFormExpanded, markerIsActive, setMarkerIsActive, handleMarkerLocation, style }) {
+  const [mapRef, setMapRef] = useState(null);
   const [viewport, setViewport] = useState({
     longitude: 0,
     latitude: 0,
     zoom: 10.5,
   });
-  const mapRef = useRef();
+  const dispatch = useDispatch();
+  const form = useSelector((state) => state.addStudio.form);
   useEffect(() => {
     if (!viewport.longitude && !viewport.latitude && !form.id) {
       fetch('https://ipapi.co/json')
@@ -25,13 +20,18 @@ export function AddStudioMap({
           return response.json();
         })
         .then((data) => {
-          mapRef.current.flyTo({
-            center: [data.longitude, data.latitude],
-          });
-          setForm({
-            ...form,
-            studioLocation: { ...form.studioLocation, geolocation: [data.longitude, data.latitude] },
-          });
+          if (mapRef) {
+            mapRef.flyTo({
+              animate: false,
+              center: [data.longitude, data.latitude],
+            });
+          }
+          dispatch(
+            updateForm({
+              ...form,
+              studioLocation: { ...form.studioLocation, geolocation: [data.longitude, data.latitude] },
+            })
+          );
         });
     }
     //if form.id it means user is in edit studio mode
@@ -41,17 +41,26 @@ export function AddStudioMap({
         latitude: form.studioLocation.geolocation[1],
       });
     }
-  }, []);
+  }, [mapRef]);
+  const handleGeoLocate = (event) => {
+    setMarkerIsActive(true);
+    setShowFormExpanded(true);
+    dispatch(
+      updateForm({
+        ...form,
+        studioLocation: { ...form.studioLocation, geolocation: [event.coords.longitude, event.coords.latitude] },
+      })
+    );
+  };
   return (
     <Map
-      ref={mapRef}
       {...viewport}
+      ref={(ref) => setMapRef(ref)}
       style={style}
       mapStyle="mapbox://styles/hayvanadi98/clc0wi3k9003v14nyhgdcytq1"
       mapboxAccessToken={process.env.mapbox_key}
       onMove={(evt) => {
         handleMarkerLocation(evt);
-        console.log(evt.viewState);
         setViewport(evt.viewState);
       }}
       renderWorldCopies={true}
@@ -66,13 +75,8 @@ export function AddStudioMap({
       <GeolocateControl
         position="top-left"
         trackUserLocation
-        onGeolocate={(e) => {
-          setMarkerIsActive(true);
-          setShowFormExpanded(true);
-          setForm({
-            ...form,
-            studioLocation: { ...form.studioLocation, geolocation: [e.coords.longitude, e.coords.latitude] },
-          });
+        onGeolocate={(event) => {
+          handleGeoLocate(event);
         }}
       />
       <FullscreenControl position="top-left" />
@@ -100,7 +104,7 @@ export function AddStudioMap({
           </p>
         </Marker>
       ) : null}
-      <Geocoder onRetrieve={onRetrieve} form={form} setForm={setForm} />
+      <Geocoder setMarkerIsActive={setMarkerIsActive} setShowFormExpanded={setShowFormExpanded} />
     </Map>
   );
 }

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import TextareaAutosize from 'react-textarea-autosize';
 
 export function FormInput(props) {
@@ -28,6 +29,7 @@ export function FormInput(props) {
   //   -beforeLabel  = provide Object with css and a string key and inside ThemeConsumer, a string
   //   -afterLable = just a string
   //   -errormessage = errormessage dispalying if input is invalid due to pattern/required. peer class for input required
+  const checked = useSelector((state) => state.addStudio.checked);
 
   const handleFocus = () => {
     setFocused(true);
@@ -191,10 +193,10 @@ export function FormInput(props) {
                     {/* dropdown */}
                     <div className="relative  top-1 left-0 z-40 max-h-44 w-full overflow-y-auto rounded border border-gray-500 bg-white shadow-lg">
                       <div className="flex w-full flex-col">
-                        {props.checked.studioLanguages.map((lang) => (
+                        {checked.studioLanguages.map((lang) => (
                           <div
                             key={lang}
-                            onClick={() => {
+                            onClick={(event) => {
                               props.onChange(event, lang);
                             }}
                             className="hover:bg-secondary-hover w-full cursor-pointer rounded-t border-b border-gray-100">

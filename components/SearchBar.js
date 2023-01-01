@@ -33,7 +33,7 @@ function SearchBar() {
       setSearchInput('');
     } else {
       router.push({
-        pathname: '/search/all',
+        pathname: '/search/all-studioservices',
         query: {},
       });
     }

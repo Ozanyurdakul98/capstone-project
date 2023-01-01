@@ -4,7 +4,7 @@ import ListingCardWideStudioService from './ListingCardWideStudioService';
 import { useSelector } from 'react-redux';
 
 export function ResultpageStudioservices(props) {
-  const results = useSelector((state) => state.search.results);
+  const results = useSelector((state) => state.searchStudioService.results);
 
   return (
     <div className="relative mb-20 flex flex-col-reverse lg:flex-row">

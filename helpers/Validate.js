@@ -52,7 +52,7 @@ export function ValidateCreateStudioListing(form) {
   const errors = {};
   const studioName = /^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){4,39}$/i;
   const url = /^((http|https):\/\/)/;
-  const patternLocation = /^([a-zA-Z-])([a-zA-Z-0-9,äßöü\s]){4,160}$/i;
+  const patternLocation = /^([a-zA-Z-0-9,äßöü])([a-zA-Z-0-9,äßöü\s]){4,160}$/i;
 
   if (!form.studioName) {
     errors.listingTitle = 'A Studioname is required!';

@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const searchSlice = createSlice({
-  name: 'search',
+const searchStudio = createSlice({
+  name: 'searchStudio',
   initialState: {
     results: [],
     mapPoints: [],
@@ -16,6 +16,6 @@ const searchSlice = createSlice({
   },
 });
 
-export const { updateResults, updatePoints } = searchSlice.actions;
+export const { updatePoints, updateResults } = searchStudio.actions;
 
-export default searchSlice;
+export default searchStudio;

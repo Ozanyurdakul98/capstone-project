@@ -6,132 +6,103 @@ import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../BackgroundOve
 import Link from 'next/link.js';
 import { useRouter } from 'next/router';
 import { StudioFormfields } from './Formfields/StudioFormfields';
-import { useCallback } from 'react';
 import { useEffect } from 'react';
 import { Spinner } from '../Spinner';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { updateForm, updateChecked, resetLanguages, resetForm, resetChecked } from '../../slices/addStudioForm.js';
+const languages = [
+  'Afrikaans',
+  'Albanian',
+  'Arabic',
+  'Armenian',
+  'Azerbaijani',
+  'Belarusian',
+  'Bulgarian',
+  'Catalan',
+  'Chinese',
+  'Croatian',
+  'Czech',
+  'Danish',
+  'Dutch',
+  'English',
+  'Filipino',
+  'Finnish',
+  'French',
+  'Georgian',
+  'German',
+  'Greek',
+  'Hebrew',
+  'Hindi',
+  'Hungarian',
+  'Indonesian',
+  'Irish',
+  'Italian',
+  'Japanese',
+  'Kannada',
+  'Korean',
+  'Latin',
+  'Lithuanian',
+  'Macedonian',
+  'Maltese',
+  'Mongolian',
+  'Nepali',
+  'Norwegian',
+  'Persian',
+  'Polish',
+  'Portuguese',
+  'Romanian',
+  'Russian',
+  'Scottish',
+  'Serbian',
+  'Slovenian',
+  'Spanish',
+  'Swedish',
+  'Thai',
+  'Turkish',
+  'Turkmen',
+  'Ukrainian',
+  'Urdu',
+  'Uyghur',
+  'Uzbek',
+  'Vietnamese',
+];
 export function StudioForm({ userID, role, toUpdateStudio }) {
   //This component is used to edit Studios and to add them.
   // handle (Edit || Add) -page
+  const dispatch = useDispatch();
   const existingStudioData = toUpdateStudio;
-  const languages = [
-    'Afrikaans',
-    'Albanian',
-    'Arabic',
-    'Armenian',
-    'Azerbaijani',
-    'Belarusian',
-    'Bulgarian',
-    'Catalan',
-    'Chinese',
-    'Croatian',
-    'Czech',
-    'Danish',
-    'Dutch',
-    'English',
-    'Filipino',
-    'Finnish',
-    'French',
-    'Georgian',
-    'German',
-    'Greek',
-    'Hebrew',
-    'Hindi',
-    'Hungarian',
-    'Indonesian',
-    'Irish',
-    'Italian',
-    'Japanese',
-    'Kannada',
-    'Korean',
-    'Latin',
-    'Lithuanian',
-    'Macedonian',
-    'Maltese',
-    'Mongolian',
-    'Nepali',
-    'Norwegian',
-    'Persian',
-    'Polish',
-    'Portuguese',
-    'Romanian',
-    'Russian',
-    'Scottish',
-    'Serbian',
-    'Slovenian',
-    'Spanish',
-    'Swedish',
-    'Thai',
-    'Turkish',
-    'Turkmen',
-    'Ukrainian',
-    'Urdu',
-    'Uyghur',
-    'Uzbek',
-    'Vietnamese',
-  ];
-  const defaultForm = {
-    logo: '',
-    studioName: '',
-    profileText: '',
-    studiotype: 'Home Studio',
-    studioInformation: {},
-    studioLanguages: [],
-    openingHours: 'Always Available',
-    locationFeatures: [],
-    sleepOver: {},
-    studioSocials: {
-      soundcloud: '',
-      spotify: '',
-      instagram: '',
-      youtube: '',
-      facebook: '',
-      pinterest: '',
-      twitter: '',
-      linkedin: '',
-    },
-    studioRules: [],
-    additionalStudioRules: '',
-    studioLocation: { fullAddress: '', address: '', city: '', state: '', country: '', postalcode: '', geolocation: '' },
-    user: userID,
-  };
-  const defaultChecked = {
-    studioSocials: [],
-    studioInformation: [],
-    studioLanguages: languages,
-    sleepOver: [],
-  };
-  const [form, setForm] = useState(existingStudioData ? existingStudioData : defaultForm);
-  const [checked, setChecked] = useState(defaultChecked);
+  const form = useSelector((state) => state.addStudio.form);
+  const checked = useSelector((state) => state.addStudio.checked);
+
   const [isSubmit, setIsSubmit] = useState(false);
   const [submissionFailed, setSubmissionFailed] = useState(false);
   const [studioLanguagesSearch, setStudioLanguagesSearch] = useState('');
   const [formErrors, setFormErrors] = useState({});
   const [preview, setPreview] = useState(false);
+  const [logo, setLogo] = useState('');
   const [logoChanged, setLogoChanged] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const [showFormExpanded, setShowFormExpanded] = useState(existingStudioData ? true : false);
   const [markerIsActive, setMarkerIsActive] = useState(existingStudioData ? true : false);
-  const [show, setShow] = useState(false);
 
   const defaultPic = '/images/Thumbnail-default.png';
   const router = useRouter();
-
+  console.log(formErrors);
   useEffect(() => {
-    setShow(true);
+    dispatch(existingStudioData ? updateForm(existingStudioData) : resetForm(userID));
     if (!existingStudioData) return;
     MatchDataWithChecked();
   }, []);
+
   const handleFormSubmit = async (event) => {
-    const passForm = form;
     event.preventDefault();
-    setFormErrors(ValidateCreateStudioListing(passForm));
+    setFormErrors(ValidateCreateStudioListing(form));
     setIsSubmit(true);
-    if (Object.keys(formErrors).length === 0 && isSubmit) {
+    if (Object.keys(ValidateCreateStudioListing(form)).length === 0 && isSubmit) {
       setLoading(true);
       try {
-        const resLogo = await handleUploadInput(form.logo);
+        const resLogo = await handleUploadInput(logo);
         const res = await fetch(
           `${role === 'admin' ? '/api/dashboard/admin/studio/' : '/api/dashboard/studio/'}${form.id ? form.id : '1'}`,
           {
@@ -181,49 +152,45 @@ export function StudioForm({ userID, role, toUpdateStudio }) {
     const studioInfo = existingStudioData.studioInformation;
     const studioSleepover = existingStudioData.sleepOver;
     const user = existingStudioData.user;
-    console.log('matching');
     if (studioInfo) {
-      setChecked((prev) => ({ ...prev, studioInformation: Object.keys(studioInfo) }));
+      dispatch(updateChecked((checked) => ({ ...checked, studioInformation: Object.keys(studioInfo) })));
     }
     if (studioSleepover) {
-      setChecked((prev) => ({ ...prev, sleepOver: Object.keys(studioSleepover) }));
+      dispatch(updateChecked((checked) => ({ ...checked, sleepOver: Object.keys(studioSleepover) })));
     }
     if (user) {
-      setForm({ ...form, user: user._id });
+      dispatch(updateForm({ ...form, user: user._id }));
     }
   }
   const handlePreview = () => {
-    const passForm = form;
-    setFormErrors(ValidateCreateStudioListing(passForm));
-    if (Object.keys(ValidateCreateStudioListing(passForm)).length === 0) {
+    setFormErrors(ValidateCreateStudioListing(form));
+    if (Object.keys(ValidateCreateStudioListing(form)).length === 0) {
       setPreview(true);
     }
   };
   const handleDeleteImage = () => {
     setLogoChanged(true);
-    setForm({ ...form, logo: '' });
-    setChecked({ ...checked, logoPreview: '', logoName: '' });
+    setLogo('');
+    dispatch(updateChecked({ ...checked, logoPreview: '', logoName: '' }));
   };
   const handleDelete = (val) => {
     let newArray = [...form['studioLanguages'], val];
     if (form['studioLanguages'].includes(val)) {
       newArray = newArray.filter((lang) => lang !== val);
-      setForm({ ...form, studioLanguages: newArray });
-      setChecked({ ...checked, studioLanguages: languages });
-
+      dispatch(updateForm({ ...form, studioLanguages: newArray }));
+      dispatch(resetLanguages());
       setStudioLanguagesSearch('');
     }
   };
   const handleChange = (event, val) => {
-    console.log('event', event, 'target', event.target.value, 'val', val);
+    let name;
     const target = event.target;
     const type = target.type;
-    let name = target.name;
-    if (val) name = 'studioLanguages';
+    val ? (name = 'studioLanguages') : (name = target.name);
     const wert = target.value;
     const id = target.id;
     const value = checkValues(type, form, name, wert, id, target, val);
-    setForm({ ...form, [name]: value() });
+    dispatch(updateForm({ ...form, [name]: value() }));
   };
   function checkValues(type, form, name, wert, id, target, val) {
     return () => {
@@ -262,12 +229,9 @@ export function StudioForm({ userID, role, toUpdateStudio }) {
         setLogoChanged(true);
         const wertImage = target.files[0];
         const logoName = wertImage.name;
-        setChecked({
-          ...checked,
-          logoPreview: URL.createObjectURL(wertImage),
-          logoName: logoName,
-        });
-        return wertImage;
+        dispatch(updateChecked({ ...checked, logoPreview: URL.createObjectURL(wertImage), logoName: logoName }));
+        setLogo(wertImage);
+        return;
       }
       if (val) {
         let newArray = [...form[name], val];
@@ -275,7 +239,8 @@ export function StudioForm({ userID, role, toUpdateStudio }) {
           newArray = newArray.filter((service) => service !== val);
         }
         setStudioLanguagesSearch('');
-        setChecked({ ...checked, studioLanguages: languages });
+        dispatch(updateChecked({ ...checked, studioLanguages: languages }));
+
         return newArray;
       }
       if (name === 'studioLocation') {
@@ -298,7 +263,7 @@ export function StudioForm({ userID, role, toUpdateStudio }) {
           newArray = newArray.filter((val) => val !== id);
           const currentForm = { ...form?.[name], [id]: wert };
           const deleteUnchecked = Object.fromEntries(Object.entries(currentForm).filter((val) => !val.includes(id)));
-          setForm({ ...form, [name]: deleteUnchecked });
+          dispatch(updateForm({ ...form, [name]: deleteUnchecked }));
         }
         return newArray;
       }
@@ -308,7 +273,7 @@ export function StudioForm({ userID, role, toUpdateStudio }) {
           newArray = newArray.filter((val) => val !== id);
           const currentForm = { ...form?.[name], [id]: wert };
           const deleteUnchecked = Object.fromEntries(Object.entries(currentForm).filter((val) => !val.includes(id)));
-          setForm({ ...form, [name]: deleteUnchecked });
+          dispatch(updateForm({ ...form, [name]: deleteUnchecked }));
         }
         return newArray;
       }
@@ -318,7 +283,7 @@ export function StudioForm({ userID, role, toUpdateStudio }) {
           newArray = newArray.filter((i) => i !== id);
           const currentForm = { ...form?.[name], [id]: wert };
           const deleteUnchecked = Object.fromEntries(Object.entries(currentForm).filter((i) => !i.includes(id)));
-          setForm({ ...form, [name]: deleteUnchecked });
+          dispatch(updateForm({ ...form, [name]: deleteUnchecked }));
         }
         return newArray;
       }
@@ -328,7 +293,7 @@ export function StudioForm({ userID, role, toUpdateStudio }) {
         return newMatches;
       }
     };
-    setChecked({ ...checked, [name]: isChecked() });
+    dispatch(updateChecked({ ...checked, [name]: isChecked() }));
   };
   const handleUploadInput = async (logo) => {
     if (!logoChanged) {
@@ -350,69 +315,34 @@ export function StudioForm({ userID, role, toUpdateStudio }) {
     if (data) return data.secure_url;
     else if (!data) return defaultPic;
   };
-  function resetForm() {
+  function resetStudioForm() {
     const inputs = document.querySelectorAll('input');
     inputs.forEach((input) => (input.value = ''));
     setShowFormExpanded(false);
-    setForm(defaultForm);
-    setChecked(defaultChecked);
+    dispatch(resetForm());
+    dispatch(resetChecked());
     setFormErrors({});
   }
-  const handleRetrieve = useCallback(
-    (res) => {
-      const geo = res.context ? res.context : ['', '', '', ''];
-      const geo0 = geo[0] ? geo[0] : '';
-      const geo1 = geo[1] ? geo[1] : '';
-      const geo2 = geo[2] ? geo[2] : '';
-      const geo3 = geo[3] ? geo[3] : '';
-
-      setMarkerIsActive(true);
-      setShowFormExpanded(true);
-      setForm({
-        ...form,
-        studioLocation: {
-          ...form.studioLocation,
-          address: res.text ? res.text : '',
-          fullAddress: res.place_name ? res.place_name : '',
-          city: geo1 ? geo1.text : '',
-          postalcode: geo0 ? geo0.text : '',
-          state: geo2 ? geo2.text : '',
-          country: geo3 ? geo3.text : '',
-          geolocation: res.geometry?.coordinates ? res.geometry?.coordinates : [0, 0],
-        },
-      });
-    },
-    [showFormExpanded, markerIsActive]
-  );
 
   const handleClickToCloseModal = () => {
     setPreview(false);
   };
   function handleMarkerLocation(e) {
-    console.log('eddddddddddddddddddddddsvsdvsdsvdsvsdv', e);
-    setForm({
-      ...form,
-      studioLocation: { ...form.studioLocation, geolocation: [e.viewState.longitude, e.viewState.latitude] },
-    });
+    dispatch(
+      updateForm({
+        ...form,
+        studioLocation: { ...form.studioLocation, geolocation: [e.viewState.longitude, e.viewState.latitude] },
+      })
+    );
   }
-  console.log('form', form);
-  console.log('checked', checked);
-  console.log('err', formErrors);
-
-  console.log('err', form.studioLocation.geolocation);
   return (
     <div className="sm:px-0">
       <form noValidate className="text-primary w-full" onSubmit={handleFormSubmit}>
         <StudioFormfields
-          form={form}
-          setForm={setForm}
-          resetForm={resetForm}
-          checked={checked}
-          setChecked={setChecked}
+          logo={logo}
           handleDeleteImage={handleDeleteImage}
           length={Object.keys(formErrors).length}
           formErrors={formErrors}
-          languages={languages}
           handleChange={handleChange}
           handleDelete={handleDelete}
           studioLanguagesSearch={studioLanguagesSearch}
@@ -422,8 +352,6 @@ export function StudioForm({ userID, role, toUpdateStudio }) {
           markerIsActive={markerIsActive}
           setMarkerIsActive={setMarkerIsActive}
           handleMarkerLocation={handleMarkerLocation}
-          handleRetrieve={handleRetrieve}
-          show={show}
         />
 
         {/* PreviewModal */}
@@ -449,7 +377,7 @@ export function StudioForm({ userID, role, toUpdateStudio }) {
                         openingHours={form.openingHours}
                         locationFeatures={form.locationFeatures}
                         studioLocation={form.studioLocation}
-                        user={existingStudioData.user}
+                        // user={existingStudioData?.user}
                       />
                     </div>
                     <div className="ml-5">
@@ -536,7 +464,7 @@ export function StudioForm({ userID, role, toUpdateStudio }) {
             type="button"
             className="form-button bg-black text-white hover:bg-black"
             onClick={() => {
-              resetForm();
+              resetStudioForm();
             }}>
             Reset
           </button>

@@ -6,7 +6,7 @@ import ResultpageLayout from '../../../components/Layout/ResultpageLayout';
 import { ResultpageStudios } from '../../../components/Result/ResultpageStudios';
 import { wordCapitalize } from '../../../utils';
 import { useDispatch } from 'react-redux';
-import { updateResults } from '../../../slices/searchSlice';
+import { updateResults } from '../../../slices/searchStudios';
 import { useEffect } from 'react';
 
 function StudioTypeResults({ studios, studiosCount, studioType }) {

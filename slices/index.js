@@ -1,10 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
 
-import searchSlice from './searchSlice';
+import searchStudio from './searchStudios';
+import searchStudioService from './searchStudioServices';
+import addStudio from './addStudioForm';
 
 const rootReducer = combineReducers({
-  search: searchSlice.reducer,
+  searchStudio: searchStudio.reducer,
+  searchStudioService: searchStudioService.reducer,
+  addStudio: addStudio.reducer,
   // any other reducers here
 });
 

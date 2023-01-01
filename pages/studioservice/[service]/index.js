@@ -6,7 +6,7 @@ import AdminStudioService from '../../../models/AdminCreateStudioService';
 import ResultpageLayout from '../../../components/Layout/ResultpageLayout';
 import { ResultpageStudioservices } from '../../../components/Result/ResultpageStudioservices';
 import { useDispatch } from 'react-redux';
-import { updateResults } from '../../../slices/searchSlice';
+import { updateResults } from '../../../slices/searchStudioServices';
 import { useEffect } from 'react';
 
 function StudioServiceResults({ studioServices, studioServicesCount, serviceName }) {

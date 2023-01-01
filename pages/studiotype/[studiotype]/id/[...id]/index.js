@@ -175,7 +175,7 @@ function StudioDetailpage({
                 </svg>
                 Studio size:
                 <span className="pl-1 font-semibold">
-                  {studio.studioInformation.studioSize ? studio.studioInformation.studioSize : '/'}
+                  {studio.studioInformation?.studioSize ? studio.studioInformation.studioSize + ' sqm' : '/'}
                 </span>
               </li>
               <li className="col-start-2 row-start-6 flex items-center sm:col-start-3 sm:row-start-2">
@@ -191,7 +191,7 @@ function StudioDetailpage({
                 </svg>
                 Studio Rooms:
                 <span className="pl-1 font-semibold">
-                  {studio.studioInformation.studioRooms ? studio.studioInformation.studioRooms : '/'}
+                  {studio.studioInformation?.studioRooms ? studio.studioInformation.studioRooms : '/'}
                 </span>
               </li>
               <li className="col-start-2 row-start-7 flex items-center sm:col-start-3 sm:row-start-3">
@@ -454,7 +454,7 @@ function StudioDetailpage({
                   </div> */}
                   <div className="p-3 text-center">
                     <span className="block text-xl font-bold uppercase tracking-wide text-slate-700">
-                      {studioServicesByUserCount}
+                      {!studioServicesByUserCount ? 0 : studioServicesByUserCount}
                     </span>
                     <span className="text-sm text-slate-400">Services</span>
                   </div>

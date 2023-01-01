@@ -18,7 +18,7 @@ function ListingCardWideStudio({
   openingHours,
   locationFeatures,
   studioLocation,
-  user,
+  // user,
 }) {
   const type = studiotype?.toLowerCase().replace(/ /g, '');
   const name = studioName?.toLowerCase().replace(/ /g, '-');
@@ -43,14 +43,14 @@ function ListingCardWideStudio({
           {/* informations */}
           <div className="flex w-full flex-col justify-between pl-2 sm:pl-5">
             {/* user */}
-            <div
+            {/* <div
               title="user information"
               className="right-2 top-2 hidden flex-col items-end truncate text-xs text-gray-400 sm:absolute sm:flex ">
               <div className="relative h-8 w-8 shrink-0 md:h-10 md:w-10">
                 <Image src={user.avatar} layout="fill" objectFit="cover" className="rounded-full" alt="Thumbnail" />
               </div>
               <p className="w-full truncate text-center text-xxs text-gray-400">{user.username}</p>
-            </div>
+            </div> */}
             {/* firstline */}
             <section className="flex flex-col md:gap-2">
               {/* studiolocation */}
