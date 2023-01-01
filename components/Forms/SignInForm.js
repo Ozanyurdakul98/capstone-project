@@ -59,7 +59,7 @@ export default function SignInComponent({ csrfToken }) {
           <FormInput type="hidden" name="csrfToken" defaultValue={csrfToken} />
           <legend className="label-form text-2xl ">Sign In</legend>
           <FormInput
-            divClassAll={'w-full '}
+            divClass={'w-full '}
             beforeLabel={{ string: 'Email adress', css: 'label-login' }}
             className="input-login peer"
             type="email"
@@ -72,7 +72,7 @@ export default function SignInComponent({ csrfToken }) {
             onChange={handleChange}
           />
           <FormInput
-            divClassAll={'w-full'}
+            divClass={'w-full'}
             beforeLabel={{ string: 'Password', css: 'label-login' }}
             className="input-login peer"
             type="password"

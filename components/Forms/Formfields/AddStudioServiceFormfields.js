@@ -177,6 +177,7 @@ export function AddStudioServiceFormfields(props) {
             <MinusCircleIcon className="h-full w-full items-center justify-center rounded-sm text-white transition duration-100 active:scale-110 " />
           </button>
           <FormInput
+            simple={true}
             className="priceInput-form disabled:text-primary h-7 outline-none disabled:bg-white"
             type="number"
             name="maxGuests"

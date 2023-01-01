@@ -107,9 +107,9 @@ export default function SignUpComponent({ csrfToken, setPreviewSigning }) {
     <>
       <div className="searchFadein fixed inset-0 z-50 m-auto flex h-4/6 w-full flex-col shadow-xxl md:min-h-72 md:w-11/12 xl:w-6/12">
         <div className="grid h-screen w-full grid-cols-1 overflow-y-hidden sm:grid-cols-2">
-          <div className="relative hidden sm:block">
+          <div className="relative hidden h-full w-full sm:block">
             <Image
-              className="relative h-full w-full"
+              className="h-full w-full"
               src="/images/Thumbnail-signup.jpg"
               layout="fill"
               objectFit="cover"
@@ -128,12 +128,12 @@ export default function SignUpComponent({ csrfToken, setPreviewSigning }) {
               </div>
             </div>
           </div>
-          <div className="flex flex-col justify-center bg-white ">
+          <div className="flex h-full  w-full flex-col justify-center bg-white ">
             <form action="" autoComplete="off" noValidate className="form-login" onSubmit={signupUser}>
               <FormInput type="hidden" name="csrfToken" defaultValue={csrfToken} />
               <legend className="label-form text-xl ">Sign Up</legend>
               <FormInput
-                divClassAll={'w-full '}
+                divClass={'w-full '}
                 beforeLabel={{
                   string: 'Username',
                   css: 'label-login ',
@@ -151,7 +151,7 @@ export default function SignUpComponent({ csrfToken, setPreviewSigning }) {
                 onChange={handleChange}></FormInput>
               <span className="errormessage ">{formErrors.username}</span>
               <FormInput
-                divClassAll={'w-full '}
+                divClass={'w-full '}
                 beforeLabel={{ string: 'Email adress', css: 'label-login' }}
                 className="input-login peer"
                 type="email"
@@ -167,14 +167,12 @@ export default function SignUpComponent({ csrfToken, setPreviewSigning }) {
               />
               <span className="errormessage">{formErrors.email}</span>
               <FormInput
-                divClassAll={'w-full'}
+                password={'w-full'}
                 beforeLabel={{ string: 'Password', css: 'label-login' }}
                 className="input-login peer"
-                type="password"
                 name="password"
                 id="password"
                 placeholder="Password"
-                autoComplete="off"
                 required
                 pattern="^([a-zA-Z-0-9-!äöü#@.,-_]){8,60}$"
                 errorMessage={'( a-z, A-Z, 0-9, äöü #!,-@._ ) min 8 max 60 characters allowed!'}
@@ -183,14 +181,11 @@ export default function SignUpComponent({ csrfToken, setPreviewSigning }) {
               />
               <span className="errormessage">{formErrors.password}</span>
               <FormInput
-                divClassAll={'w-full'}
-                beforeLabel={{ string: 'Confirm Password', css: 'label-login' }}
+                password={'w-full mb-4'}
                 className="input-login peer"
-                type="password"
                 name="matchpassword"
                 id="matchpassword"
                 placeholder="Confirm Password"
-                autoComplete="off"
                 required
                 pattern={form.password}
                 errorMessage={'Password is not matching!'}
