@@ -124,6 +124,9 @@
   .addGuestsStudioservice {
     @apply flex h-8 w-8 transform items-center justify-center rounded-sm text-[color:var(--secondary-icon)] transition duration-100 active:text-black disabled:text-gray-400 lg:w-12 lg:p-1;
   }
+  .login-button {
+    @apply hover:bg-secondary-hover mb-5 w-full  rounded-lg bg-secondary-color py-2 text-white outline-none active:bg-primary-color;
+  }
 
   /* OpenModalInput */
 
@@ -197,12 +200,12 @@
     @apply block pl-5 text-sm text-red-500 sm:text-sm;
   }
   input:invalid[data-focused='true'] {
-    @apply border-2 border-red-500;
+    @apply border border-red-500;
   }
 
   /* login */
   .form-login {
-    @apply mx-auto flex w-full max-w-[400px] flex-col items-center rounded-lg bg-white p-8 px-8;
+    @apply mx-auto flex w-full max-w-[400px] flex-col items-center rounded-lg bg-white px-8;
   }
   .input-login {
     @apply focus:bg-site mt-1 w-full rounded-lg bg-blue-200/70 p-2 pl-5 focus:border-blue-500 focus:outline-none;
@@ -210,9 +213,7 @@
   .label-login {
     @apply mt-4 ml-5 block text-xs font-bold uppercase tracking-wide text-[color:var(--primary-text)] sm:text-sm;
   }
-  .login-button {
-    @apply hover:bg-secondary-hover my-5 w-full  rounded-lg bg-secondary-color py-2 text-white outline-none active:bg-primary-color;
-  }
+
   /* create listing */
 
   .form-button {

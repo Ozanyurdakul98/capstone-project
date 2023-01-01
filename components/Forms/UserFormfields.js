@@ -64,7 +64,7 @@ export function UserFormfields(props) {
       <fieldset className="fset-editUser flex gap-3">
         <div className="flex w-full flex-col sm:w-2/3 lg:w-2/3">
           <FormInput
-            divClassAll={'flex flex-col'}
+            divClass={'flex flex-col'}
             beforeLabel={{
               string: 'Name',
               css: 'label-form',
