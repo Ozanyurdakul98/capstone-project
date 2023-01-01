@@ -7,7 +7,7 @@ import CurrencyInput from 'react-currency-input-field';
 import { currencyLocales } from '../../../helpers/Currencies';
 import { formatValue } from 'react-currency-input-field';
 
-export function AddStudioServiceFormfields(props) {
+export function StudioServiceFormfields(props) {
   return (
     <>
       {/* Seperator */}

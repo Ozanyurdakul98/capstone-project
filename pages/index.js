@@ -52,7 +52,6 @@ export async function getStaticProps() {
     queryString: service.queryString,
     description: service.description,
   }));
-
   return {
     props: {
       latestStudios: serializedLatestAddedStudios || null,

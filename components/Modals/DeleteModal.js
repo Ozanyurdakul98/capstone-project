@@ -28,7 +28,7 @@ export function DeleteModal(props) {
             <button
               className="modal-deleteButton bg-black"
               onClick={() => {
-                props.setDeleteModal(false);
+                handleClickToCloseDeleteModal();
               }}>
               Cancel
             </button>
@@ -44,10 +44,7 @@ export function DeleteModal(props) {
           </div>
         </div>
       </div>
-      <ClickToCloseMax
-        style={'bg-black/50 editModal  z-40 h-full'}
-        onClick={(event) => handleClickToCloseDeleteModal(event)}
-      />
+      <ClickToCloseMax style={'bg-black/50 editModal  z-40 h-full'} onClick={() => handleClickToCloseDeleteModal()} />
     </>
   );
 }

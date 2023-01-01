@@ -31,6 +31,8 @@ import { FormInput } from '../../../../../components/Forms/FormInput';
 import StudioService from '../../../../../models/StudioService';
 import { formatValue } from 'react-currency-input-field';
 import { isMultiple } from '../../../../../utils';
+import { DetailpageMap } from '../../../../../components/Mapbox/DetailpageMap';
+import moment from 'moment';
 
 function StudioDetailpage({ serializedStudioservice, studioServicesCount }) {
   const Service = serializedStudioservice;
@@ -156,7 +158,7 @@ function StudioDetailpage({ serializedStudioservice, studioServicesCount }) {
                 <h1 className="h1LandingP">{Service.listingTitle}</h1>
                 <div className="flex gap-1 text-gray-500">
                   <MdLocationPin className="h-[15px] w-[15px] text-black" />
-                  <h3 className="pt-[1px]">{Service.studio.studioLocation}</h3>
+                  <h3 className="pt-[1px]">{Service.studio.studioLocation.fullAddress}</h3>
                 </div>
               </section>
               {/* avatar username */}
@@ -633,7 +635,23 @@ function StudioDetailpage({ serializedStudioservice, studioServicesCount }) {
           </section>
           {/* StudioLocation */}
           <section className="mb-14 border-b px-7 pb-14 text-xs text-gray-600 lg:text-sm">
-            <div className="container h-96 w-full bg-blue-400"></div>
+            <div className="container h-96 w-full">
+              <DetailpageMap
+                mapFor={'studioServices'}
+                results={serializedStudioservice}
+                style={{ width: '100%', height: '100%', borderRadius: '10px' }}
+              />
+            </div>
+            <div className="flex gap-3">
+              <p className="font-semibold ">{Service.studio.studioLocation.fullAddress}</p>
+              <MyLink
+                className="text-blue-500 underline"
+                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                  Service.studio.studioLocation.fullAddress
+                )}`}>
+                Open maps
+              </MyLink>
+            </div>
           </section>
           {/* StudioRules */}
           <section className="mb-7 px-7 text-xs text-gray-600 lg:text-sm">
@@ -1074,7 +1092,7 @@ function StudioDetailpage({ serializedStudioservice, studioServicesCount }) {
             <div className="mt-2 mb-4 text-center">
               <h3 className="mb-1 text-2xl font-bold leading-normal text-slate-700">{Service.studio.studioName}</h3>
               <div className="mt-0 text-xs font-bold uppercase text-slate-400">
-                <i className="mr-2 text-slate-400 opacity-75">{Service.studio.studioLocation}</i>
+                <i className="mr-2 text-slate-400 opacity-75">{Service.studio.studioLocation.fullAddress}</i>
               </div>
             </div>
             <div className="mt-0 mb-2 text-xs font-bold uppercase text-slate-400">
@@ -1150,14 +1168,21 @@ export async function getServerSideProps(context) {
       model: 'AdminStudioService',
       select: 'name queryString -_id',
     });
-  const serializeStudioservice = JSON.parse(JSON.stringify(fetchStudioservice));
+  const serializeStudioservice = [JSON.parse(JSON.stringify(fetchStudioservice))];
+  const serializedStudioservice = serializeStudioservice.map((service) => ({
+    ...service,
+    createdAt: moment(service.createdAt).format('DD/MM/yyyy'),
+    createdAtTime: moment(service.createdAt).format('kk:mm'),
+    updatedAt: moment(service.updatedAt).format('DD/MM/yyyy'),
+    updatedAtTime: moment(service.updatedAt).format('kk:mm'),
+  }))[0];
 
-  const studioID = serializeStudioservice?.studio._id;
+  const studioID = serializedStudioservice?.studio._id;
   const studioServicesByStudioCount = await StudioService.find({ studio: studioID }).count();
 
   return {
     props: {
-      serializedStudioservice: serializeStudioservice || null,
+      serializedStudioservice: serializedStudioservice || null,
       studioServicesCount: studioServicesByStudioCount || null,
     },
   };

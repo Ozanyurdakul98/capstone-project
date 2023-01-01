@@ -14,6 +14,7 @@ const nextConfig = {
       'res.cloudinary.com',
     ],
   },
+  env: { mapbox_key: 'pk.eyJ1IjoiaGF5dmFuYWRpOTgiLCJhIjoiY2xidmQ5emN3MWpncjNwcWRwZnhxd2RrcyJ9.6TDZMEs0UDWmbVdmu643TQ' },
 };
 
 module.exports = nextConfig;

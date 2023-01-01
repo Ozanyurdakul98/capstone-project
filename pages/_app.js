@@ -3,12 +3,15 @@ import { SessionProvider } from 'next-auth/react';
 import { useEffect } from 'react';
 import ProgressBar from '@badrap/bar-of-progress';
 import Router from 'next/router';
+import { store } from '../slices/index';
+import { Provider } from 'react-redux';
 //styles
 import GlobalStyle from '../components/GlobalStyle';
 import '../styles/globals.css';
 import '../components/DatePicker/styles.css';
 import '../components/DatePicker/default.css';
-
+import 'mapbox-gl/dist/mapbox-gl.css';
+import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   const progress = new ProgressBar({
     size: 3,
@@ -32,7 +35,9 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   return (
     <>
       <GlobalStyle />
-      <SessionProvider session={session}>{getLayout(<Component {...pageProps} />)}</SessionProvider>
+      <Provider store={store}>
+        <SessionProvider session={session}>{getLayout(<Component {...pageProps} />)}</SessionProvider>
+      </Provider>
     </>
   );
 }

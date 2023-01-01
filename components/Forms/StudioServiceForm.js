@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { ValidateCreateStudioServiceListing } from '../../helpers/Validate';
-import { AddStudioServiceFormfields } from './Formfields/AddStudioServiceFormfields';
+import { StudioServiceFormfields } from './Formfields/StudioServiceFormfields';
 import ListingCardWideStudioService from '../Result/ListingCardWideStudioService';
 import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../BackgroundOverlay';
 import Link from 'next/link';
@@ -13,14 +13,14 @@ export function StudioServiceForm({
   role,
 }) {
   //This component is used to edit Studioservices and to add them.
-  // handle Edit || Add page
+  // handle (Edit || Add) -page
   const data = selectedStudioServiceInformation;
   const studio = data?.studio;
   const defaultChecked = {
     soundengineer: 'soundengineerOnRequest',
     pricing: [],
   };
-  // handle Edit || Add page
+  // handle (Edit || Add) -page
   const [form, setForm] = useState({
     service: '',
     listingTitle: '',
@@ -50,7 +50,7 @@ export function StudioServiceForm({
   const defaultPic = '/images/Thumbnail-default.png';
   const router = useRouter();
 
-  // handle Edit || Add page
+  // handle (Edit || Add) -page
   function MatchDataWithChecked() {
     const pricing = data?.pricing;
     const engineer = data?.soundengineer;
@@ -64,7 +64,7 @@ export function StudioServiceForm({
       setChecked((prev) => ({ ...prev, soundengineer: string }));
     }
   }
-  // handle Edit || Add page
+  // handle (Edit || Add) -page
   useEffect(() => {
     if (!data) return;
     const studioID = studio?._id;
@@ -80,7 +80,7 @@ export function StudioServiceForm({
       setPreview(true);
     }
   };
-  // handle Edit || Add page
+  // handle (Edit || Add) -page
   const handleFormSubmit = async (event) => {
     const passForm = form;
     event.preventDefault();
@@ -296,7 +296,7 @@ export function StudioServiceForm({
   };
   return (
     <form noValidate className="text-primary w-full" onSubmit={handleFormSubmit}>
-      <AddStudioServiceFormfields
+      <StudioServiceFormfields
         defaultChecked={defaultChecked}
         form={form}
         setForm={setForm}

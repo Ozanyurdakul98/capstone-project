@@ -3,12 +3,13 @@ import { useEffect, useMemo, useState } from 'react';
 import { useTable, useSortBy, useGlobalFilter, useFilters, usePagination } from 'react-table';
 import AllColumnsFilter from '../TableComponents/AllColumnsFilter';
 import StudioTypeFilter from '../TableComponents/StudioTypeFilter';
-import EditStudio from '../../Forms/EditStudio';
+import { StudioForm } from '../../Forms/StudioForm';
 import { TbEdit } from 'react-icons/tb';
 import { MdDeleteForever, MdInfo } from 'react-icons/md';
 import { useRouter } from 'next/router';
 import { DeleteModal } from '../../Modals/DeleteModal';
 import StudioInformation from '../../Modals/StudioInformation';
+import { BackgroundOverlayFullscreen as ClickToCloseMax } from '../../BackgroundOverlay';
 
 export default function MyStudiosTable({ fetchedStudios, role }) {
   const [toUpdateStudio, setToUpdateStudio] = useState();
@@ -47,11 +48,11 @@ export default function MyStudiosTable({ fetchedStudios, role }) {
           studioName: rawStudio.studioName,
           profileText: rawStudio.profileText,
           studiotype: rawStudio.studiotype,
-          studioInformation: rawStudio.studioInformation,
+          studioInformation: rawStudio.studioInformation ? rawStudio.studioInformation : {},
           studioLanguages: rawStudio.studioLanguages,
           openingHours: rawStudio.openingHours,
           locationFeatures: rawStudio.locationFeatures,
-          sleepOver: rawStudio.sleepOver,
+          sleepOver: rawStudio.sleepOver ? rawStudio.sleepOver : {},
           studioSocials: rawStudio.studioSocials,
           studioLocation: rawStudio.studioLocation,
           studioRules: rawStudio.studioRules,
@@ -154,7 +155,9 @@ export default function MyStudiosTable({ fetchedStudios, role }) {
       }
     }
   }
-
+  const handleClickToCloseModal = () => {
+    setOpenView('');
+  };
   useEffect(() => {
     if (fetchedStudios) {
       setStudios(fetchedStudios);
@@ -218,21 +221,18 @@ export default function MyStudiosTable({ fetchedStudios, role }) {
         Cell: ({ row }) => (
           <div className="flex flex-col gap-2">
             <button
-              className=""
               onClick={() => {
                 openInfoModal(row.values);
               }}>
               <MdInfo className="table-icon" title="more information" />
             </button>
             <button
-              className=""
               onClick={() => {
                 handleEdit(row.values);
               }}>
               <TbEdit className="table-icon" title="edit studio" />
             </button>
             <button
-              className=""
               onClick={() => {
                 openDeleteModal(row.values);
               }}>
@@ -384,7 +384,21 @@ export default function MyStudiosTable({ fetchedStudios, role }) {
         </div>
       </div>
       {openView === 'edit' ? (
-        <EditStudio toUpdateStudio={toUpdateStudio} role={role} setOpenView={setOpenView} />
+        <>
+          <div className="searchFadein fixed inset-0 z-50 m-auto flex h-4/6 w-full flex-col gap-5 rounded-2xl bg-white   pb-5  shadow-xxl md:min-h-72 md:w-11/12 lg:w-8/12 xl:w-6/12">
+            <div className="overflow-x-hidden overflow-y-scroll sm:px-0">
+              <div className="mt-4 mb-6 flex flex-col gap-4">
+                <h2 className="h2 ml-5 text-2xl">Edit Studioservice</h2>
+              </div>
+              <div className="px-2 sm:mx-5">
+                <div className="sm:px-0">
+                  <StudioForm toUpdateStudio={toUpdateStudio} role={role} setOpenView={setOpenView} />
+                </div>
+              </div>
+            </div>
+          </div>
+          <ClickToCloseMax style={'bg-black/50 editModal z-40 h-full'} onClick={() => handleClickToCloseModal()} />
+        </>
       ) : null}
       {openView === 'delete' ? (
         <DeleteModal

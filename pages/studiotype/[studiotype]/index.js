@@ -1,19 +1,26 @@
-//db
+//
 import db from '../../../lib/dbConnect';
 import StudioListing from '../../../models/StudioListing';
-//components
-import Layout from '../../../components/Layout/Layout';
+//
+import ResultpageLayout from '../../../components/Layout/ResultpageLayout';
 import { ResultpageStudios } from '../../../components/Result/ResultpageStudios';
 import { wordCapitalize } from '../../../utils';
+import { useDispatch } from 'react-redux';
+import { updateResults } from '../../../slices/searchStudios';
+import { useEffect } from 'react';
 
 function StudioTypeResults({ studios, studiosCount, studioType }) {
-  return <ResultpageStudios count={studiosCount} studios={studios} header={studioType}></ResultpageStudios>;
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(updateResults(studios));
+  }, [studios]);
+  return <ResultpageStudios count={studiosCount} header={studioType}></ResultpageStudios>;
 }
 
 export default StudioTypeResults;
 
 StudioTypeResults.getLayout = function getLayout(page) {
-  return <Layout>{page}</Layout>;
+  return <ResultpageLayout>{page}</ResultpageLayout>;
 };
 
 export async function getServerSideProps(context) {

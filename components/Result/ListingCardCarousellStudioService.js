@@ -53,7 +53,7 @@ function ListingCardCarousellStudioService({
                     strokeWidth="2"
                     d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                 </svg>
-                {studio.studioLocation}
+                {studio.studioLocation.fullAddress}
               </p>
             </div>
             <div className="-mt-1 flex min-w-0 grow gap-2">

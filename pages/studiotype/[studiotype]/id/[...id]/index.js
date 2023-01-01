@@ -10,6 +10,8 @@ import Image from 'next/image';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { MyLink } from '../../../../../components/MyLink';
+import { MdLocationPin } from 'react-icons/md';
+import { DetailpageMap } from '../../../../../components/Mapbox/DetailpageMap';
 
 function StudioDetailpage({
   serializedStudio,
@@ -20,7 +22,7 @@ function StudioDetailpage({
 }) {
   // eslint-disable-next-line no-unused-vars
   const router = useRouter();
-  const studio = serializedStudio[0];
+  const studio = serializedStudio;
   return (
     <div className="relative">
       <Head>
@@ -41,9 +43,9 @@ function StudioDetailpage({
       {/* Main*/}
       <section className="container relative bottom-52 mx-auto px-[15px] lg:gap-5">
         {/* WelcomeSection */}
-        <section className="mb-4 justify-center rounded-md bg-white pt-16 text-black shadow-lg sm:flex">
+        <section className="mb-4 justify-center rounded-md bg-white pt-16 text-black shadow-lg md:flex">
           {/* Headersection */}
-          <section className="flex flex-col gap-2 px-7 text-xs sm:mb-5">
+          <section className="flex flex-col gap-2 px-7 text-xs">
             <div className="flex flex-wrap justify-center">
               {/* ProfilePic */}
               <div className="absolute top-1 -m-16 -ml-20 h-[150px] w-[150px] rounded-full border-none align-middle shadow-xl">
@@ -61,30 +63,14 @@ function StudioDetailpage({
                 <div className="flex w-full flex-col items-center px-10">
                   <div className="max-w-max">
                     <h3 className="flex items-center justify-start gap-1 truncate text-gray-500">
-                      <svg
-                        className="h-3 w-3 text-black sm:h-4 sm:w-4"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                      </svg>
-                      {studio.studioLocation}
+                      <MdLocationPin className="h-[15px] w-[15px] text-black" />
+                      {studio.studioLocation.fullAddress}
                     </h3>
                     <h1 className="h1LandingP">{studio.studioName}</h1>
                   </div>
                 </div>
                 {/* CounterSection */}
-                <div className="flex justify-center pb-0 sm:pt-2 lg:pt-4">
+                <div className="flex justify-center pb-0 md:pt-2 lg:pt-4">
                   <div className="p-3 text-center">
                     <span className="block text-xl font-bold uppercase tracking-wide text-slate-700">
                       {studioServicesCount ? studioServicesCount : '0'}
@@ -96,9 +82,9 @@ function StudioDetailpage({
             </div>
           </section>
           {/* Profiledescription */}
-          <section className="mx-auto mb-5 flex max-w-lg flex-col justify-center overflow-x-clip px-7  pb-5 text-sm text-gray-600 sm:pb-0 md:mx-0">
+          <section className="mx-auto mb-5 flex max-w-lg flex-col justify-center overflow-x-hidden px-7  pb-5 text-sm text-gray-600 md:mx-0 md:pb-0">
             <h2 className="h2LandingP">About this Studio</h2>
-            <p className="break-words sm:pt-5">{studio.profileText}</p>
+            <p className="break-words">{studio.profileText}</p>
           </section>
         </section>
         {/* StudioservicesSection */}
@@ -189,7 +175,7 @@ function StudioDetailpage({
                 </svg>
                 Studio size:
                 <span className="pl-1 font-semibold">
-                  {studio.studioInformation.studioSize ? studio.studioInformation.studioSize : '/'}
+                  {studio.studioInformation?.studioSize ? studio.studioInformation.studioSize + ' sqm' : '/'}
                 </span>
               </li>
               <li className="col-start-2 row-start-6 flex items-center sm:col-start-3 sm:row-start-2">
@@ -205,7 +191,7 @@ function StudioDetailpage({
                 </svg>
                 Studio Rooms:
                 <span className="pl-1 font-semibold">
-                  {studio.studioInformation.studioRooms ? studio.studioInformation.studioRooms : '/'}
+                  {studio.studioInformation?.studioRooms ? studio.studioInformation.studioRooms : '/'}
                 </span>
               </li>
               <li className="col-start-2 row-start-7 flex items-center sm:col-start-3 sm:row-start-3">
@@ -248,7 +234,23 @@ function StudioDetailpage({
           </section>
           {/* StudioLocation */}
           <section className="mb-14 border-b px-7 pb-14 text-xs text-gray-600 lg:text-sm">
-            <div className="container h-96 w-full bg-blue-400"></div>
+            <div className="container h-96 w-full">
+              <DetailpageMap
+                mapFor={'studios'}
+                results={studio}
+                style={{ width: '100%', height: '100%', borderRadius: '10px' }}
+              />
+            </div>
+            <div className="flex gap-3">
+              <p className="font-semibold ">{studio.studioLocation.fullAddress}</p>
+              <MyLink
+                className="text-blue-500 underline"
+                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                  studio.studioLocation.fullAddress
+                )}`}>
+                Open maps
+              </MyLink>
+            </div>
           </section>
           {/* StudioRules */}
           <section className="mb-7 px-7 text-xs text-gray-600 lg:text-sm">
@@ -452,7 +454,7 @@ function StudioDetailpage({
                   </div> */}
                   <div className="p-3 text-center">
                     <span className="block text-xl font-bold uppercase tracking-wide text-slate-700">
-                      {studioServicesByUserCount}
+                      {!studioServicesByUserCount ? 0 : studioServicesByUserCount}
                     </span>
                     <span className="text-sm text-slate-400">Services</span>
                   </div>
@@ -518,9 +520,8 @@ export async function getServerSideProps(context) {
     createdAtTime: moment(studio.createdAt).format('kk:mm'),
     updatedAt: moment(studio.updatedAt).format('DD/MM/yyyy'),
     updatedAtTime: moment(studio.updatedAt).format('kk:mm'),
-  }));
-
-  const userId = serializeStudio[0].user._id;
+  }))[0];
+  const userId = serializedStudio?.user._id;
   const studioServicesByStudioCount = await StudioService.find({ studio: id }).count();
   const studioServicesByUserCount = await StudioService.find({ user: userId }).count();
   const studioListingsCount = await StudioListing.find({ user: userId }).count();

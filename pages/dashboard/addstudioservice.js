@@ -31,7 +31,7 @@ export default function DashboardAddStudioservice({ fetchedStudios, sanitizedSer
           can have its own images, descriptions and other details
         </p>
       </section>
-      {/* studios and addstudioForm */}
+      {/* studiorow and addstudioserviceForm */}
       <section className="mt-10">
         {/* studiorow */}
         {step === 'selectStudio' || step === 'info' ? (

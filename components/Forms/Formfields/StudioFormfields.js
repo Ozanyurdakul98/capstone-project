@@ -2,15 +2,20 @@ import { FormInput } from '../FormInput';
 import Image from 'next/image.js';
 import { TbHandClick } from 'react-icons/tb';
 import { MdDeleteForever } from 'react-icons/md';
-
-export function AddStudioFormfields(props) {
+import { AddStudioMap } from '../../Mapbox/AddStudioMap';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateChecked, updateForm } from '../../../slices/addStudioForm';
+export function StudioFormfields(props) {
+  const dispatch = useDispatch();
+  const form = useSelector((state) => state.addStudio.form);
+  const checked = useSelector((state) => state.addStudio.checked);
   return (
     <>
       {/* Logo, studioname-/text */}
       <section className="fset-editUser mt-10 lg:flex lg:flex-row-reverse lg:items-center lg:gap-10">
         {/* Logo, */}
         <fieldset className="mb-8 shrink-0 grow ">
-          <div className="relative flex h-48 w-48 flex-col sm:h-48 sm:w-48 md:h-56 md:w-56 lg:mx-auto lg:h-64 lg:w-64">
+          <div className="relative flex h-48 w-48 flex-col items-start sm:h-48 sm:w-48 md:h-56 md:w-56 lg:h-64 lg:w-64">
             <legend htmlFor="image" className="label-form absolute left-0 -top-4 w-full">
               Logo
             </legend>
@@ -29,12 +34,12 @@ export function AddStudioFormfields(props) {
               <div
                 className={
                   'relative flex h-48 w-48 flex-shrink-0 flex-col items-center justify-center gap-2 rounded-full border-2 border-double text-white transition duration-75 ease-out  active:scale-95 sm:h-48 sm:w-48 md:h-56 md:w-56 md:px-2 lg:h-64 lg:w-64' +
-                  (props.form.logo ? ' bg-site border-primary ' : ' bg-primary ')
+                  (props.logo ? ' bg-site border-primary ' : ' bg-primary ')
                 }>
-                {props.form.logo ? (
+                {props.logo ? (
                   <>
                     <Image
-                      src={props.checked.logoPreview ? props.checked.logoPreview : props.form.logo}
+                      src={checked.logoPreview ? checked.logoPreview : ''}
                       className="rounded-full"
                       layout="fill"
                       objectFit="cover"
@@ -57,7 +62,7 @@ export function AddStudioFormfields(props) {
             </button>
             <div>
               <p className="pl-2 text-center text-sm line-clamp-1 md:pl-5">
-                {props.checked.logoName ? props.checked.logoName : 'Please select a picture'}
+                {checked.logoName ? checked.logoName : 'Please select a picture'}
               </p>
             </div>
           </div>
@@ -73,11 +78,11 @@ export function AddStudioFormfields(props) {
                 css: 'label-form w-full sm:w-2/3 lg:w-full',
                 description: 'How do you want to name your Studio?',
               }}
-              className="input-form peer block lg:w-full "
+              className="input-form peer block lg:w-[80%] "
               counter={{
-                val: props.form.studioName.length,
+                val: form.studioName.length,
                 max: '40',
-                css: 'inputCounter lg:w-full',
+                css: 'inputCounter lg:w-[80%]',
               }}
               type="text"
               id="studioName"
@@ -87,7 +92,7 @@ export function AddStudioFormfields(props) {
               autoComplete="off"
               pattern="^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){4,39}$"
               errorMessage={'Only 5-40 characters and (a-z, A-Z, 0-9, ! äöü ,-_) allowed!'}
-              value={props.form.studioName}
+              value={form.studioName}
               onChange={props.handleChange}></FormInput>
             <span className="errormessage ">{props.formErrors.studioName}</span>
           </fieldset>
@@ -96,16 +101,16 @@ export function AddStudioFormfields(props) {
             <FormInput
               beforeLabel={{
                 string: 'Profiletext',
-                css: 'label-form w-full sm:w-2/3 lg:w-full',
+                css: 'label-form w-full sm:w-2/3 lg:w-[80%]',
                 required: true,
                 description:
                   'Write a short text about this studio. Visitors of the detailpage of this Studio will see it.',
               }}
-              className="input-form peer block resize-none lg:w-full"
+              className="input-form peer block resize-none lg:w-[80%]"
               counter={{
-                val: props.form.profileText.length,
+                val: form.profileText.length,
                 max: '350',
-                css: 'inputCounter lg:w-full',
+                css: 'inputCounter lg:w-[80%]',
               }}
               textarea={true}
               id="profileText"
@@ -115,7 +120,7 @@ export function AddStudioFormfields(props) {
               autoComplete="off"
               pattern="^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){24,349}$"
               errorMessage={'Only 25-350 characters and (a-z, A-Z, 0-9, ! äöü ,-_) allowed!'}
-              value={props.form.profileText}
+              value={form.profileText}
               onChange={props.handleChange}></FormInput>
             <span className="errormessage ">{props.formErrors.profileText}</span>
           </fieldset>
@@ -132,9 +137,9 @@ export function AddStudioFormfields(props) {
         </legend>
         <button
           type="button"
-          className={props.form.studiotype === 'Premium Studio' ? ' studiotypeActive ' : 'studiotype'}
+          className={form.studiotype === 'Premium Studio' ? ' studiotypeActive ' : 'studiotype'}
           onClick={() => {
-            props.setForm({ ...props.form, studiotype: 'Premium Studio' });
+            dispatch(updateForm({ studiotype: 'Premium Studio' }));
           }}>
           <p className="h3 text-white">Premium Studio</p>
           <p>
@@ -146,9 +151,9 @@ export function AddStudioFormfields(props) {
         </button>
         <button
           type="button"
-          className={props.form.studiotype === 'Medium Studio' ? 'studiotypeActive' : 'studiotype'}
+          className={form.studiotype === 'Medium Studio' ? 'studiotypeActive' : 'studiotype'}
           onClick={() => {
-            props.setForm({ ...props.form, studiotype: 'Medium Studio' });
+            dispatch(updateForm({ studiotype: 'Medium Studio' }));
           }}>
           <p className="h3 text-white">Medium Studio</p>
           <p>
@@ -159,10 +164,10 @@ export function AddStudioFormfields(props) {
         </button>
         <button
           type="button"
-          className={props.form.studiotype === 'Home Studio' ? 'studiotypeActive' : 'studiotype'}
+          className={form.studiotype === 'Home Studio' ? 'studiotypeActive' : 'studiotype'}
           onClick={() => {
-            props.setForm({ ...props.form, studiotype: 'Home Studio', studioInformation: {} });
-            props.setChecked({ ...props.checked, studioInformation: [] });
+            dispatch(updateForm({ studiotype: 'Home Studio', studioInformation: {} }));
+            dispatch(updateChecked({ studioInformation: [] }));
           }}>
           <p className="h3 text-white">Home Studio</p>
           <p>
@@ -174,12 +179,12 @@ export function AddStudioFormfields(props) {
         </button>
       </fieldset>
       {/* Studiodetails */}
-      {props.form.studiotype.includes('Medium Studio') || props.form.studiotype.includes('Premium Studio') ? (
+      {form.studiotype.includes('Medium Studio') || form.studiotype.includes('Premium Studio') ? (
         <fieldset className="listingForm mb-5 flex flex-col justify-between gap-3 whitespace-nowrap ">
           <legend className="label-form">Additional Studio informations</legend>
           <label
             htmlFor="studioSize"
-            className={props.checked.studioInformation.includes('studioSize') ? 'radio-formActive' : 'radio-form'}>
+            className={checked.studioInformation.includes('studioSize') ? 'radio-formActive' : 'radio-form'}>
             <FormInput
               labelWrap={{
                 css: 'cursor-pointer',
@@ -189,7 +194,7 @@ export function AddStudioFormfields(props) {
               className="mr-2"
               name="studioInformation"
               id="studioSize"
-              checked={props.checked.studioInformation.includes('studioSize')}
+              checked={checked.studioInformation.includes('studioSize')}
               onChange={(event) => {
                 props.handleCheck(event);
               }}
@@ -207,19 +212,19 @@ export function AddStudioFormfields(props) {
               min={1}
               max={9999}
               errorMessage={'Min 1 max 9999'}
-              disabled={!props.checked.studioInformation.includes('studioSize')}
+              disabled={!checked.studioInformation.includes('studioSize')}
               value={
-                !props.checked.studioInformation.includes('studioSize')
+                !checked.studioInformation.includes('studioSize')
                   ? 0
-                  : props.form.studioInformation.studioSize === undefined
+                  : form.studioInformation.studioSize === undefined
                   ? ''
-                  : props.form.studioInformation.studioSize
+                  : form.studioInformation.studioSize
               }
               onChange={props.handleChange}></FormInput>
           </label>
           <label
             htmlFor="studioRooms"
-            className={props.checked.studioInformation.includes('studioRooms') ? 'radio-formActive' : 'radio-form'}>
+            className={checked.studioInformation.includes('studioRooms') ? 'radio-formActive' : 'radio-form'}>
             <FormInput
               type="checkbox"
               labelWrap={{
@@ -229,7 +234,7 @@ export function AddStudioFormfields(props) {
               className="mr-2"
               name="studioInformation"
               id="studioRooms"
-              checked={props.checked.studioInformation.includes('studioRooms')}
+              checked={checked.studioInformation.includes('studioRooms')}
               onChange={(event) => {
                 props.handleCheck(event);
               }}
@@ -244,13 +249,13 @@ export function AddStudioFormfields(props) {
               max={1000}
               min={1}
               errorMessage={'From 1 to 1000'}
-              disabled={!props.checked.studioInformation.includes('studioRooms')}
+              disabled={!checked.studioInformation.includes('studioRooms')}
               value={
-                !props.checked.studioInformation.includes('studioRooms')
+                !checked.studioInformation.includes('studioRooms')
                   ? 0
-                  : props.form.studioInformation.studioRooms === undefined
+                  : form.studioInformation.studioRooms === undefined
                   ? ''
-                  : props.form.studioInformation.studioRooms
+                  : form.studioInformation.studioRooms
               }
               onChange={props.handleChange}
             />
@@ -258,7 +263,7 @@ export function AddStudioFormfields(props) {
           <p className="max-w-[400px] whitespace-normal pl-5">
             The size is square meters and Studio rooms are the total count of rooms your Studio has.
           </p>
-          <span className={`errormessage hidden ${props.formErrors.studioInformation ?? 'block'}`}>
+          <span className={`errormessage ${props.formErrors.studioInformation ? 'block' : 'hidden'}`}>
             {props.formErrors.studioInformation}
           </span>
         </fieldset>
@@ -275,21 +280,19 @@ export function AddStudioFormfields(props) {
           className="input-form peer block "
           type="text"
           multiselect={true}
-          data={props.languages}
           id="studioLanguages"
           name="studioLanguages"
           handleDelete={props.handleDelete}
           counter={{
-            val: props.form.studioLanguages.length,
+            val: form.studioLanguages.length,
             max: '10',
             css: 'inputCounter z-50',
           }}
           required
           autoComplete="off"
           studioLanguagesSearch={props.studioLanguagesSearch}
-          value={props.form.studioLanguages}
+          value={form.studioLanguages}
           handleCheck={props.handleCheck}
-          checked={props.checked}
           onChange={props.handleChange}
         />
         <span className="errormessage ">{props.formErrors.studioLanguages}</span>
@@ -299,13 +302,13 @@ export function AddStudioFormfields(props) {
         <legend className="label-form">Opening hours*</legend>
         <FormInput
           labelWrap={{
-            css: props.form.openingHours.includes('Always Available') ? 'radio-formActive' : 'radio-form',
+            css: form.openingHours.includes('Always Available') ? 'radio-formActive' : 'radio-form',
           }}
           type="radio"
           id="openingHours"
           name="openingHours"
           value="Always Available"
-          checked={props.form.openingHours.includes('Always Available')}
+          checked={form.openingHours.includes('Always Available')}
           onChange={props.handleChange}
           afterLabel={{
             string: 'Always Available',
@@ -314,13 +317,13 @@ export function AddStudioFormfields(props) {
         />
         <FormInput
           labelWrap={{
-            css: props.form.openingHours.includes('On Request') ? 'radio-formActive' : 'radio-form',
+            css: form.openingHours.includes('On Request') ? 'radio-formActive' : 'radio-form',
           }}
           type="radio"
           id="onRequest"
           name="openingHours"
           value="On Request"
-          checked={props.form.openingHours.includes('On Request')}
+          checked={form.openingHours.includes('On Request')}
           onChange={props.handleChange}
           afterLabel={{
             string: 'On Request',
@@ -333,13 +336,13 @@ export function AddStudioFormfields(props) {
         <legend className="label-form">Location Features*</legend>
         <FormInput
           labelWrap={{
-            css: props.form.locationFeatures.includes('Parking') ? 'radio-formActive' : 'radio-form',
+            css: form.locationFeatures.includes('Parking') ? 'radio-formActive' : 'radio-form',
           }}
           type="checkbox"
           id="parking"
           value="Parking"
           name="locationFeatures"
-          checked={props.form.locationFeatures.includes('Parking')}
+          checked={form.locationFeatures.includes('Parking')}
           onChange={props.handleChange}
           afterLabel={{
             string: 'Parking',
@@ -348,13 +351,13 @@ export function AddStudioFormfields(props) {
         />
         <FormInput
           labelWrap={{
-            css: props.form.locationFeatures.includes('Wi-Fi') ? 'radio-formActive' : 'radio-form',
+            css: form.locationFeatures.includes('Wi-Fi') ? 'radio-formActive' : 'radio-form',
           }}
           type="checkbox"
           id="wifi"
           value="Wi-Fi"
           name="locationFeatures"
-          checked={props.form.locationFeatures.includes('Wi-Fi')}
+          checked={form.locationFeatures.includes('Wi-Fi')}
           onChange={props.handleChange}
           afterLabel={{
             string: 'Wi-Fi',
@@ -363,13 +366,13 @@ export function AddStudioFormfields(props) {
         />
         <FormInput
           labelWrap={{
-            css: props.form.locationFeatures.includes('Snacks') ? 'radio-formActive' : 'radio-form',
+            css: form.locationFeatures.includes('Snacks') ? 'radio-formActive' : 'radio-form',
           }}
           type="checkbox"
           id="snacks"
           value="Snacks"
           name="locationFeatures"
-          checked={props.form.locationFeatures.includes('Snacks')}
+          checked={form.locationFeatures.includes('Snacks')}
           onChange={props.handleChange}
           afterLabel={{
             string: 'Snacks',
@@ -378,13 +381,13 @@ export function AddStudioFormfields(props) {
         />
         <FormInput
           labelWrap={{
-            css: props.form.locationFeatures.includes('WC') ? 'radio-formActive' : 'radio-form',
+            css: form.locationFeatures.includes('WC') ? 'radio-formActive' : 'radio-form',
           }}
           type="checkbox"
           id="wc"
           value="WC"
           name="locationFeatures"
-          checked={props.form.locationFeatures.includes('WC')}
+          checked={form.locationFeatures.includes('WC')}
           onChange={props.handleChange}
           afterLabel={{
             string: 'WC',
@@ -393,13 +396,13 @@ export function AddStudioFormfields(props) {
         />
         <FormInput
           labelWrap={{
-            css: props.form.locationFeatures.includes('Kitchen') ? 'radio-formActive' : 'radio-form',
+            css: form.locationFeatures.includes('Kitchen') ? 'radio-formActive' : 'radio-form',
           }}
           type="checkbox"
           id="kitchen"
           value="Kitchen"
           name="locationFeatures"
-          checked={props.form.locationFeatures.includes('Kitchen')}
+          checked={form.locationFeatures.includes('Kitchen')}
           onChange={props.handleChange}
           afterLabel={{
             string: 'Kitchen',
@@ -408,13 +411,13 @@ export function AddStudioFormfields(props) {
         />
         <FormInput
           labelWrap={{
-            css: props.form.locationFeatures.includes('Smoking') ? 'radio-formActive' : 'radio-form',
+            css: form.locationFeatures.includes('Smoking') ? 'radio-formActive' : 'radio-form',
           }}
           type="checkbox"
           id="smoking"
           value="Smoking"
           name="locationFeatures"
-          checked={props.form.locationFeatures.includes('Smoking')}
+          checked={form.locationFeatures.includes('Smoking')}
           onChange={props.handleChange}
           afterLabel={{
             string: 'Smoking',
@@ -423,13 +426,13 @@ export function AddStudioFormfields(props) {
         />
         <FormInput
           labelWrap={{
-            css: props.form.locationFeatures.includes('Sleepover') ? 'radio-formActive' : 'radio-form',
+            css: form.locationFeatures.includes('Sleepover') ? 'radio-formActive' : 'radio-form',
           }}
           type="checkbox"
           id="sleepover"
           value="Sleepover"
           name="locationFeatures"
-          checked={props.form.locationFeatures.includes('Sleepover')}
+          checked={form.locationFeatures.includes('Sleepover')}
           onChange={props.handleChange}
           afterLabel={{
             string: 'Sleepover',
@@ -438,13 +441,13 @@ export function AddStudioFormfields(props) {
         />
         <FormInput
           labelWrap={{
-            css: props.form.locationFeatures.includes('Party') ? 'radio-formActive' : 'radio-form',
+            css: form.locationFeatures.includes('Party') ? 'radio-formActive' : 'radio-form',
           }}
           type="checkbox"
           id="party"
           value="Party"
           name="locationFeatures"
-          checked={props.form.locationFeatures.includes('Party')}
+          checked={form.locationFeatures.includes('Party')}
           onChange={props.handleChange}
           afterLabel={{
             string: 'Party',
@@ -453,13 +456,13 @@ export function AddStudioFormfields(props) {
         />
         <FormInput
           labelWrap={{
-            css: props.form.locationFeatures.includes('Drinks') ? 'radio-formActive' : 'radio-form',
+            css: form.locationFeatures.includes('Drinks') ? 'radio-formActive' : 'radio-form',
           }}
           type="checkbox"
           id="drinks"
           value="Drinks"
           name="locationFeatures"
-          checked={props.form.locationFeatures.includes('Drinks')}
+          checked={form.locationFeatures.includes('Drinks')}
           onChange={props.handleChange}
           afterLabel={{
             string: 'Drinks',
@@ -468,30 +471,30 @@ export function AddStudioFormfields(props) {
         />
         <FormInput
           labelWrap={{
-            css: props.form.locationFeatures.includes('Microwave') ? 'radio-formActive' : 'radio-form',
+            css: form.locationFeatures.includes('Microwave') ? 'radio-formActive' : 'radio-form',
           }}
           type="checkbox"
           id="microwave"
           value="Microwave"
           name="locationFeatures"
-          checked={props.form.locationFeatures.includes('Microwave')}
+          checked={form.locationFeatures.includes('Microwave')}
           onChange={props.handleChange}
           afterLabel={{
             string: 'Microwave',
             css: 'cursor-pointer',
           }}
         />
-        <div className={`hidden ${props.formErrors.locationFeatures ?? 'block'}`}>
+        <div className={`${props.formErrors.locationFeatures ? 'block' : 'hidden'}`}>
           <span className="errormessage">{props.formErrors.locationFeatures}</span>
         </div>
       </fieldset>
       {/* StudioSleepover */}
-      {props.form.locationFeatures.includes('Sleepover') ? (
+      {form.locationFeatures.includes('Sleepover') ? (
         <fieldset className="listingForm mb-5 flex flex-col gap-3">
           <legend className="label-form">Sleepover informations*</legend>
           <label
             htmlFor="bedsCount"
-            className={props.checked.sleepOver.includes('bedsCount') ? 'radio-formActive' : 'radio-form'}>
+            className={checked.sleepOver.includes('bedsCount') ? 'radio-formActive' : 'radio-form'}>
             <FormInput
               labelWrap={{
                 css: 'cursor-pointer',
@@ -501,7 +504,7 @@ export function AddStudioFormfields(props) {
               className="mr-2"
               name="sleepOver"
               id="bedsCount"
-              checked={props.checked.sleepOver.includes('bedsCount')}
+              checked={checked.sleepOver.includes('bedsCount')}
               onChange={(event) => {
                 props.handleCheck(event);
               }}
@@ -515,19 +518,19 @@ export function AddStudioFormfields(props) {
               min={1}
               max={1000}
               errorMessage={'Min 1 max 1000'}
-              disabled={!props.checked.sleepOver.includes('bedsCount')}
+              disabled={!checked.sleepOver.includes('bedsCount')}
               value={
-                !props.checked.sleepOver.includes('bedsCount')
+                !checked.sleepOver.includes('bedsCount')
                   ? 0
-                  : props.form.sleepOver.bedsCount === undefined
+                  : form.sleepOver?.bedsCount === undefined
                   ? ''
-                  : props.form.sleepOver.bedsCount
+                  : form.sleepOver.bedsCount
               }
               onChange={props.handleChange}></FormInput>
           </label>
           <label
             htmlFor="maxPeople"
-            className={props.checked.sleepOver.includes('maxPeople') ? 'radio-formActive' : 'radio-form'}>
+            className={checked.sleepOver.includes('maxPeople') ? 'radio-formActive' : 'radio-form'}>
             <FormInput
               type="checkbox"
               labelWrap={{
@@ -537,9 +540,8 @@ export function AddStudioFormfields(props) {
               className="mr-2"
               name="sleepOver"
               id="maxPeople"
-              checked={props.checked.sleepOver.includes('maxPeople')}
+              checked={checked.sleepOver.includes('maxPeople')}
               onChange={(event) => {
-                props.handleChange(event);
                 props.handleCheck(event);
               }}
             />
@@ -552,15 +554,17 @@ export function AddStudioFormfields(props) {
               max={1000}
               min={1}
               errorMessage={'From 1 to 1000'}
-              disabled={!props.checked.sleepOver.includes('maxPeople')}
+              disabled={!checked.sleepOver.includes('maxPeople')}
               value={
-                !props.checked.sleepOver.includes('maxPeople')
+                !checked.sleepOver.includes('maxPeople')
                   ? 0
-                  : props.form.sleepOver.maxPeople === undefined
+                  : form.sleepOver?.maxPeople === undefined
                   ? ''
-                  : props.form.sleepOver.maxPeople
+                  : form.sleepOver.maxPeople
               }
-              onChange={props.handleChange}
+              onChange={(event) => {
+                props.handleChange(event);
+              }}
             />
           </label>
           <div className={`hidden ${props.formErrors.sleepOver ?? 'block'}`}>
@@ -574,14 +578,14 @@ export function AddStudioFormfields(props) {
         <FormInput
           beforeLabel={{
             string: 'Social Links',
-            css: 'label-form ',
+            css: 'label-form',
             required: true,
             description:
               'Add socials to this studio (at least one). These will be added to each of the studio services you add to this studio later on.',
           }}
           className="input-form peer block "
           counter={{
-            val: props.form.studioSocials.soundcloud.length,
+            val: form.studioSocials.soundcloud.length,
             max: '100',
             css: 'inputCounter',
           }}
@@ -592,14 +596,14 @@ export function AddStudioFormfields(props) {
           required
           pattern="https://.*"
           errorMessage={'Try to include https:// and max length 100 characters'}
-          value={props.form.studioSocials.soundcloud}
+          value={form.studioSocials.soundcloud}
           onChange={props.handleChange}
         />
         {/* spotify */}
         <FormInput
           className="input-form peer block "
           counter={{
-            val: props.form.studioSocials.spotify.length,
+            val: form.studioSocials.spotify.length,
             max: '100',
             css: 'inputCounter',
           }}
@@ -610,14 +614,14 @@ export function AddStudioFormfields(props) {
           required
           pattern="https://.*"
           errorMessage={'Try to include https:// and max length 100 characters'}
-          value={props.form.studioSocials.spotify}
+          value={form.studioSocials.spotify}
           onChange={props.handleChange}
         />
         {/* youtube */}
         <FormInput
           className="input-form peer block "
           counter={{
-            val: props.form.studioSocials.youtube.length,
+            val: form.studioSocials.youtube.length,
             max: '100',
             css: 'inputCounter',
           }}
@@ -628,14 +632,14 @@ export function AddStudioFormfields(props) {
           required
           pattern="https://.*"
           errorMessage={'Try to include https:// and max length 100 characters'}
-          value={props.form.studioSocials.youtube}
+          value={form.studioSocials.youtube}
           onChange={props.handleChange}
         />
         {/* facebook */}
         <FormInput
           className="input-form peer block "
           counter={{
-            val: props.form.studioSocials.youtube.length,
+            val: form.studioSocials.youtube.length,
             max: '100',
             css: 'inputCounter',
           }}
@@ -646,14 +650,14 @@ export function AddStudioFormfields(props) {
           required
           pattern="https://.*"
           errorMessage={'Try to include https:// and max length 100 characters'}
-          value={props.form.studioSocials.facebook}
+          value={form.studioSocials.facebook}
           onChange={props.handleChange}
         />
         {/* Instagram */}
         <FormInput
           className="input-form peer block "
           counter={{
-            val: props.form.studioSocials.instagram.length,
+            val: form.studioSocials.instagram.length,
             max: '100',
             css: 'inputCounter',
           }}
@@ -664,14 +668,14 @@ export function AddStudioFormfields(props) {
           required
           pattern="https://.*"
           errorMessage={'Try to include https:// and max length 100 characters'}
-          value={props.form.studioSocials.instagram}
+          value={form.studioSocials.instagram}
           onChange={props.handleChange}
         />
         {/* Twitter */}
         <FormInput
           className="input-form peer block "
           counter={{
-            val: props.form.studioSocials.twitter.length,
+            val: form.studioSocials.twitter.length,
             max: '100',
             css: 'inputCounter',
           }}
@@ -682,14 +686,14 @@ export function AddStudioFormfields(props) {
           required
           pattern="https://.*"
           errorMessage={'Try to include https:// and max length 100 characters'}
-          value={props.form.studioSocials.twitter}
+          value={form.studioSocials.twitter}
           onChange={props.handleChange}
         />
         {/* Pinterest */}
         <FormInput
           className="input-form peer block "
           counter={{
-            val: props.form.studioSocials.pinterest.length,
+            val: form.studioSocials.pinterest.length,
             max: '100',
             css: 'inputCounter',
           }}
@@ -700,14 +704,14 @@ export function AddStudioFormfields(props) {
           required
           pattern="https://.*"
           errorMessage={'Try to include https:// and max length 100 characters'}
-          value={props.form.studioSocials.pinterest}
+          value={form.studioSocials.pinterest}
           onChange={props.handleChange}
         />
         {/* LinkedIn */}
         <FormInput
           className="input-form peer block "
           counter={{
-            val: props.form.studioSocials.linkedin.length,
+            val: form.studioSocials.linkedin.length,
             max: '100',
             css: 'inputCounter',
           }}
@@ -718,7 +722,7 @@ export function AddStudioFormfields(props) {
           required
           pattern="https://.*"
           errorMessage={'Try to include https:// and max length 100 characters'}
-          value={props.form.studioSocials.linkedin}
+          value={form.studioSocials.linkedin}
           onChange={props.handleChange}
         />
         <span className="errormessage ">{props.formErrors.studioSocials}</span>
@@ -728,7 +732,7 @@ export function AddStudioFormfields(props) {
         <legend className="label-form">Studiorules</legend>
         {/* tick rules */}
         <div className="mb-3 grid w-full grid-cols-bgsm items-center justify-items-start gap-2 ">
-          <h2 className="col-start-1">Are these rules allowed in your Studio?</h2>
+          <h2 className="col-start-1 pl-5">Studiorule allowed?</h2>
           <div className="col-start-2 flex w-full justify-center">
             <p className="">Allow ✅</p>
           </div>
@@ -740,7 +744,7 @@ export function AddStudioFormfields(props) {
               value="Pets"
               name="studioRules"
               className="col-start-2 h-4"
-              checked={props.form.studioRules.includes('Pets')}
+              checked={form.studioRules.includes('Pets')}
               onChange={props.handleChange}
             />
           </div>
@@ -752,7 +756,7 @@ export function AddStudioFormfields(props) {
               value="Kids"
               name="studioRules"
               className="col-start-2 h-4"
-              checked={props.form.studioRules.includes('Kids')}
+              checked={form.studioRules.includes('Kids')}
               onChange={props.handleChange}
             />
           </div>
@@ -764,7 +768,7 @@ export function AddStudioFormfields(props) {
               value="Smoking"
               name="studioRules"
               className="col-start-2 h-4"
-              checked={props.form.studioRules.includes('Smoking')}
+              checked={form.studioRules.includes('Smoking')}
               onChange={props.handleChange}
             />
           </div>
@@ -776,7 +780,7 @@ export function AddStudioFormfields(props) {
               value="Eating"
               name="studioRules"
               className="col-start-2 h-4"
-              checked={props.form.studioRules.includes('Eating')}
+              checked={form.studioRules.includes('Eating')}
               onChange={props.handleChange}
             />
           </div>
@@ -788,7 +792,7 @@ export function AddStudioFormfields(props) {
               value="Party"
               name="studioRules"
               className="col-start-2 h-4"
-              checked={props.form.studioRules.includes('Party')}
+              checked={form.studioRules.includes('Party')}
               onChange={props.handleChange}
             />
           </div>
@@ -802,7 +806,7 @@ export function AddStudioFormfields(props) {
           <FormInput
             className="input-form peer block w-full resize-none"
             counter={{
-              val: props.form.additionalStudioRules.length,
+              val: form.additionalStudioRules.length,
               max: '350',
               css: 'inputCounter w-full',
             }}
@@ -814,7 +818,7 @@ export function AddStudioFormfields(props) {
             autoComplete="off"
             pattern="^([a-zA-Z-])([a-zA-Z-0-9-!äöü,-_\s]){24,349}$"
             errorMessage={'Only 25-350 characters and (a-z, A-Z, 0-9, ! äöü ,-_) allowed!'}
-            value={props.form.additionalStudioRules}
+            value={form.additionalStudioRules}
             onChange={props.handleChange}></FormInput>
         </fieldset>
         {/* error */}
@@ -823,24 +827,88 @@ export function AddStudioFormfields(props) {
         </div>
       </fieldset>
       {/* location */}
-      <fieldset className="listingForm mb-52">
-        <FormInput
-          beforeLabel={{
-            string: 'Location',
-            css: 'label-form ',
-            required: true,
-          }}
-          className="input-form peer"
-          type="text"
-          name="studioLocation"
-          placeholder="Type [City], [Address]"
-          required
-          autoComplete="off"
-          errorMessage={'Only 5-60 characters and (a-z, A-Z, 0-9, äöü ,-) allowed!'}
-          pattern="^([a-zA-Z-])([a-zA-Z-0-9-,äöü\s]){4,60}$"
-          value={props.form.studioLocation}
-          onChange={props.handleChange}
-        />
+      <fieldset className="listingForm mb-28 flex flex-col gap-1 ">
+        {/* Input form */}
+        <legend className="label-form">Location of your Studio</legend>
+        <p className="pl-5">
+          Search your full address in the top right corner. Then move the map, so the visible marker is on top of your
+          studio location. Below you will see the full address which you can edit in the fields.
+        </p>
+        <section className="mb-10 h-80 w-full sm:w-2/3 lg:w-1/2">
+          <AddStudioMap
+            markerIsActive={props.markerIsActive}
+            setMarkerIsActive={props.setMarkerIsActive}
+            setShowFormExpanded={props.setShowFormExpanded}
+            handleMarkerLocation={props.handleMarkerLocation}
+            style={{ maxWidth: '545px', height: '320px', borderRadius: '10px' }}
+          />
+        </section>
+        {/* address inputs  */}
+        {props.showFormExpanded && (
+          <>
+            <div className="pl-5 text-sm">
+              <p className=" font-semibold">
+                Is this your correct & full address? If not, correct it in the below fields.
+              </p>
+              <p>
+                {form.studioLocation.address ? form.studioLocation.address : '[address]'}
+                {', '}
+                {form.studioLocation.postalcode ? form.studioLocation.postalcode : '[postalcode]'}{' '}
+                {form.studioLocation.city ? form.studioLocation.city : '[city]'}
+                {', '}
+                {form.studioLocation.country ? form.studioLocation.country : '[country]'}
+              </p>
+              <p className="text-xs">
+                ( {form.studioLocation.geolocation ? form.studioLocation.geolocation.join(', ') : ''} )
+              </p>
+            </div>
+            <FormInput
+              className="input-form"
+              placeholder="Address"
+              autoComplete="address-line1"
+              name="studioLocation"
+              id="address"
+              onChange={props.handleChange}
+              value={form.studioLocation.address}
+            />
+            <FormInput
+              className="input-form"
+              placeholder="City"
+              name="studioLocation"
+              id="city"
+              autoComplete="address-level2"
+              onChange={props.handleChange}
+              value={form.studioLocation.city}
+            />
+            <FormInput
+              className="input-form"
+              placeholder="State / Region"
+              name="studioLocation"
+              id="state"
+              autoComplete="address-level1"
+              onChange={props.handleChange}
+              value={form.studioLocation.state}
+            />
+            <FormInput
+              className="input-form"
+              placeholder="ZIP / Postcode"
+              name="studioLocation"
+              id="postalcode"
+              autoComplete="postal-code"
+              onChange={props.handleChange}
+              value={form.studioLocation.postalcode}
+            />
+            <FormInput
+              className="input-form"
+              placeholder="Country"
+              name="studioLocation"
+              id="country"
+              autoComplete="country-name"
+              onChange={props.handleChange}
+              value={form.studioLocation.country}
+            />
+          </>
+        )}
         <span className="errormessage">{props.formErrors.studioLocation}</span>
       </fieldset>
       {/* Errormessage */}
