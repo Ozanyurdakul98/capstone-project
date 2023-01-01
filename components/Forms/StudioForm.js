@@ -411,7 +411,7 @@ export function StudioForm({ userID, role, toUpdateStudio }) {
               </div>
               <ClickToCloseMax
                 style={'bg-black/50 searchBarModal z-40 h-full'}
-                onClick={(event) => handleClickToCloseModal(event)}
+                onClick={() => handleClickToCloseModal()}
               />
             </>
           )}
@@ -452,7 +452,7 @@ export function StudioForm({ userID, role, toUpdateStudio }) {
               </div>
               <ClickToCloseMax
                 style={'bg-black/50 searchBarModal  z-40 h-full'}
-                onClick={(event) => handleClickToCloseModal(event)}
+                onClick={() => handleClickToCloseModal()}
               />
             </>
           ) : null}
