@@ -42,6 +42,14 @@ export function FormInput(props) {
       {simple && (
         <>
           <Label id={props.id} beforeLabel={beforeLabel} />
+          {counter ? (
+            <p
+              className={` ${counter.css} ${
+                counter.min > counter.val || counter.val > counter.max ? 'text-red-400' : 'text-gray-400'
+              }`}>
+              {counter.val + '/' + counter.max}
+            </p>
+          ) : null}
           <input {...inputProps} onChange={onChange} onBlur={handleFocus} data-focused={focused.toString()} />
           <ErrorMessage
             type={props.type}

@@ -35,7 +35,7 @@ function AddStudioserviceCardWideStudio(props) {
               {/* studiolocation */}
               <div className="flex items-center justify-between">
                 <p className={`${selectedStudio === id ? 'text-white' : 'text-gray-400'}truncate text-xs `}>
-                  {studioLocation}
+                  {studioLocation.fullAddress}
                 </p>
               </div>
               {/* studiotype */}

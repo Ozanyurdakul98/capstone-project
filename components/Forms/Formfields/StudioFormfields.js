@@ -576,9 +576,10 @@ export function StudioFormfields(props) {
       <fieldset className="listingForm mb-5 space-y-2">
         {/* soundcloud */}
         <FormInput
+          simple="true"
           beforeLabel={{
             string: 'Social Links',
-            css: 'label-form',
+            css: 'label-form mb-0 pb-2',
             required: true,
             description:
               'Add socials to this studio (at least one). These will be added to each of the studio services you add to this studio later on.',
@@ -601,6 +602,7 @@ export function StudioFormfields(props) {
         />
         {/* spotify */}
         <FormInput
+          simple="true"
           className="input-form peer block "
           counter={{
             val: form.studioSocials.spotify.length,
@@ -619,6 +621,7 @@ export function StudioFormfields(props) {
         />
         {/* youtube */}
         <FormInput
+          simple="true"
           className="input-form peer block "
           counter={{
             val: form.studioSocials.youtube.length,
@@ -637,6 +640,7 @@ export function StudioFormfields(props) {
         />
         {/* facebook */}
         <FormInput
+          simple="true"
           className="input-form peer block "
           counter={{
             val: form.studioSocials.youtube.length,
@@ -655,6 +659,7 @@ export function StudioFormfields(props) {
         />
         {/* Instagram */}
         <FormInput
+          simple="true"
           className="input-form peer block "
           counter={{
             val: form.studioSocials.instagram.length,
@@ -673,6 +678,7 @@ export function StudioFormfields(props) {
         />
         {/* Twitter */}
         <FormInput
+          simple="true"
           className="input-form peer block "
           counter={{
             val: form.studioSocials.twitter.length,
@@ -691,6 +697,7 @@ export function StudioFormfields(props) {
         />
         {/* Pinterest */}
         <FormInput
+          simple="true"
           className="input-form peer block "
           counter={{
             val: form.studioSocials.pinterest.length,
@@ -709,6 +716,7 @@ export function StudioFormfields(props) {
         />
         {/* LinkedIn */}
         <FormInput
+          simple="true"
           className="input-form peer block "
           counter={{
             val: form.studioSocials.linkedin.length,
@@ -739,6 +747,7 @@ export function StudioFormfields(props) {
           <p className="col-start-1 pl-5">Are Pets allowed?</p>
           <div className="col-start-2 flex w-full justify-center">
             <FormInput
+              simple="true"
               type="checkbox"
               id="pets"
               value="Pets"
@@ -751,6 +760,7 @@ export function StudioFormfields(props) {
           <p className="col-start-1 pl-5">Are Kids allowed?</p>
           <div className="col-start-2 flex w-full justify-center">
             <FormInput
+              simple="true"
               type="checkbox"
               id="kids"
               value="Kids"
@@ -763,6 +773,7 @@ export function StudioFormfields(props) {
           <p className="col-start-1 pl-5">Is Smoking allowed?</p>
           <div className="col-start-2 flex w-full justify-center">
             <FormInput
+              simple="true"
               type="checkbox"
               id="smoking"
               value="Smoking"
@@ -775,6 +786,7 @@ export function StudioFormfields(props) {
           <p className="col-start-1 pl-5">Is eating allowed?</p>
           <div className="col-start-2 flex w-full justify-center">
             <FormInput
+              simple="true"
               type="checkbox"
               id="eating"
               value="Eating"
@@ -787,6 +799,7 @@ export function StudioFormfields(props) {
           <p className="col-start-1 pl-5">Is partying allowed?</p>
           <div className="col-start-2 flex w-full justify-center">
             <FormInput
+              simple="true"
               type="checkbox"
               id="party"
               value="Party"
@@ -863,6 +876,7 @@ export function StudioFormfields(props) {
               </p>
             </div>
             <FormInput
+              simple="true"
               className="input-form"
               placeholder="Address"
               autoComplete="address-line1"
@@ -872,6 +886,7 @@ export function StudioFormfields(props) {
               value={form.studioLocation.address}
             />
             <FormInput
+              simple="true"
               className="input-form"
               placeholder="City"
               name="studioLocation"
@@ -881,6 +896,7 @@ export function StudioFormfields(props) {
               value={form.studioLocation.city}
             />
             <FormInput
+              simple="true"
               className="input-form"
               placeholder="State / Region"
               name="studioLocation"
@@ -890,6 +906,7 @@ export function StudioFormfields(props) {
               value={form.studioLocation.state}
             />
             <FormInput
+              simple="true"
               className="input-form"
               placeholder="ZIP / Postcode"
               name="studioLocation"
@@ -899,6 +916,7 @@ export function StudioFormfields(props) {
               value={form.studioLocation.postalcode}
             />
             <FormInput
+              simple="true"
               className="input-form"
               placeholder="Country"
               name="studioLocation"

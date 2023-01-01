@@ -376,7 +376,9 @@ export function StudioForm({ userID, role, toUpdateStudio }) {
                         locationFeatures={form.locationFeatures}
                         studioLocation={form.studioLocation}
                         profileText={form.profileText}
-                        // user={existingStudioData?.user}
+                        user={
+                          existingStudioData ? existingStudioData.user : { avatar: defaultPic, username: 'username' }
+                        }
                       />
                     </div>
                     <div className="ml-5">
