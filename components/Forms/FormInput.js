@@ -29,7 +29,7 @@ export function FormInput(props) {
   //      data  = data for multiselect options (String array)
   //   +beforeLabel  = provide Object with css and a string key and inside ThemeConsumer, a string
   //   +afterLable = just a string
-  //   +counter = string length counter
+  //   +counter = counter for string length. css, value, minlength and maxlength attributes
   //   +errormessage = errormessage dispalying if input is invalid due to pattern/required. peer class for input required
 
   const handleFocus = () => {
@@ -159,12 +159,12 @@ export function FormInput(props) {
       {multiselect && (
         <>
           <Label id={props.id} beforeLabel={beforeLabel} />
-          {counter?.max ? (
+          {counter ? (
             <p
               className={` ${counter.css} ${
                 counter.min > counter.val || counter.val > counter.max ? 'text-red-400' : 'text-gray-400'
               }`}>
-              {counter?.val + '/' + counter?.max}
+              {counter.val + '/' + counter.max}
             </p>
           ) : null}
           <div className="flex w-full appearance-none flex-col items-center leading-tight text-gray-700 focus:border-gray-500/30 focus:bg-white focus:outline-none sm:w-2/3 lg:w-1/2">
