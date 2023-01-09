@@ -1,19 +1,28 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 //SSR
 import db from '../../lib/dbConnect';
-import StudioListing from '../../models/StudioListing';
 //tools
 import format from 'date-fns/format';
 //components
 import ListingCard from '../../components/Result/ListingCardWideStudioService';
-import Layout from '../../components/Layout/Layout';
+import ResultpageLayout from '../../components/Layout/ResultpageLayout';
+import { ResultpageWithFilter } from '../../components/Result/ResultpageWithFIlter';
+import { useDispatch } from 'react-redux';
+import { updateResults } from '../../slices/searchStudioServices';
+import StudioService from '../../models/StudioService';
+import { nanoid } from '@reduxjs/toolkit';
 
 function Search({ listings, query }) {
   const [searchFilter, setSearchFilter] = useState(query);
   const router = useRouter();
   const weekdays = ['sunday', 'monday', 'thuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
   const checkInDay = new Date(query.startDate).getDay();
+
+  const dispatch = useDispatch();
+  console.log(query);
+  console.log(listings);
+
   if (
     router.query.location !== searchFilter.location ||
     router.query.noOfGuests !== searchFilter.noOfGuests ||
@@ -24,12 +33,14 @@ function Search({ listings, query }) {
     setSearchFilter(routerQueryFilters);
   }
   const filteredListings = listings
-    .filter((studio) => studio.studioLocation?.toLowerCase().includes(searchFilter.location?.toLowerCase()))
+    .filter((studio) =>
+      studio.studio.studioLocation.fullAddress?.toLowerCase().includes(searchFilter.location?.toLowerCase())
+    )
     .filter((studio) => studio.maxGuests >= searchFilter.noOfGuests)
     .filter((studio) =>
-      studio.studioService
+      studio.service
         .map((studio) => {
-          return studio.toLowerCase();
+          return studio.queryString.toLowerCase();
         })
         .includes(searchFilter.servicesSelected.toLowerCase())
     )
@@ -40,14 +51,18 @@ function Search({ listings, query }) {
         studio.openingHours[weekdays[checkInDay]]
     );
 
+  useEffect(() => {
+    dispatch(updateResults(filteredListings));
+  }, [filteredListings]);
+
   const date = query.startDate ? new Date(query.startDate) : new Date();
   return (
     <>
-      <h1>
+      <ResultpageWithFilter count={'Count'} header={'header'} />;
+      {/* <h1>
         Search results for
         {format(date, ' dd/MM/yyyy')} and {query.location}
       </h1>
-
       {filteredListings.map(
         ({
           _id,
@@ -71,24 +86,45 @@ function Search({ listings, query }) {
             locationFeatures={locationFeatures}
             studioLocation={studioLocation}></ListingCard>
         )
-      )}
+      )} */}
     </>
   );
 }
 export default Search;
 
 Search.getLayout = function getLayout(page) {
-  return <Layout>{page}</Layout>;
+  return <ResultpageLayout>{page}</ResultpageLayout>;
 };
 
 export async function getServerSideProps(context) {
   const query = context.query;
   await db.connect();
-  const fetchingListings = await StudioListing.find();
-  const fetchedListings = JSON.parse(JSON.stringify(fetchingListings));
+  const fetchingStudioServices = await StudioService.find()
+    .populate({
+      path: 'studio',
+      model: 'StudioListing',
+    })
+    .populate({
+      path: 'service',
+      model: 'AdminStudioService',
+      select: 'name queryString -_id',
+    })
+    .populate({
+      path: 'user',
+      model: 'users',
+      select: 'avatar email name lastname username',
+    });
+  const fetchedStudioServices = JSON.parse(JSON.stringify(fetchingStudioServices));
+
+  //get coordinates of searchQuery, get Listings from that coordinates, set Mapview.
+  console.log(query);
+  const getQueryCoordinates = await fetch(
+    `https://api.mapbox.com/geocoding/v5/mapbox.places/Los%20Angeles.json?limit=1&access_token=${process.env.mapbox_key}`
+  );
+  console.log('getQueryCoordinattes', JSON.stringify(getQueryCoordinates));
   return {
     props: {
-      listings: fetchedListings || null,
+      listings: fetchedStudioServices || null,
       query: query,
     },
   };

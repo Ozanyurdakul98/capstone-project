@@ -11,7 +11,6 @@ import Layout from '../components/Layout/Layout';
 import AdminStudioService from '../models/AdminCreateStudioService';
 import { HomepageStudioServicesGrid } from '../components/Homepage/HomepageStudioServicesGrid';
 import { HomepageStudioTypesGrid } from '../components/Homepage/HomepageStudioTypesGrid';
-
 export default function Home({ latestStudios, totalUsers, totalStudios, totalStudioservices, studioServices }) {
   return (
     <div className="mb-20">
