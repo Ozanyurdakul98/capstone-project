@@ -79,11 +79,9 @@ export function ResultpageWithFilterMap({ style, mapFor }) {
   useEffect(() => {
     if (mapRef) {
       if (bbox.length) {
-        console.log('bbox', bbox, bbox.length);
         mapRef.fitBounds(bbox);
       }
       if (notbbox.length) {
-        console.log('notbbox', notbbox);
         mapRef.flyTo({
           center: notbbox,
           zoom: 16.5,
@@ -91,7 +89,6 @@ export function ResultpageWithFilterMap({ style, mapFor }) {
           duration: 2000,
         });
       }
-      console.log('mapref', mapRef);
     }
   }, [mapRef, bbox, notbbox]);
 
