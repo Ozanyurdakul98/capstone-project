@@ -99,7 +99,7 @@ export function ResultpageMap({ style, mapFor }) {
     left: [0, 0],
     right: [0, 0],
   };
-
+  console.log('viewport', viewport);
   return (
     <Map
       // initialViewState={{}}

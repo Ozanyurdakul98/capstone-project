@@ -3,17 +3,14 @@ import { useRouter } from 'next/router';
 //SSR
 import db from '../../lib/dbConnect';
 //tools
-import format from 'date-fns/format';
 //components
-import ListingCard from '../../components/Result/ListingCardWideStudioService';
 import ResultpageLayout from '../../components/Layout/ResultpageLayout';
 import { ResultpageWithFilter } from '../../components/Result/ResultpageWithFIlter';
 import { useDispatch } from 'react-redux';
 import { updateResults } from '../../slices/searchStudioServices';
 import StudioService from '../../models/StudioService';
-import { nanoid } from '@reduxjs/toolkit';
 
-function Search({ listings, query }) {
+function Search({ listings, query, coordinates }) {
   const [searchFilter, setSearchFilter] = useState(query);
   const router = useRouter();
   const weekdays = ['sunday', 'monday', 'thuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
@@ -116,16 +113,21 @@ export async function getServerSideProps(context) {
     });
   const fetchedStudioServices = JSON.parse(JSON.stringify(fetchingStudioServices));
 
-  //get coordinates of searchQuery, get Listings from that coordinates, set Mapview.
-  console.log(query);
-  const getQueryCoordinates = await fetch(
+  // bbox if available else coos(slice), setMapview to bounds, get Listings from that coordinates, set Mapview.
+  const fetchQueryCoordinates = await fetch(
     `https://api.mapbox.com/geocoding/v5/mapbox.places/Los%20Angeles.json?limit=1&access_token=${process.env.mapbox_key}`
   );
-  console.log('getQueryCoordinattes', JSON.stringify(getQueryCoordinates));
+  const getQueryCoordinates = await fetchQueryCoordinates.json();
+  const centerCoordinates = getQueryCoordinates.features[0].bbox
+    ? getQueryCoordinates.features[0].bbox
+    : getQueryCoordinates.features[0].geometry.coordinates;
+  console.log('getQueryCoordinattes', centerCoordinates);
+
   return {
     props: {
       listings: fetchedStudioServices || null,
       query: query,
+      coordinates: centerCoordinates || null,
     },
   };
 }
