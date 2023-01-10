@@ -7,6 +7,7 @@ import { MyLink } from '../MyLink';
 import { useDispatch, useSelector } from 'react-redux';
 import { updatePoints as studioPoints } from '../../slices/searchStudios';
 import { updatePoints as studioServicePoints } from '../../slices/searchStudioServices';
+
 export function ResultpageWithFilterMap({ style, mapFor }) {
   const [mapRef, setMapRef] = useState(null);
   const [selectedListing, setSelectedListing] = useState(null);
@@ -14,6 +15,8 @@ export function ResultpageWithFilterMap({ style, mapFor }) {
   const points = useSelector(
     mapFor === 'studios' ? (state) => state.searchStudio.mapPoints : (state) => state.searchStudioService.mapPoints
   );
+  const bbox = useSelector((state) => state.searchWithFilters.bbox);
+  const notbbox = useSelector((state) => state.searchWithFilters.center);
   const dispatch = useDispatch();
 
   //global state results of search
@@ -72,15 +75,25 @@ export function ResultpageWithFilterMap({ style, mapFor }) {
     );
   }, [results]);
 
-  //getting mapRef
-  // useEffect(() => {
-  //   if (mapRef) {
-  //     // mapRef?.setCenter({
-  //     //   lat: rowData?.laty,
-  //     //   lng: rowData?.longx,
-  //     // });
-  //   }
-  // }, [mapRef]);
+  //getting mapview after searchQuery
+  useEffect(() => {
+    if (mapRef) {
+      if (bbox.length) {
+        console.log('bbox', bbox, bbox.length);
+        mapRef.fitBounds(bbox);
+      }
+      if (notbbox.length) {
+        console.log('notbbox', notbbox);
+        mapRef.flyTo({
+          center: notbbox,
+          zoom: 16.5,
+          transitionDuration: 'auto',
+          duration: 2000,
+        });
+      }
+      console.log('mapref', mapRef);
+    }
+  }, [mapRef, bbox, notbbox]);
 
   // get map bounds
   const bounds = mapRef ? mapRef.getMap().getBounds().toArray().flat() : null;
@@ -99,7 +112,7 @@ export function ResultpageWithFilterMap({ style, mapFor }) {
     left: [0, 0],
     right: [0, 0],
   };
-  console.log('viewport', viewport);
+
   return (
     <Map
       // initialViewState={{}}

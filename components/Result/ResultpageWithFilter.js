@@ -12,7 +12,7 @@ export function ResultpageWithFilter(props) {
         <section>
           <h1 className="h2">{props.header}</h1>
           <p className="pl-5 text-xs">
-            {props.count} Studioservice{isMultiple(props.count)} found
+            {props.count} Result{isMultiple(props.count)} found
           </p>
         </section>
         <section className="min-h-screen w-full">
