@@ -1,21 +1,26 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-//SSR
 import db from '../../lib/dbConnect';
-import StudioListing from '../../models/StudioListing';
-//tools
-import format from 'date-fns/format';
-//components
-import ListingCard from '../../components/Result/ListingCardWideStudioService';
-import Layout from '../../components/Layout/Layout';
+import ResultpageLayout from '../../components/Layout/ResultpageLayout';
+import { ResultpageWithFilter } from '../../components/Result/ResultpageWithFilter';
+import { useDispatch } from 'react-redux';
+import { updateResults } from '../../slices/searchStudioServices';
+import StudioService from '../../models/StudioService';
+import { updateBBox, updateCenter } from '../../slices/searchWithFilters';
+import { format } from 'date-fns';
 
 function Search({ listings, query }) {
   const [searchFilter, setSearchFilter] = useState(query);
   const router = useRouter();
-  const weekdays = ['sunday', 'monday', 'thuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-  const checkInDay = new Date(query.startDate).getDay();
+  const locationParam = router.query.location;
+  // filter for listings with same openingdays as in searchParam
+  // const weekdays = ['sunday', 'monday', 'thuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+  // const checkInDay = new Date(query.startDate).getDay();
+
+  const dispatch = useDispatch();
+
+  //refresh routerParams inside state
   if (
-    router.query.location !== searchFilter.location ||
     router.query.noOfGuests !== searchFilter.noOfGuests ||
     router.query.servicesSelected !== searchFilter.servicesSelected ||
     router.query.startDate !== searchFilter.startDate
@@ -23,72 +28,78 @@ function Search({ listings, query }) {
     const routerQueryFilters = router.query;
     setSearchFilter(routerQueryFilters);
   }
+
   const filteredListings = listings
-    .filter((studio) => studio.studioLocation?.toLowerCase().includes(searchFilter.location?.toLowerCase()))
+    // .filter((studio) =>
+    //   studio.studio.studioLocation.fullAddress?.toLowerCase().includes(searchFilter.location?.toLowerCase())
+    // )
     .filter((studio) => studio.maxGuests >= searchFilter.noOfGuests)
-    .filter((studio) =>
-      studio.studioService
-        .map((studio) => {
-          return studio.toLowerCase();
-        })
-        .includes(searchFilter.servicesSelected.toLowerCase())
-    )
-    .filter(
-      (studio) =>
-        studio.openingHours === 'Always Available' ||
-        studio.openingHours === 'On Request' ||
-        studio.openingHours[weekdays[checkInDay]]
-    );
+    .filter((studio) => studio.service.queryString.toLowerCase() === searchFilter.servicesSelected.toLowerCase());
+  // .filter(
+  //   (studio) =>
+  //     studio.openingHours === 'Always Available' ||
+  //     studio.openingHours === 'On Request' ||
+  //     studio.openingHours[weekdays[checkInDay]]
+  // );
+
+  useEffect(() => {
+    async function callGeoAPI() {
+      try {
+        const fetchQueryCoordinates = await fetch(
+          `https://api.mapbox.com/geocoding/v5/mapbox.places/${router.query.location}.json?limit=1&access_token=${process.env.mapbox_key}`
+        );
+        const getQueryCoordinates = await fetchQueryCoordinates.json();
+        const coordinates = getQueryCoordinates.features[0];
+        dispatch(coordinates.bbox ? updateBBox(coordinates.bbox) : updateCenter(coordinates.geometry.coordinates));
+        setSearchFilter({ ...searchFilter, address: coordinates.place_name });
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    callGeoAPI();
+    dispatch(updateResults(filteredListings));
+  }, [locationParam]);
 
   const date = query.startDate ? new Date(query.startDate) : new Date();
+
   return (
     <>
-      <h1>
-        Search results for
-        {format(date, ' dd/MM/yyyy')} and {query.location}
-      </h1>
-
-      {filteredListings.map(
-        ({
-          _id,
-          listingTitle,
-          images,
-          studiotype,
-          studioService,
-          soundengineer,
-          studioPricing,
-          locationFeatures,
-          studioLocation,
-        }) => (
-          <ListingCard
-            key={_id}
-            listingTitle={listingTitle}
-            images={images}
-            studiotype={studiotype}
-            studioService={studioService}
-            soundengineer={soundengineer}
-            studioPricing={studioPricing}
-            locationFeatures={locationFeatures}
-            studioLocation={studioLocation}></ListingCard>
-        )
-      )}
+      <ResultpageWithFilter
+        count={filteredListings.length}
+        header={format(date, ' dd/MM/yyyy') + ' - ' + searchFilter.address}
+      />
     </>
   );
 }
 export default Search;
 
 Search.getLayout = function getLayout(page) {
-  return <Layout>{page}</Layout>;
+  return <ResultpageLayout>{page}</ResultpageLayout>;
 };
 
 export async function getServerSideProps(context) {
   const query = context.query;
   await db.connect();
-  const fetchingListings = await StudioListing.find();
-  const fetchedListings = JSON.parse(JSON.stringify(fetchingListings));
+  const fetchingStudioServices = await StudioService.find()
+    .populate({
+      path: 'studio',
+      model: 'StudioListing',
+    })
+    .populate({
+      path: 'service',
+      model: 'AdminStudioService',
+      select: 'name queryString -_id',
+    })
+    .populate({
+      path: 'user',
+      model: 'users',
+      select: 'avatar email name lastname username',
+    });
+  const fetchedStudioServices = JSON.parse(JSON.stringify(fetchingStudioServices));
+
   return {
     props: {
-      listings: fetchedListings || null,
+      listings: fetchedStudioServices || null,
       query: query,
     },
   };

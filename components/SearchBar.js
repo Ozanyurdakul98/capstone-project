@@ -85,7 +85,7 @@ function SearchBar() {
           type="text"
           placeholder="type your location "
           value={searchInput}
-          onChange={(event) => setSearchInput(event.target.value.toLowerCase().trim())}
+          onChange={(event) => setSearchInput(event.target.value.toLowerCase())}
         />
       </form>
       {/* SearchInput-DropDown */}

@@ -7,13 +7,17 @@ import { MyLink } from '../MyLink';
 import { useDispatch, useSelector } from 'react-redux';
 import { updatePoints as studioPoints } from '../../slices/searchStudios';
 import { updatePoints as studioServicePoints } from '../../slices/searchStudioServices';
-export function ResultpageMap({ style, mapFor }) {
+
+export function ResultpageWithFilterMap({ style, mapFor }) {
   const [mapRef, setMapRef] = useState(null);
   const [selectedListing, setSelectedListing] = useState(null);
   const [clusterIsSameStudio, setClusterIsSameStudio] = useState(false);
   const points = useSelector(
     mapFor === 'studios' ? (state) => state.searchStudio.mapPoints : (state) => state.searchStudioService.mapPoints
   );
+  //coordinates for searchQuery location
+  const bbox = useSelector((state) => state.searchWithFilters.bbox);
+  const notbbox = useSelector((state) => state.searchWithFilters.center);
   const dispatch = useDispatch();
 
   //global state results of search
@@ -72,6 +76,23 @@ export function ResultpageMap({ style, mapFor }) {
     );
   }, [results]);
 
+  //getting mapview after searchQuery
+  useEffect(() => {
+    if (mapRef) {
+      if (bbox.length) {
+        mapRef.fitBounds(bbox);
+      }
+      if (notbbox.length) {
+        mapRef.flyTo({
+          center: notbbox,
+          zoom: 16.5,
+          transitionDuration: 'auto',
+          duration: 2000,
+        });
+      }
+    }
+  }, [mapRef, bbox, notbbox]);
+
   // get map bounds
   const bounds = mapRef ? mapRef.getMap().getBounds().toArray().flat() : null;
 
@@ -89,9 +110,9 @@ export function ResultpageMap({ style, mapFor }) {
     left: [0, 0],
     right: [0, 0],
   };
+
   return (
     <Map
-      // initialViewState={{}}
       {...viewport}
       style={style}
       ref={(ref) => setMapRef(ref)}
@@ -322,7 +343,7 @@ export function ResultpageMap({ style, mapFor }) {
                   <h3>{selectedListing[0].studio.studioName}</h3>
                   <div className="text-xxs leading-tight">
                     <p>
-                      {selectedListing[0].studio.studioLocation.postalcode},{' '}
+                      {selectedListing[0].studio.studioLocation.postalcode},
                       {selectedListing[0].studio.studioLocation.city}
                     </p>
                     <p>{selectedListing[0].studio.studiotype}</p>

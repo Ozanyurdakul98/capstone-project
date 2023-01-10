@@ -12,7 +12,7 @@ function All({ studioServices, studioServicesCount, header }) {
   useEffect(() => {
     dispatch(updateResults(studioServices));
   }, [studioServices]);
-  return <ResultpageStudioservices count={studioServicesCount} studioServices={studioServices} header={header} />;
+  return <ResultpageStudioservices count={studioServicesCount} header={header} />;
 }
 
 export default All;
