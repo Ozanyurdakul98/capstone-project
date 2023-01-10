@@ -1,7 +1,7 @@
 import { isMultiple } from '../../utils';
-import { ResultpageMap } from '../Mapbox/ResultpageMap';
 import ListingCardWideStudioService from './ListingCardWideStudioService';
 import { useSelector } from 'react-redux';
+import { ResultpageWithFilterMap } from '../Mapbox/ResultpageWithFilterMap';
 
 export function ResultpageWithFilter(props) {
   const results = useSelector((state) => state.searchStudioService.results);
@@ -37,7 +37,10 @@ export function ResultpageWithFilter(props) {
       </section>
       {results.length >= 1 ? (
         <section className="mb-10 h-96 w-full lg:sticky lg:top-[0.5rem] lg:mt-2 lg:h-[34rem] lg:max-w-[400px] lg:px-2 xl:max-w-[500px]">
-          <ResultpageMap mapFor={'studioServices'} style={{ width: '100%', height: '100%', borderRadius: '10px' }} />
+          <ResultpageWithFilterMap
+            mapFor={'studioServices'}
+            style={{ width: '100%', height: '100%', borderRadius: '10px' }}
+          />
         </section>
       ) : null}
     </div>

@@ -5,6 +5,9 @@ const searchWithFilters = createSlice({
   initialState: {
     results: [],
     mapPoints: [],
+    //searchQuery is a boundingBox or center coordinates
+    bbox: [],
+    center: [],
   },
   reducers: {
     updateResults: (state, action) => {
@@ -13,9 +16,17 @@ const searchWithFilters = createSlice({
     updatePoints: (state, action) => {
       state.mapPoints = action.payload;
     },
+    updateBBox: (state, action) => {
+      state.bbox = action.payload;
+      state.center = [];
+    },
+    updateCenter: (state, action) => {
+      state.bbox = [];
+      state.center = action.payload;
+    },
   },
 });
 
-export const { updatePoints, updateResults } = searchWithFilters.actions;
+export const { updatePoints, updateResults, updateBBox, updateCenter } = searchWithFilters.actions;
 
 export default searchWithFilters;

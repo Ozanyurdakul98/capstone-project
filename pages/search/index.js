@@ -9,6 +9,7 @@ import { ResultpageWithFilter } from '../../components/Result/ResultpageWithFIlt
 import { useDispatch } from 'react-redux';
 import { updateResults } from '../../slices/searchStudioServices';
 import StudioService from '../../models/StudioService';
+import { updateBBox, updateCenter } from '../../slices/searchWithFilters';
 
 function Search({ listings, query, coordinates }) {
   const [searchFilter, setSearchFilter] = useState(query);
@@ -50,9 +51,10 @@ function Search({ listings, query, coordinates }) {
 
   useEffect(() => {
     dispatch(updateResults(filteredListings));
-  }, [filteredListings]);
+    dispatch(coordinates.bbox ? updateBBox(coordinates.bbox) : updateCenter(coordinates.geometry.coordinates));
+  }, [filteredListings, coordinates]);
 
-  const date = query.startDate ? new Date(query.startDate) : new Date();
+  // const date = query.startDate ? new Date(query.startDate) : new Date();
   return (
     <>
       <ResultpageWithFilter count={'Count'} header={'header'} />;
@@ -113,14 +115,12 @@ export async function getServerSideProps(context) {
     });
   const fetchedStudioServices = JSON.parse(JSON.stringify(fetchingStudioServices));
 
-  // bbox if available else coos(slice), setMapview to bounds, get Listings from that coordinates, set Mapview.
+  //  setMapview to bounds, get Listings from that coordinates, set Mapview.
   const fetchQueryCoordinates = await fetch(
-    `https://api.mapbox.com/geocoding/v5/mapbox.places/Los%20Angeles.json?limit=1&access_token=${process.env.mapbox_key}`
+    `https://api.mapbox.com/geocoding/v5/mapbox.places/${query.location}.json?limit=1&access_token=${process.env.mapbox_key}`
   );
   const getQueryCoordinates = await fetchQueryCoordinates.json();
-  const centerCoordinates = getQueryCoordinates.features[0].bbox
-    ? getQueryCoordinates.features[0].bbox
-    : getQueryCoordinates.features[0].geometry.coordinates;
+  const centerCoordinates = getQueryCoordinates.features[0];
   console.log('getQueryCoordinattes', centerCoordinates);
 
   return {
