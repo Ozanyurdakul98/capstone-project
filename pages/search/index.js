@@ -1,9 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-//SSR
 import db from '../../lib/dbConnect';
-//tools
-//components
 import ResultpageLayout from '../../components/Layout/ResultpageLayout';
 import { ResultpageWithFilter } from '../../components/Result/ResultpageWithFilter';
 import { useDispatch } from 'react-redux';
@@ -16,13 +13,11 @@ function Search({ listings, query }) {
   const [searchFilter, setSearchFilter] = useState(query);
   const router = useRouter();
   const locationParam = router.query.location;
+  // filter for listings with same openingdays as in searchParam
   // const weekdays = ['sunday', 'monday', 'thuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
   // const checkInDay = new Date(query.startDate).getDay();
 
   const dispatch = useDispatch();
-
-  console.log(query);
-  console.log('listings', listings);
 
   //refresh routerParams inside state
   if (
@@ -65,8 +60,6 @@ function Search({ listings, query }) {
     dispatch(updateResults(filteredListings));
   }, [locationParam]);
 
-  console.log('filteredListings', locationParam);
-
   const date = query.startDate ? new Date(query.startDate) : new Date();
 
   return (
@@ -75,34 +68,6 @@ function Search({ listings, query }) {
         count={filteredListings.length}
         header={format(date, ' dd/MM/yyyy') + ' - ' + searchFilter.address}
       />
-      {/* <h1>
-        Search results for
-        {format(date, ' dd/MM/yyyy')} and {query.location}
-      </h1>
-      {filteredListings.map(
-        ({
-          _id,
-          listingTitle,
-          images,
-          studiotype,
-          studioService,
-          soundengineer,
-          studioPricing,
-          locationFeatures,
-          studioLocation,
-        }) => (
-          <ListingCard
-            key={_id}
-            listingTitle={listingTitle}
-            images={images}
-            studiotype={studiotype}
-            studioService={studioService}
-            soundengineer={soundengineer}
-            studioPricing={studioPricing}
-            locationFeatures={locationFeatures}
-            studioLocation={studioLocation}></ListingCard>
-        )
-      )} */}
     </>
   );
 }
@@ -131,8 +96,6 @@ export async function getServerSideProps(context) {
       select: 'avatar email name lastname username',
     });
   const fetchedStudioServices = JSON.parse(JSON.stringify(fetchingStudioServices));
-
-  //    get Listings from that coordinates fitting those .
 
   return {
     props: {

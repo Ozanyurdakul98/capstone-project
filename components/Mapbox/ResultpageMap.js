@@ -72,16 +72,6 @@ export function ResultpageMap({ style, mapFor }) {
     );
   }, [results]);
 
-  //getting mapRef
-  // useEffect(() => {
-  //   if (mapRef) {
-  //     // mapRef?.setCenter({
-  //     //   lat: rowData?.laty,
-  //     //   lng: rowData?.longx,
-  //     // });
-  //   }
-  // }, [mapRef]);
-
   // get map bounds
   const bounds = mapRef ? mapRef.getMap().getBounds().toArray().flat() : null;
 
@@ -99,7 +89,6 @@ export function ResultpageMap({ style, mapFor }) {
     left: [0, 0],
     right: [0, 0],
   };
-  console.log('viewport', viewport);
   return (
     <Map
       // initialViewState={{}}
@@ -383,7 +372,7 @@ export function ResultpageMap({ style, mapFor }) {
               </article>
               {/* studioservices */}
               {selectedListing.map((service) => (
-                <article key="service._id" className="flex w-full shrink-0 gap-3 text-sm">
+                <article key={service._id} className="flex w-full shrink-0 gap-3 text-sm">
                   <div className="flex min-w-[100px] flex-col justify-between text-xs">
                     <h3 className="line-clamp-2">{service.listingTitle}</h3>
                     <div className="text-xxs leading-tight">

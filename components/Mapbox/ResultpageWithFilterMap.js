@@ -15,6 +15,7 @@ export function ResultpageWithFilterMap({ style, mapFor }) {
   const points = useSelector(
     mapFor === 'studios' ? (state) => state.searchStudio.mapPoints : (state) => state.searchStudioService.mapPoints
   );
+  //coordinates for searchQuery location
   const bbox = useSelector((state) => state.searchWithFilters.bbox);
   const notbbox = useSelector((state) => state.searchWithFilters.center);
   const dispatch = useDispatch();
@@ -112,7 +113,6 @@ export function ResultpageWithFilterMap({ style, mapFor }) {
 
   return (
     <Map
-      // initialViewState={{}}
       {...viewport}
       style={style}
       ref={(ref) => setMapRef(ref)}
@@ -343,7 +343,7 @@ export function ResultpageWithFilterMap({ style, mapFor }) {
                   <h3>{selectedListing[0].studio.studioName}</h3>
                   <div className="text-xxs leading-tight">
                     <p>
-                      {selectedListing[0].studio.studioLocation.postalcode},{' '}
+                      {selectedListing[0].studio.studioLocation.postalcode},
                       {selectedListing[0].studio.studioLocation.city}
                     </p>
                     <p>{selectedListing[0].studio.studiotype}</p>
@@ -393,7 +393,7 @@ export function ResultpageWithFilterMap({ style, mapFor }) {
               </article>
               {/* studioservices */}
               {selectedListing.map((service) => (
-                <article key="service._id" className="flex w-full shrink-0 gap-3 text-sm">
+                <article key={service._id} className="flex w-full shrink-0 gap-3 text-sm">
                   <div className="flex min-w-[100px] flex-col justify-between text-xs">
                     <h3 className="line-clamp-2">{service.listingTitle}</h3>
                     <div className="text-xxs leading-tight">
